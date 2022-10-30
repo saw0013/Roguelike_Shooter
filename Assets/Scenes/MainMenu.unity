@@ -6339,9 +6339,6 @@ MonoBehaviour:
   - {fileID: 5967920668577374903}
   - {fileID: 5967920668811136313}
   - {fileID: 5967920669408573628}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 5967920669477439350}
   - {fileID: 5967920669668945979}
   - {fileID: 5967920669547236820}
@@ -6844,7 +6841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v.1.00
+  m_text: v.0104
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ab8f94a8e4dd744c99c73fedd26f8f8, type: 2}
   m_sharedMaterial: {fileID: 2383952268681313545, guid: 3ab8f94a8e4dd744c99c73fedd26f8f8, type: 2}
