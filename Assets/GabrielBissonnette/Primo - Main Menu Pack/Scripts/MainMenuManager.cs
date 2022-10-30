@@ -60,7 +60,6 @@ public class MainMenuManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] GameObject homePanel;
     [SerializeField] GameObject settingsPanel;
-    [SerializeField] GameObject connectPanel;
     [SerializeField] GameObject bannerPanel;
     [SerializeField] Image social1Image;
     [SerializeField] Image social2Image;
@@ -232,7 +231,6 @@ public class MainMenuManager : MonoBehaviour
 
 
     #region Levels
-
     public void LoadLevel()
     {
         // Fade Animation
@@ -245,6 +243,7 @@ public class MainMenuManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
+        // Scene Load
         SceneManager.LoadScene(sceneToLoad);
     }
 
