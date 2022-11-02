@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovementAndLook : MonoBehaviour {
 
 	[Header("Camera")]
-	public Camera mainCamera;
+	public CinemachineVirtualCamera mainCamera;
 
 
 	[Header("Movement")]
@@ -78,7 +79,7 @@ public class PlayerMovementAndLook : MonoBehaviour {
 	{
 		Vector3 cursorScreenPosition = Input.mousePosition;
 
-		Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, mainCamera);
+		Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, mainCamera.GetComponent<Camera>());
 
 		playerToMouse = cursorWorldPosition - transform.position;
 
