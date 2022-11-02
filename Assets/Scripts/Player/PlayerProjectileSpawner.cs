@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using EZ_Pooling;
 using UnityEngine;
 
 public class PlayerProjectileSpawner : MonoBehaviour {
@@ -41,7 +42,7 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 
 	void SpawnProjectile()
 	{
-		timer = 0f;
+		timer = 0f;		
 		Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
 
 		if(spawnParticles)

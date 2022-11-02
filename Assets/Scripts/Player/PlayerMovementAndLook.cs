@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
 
 public class PlayerMovementAndLook : MonoBehaviour {
 
 	[Header("Camera")]
-	public CinemachineVirtualCamera mainCamera;
+	public Camera mainCamera;
 
 
 	[Header("Movement")]
@@ -15,6 +14,8 @@ public class PlayerMovementAndLook : MonoBehaviour {
 	private Vector3 inputDirection;
 	private Vector3 movement;
 
+
+	
 
 	//Rotation
 
@@ -79,7 +80,7 @@ public class PlayerMovementAndLook : MonoBehaviour {
 	{
 		Vector3 cursorScreenPosition = Input.mousePosition;
 
-		Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, mainCamera.GetComponent<Camera>());
+		Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, mainCamera);
 
 		playerToMouse = cursorWorldPosition - transform.position;
 
@@ -89,8 +90,7 @@ public class PlayerMovementAndLook : MonoBehaviour {
 
 		Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
 
-		playerRigidbody.MoveRotation(newRotation);
-
+		playerRigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * 10));
 	}
 
 	Vector3 PlaneRayIntersection(Plane plane, Ray ray)
