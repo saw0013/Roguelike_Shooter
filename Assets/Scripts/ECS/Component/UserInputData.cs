@@ -34,11 +34,10 @@ public class UserInputData : MonoBehaviour, IConvertGameObjectToEntity
     public FMOD.Studio.EventInstance aSoundInstance;
     #endregion
 
-    private ISettingPlayer _settingPlayer;
     [Header("Other")]
     public CharacterHealth health;
 
-    public float speed = 50;
+    public float speed = 100;
     public bool IsInvisibal;
 
     public MonoBehaviour ShootAction;
@@ -47,42 +46,14 @@ public class UserInputData : MonoBehaviour, IConvertGameObjectToEntity
     private void Awake()
     {
         //aSoundInstance = RuntimeManager.CreateInstance(StepSound);
-
         //health.Health = _settingPlayer.Health;
        // GetComponent<ShootAbility>()._settings._forceShoot = _settingPlayer.ForceShoot;
     }
 
-    private void Update()
-    {
-        
-    }
-
-    public interface ISettingPlayer 
-    {
-        float Speed { get; }
-        int Health { get; }
-        float ForceShoot { get; }
-    }
-
-   
-
-    public class Game : ISettingPlayer
-    {
-        public float Speed => 100;
-
-        public int Health => 100;
-
-        public float ForceShoot => 20;
-    }
-
-
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        //if (PhotonView.Get(this.gameObject).IsMine)
-        //{
-            dstManager.AddComponentData(entity, new InputData());
-        //}
-
+        dstManager.AddComponentData(entity, new InputData());
+       
         dstManager.AddComponentData(entity, new MoveData()
         {
             Speed = speed / 10
@@ -121,4 +92,3 @@ public struct AnimData : IComponentData
 {
 
 }
-

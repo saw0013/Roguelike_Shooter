@@ -27,7 +27,8 @@ public class CharacterMoveSystem : ComponentSystem
                 if (Mathf.Abs(inputData.Move.x) > 0.01f || Mathf.Abs(inputData.Move.y) > 0.01f)
                 {
                     //TODO : Поменять поворот куда смотрит
-                    Vector3 relativePos = new Vector3(0, 0f, inputData.Move.y);
+
+                    Vector3 relativePos = new Vector3(0, 0f, 0);
                     Quaternion targetRot = Quaternion.LookRotation(relativePos);
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.DeltaTime * 20);
                 }              
