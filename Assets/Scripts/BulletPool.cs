@@ -7,9 +7,14 @@ public class BulletPool : MonoBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
 
+    [SerializeField] private List<AudioClip> _audioClipImpactRandom;
+
+    private AudioSource _audioSource;
+
     private Rigidbody _rigidbody;
 
-    void OnSpawned() =>_rigidbody = GetComponent<Rigidbody>();
+    void OnSpawned() => _rigidbody = GetComponent<Rigidbody>();
+    private void Awake() => _audioSource = GetComponent<AudioSource>();
 
     private void Update()
     {
@@ -19,6 +24,10 @@ public class BulletPool : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
+
+        _audioSource.clip = _audioClipImpactRandom[Random.Range(0, _audioClipImpactRandom.Count)];
+        _audioSource.Play();
+
         EZ_PoolManager.Despawn(transform);
         Destroy(particle, .7f);
     }

@@ -33,7 +33,9 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 	public ParticleSystem spawnParticles;
 
 	[Header("Audio")]
-	public AudioSource spawnAudioSource;
+	[SerializeField] private AudioSource _shootAudio;
+	[SerializeField] private AudioSource _reloadAudio;
+	[SerializeField] private AudioSource _nullShootAudio;
 
     private void Start()
     {
@@ -48,7 +50,9 @@ public class PlayerProjectileSpawner : MonoBehaviour {
         if (Input.GetKey(reloadKey) && !reloading)
         {
 			reloading = true;
-		}
+
+            if (_reloadAudio) _reloadAudio.Play();
+        }
 
 		if(Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
 		{
@@ -58,13 +62,13 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 			}
             else
             {
-				//Холостой выстрел
+                _nullShootAudio.Play();
             }
 		}
 
 		if(reloading)
         {
-			timerReload += Time.deltaTime;
+            timerReload += Time.deltaTime;
 			if(timerReload >= ReloadTime)
             {
 				сartridges = MaxCartridges;
@@ -87,7 +91,7 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 		if(spawnParticles)
 			spawnParticles.Play();
 		
-		if(spawnAudioSource)
-			spawnAudioSource.Play();
+		if(_shootAudio)
+            _shootAudio.Play();
 	}
 }
