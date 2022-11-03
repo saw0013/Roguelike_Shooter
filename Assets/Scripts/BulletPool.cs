@@ -13,7 +13,7 @@ public class BulletPool : MonoBehaviour
 
     private void Update()
     {
-        _rigidbody.MovePosition(transform.position + (transform.forward * 80 * Time.deltaTime));
+        _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
     }
 
     private void OnCollisionEnter(Collision collision)

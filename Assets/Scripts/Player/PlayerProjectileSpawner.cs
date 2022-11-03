@@ -1,19 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using EZ_Pooling;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerProjectileSpawner : MonoBehaviour {
 
+	[Header("UI")]
+	[SerializeField] private Text _textCartridges;
+
 	[Header("Input")]
 	public KeyCode spawnKey = KeyCode.Mouse0;
+	public KeyCode reloadKey = KeyCode.Mouse1;
 
 	[Header("Spawner Settings")]
 	[SerializeField] private Transform _bullet;
 	[SerializeField] private Transform _spawnPoint;
 
 	public float SpawnRate;
+	public float ReloadTime;
+	public int MaxCartridges;
+
 	private float timer;
+	private float timerReload;
+
+	private int сartridges;
+
+	private bool reloading;
 
 	[Header("Particles")]
 	public ParticleSystem spawnParticles;
@@ -21,20 +35,53 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 	[Header("Audio")]
 	public AudioSource spawnAudioSource;
 
-	void Update()
+    private void Start()
+    {
+		сartridges = MaxCartridges;
+		_textCartridges.text = $"Cartridges: {сartridges}";
+	}
+
+    void Update()
 	{
 		timer += Time.deltaTime;
+		
+        if (Input.GetKey(reloadKey) && !reloading)
+        {
+			reloading = true;
+		}
 
-		if(Input.GetKey(spawnKey) && timer >= SpawnRate)
+		if(Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
 		{
-			SpawnProjectile();
+			if(сartridges > 0)
+            {
+				SpawnProjectile();
+			}
+            else
+            {
+				//Холостой выстрел
+            }
+		}
+
+		if(reloading)
+        {
+			timerReload += Time.deltaTime;
+			if(timerReload >= ReloadTime)
+            {
+				сartridges = MaxCartridges;
+				timerReload = 0;
+				reloading = false;
+				ReloadText();
+			}
 		}
 	}
-	
+
+	public void ReloadText() => _textCartridges.text = $"Cartridges: {сartridges}";
 
 	void SpawnProjectile()
 	{
 		timer = 0f;
+		сartridges--;
+		ReloadText();
 		EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation /*Quaternion.Euler(_spawnPoint.eulerAngles.x, _spawnPoint.eulerAngles.y, 90)*/);;
 
 		if(spawnParticles)
@@ -42,7 +89,5 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 		
 		if(spawnAudioSource)
 			spawnAudioSource.Play();
-		
 	}
-
 }
