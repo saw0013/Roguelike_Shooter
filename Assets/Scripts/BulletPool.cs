@@ -5,30 +5,21 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    public float clickForce = 1f;
-    private Plane plane = new Plane(Vector3.up, Vector3.zero);
-    void OnSpawned()
+    [SerializeField] private GameObject _hitWallParticles;
+
+    private Rigidbody _rigidbody;
+
+    void OnSpawned() =>_rigidbody = GetComponent<Rigidbody>();
+
+    private void Update()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        float enter;
-
-        if (plane.Raycast(ray, out enter))
-        {
-            var hitPoint = ray.GetPoint(enter);
-            var mouseDir = hitPoint - gameObject.transform.position;
-            mouseDir = mouseDir.normalized;
-            GetComponent<Rigidbody>().AddForce(new Vector3(mouseDir.x,0, mouseDir.z) * clickForce);
-        }
+        _rigidbody.MovePosition(transform.position + (transform.forward * 80 * Time.deltaTime));
     }
 
-    void OnDespawned()
+    private void OnCollisionEnter(Collision collision)
     {
-        
-    }
-
-    void OnCollisionEnter(Collision other)
-    {
-        EZ_PoolManager.Despawn(other.transform);
+        var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
+        EZ_PoolManager.Despawn(transform);
+        Destroy(particle, .7f);
     }
 }

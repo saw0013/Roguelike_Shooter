@@ -35,8 +35,7 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 	void SpawnProjectile()
 	{
 		timer = 0f;
-		EZ_PoolManager.Spawn(_bullet, _spawnPoint.position,Quaternion.Euler(_spawnPoint.eulerAngles.x, _spawnPoint.eulerAngles.y, 90));
-		//Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+		EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation /*Quaternion.Euler(_spawnPoint.eulerAngles.x, _spawnPoint.eulerAngles.y, 90)*/);;
 
 		if(spawnParticles)
 			spawnParticles.Play();
