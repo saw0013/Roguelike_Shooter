@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using Fusion;
+using Fusion.Sockets;
 
 public class PlayerMovementAndLook : MonoBehaviour
 {
@@ -14,9 +17,6 @@ public class PlayerMovementAndLook : MonoBehaviour
     public float speed = 4.5f;
     private Vector3 inputDirection;
     private Vector3 movement;
-
-
-
 
     //Rotation
 
@@ -39,6 +39,7 @@ public class PlayerMovementAndLook : MonoBehaviour
     {
         CreatePlayerMovementPlane();
     }
+
 
     void CreatePlayerMovementPlane()
     {
