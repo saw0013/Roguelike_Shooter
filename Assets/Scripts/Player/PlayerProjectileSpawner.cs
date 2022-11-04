@@ -47,7 +47,7 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 	{
 		timer += Time.deltaTime;
 		
-        if (Input.GetKey(reloadKey) && !reloading)
+        if (Input.GetKey(reloadKey) && !reloading && сartridges != MaxCartridges)
         {
 			reloading = true;
 
