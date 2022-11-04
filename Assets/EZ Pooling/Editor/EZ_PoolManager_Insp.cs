@@ -184,7 +184,9 @@ namespace EZ_Pooling
 
                         EZ_EditorUtility.DrawTexture(prefabPreviewIcon, 100, 100);
 
-                        EditorGUILayout.BeginVertical(GUILayout.MinHeight(prefabPreviewIcon.height));
+                        //TODO: Правка ассета при которой появляется ошибка! Проверяем есть ли текстура и читабельна ли она
+                        if(!prefabPreviewIcon || prefabPreviewIcon.isReadable)
+                            EditorGUILayout.BeginVertical(GUILayout.MinHeight(prefabPreviewIcon.height));
 
 
                         if (!Application.isPlaying) //During Editor
