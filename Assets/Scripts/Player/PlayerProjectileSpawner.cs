@@ -37,6 +37,8 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 	[SerializeField] private AudioSource _reloadAudio;
 	[SerializeField] private AudioSource _nullShootAudio;
 
+	[SerializeField] private PlayerData playerData;
+
     private void Start()
     {
 		сartridges = MaxCartridges;
@@ -46,35 +48,38 @@ public class PlayerProjectileSpawner : MonoBehaviour {
     void Update()
 	{
 		timer += Time.deltaTime;
-		
-        if (Input.GetKey(reloadKey) && !reloading && сartridges != MaxCartridges)
+
+        if (playerData.InputActive)
         {
-			reloading = true;
+			if (Input.GetKey(reloadKey) && !reloading && сartridges != MaxCartridges)
+			{
+				reloading = true;
 
-            if (_reloadAudio) _reloadAudio.Play();
-        }
-
-		if(Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
-		{
-			if(сartridges > 0)
-            {
-				SpawnProjectile();
+				if (_reloadAudio) _reloadAudio.Play();
 			}
-            else
-            {
-                _nullShootAudio.Play();
-            }
-		}
 
-		if(reloading)
-        {
-            timerReload += Time.deltaTime;
-			if(timerReload >= ReloadTime)
-            {
-				сartridges = MaxCartridges;
-				timerReload = 0;
-				reloading = false;
-				ReloadText();
+			if (Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
+			{
+				if (сartridges > 0)
+				{
+					SpawnProjectile();
+				}
+				else
+				{
+					_nullShootAudio.Play();
+				}
+			}
+
+			if (reloading)
+			{
+				timerReload += Time.deltaTime;
+				if (timerReload >= ReloadTime)
+				{
+					сartridges = MaxCartridges;
+					timerReload = 0;
+					reloading = false;
+					ReloadText();
+				}
 			}
 		}
 	}

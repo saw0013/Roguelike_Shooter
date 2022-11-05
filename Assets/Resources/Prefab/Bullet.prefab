@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1117181988596638815}
   - component: {fileID: 4212602102006421106}
   - component: {fileID: -2856473802749976201}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1862436033007416893}
   - component: {fileID: 3562234145561283764}
   - component: {fileID: 2912637694559298851}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Projectly
   m_TagString: Untagged
   m_Icon: {fileID: 0}

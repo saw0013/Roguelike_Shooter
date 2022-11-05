@@ -12,6 +12,8 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] private float _maxHealth;
 
+    public bool InputActive = true;
+
     private float health;
 
     void Awake()

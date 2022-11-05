@@ -7,6 +7,8 @@ using Fusion.Sockets;
 
 public class PlayerMovementAndLook : MonoBehaviour
 {
+    [Header("Panels")]
+    [SerializeField] private GameObject _panelEscape;
 
     [Header("Camera")]
     public Camera mainCamera;
@@ -25,6 +27,8 @@ public class PlayerMovementAndLook : MonoBehaviour
     private RaycastHit floorRaycastHit;
 
     private Vector3 playerToMouse;
+
+    [SerializeField] private  PlayerData playerData;
 
 
     [Header("Animation")]
@@ -46,6 +50,23 @@ public class PlayerMovementAndLook : MonoBehaviour
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (playerData.InputActive)
+            {
+                _panelEscape.SetActive(true);
+                playerData.InputActive = false;
+            }
+            else
+            {
+                _panelEscape.SetActive(false);
+                playerData.InputActive = true;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
 
@@ -65,17 +86,19 @@ public class PlayerMovementAndLook : MonoBehaviour
         //Try not to use var for roadshows or learning code
         Vector3 desiredDirection = cameraForward * inputDirection.z + cameraRight * inputDirection.x;
 
-        if (h > 0 || h < 0 || v > 0 || v < 0)
-        {
-            if (!_runPlayer.isPlaying)
-                _runPlayer.Play();
-        }
-
         //Why not just pass the vector instead of breaking it up only to remake it on the other side?
-        MoveThePlayer(desiredDirection);
-        TurnThePlayer();
-        AnimateThePlayer(desiredDirection);
+        if (playerData.InputActive)
+        {
+            if (h > 0 || h < 0 || v > 0 || v < 0)
+            {
+                if (!_runPlayer.isPlaying)
+                    _runPlayer.Play();
+            }
 
+            MoveThePlayer(desiredDirection);
+            TurnThePlayer();
+        }
+        AnimateThePlayer(desiredDirection);
     }
 
     void MoveThePlayer(Vector3 desiredDirection)
