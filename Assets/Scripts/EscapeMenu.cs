@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EscapeMenu : MonoBehaviour
 {
+
     [Header("Panel")]
     [SerializeField] private RectTransform _panelWantExit;
     [SerializeField] private float _moveYEnd;
@@ -15,23 +17,42 @@ public class EscapeMenu : MonoBehaviour
     [Space(10)][SerializeField] Animator fadeAnimator;
 
     [Header("Audio")]
-    [Space(10)][SerializeField] float defaultVolume = 0.8f;
+    [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
+    [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
+
     [SerializeField] AudioClip uiClick;
     [SerializeField] AudioClip uiHover;
     [SerializeField] AudioClip uiSpecial;
 
-    [SerializeField] private AudioSource AudioSource;
+    [SerializeField] private AudioSource[] AudioSourceSound;
+    [SerializeField] private AudioSource AudioSourceMusic;
+
+    [SerializeField] private PlayerMovementAndLook player;
+
+    [SerializeField] private Slider volumeSliderSound;
+    [SerializeField] private Slider volumeSliderMusic;
+
+    private void Start()
+    {
+        SetStartVolumeSound();
+        SetStartVolumeMusic();
+    }
 
     #region Button
 
-    public void YouWantExit()
+    public void Resume()
     {
-        _panelWantExit.DOAnchorPosY(_moveYEnd, 2);
+        player.EscapeMenu(false, true);
     }
 
-    public void Stay()
+    public void AnimEnter(RectTransform panel)
     {
-        _panelWantExit.DOAnchorPosY(_moveYStart, 1);
+        panel.DOAnchorPosY(_moveYEnd, 2);
+    }
+
+    public void AnimExit(RectTransform panel)
+    {
+        panel.DOAnchorPosY(_moveYStart, 1);
     }
 
     public void ExitToMianMenu()
@@ -51,19 +72,80 @@ public class EscapeMenu : MonoBehaviour
     #endregion
 
     #region Audio
+
+    #region Sound
+    public void SetVolumeSound(float _volume)
+    {
+        foreach(AudioSource audioSource in AudioSourceSound)
+        {
+            audioSource.volume = _volume;
+        }
+
+        // Save volume
+        PlayerPrefs.SetFloat("VolumeSound", _volume);
+    }
+
+    void SetStartVolumeSound()
+    {
+        if (!PlayerPrefs.HasKey("VolumeSound"))
+        {
+            PlayerPrefs.SetFloat("VolumeSound", defaultVolumeSound);
+            LoadVolumeSound();
+        }
+        else
+        {
+            LoadVolumeSound();
+        }
+    }
+
+    public void LoadVolumeSound()
+    {
+        volumeSliderSound.value = PlayerPrefs.GetFloat("VolumeSound");
+    }
+    #endregion
+
+    #region Music
+    public void SetVolumeMusic(float _volume)
+    {
+        // Adjust volume
+        AudioSourceMusic.volume = _volume;
+
+        // Save volume
+        PlayerPrefs.SetFloat("VolumeMusic", _volume);
+    }
+
+    void SetStartVolumeMusic()
+    {
+        if (!PlayerPrefs.HasKey("VolumeMusic"))
+        {
+            PlayerPrefs.SetFloat("VolumeMusic", defaultVolumeMusic);
+            LoadVolumeMusic();
+        }
+        else
+        {
+            LoadVolumeMusic();
+        }
+    }
+
+    public void LoadVolumeMusic()
+    {
+        volumeSliderMusic.value = PlayerPrefs.GetFloat("VolumeMusic");
+    }
+    #endregion
+
     public void UIClick()
     {
-        AudioSource.PlayOneShot(uiClick);
+        AudioSourceSound[0].PlayOneShot(uiClick);
     }
 
     public void UIHover()
     {
-        AudioSource.PlayOneShot(uiHover);
+        AudioSourceSound[0].PlayOneShot(uiHover);
     }
 
     public void UISpecial()
     {
-        AudioSource.PlayOneShot(uiSpecial);
+        AudioSourceSound[0].PlayOneShot(uiSpecial);
     }
 
     #endregion

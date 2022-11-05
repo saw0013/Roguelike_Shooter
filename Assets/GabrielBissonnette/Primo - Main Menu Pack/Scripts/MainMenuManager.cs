@@ -50,7 +50,9 @@ public class MainMenuManager : MonoBehaviour
     List<string> links = new List<string>();
 
     [Header("Audio")]
-    [Space(10)] [SerializeField] float defaultVolume = 0.8f;
+    [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
+    [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
+
     [SerializeField] AudioClip uiClick;
     [SerializeField] AudioClip uiHover;
     [SerializeField] AudioClip uiSpecial;
@@ -61,6 +63,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject homePanel;
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject bannerPanel;
+    [SerializeField] GameObject connectionPanel;
     [SerializeField] Image social1Image;
     [SerializeField] Image social2Image;
     [SerializeField] Image social3Image;
@@ -84,11 +87,15 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI versionText;   
 
     [Header("Settings")]
-    [Space(10)] [SerializeField] Slider volumeSlider;
+    [SerializeField] private Slider volumeSliderSound;
+    [SerializeField] private Slider volumeSliderMusic;
+
     [SerializeField] TMP_Dropdown resolutionDropdown;
 
     [Header("Audio")]
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioSource _audioSourceSound;
+
+    [SerializeField] private AudioSource[] _audioSourceMusic;
 
     Resolution[] resolutions;
 
@@ -98,15 +105,17 @@ public class MainMenuManager : MonoBehaviour
     {
         SetStartUI();
         ProcessLinks();
-        SetStartVolume();
+        SetStartVolumeSound();
+        SetStartVolumeMusic();
         //PrepareResolutions();
     }
 
     private void SetStartUI()
     {
-        //fadeAnimator.SetTrigger("FadeIn");
+        fadeAnimator.SetTrigger("FadeIn");
         homePanel.SetActive(true);
         settingsPanel.SetActive(false);
+        connectionPanel.SetActive(false);
     }
 
     public void UIEditorUpdate()
@@ -255,47 +264,78 @@ public class MainMenuManager : MonoBehaviour
 
 
     #region Audio
-
-    public void SetVolume(float _volume)
+    #region Sound
+    public void SetVolumeSound(float _volume)
     {
-        // Adjust volume
-        AudioListener.volume = _volume;
+        _audioSourceSound.volume = _volume;
 
         // Save volume
-        PlayerPrefs.SetFloat("Volume", _volume);
+        PlayerPrefs.SetFloat("VolumeSound", _volume);
     }
 
-    void SetStartVolume()
+    void SetStartVolumeSound()
     {
-        if (!PlayerPrefs.HasKey("Volume"))
+        if (!PlayerPrefs.HasKey("VolumeSound"))
         {
-            PlayerPrefs.SetFloat("Volume", defaultVolume);
-            LoadVolume();
+            PlayerPrefs.SetFloat("VolumeSound", defaultVolumeSound);
+            LoadVolumeSound();
         }
         else
         {
-            LoadVolume();
+            LoadVolumeSound();
         }
     }
 
-    public void LoadVolume()
+    public void LoadVolumeSound()
     {
-        volumeSlider.value = PlayerPrefs.GetFloat("Volume");
+        volumeSliderSound.value = PlayerPrefs.GetFloat("VolumeSound");
     }
+    #endregion
+
+    #region Music
+    public void SetVolumeMusic(float _volume)
+    {
+        foreach(AudioSource audioSource in _audioSourceMusic)
+        {
+            audioSource.volume = _volume;
+        }
+
+        // Save volume
+        PlayerPrefs.SetFloat("VolumeMusic", _volume);
+    }
+
+    void SetStartVolumeMusic()
+    {
+        if (!PlayerPrefs.HasKey("VolumeMusic"))
+        {
+            PlayerPrefs.SetFloat("VolumeMusic", defaultVolumeMusic);
+            LoadVolumeMusic();
+        }
+        else
+        {
+            LoadVolumeMusic();
+        }
+    }
+
+    public void LoadVolumeMusic()
+    {
+        volumeSliderMusic.value = PlayerPrefs.GetFloat("VolumeMusic");
+    }
+    #endregion
 
     public void UIClick()
     {
-        audioSource.PlayOneShot(uiClick);
+        _audioSourceSound.PlayOneShot(uiClick);
     }
 
     public void UIHover()
     {
-        audioSource.PlayOneShot(uiHover);
+        _audioSourceSound.PlayOneShot(uiHover);
     }
 
     public void UISpecial()
     {
-        audioSource.PlayOneShot(uiSpecial);
+        _audioSourceSound.PlayOneShot(uiSpecial);
     }
 
     #endregion
