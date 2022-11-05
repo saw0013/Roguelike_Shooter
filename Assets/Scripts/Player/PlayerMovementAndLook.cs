@@ -6,7 +6,7 @@ using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
 
-public class PlayerMovementAndLook : MonoBehaviour
+public class PlayerMovementAndLook : NetworkBehaviour
 {
     [Header("Panels")]
     [SerializeField] private GameObject _panelEscape;
@@ -66,7 +66,7 @@ public class PlayerMovementAndLook : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
             //Arrow Key Input
         float h = Input.GetAxis("Horizontal");

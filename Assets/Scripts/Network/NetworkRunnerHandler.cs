@@ -8,17 +8,20 @@ using UnityEngine.SceneManagement;
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
-    public NetworkRunner NetworkRunnerPrefab;
+    //public NetworkRunner NetworkRunnerPrefab;
 
     private NetworkRunner _networkRunner;
 
-    void Start()
+    private void Awake() =>
+        _networkRunner = GetComponent<NetworkRunner>();
+
+    private void Start()
     {
-        _networkRunner = Instantiate(NetworkRunnerPrefab);
-        _networkRunner.name = "net runner";
+        //_networkRunner = Instantiate(NetworkRunnerPrefab);
+        //_networkRunner.name = "net runner";
 
         var clientTask =
-            InitializeNetworkRunner(_networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(),
+            InitializeNetworkRunner(_networkRunner, GameMode.Shared/*GameMode.AutoHostOrClient*/, NetAddress.Any(),
                 SceneManager.GetActiveScene().buildIndex, null);
 
         Debug.Log("Server NetworkRunner started!");
