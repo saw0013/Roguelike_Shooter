@@ -51,7 +51,102 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         networkMatch = GetComponent<NetworkMatch>();
 
         if (isLocalPlayer) localPlayer = this;
+
+        MainMenu.instance.SpawnPlayerUIPrefab(this);
     }
+
+    #region Host обработка
+    public void HostGame()
+    {
+        string ID = MainMenu.GetRandomID();
+        CmdHostGame(ID);
+    }
+
+    [Command]
+    public void CmdHostGame(string ID)
+    {
+        matchID = ID;
+        if (MainMenu.instance.HostGame(ID, gameObject))
+        {
+            Debug.Log("Лобби создано успешно");
+            networkMatch.matchId = ID.ToGuid();
+            TargetHostGame(true, ID);
+        }
+        else
+        {
+            Debug.Log("Ошибка при создании лобби");
+            TargetHostGame(false, ID);
+        }
+    }
+
+
+    [TargetRpc]
+    void TargetHostGame(bool success, string ID)
+    {
+        matchID = ID;
+        Debug.Log($"ID {matchID} == {ID}");
+        MainMenu.instance.HostSuccess(success, ID);
+
+    }
+    #endregion
+
+    #region JOIN обработка
+    public void JoinGame(string inputID) => CmdJoinGame(inputID);
+    
+
+    [Command]
+    public void CmdJoinGame(string ID)
+    {
+        matchID = ID;
+        if (MainMenu.instance.JoinGame(ID, gameObject))
+        {
+            Debug.Log("Успешное подключение к лобби");
+            networkMatch.matchId = ID.ToGuid();
+            TargetJoinGame(true, ID);
+        }
+        else
+        {
+            Debug.Log("Ошибка при подключении к лобби");
+            TargetJoinGame(false, ID);
+        }
+    }
+
+
+    [TargetRpc]
+    void TargetJoinGame(bool success, string ID)
+    {
+        matchID = ID;
+        Debug.Log($"ID {matchID} == {ID}");
+        MainMenu.instance.JoinSuccess(success, ID);
+
+    }
+    #endregion
+
+    #region Begin обработка
+    public void BeginGame() => CmdBeginGame();
+
+
+    [Command]
+    public void CmdBeginGame()
+    {
+      MainMenu.instance.BeginGame(matchID);
+      Debug.Log("Игра началась");
+    }
+
+    public void StartGame() => TargetBeginGame();
+
+
+    [TargetRpc]
+    void TargetBeginGame()
+    {
+        Debug.Log($"ID {matchID} | началось");
+        DontDestroyOnLoad(gameObject);
+        MainMenu.instance.inGame = true;
+
+        transform.localScale = new Vector3(1, 1, 1);
+        SceneManager.LoadScene("Game", LoadSceneMode.Additive);
+    }
+    #endregion
 
     public override void OnStartLocalPlayer()
     {
