@@ -5867,7 +5867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a27e225470804e68b4f152cf444bbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   _panelEscape: {fileID: 906834900144493773}
   _panelSetting: {fileID: 906834899447894386}
   _panelExit: {fileID: 906834898443424664}
@@ -5959,7 +5958,6 @@ MonoBehaviour:
     RawGuidValue: 3e0500185c926824bb12b7e580904686
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 5937898419644264111}
   - {fileID: 3659496968937446781}
   SimulationBehaviours: []
 --- !u!1 &5937898419644264153
