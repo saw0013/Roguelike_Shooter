@@ -13,9 +13,9 @@ namespace MirrorBasics {
         public bool publicMatch;
         public bool inMatch;
         public bool matchFull;
-        public List<Player> players = new List<Player> ();
+        public List<ConnectionPlayer> players = new List<ConnectionPlayer> ();
 
-        public Match (string matchID, Player player, bool publicMatch) {
+        public Match (string matchID, ConnectionPlayer player, bool publicMatch) {
             matchFull = false;
             inMatch = false;
             this.matchID = matchID;
@@ -39,7 +39,7 @@ namespace MirrorBasics {
             instance = this;
         }
 
-        public bool HostGame (string _matchID, Player _player, bool publicMatch, out int playerIndex) {
+        public bool HostGame (string _matchID, ConnectionPlayer _player, bool publicMatch, out int playerIndex) {
             playerIndex = -1;
 
             if (!matchIDs.Contains (_matchID)) {
@@ -56,7 +56,7 @@ namespace MirrorBasics {
             }
         }
 
-        public bool JoinGame (string _matchID, Player _player, out int playerIndex) {
+        public bool JoinGame (string _matchID, ConnectionPlayer _player, out int playerIndex) {
             playerIndex = -1;
 
             if (matchIDs.Contains (_matchID)) {
@@ -89,7 +89,7 @@ namespace MirrorBasics {
             }
         }
 
-        public bool SearchGame (Player _player, out int playerIndex, out string matchID) {
+        public bool SearchGame (ConnectionPlayer _player, out int playerIndex, out string matchID) {
             playerIndex = -1;
             matchID = "";
 
@@ -132,7 +132,7 @@ namespace MirrorBasics {
             return _id;
         }
 
-        public void PlayerDisconnected (Player player, string _matchID) {
+        public void PlayerDisconnected (ConnectionPlayer player, string _matchID) {
             for (int i = 0; i < matches.Count; i++) {
                 if (matches[i].matchID == _matchID) {
                     int playerIndex = matches[i].players.IndexOf (player);

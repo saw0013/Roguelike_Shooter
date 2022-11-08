@@ -1127,7 +1127,6 @@ GameObject:
   - component: {fileID: 739571275046839246}
   - component: {fileID: 2750314899940301959}
   - component: {fileID: -7028166088823127684}
-  - component: {fileID: -2722566616316049440}
   - component: {fileID: 350066294303426345}
   m_Layer: 3
   m_Name: Player
@@ -1204,6 +1203,15 @@ MonoBehaviour:
   playerData: {fileID: 2990620777780638771}
   playerAnimator: {fileID: 2990620777773336532}
   _runPlayer: {fileID: 8607169915589414478}
+  matchID: 
+  playerIndex: 0
+  currentMatch:
+    matchID: 
+    publicMatch: 0
+    inMatch: 0
+    matchFull: 0
+    players: []
+  playerLobbyUI: {fileID: 0}
 --- !u!114 &2990620777780638771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,44 +1328,6 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   animator: {fileID: 2990620777773336532}
---- !u!114 &-2722566616316049440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2990620777780638792}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 1
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  target: {fileID: 2990620777780602984}
 --- !u!114 &350066294303426345
 MonoBehaviour:
   m_ObjectHideFlags: 0

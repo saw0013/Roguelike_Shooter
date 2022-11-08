@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ namespace MirrorBasics {
         public static UILobby instance;
 
         [Header ("Host Join")]
-        [SerializeField] InputField joinMatchInput;
+        [SerializeField] TMP_InputField joinMatchInput;
         [SerializeField] List<Selectable> lobbySelectables = new List<Selectable> ();
         [SerializeField] Canvas lobbyCanvas;
         [SerializeField] Canvas searchCanvas;
@@ -36,13 +37,13 @@ namespace MirrorBasics {
         public void HostPublic () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            Player.localPlayer.HostGame (true);
+            ConnectionPlayer.localPlayer.HostGame (true);
         }
 
         public void HostPrivate () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            Player.localPlayer.HostGame (false);
+            ConnectionPlayer.localPlayer.HostGame (false);
         }
 
         public void HostSuccess (bool success, string matchID) {
@@ -50,7 +51,7 @@ namespace MirrorBasics {
                 lobbyCanvas.enabled = true;
 
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-                localPlayerLobbyUI = SpawnPlayerUIPrefab (Player.localPlayer);
+                localPlayerLobbyUI = SpawnPlayerUIPrefab (ConnectionPlayer.localPlayer);
                 matchIDText.text = matchID;
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
@@ -60,7 +61,7 @@ namespace MirrorBasics {
         public void Join () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            Player.localPlayer.JoinGame (joinMatchInput.text.ToUpper ());
+            ConnectionPlayer.localPlayer.JoinGame (joinMatchInput.text.ToUpper ());
         }
 
         public void JoinSuccess (bool success, string matchID) {
@@ -68,7 +69,7 @@ namespace MirrorBasics {
                 lobbyCanvas.enabled = true;
 
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-                localPlayerLobbyUI = SpawnPlayerUIPrefab (Player.localPlayer);
+                localPlayerLobbyUI = SpawnPlayerUIPrefab (ConnectionPlayer.localPlayer);
                 matchIDText.text = matchID;
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
@@ -77,13 +78,13 @@ namespace MirrorBasics {
 
         public void DisconnectGame () {
             if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-            Player.localPlayer.DisconnectGame ();
+            ConnectionPlayer.localPlayer.DisconnectGame ();
 
             lobbyCanvas.enabled = false;
             lobbySelectables.ForEach (x => x.interactable = true);
         }
 
-        public GameObject SpawnPlayerUIPrefab (Player player) {
+        public GameObject SpawnPlayerUIPrefab (ConnectionPlayer player) {
             GameObject newUIPlayer = Instantiate (UIPlayerPrefab, UIPlayerParent);
             newUIPlayer.GetComponent<UIPlayer> ().SetPlayer (player);
             newUIPlayer.transform.SetSiblingIndex (player.playerIndex - 1);
@@ -92,7 +93,7 @@ namespace MirrorBasics {
         }
 
         public void BeginGame () {
-            Player.localPlayer.BeginGame ();
+            ConnectionPlayer.localPlayer.BeginGame ();
         }
 
         public void SearchGame () {
@@ -123,7 +124,7 @@ namespace MirrorBasics {
                     currentTime -= Time.deltaTime;
                 } else {
                     currentTime = searchInterval;
-                    Player.localPlayer.SearchGame ();
+                    ConnectionPlayer.localPlayer.SearchGame ();
                 }
                 yield return null;
             }

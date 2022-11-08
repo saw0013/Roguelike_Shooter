@@ -1,10 +1,14 @@
 using Cinemachine;
 using Mirror;
+using MirrorBasics;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerMovementAndLookNetwork : NetworkBehaviour
 {
+    #region Variables
     [Header("Panels")]
     [SerializeField] private GameObject _panelEscape;
     [SerializeField] private GameObject _panelSetting;
@@ -39,20 +43,11 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Header("Audio VFX")]
     [SerializeField] private AudioSource _runPlayer;
 
+    #endregion
 
-    public static PlayerMovementAndLookNetwork localPlayer;
+   
 
-    [SyncVar] public string matchID;
-
-    private NetworkMatch networkMatch;
-
-    void Start()
-    {
-        networkMatch = GetComponent<NetworkMatch>();
-
-        if (isLocalPlayer) localPlayer = this;
-    }
-
+    //Что делаем когда подключились к серверу
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -60,9 +55,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //GameObject.FindGameObjectWithTag("VirtualFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
     }
 
-    void Awake() => CreatePlayerMovementPlane();
+    
 
-    void CreatePlayerMovementPlane() => playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
+    #region Awake, Start, Update, FixedUpdate
+
+    void Awake()
+    {
+        playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
+    }
+
     
     private void Update()
     {
@@ -76,7 +77,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else EscapeMenu(false, true);
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -115,6 +115,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         }
     }
 
+    #endregion
+
     #region Игровое меню
     public void EscapeMenu(bool active, bool input)
     {
@@ -133,6 +135,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     }
 
     #endregion
+
+    #region Передвижение и вращение персонажа
+
     void MoveThePlayer(Vector3 desiredDirection)
     {
         movement.Set(desiredDirection.x, 0f, desiredDirection.z);
@@ -172,6 +177,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         return PlaneRayIntersection(plane, ray);
     }
 
+    #endregion
+
+    #region Анимация персонажа
     void AnimateThePlayer(Vector3 desiredDirection)
     {
         if (!playerAnimator)
@@ -199,4 +207,5 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 		*/
 
     }
+    #endregion
 }
