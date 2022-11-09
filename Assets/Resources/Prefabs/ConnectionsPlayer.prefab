@@ -67,6 +67,8 @@ MonoBehaviour:
   syncInterval: 0
   matchID: 
   playerIndex: 0
+  _playerCharacter: {fileID: 2990620777780638792, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
+  networkManager: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
   currentMatch:
     matchID: 
     publicMatch: 0

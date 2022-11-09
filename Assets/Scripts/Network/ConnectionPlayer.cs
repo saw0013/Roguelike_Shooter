@@ -2,8 +2,8 @@ using UnityEngine;
 using Mirror;
 using MirrorBasics;
 using System;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 [RequireComponent(typeof(NetworkMatch))]
 public class ConnectionPlayer : NetworkBehaviour
@@ -13,13 +13,43 @@ public class ConnectionPlayer : NetworkBehaviour
     [SyncVar] public string matchID;
     [SyncVar] public int playerIndex;
 
+    [SerializeField] protected GameObject _playerCharacter = null;
+
+    [SyncVar] public int connId = 0;
+
+    [SyncVar] public string inScene = "";
+
     NetworkMatch networkMatch;
+
+    [SerializeField] GameNetworkManager networkManager;
 
     [SyncVar] public Match currentMatch;
 
     [SerializeField] GameObject playerLobbyUI;
 
     Guid netIDGuid;
+
+    #endregion
+
+    #region property
+
+    public GameObject playerCharacter
+    {
+        get
+        {
+            return _playerCharacter;
+        }
+        set
+        {
+            if (!GameObject.Equals(_playerCharacter, value))
+            {
+                _playerCharacter = value;
+                if (NetworkServer.active)
+                    NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
+            }
+        }
+    }
+
     #endregion
 
     #region Network singleton
@@ -268,9 +298,8 @@ public class ConnectionPlayer : NetworkBehaviour
     {
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync("Lobby", UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
-
+        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        networkManager.RequestJumpToScene(SpawnUtils.PointType.NetworkSpawnPoint);
     }
 
 

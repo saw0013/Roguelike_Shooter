@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - VirtualFollowCamera
+  - NetworkSpawnPoint
   layers:
   - Default
   - TransparentFX
