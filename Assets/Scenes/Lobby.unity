@@ -1769,7 +1769,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6829189909949716667}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetVolumeMusic
         m_Mode: 0
@@ -4051,8 +4051,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -4067,8 +4067,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -4141,8 +4141,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -4157,8 +4157,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -4186,8 +4186,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -4202,8 +4202,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -4360,8 +4360,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -4376,8 +4376,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -4405,8 +4405,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -4421,8 +4421,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -4882,7 +4882,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6829189909949716667}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetVolumeSound
         m_Mode: 0
@@ -5047,8 +5047,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -5063,9 +5063,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: UISpecial
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5819,7 +5819,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5934,7 +5934,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6378,7 +6378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -627, y: 91}
+  m_AnchoredPosition: {x: -675, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5967920668879421269
@@ -6428,7 +6428,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6829189909949716667}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetFullscreen
         m_Mode: 0
@@ -6862,7 +6862,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5967920668643709491}
   m_HandleRect: {fileID: 5967920668643709490}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7298,8 +7298,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 6829189909949716667}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -7385,8 +7385,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281019179
-  m_fontColor: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 1}
+    rgba: 4281545523
+  m_fontColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7864,7 +7864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5967920669649076081
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7951,8 +7951,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 6829189909949716667}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetResolution
         m_Mode: 0
         m_Arguments:
@@ -8501,7 +8501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5967920669792297135
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10260,8 +10260,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 6829189909949716667}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetQuality
         m_Mode: 0
         m_Arguments:
@@ -10658,6 +10658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6829189909949716664}
   - component: {fileID: 6829189909949716666}
+  - component: {fileID: 6829189909949716667}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -10690,6 +10691,49 @@ MonoBehaviour:
   UIPlayerPrefab: {fileID: 6630537436116054789, guid: fa5402d580bb1434ca66e2c2eeac1668, type: 3}
   matchIDText: {fileID: 1015776417}
   beginGameButton: {fileID: 1923035926}
+--- !u!114 &6829189909949716667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6829189909949716665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65787176dfd44cc489588b6ced91dacf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showBackground: 1
+  showSocial1: 0
+  showSocial2: 0
+  showSocial3: 1
+  showVersion: 1
+  showFade: 1
+  buttons: {fileID: 7158414126002435253, guid: 076197847ba151147b3f5ca6d92ef0fd, type: 3}
+  version: v.0100
+  play: Start Playing
+  settings: Options
+  quit: Exit
+  defaultVolumeSound: 0.1
+  defaultVolumeMusic: 0.8
+  uiClick: {fileID: 8300000, guid: 778b4bd40285df841b9cbc67f45c924e, type: 3}
+  uiHover: {fileID: 8300000, guid: ba42f48a9ff131c448d194647eeb174b, type: 3}
+  uiSpecial: {fileID: 8300000, guid: 505ca3812bdbf5a4c90ac131fa071ee5, type: 3}
+  homePanel: {fileID: 5967920670454846074}
+  settingsPanel: {fileID: 5967920669647399542}
+  connectionPanel: {fileID: 2129803850}
+  fadeAnimator: {fileID: 5967920668861819155}
+  playText: {fileID: 5967920670219226216}
+  settingsText: {fileID: 5967920670212757130}
+  quitText: {fileID: 5967920669929061159}
+  versionText: {fileID: 5967920670312187170}
+  volumeSliderSound: {fileID: 4292278553166159246}
+  volumeSliderMusic: {fileID: 1164754189}
+  resolutionDropdown: {fileID: 5967920669649076086}
+  _audioSourceSound: {fileID: 3763387535799432145}
+  _audioSourceMusic:
+  - {fileID: 6829189909920151222}
+  - {fileID: 4120509899619468312}
 --- !u!114 &6842948013883676841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10707,8 +10751,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -10723,8 +10767,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
+        - m_Target: {fileID: 6829189909949716667}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:

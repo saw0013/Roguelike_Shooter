@@ -18,17 +18,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] bool showVersion;
     [SerializeField] bool showFade;
 
-    [Header("Scene")]
-    [Space(10)] [SerializeField] string sceneToLoad;
-
     [Header("Sprites")]
-    [Space(10)] [SerializeField] Sprite logo;
-    [SerializeField] Sprite background;
     [SerializeField] Sprite buttons;
-
-    [Header("Color")]
-    [Space(10)] [SerializeField] Color32 mainColor;
-    [SerializeField] Color32 secondaryColor;
 
     [Header("Version")]
     [Space(10)] [SerializeField] string version = "v.0105";
@@ -38,17 +29,6 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] string settings = "Settings";
     [SerializeField] string quit = "Quit";
 
-    [Header("Social")]
-    [Space(10)] [SerializeField] Sprite social1Icon;
-    [SerializeField] string social1Link;
-    [Space(5)]
-    [SerializeField] Sprite social2Icon;
-    [SerializeField] string social2Link;
-    [Space(5)]
-    [SerializeField] Sprite social3Icon;
-    [SerializeField] string social3Link;
-    List<string> links = new List<string>();
-
     [Header("Audio")]
     [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
     [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
@@ -57,28 +37,14 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] AudioClip uiHover;
     [SerializeField] AudioClip uiSpecial;
 
-
     // Components
     [Header("Components")]
     [SerializeField] GameObject homePanel;
     [SerializeField] GameObject settingsPanel;
-    [SerializeField] GameObject bannerPanel;
     [SerializeField] GameObject connectionPanel;
-    [SerializeField] Image social1Image;
-    [SerializeField] Image social2Image;
-    [SerializeField] Image social3Image;
-    [SerializeField] Image logoImage;
-    [SerializeField] Image backgroundImage;
 
     [Header("Fade")]
     [Space(10)] [SerializeField] Animator fadeAnimator;
-
-    [Header("Color Elements")]
-    [Space(5)] [SerializeField] Image[] mainColorImages;
-    [SerializeField] TextMeshProUGUI[] mainColorTexts;
-    [SerializeField] Image[] secondaryColorImages;
-    [SerializeField] TextMeshProUGUI[] secondaryColorTexts;
-    [SerializeField] Image[] buttonsElements;
 
     [Header("Texts")]
     [Space(10)] [SerializeField] TextMeshProUGUI playText;
@@ -104,10 +70,9 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         SetStartUI();
-        ProcessLinks();
         SetStartVolumeSound();
         SetStartVolumeMusic();
-        //PrepareResolutions();
+        PrepareResolutions();
     }
 
     private void SetStartUI()
@@ -120,61 +85,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void UIEditorUpdate()
     {
-        // Used to update the UI when not in play mode
-
         #region Sprites
-
-        // Logo
-        if (logoImage != null)
-        {
-            logoImage.sprite = logo;
-            logoImage.color = mainColor;
-            logoImage.SetNativeSize();
-        }
-
-        // Background
-        if (backgroundImage != null)
-        {
-            backgroundImage.gameObject.SetActive(showBackground);
-            backgroundImage.sprite = background;
-            backgroundImage.SetNativeSize();
-        }
-
-        // Main Color Images
-        for (int i = 0; i < mainColorImages.Length; i++)
-        {
-            mainColorImages[i].color = mainColor;
-        }
-
-        // Main Color Texts
-        for (int i = 0; i < mainColorTexts.Length; i++)
-        {
-            mainColorTexts[i].color = mainColor;
-        }
-
-        // Secondary Color Images
-        for (int i = 0; i < secondaryColorImages.Length; i++)
-        {
-            secondaryColorImages[i].color = secondaryColor;
-        }
-
-        // Secondary Color Texts
-        for (int i = 0; i < secondaryColorTexts.Length; i++)
-        {
-            secondaryColorTexts[i].color = secondaryColor;
-        }
-
-        // Buttons Elements
-        for (int i = 0; i < buttonsElements.Length; i++)
-        {
-            buttonsElements[i].sprite = buttons;
-        }
-
         // Fade
         fadeAnimator.gameObject.SetActive(showFade);
 
         #endregion
-
 
         #region Texts
 
@@ -193,77 +108,17 @@ public class MainMenuManager : MonoBehaviour
             versionText.text = version;
 
         #endregion
-
-
-        #region Social
-
-        if (social1Image != null)
-        {
-            social1Image.sprite = social1Icon;
-            social1Image.gameObject.SetActive(showSocial1);
-        }
-
-        if (social2Image != null)
-        {
-            social2Image.sprite = social2Icon;
-            social2Image.gameObject.SetActive(showSocial2);
-        }
-
-        if (social3Image != null)
-        {
-            social3Image.sprite = social3Icon;
-            social3Image.gameObject.SetActive(showSocial3);
-        }
-
-        #endregion
     }
-
-    #region Links
-    public void OpenLink(int _index)
-    {
-        if(links[_index].Length > 0)
-            Application.OpenURL(links[_index]);
-    }
-
-    private void ProcessLinks()
-    {
-        if (social1Link.Length > 0)
-            links.Add(social1Link);
-
-        if (social2Link.Length > 0)
-            links.Add(social2Link);
-
-        if (social3Link.Length > 0)
-            links.Add(social3Link);
-    }
-    #endregion
-
 
     #region Levels
-    public void LoadLevel()
-    {
-        // Fade Animation
-        fadeAnimator.SetTrigger("FadeOut");
-
-        StartCoroutine(WaitToLoadLevel());
-    }
-
-    IEnumerator WaitToLoadLevel()
-    {
-        yield return new WaitForSeconds(1f);
-
-        // Scene Load
-        SceneManager.LoadScene(sceneToLoad);
-    }
-
     public void Quit()
     {
         Application.Quit();
     }
     #endregion
 
-
     #region Audio
+
     #region Sound
     public void SetVolumeSound(float _volume)
     {
@@ -339,7 +194,6 @@ public class MainMenuManager : MonoBehaviour
     }
 
     #endregion
-
 
     #region Graphics & Resolution Settings
 
