@@ -4,6 +4,9 @@ using MirrorBasics;
 using System;
 using UnityEngine.SceneManagement;
 using Utils;
+using Unity.Scenes;
+using UnityEngine.ProBuilder.Shapes;
+using Unity.Entities.UniversalDelegates;
 
 [RequireComponent(typeof(NetworkMatch))]
 public class ConnectionPlayer : NetworkBehaviour
@@ -15,7 +18,7 @@ public class ConnectionPlayer : NetworkBehaviour
 
     [SerializeField] protected GameObject _playerCharacter = null;
 
-    [SyncVar] public int connId = 0;
+    [SyncVar] public int connId;
 
     [SyncVar] public string inScene = "";
 
@@ -298,8 +301,10 @@ public class ConnectionPlayer : NetworkBehaviour
     {
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
-        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        networkManager.RequestJumpToScene(SpawnUtils.PointType.NetworkSpawnPoint);
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneAt(2));
+        SceneManager.MoveGameObjectToScene(playerCharacter, SceneManager.GetSceneAt(2));
+        //SceneManager.MoveGameObjectToScene(NetworkClient.connection.identity.gameObject, new Scene());
     }
 
 
@@ -308,5 +313,10 @@ public class ConnectionPlayer : NetworkBehaviour
     private void Awake()
     {
         networkMatch = GetComponent<NetworkMatch>();
+    }
+
+    private void Update()
+    {
+        if (!isLocalPlayer) return;
     }
 }
