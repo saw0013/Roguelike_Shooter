@@ -8,9 +8,9 @@ namespace MirrorBasics {
     public class UIPlayer : MonoBehaviour {
 
         [SerializeField] Text text;
-        ConnectionPlayer player;
+        PlayerMovementAndLookNetwork player;
 
-        public void SetPlayer (ConnectionPlayer player) {
+        public void SetPlayer (PlayerMovementAndLookNetwork player) {
             this.player = player;
             text.text = "Player " + player.playerIndex.ToString ();
         }

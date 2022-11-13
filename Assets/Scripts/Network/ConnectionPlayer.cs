@@ -11,312 +11,305 @@ using Unity.Entities.UniversalDelegates;
 [RequireComponent(typeof(NetworkMatch))]
 public class ConnectionPlayer : NetworkBehaviour
 {
-    #region Network Variables
-    public static ConnectionPlayer localPlayer;
-    [SyncVar] public string matchID;
-    [SyncVar] public int playerIndex;
+    //#region Network Variables
+    //public static ConnectionPlayer localPlayer;
+    //[SyncVar] public string matchID;
+    //[SyncVar] public int playerIndex;
 
-    [SerializeField] protected GameObject _playerCharacter = null;
+    //[SerializeField] protected GameObject _playerCharacter = null;
 
-    [SyncVar] public int connId;
+    //[SyncVar] public int connId;
 
-    [SyncVar] public string inScene = "";
+    //[SyncVar] public string inScene = "";
 
-    NetworkMatch networkMatch;
+    //NetworkMatch networkMatch;
 
-    [SerializeField] GameNetworkManager networkManager;
+    //[SerializeField] GameNetworkManager networkManager;
 
-    [SyncVar] public Match currentMatch;
+    //[SyncVar] public Match currentMatch;
 
-    [SerializeField] GameObject playerLobbyUI;
+    //[SerializeField] GameObject playerLobbyUI;
 
-    Guid netIDGuid;
+    //Guid netIDGuid;
 
-    #endregion
+    //#endregion
 
-    #region property
+    //#region property
 
-    public GameObject playerCharacter
-    {
-        get
-        {
-            return _playerCharacter;
-        }
-        set
-        {
-            if (!GameObject.Equals(_playerCharacter, value))
-            {
-                _playerCharacter = value;
-                if (NetworkServer.active)
-                    NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
-            }
-        }
-    }
+    //public GameObject playerCharacter
+    //{
+    //    get
+    //    {
+    //        return _playerCharacter;
+    //    }
+    //    set
+    //    {
+    //        if (!GameObject.Equals(_playerCharacter, value))
+    //        {
+    //            _playerCharacter = value;
+    //            if (NetworkServer.active)
+    //                NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
+    //        }
+    //    }
+    //}
 
-    #endregion
+    //#endregion
 
-    #region Network singleton
+    //#region Network singleton
 
-    public override void OnStartServer()
-    {
-        netIDGuid = netId.ToString().ToGuid();
-        networkMatch.matchId = netIDGuid;
-    }
+    //public override void OnStartServer()
+    //{
+    //    netIDGuid = netId.ToString().ToGuid();
+    //    networkMatch.matchId = netIDGuid;
+    //}
 
-    public override void OnStartClient()
-    {
-        if (isLocalPlayer)
-        {
-            localPlayer = this;
-        }
-        else
-        {
-            Debug.Log($"Spawning other player UI Prefab");
-            playerLobbyUI = UILobby.instance.SpawnPlayerUIPrefab(this);
-        }
-    }
+    //public override void OnStartClient()
+    //{
+    //    if (isLocalPlayer)
+    //    {
+    //        localPlayer = this;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"Spawning other player UI Prefab");
+    //        playerLobbyUI = UILobby.instance.SpawnPlayerUIPrefab(this);
+    //    }
+    //}
 
-    public override void OnStopClient()
-    {
-        Debug.Log($"Client Stopped");
-        ClientDisconnect();
-    }
+    //public override void OnStopClient()
+    //{
+    //    Debug.Log($"Client Stopped");
+    //    ClientDisconnect();
+    //}
 
-    public override void OnStopServer()
-    {
-        Debug.Log($"Client Stopped on Server");
-        ServerDisconnect();
-    }
+    //public override void OnStopServer()
+    //{
+    //    Debug.Log($"Client Stopped on Server");
+    //    ServerDisconnect();
+    //}
 
-    /* 
-        HOST MATCH
-    */
+    //#region HOST MATCH
 
-    public void HostGame(bool publicMatch)
-    {
-        string matchID = MatchMaker.GetRandomMatchID();
-        CmdHostGame(matchID, publicMatch);
-    }
+    //public void HostGame(bool publicMatch)
+    //{
+    //    string matchID = MatchMaker.GetRandomMatchID();
+    //    CmdHostGame(matchID, publicMatch);
+    //}
 
-    [Command]
-    void CmdHostGame(string _matchID, bool publicMatch)
-    {
-        matchID = _matchID;
-        if (MatchMaker.instance.HostGame(_matchID, this, publicMatch, out playerIndex))
-        {
-            Debug.Log($"<color=green>Game hosted successfully</color>");
-            networkMatch.matchId = _matchID.ToGuid();
-            TargetHostGame(true, _matchID, playerIndex);
-        }
-        else
-        {
-            Debug.Log($"<color=red>Game hosted failed</color>");
-            TargetHostGame(false, _matchID, playerIndex);
-        }
-    }
+    //[Command]
+    //void CmdHostGame(string _matchID, bool publicMatch)
+    //{
+    //    matchID = _matchID;
+    //    if (MatchMaker.instance.HostGame(_matchID, this, publicMatch, out playerIndex))
+    //    {
+    //        Debug.Log($"<color=green>Game hosted successfully</color>");
+    //        networkMatch.matchId = _matchID.ToGuid();
+    //        TargetHostGame(true, _matchID, playerIndex);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"<color=red>Game hosted failed</color>");
+    //        TargetHostGame(false, _matchID, playerIndex);
+    //    }
+    //}
 
-    [TargetRpc]
-    void TargetHostGame(bool success, string _matchID, int _playerIndex)
-    {
-        playerIndex = _playerIndex;
-        matchID = _matchID;
-        Debug.Log($"MatchID: {matchID} == {_matchID}");
-        UILobby.instance.HostSuccess(success, _matchID);
-    }
+    //[TargetRpc]
+    //void TargetHostGame(bool success, string _matchID, int _playerIndex)
+    //{
+    //    playerIndex = _playerIndex;
+    //    matchID = _matchID;
+    //    Debug.Log($"MatchID: {matchID} == {_matchID}");
+    //    UILobby.instance.HostSuccess(success, _matchID);
+    //}
 
-    /* 
-        JOIN MATCH
-    */
+    //#endregion
 
-    public void JoinGame(string _inputID)
-    {
-        CmdJoinGame(_inputID);
-    }
+    //#region  JOIN MATCH
 
-    [Command]
-    void CmdJoinGame(string _matchID)
-    {
-        matchID = _matchID;
-        if (MatchMaker.instance.JoinGame(_matchID, this, out playerIndex))
-        {
-            Debug.Log($"<color=green>Game Joined successfully</color>");
-            networkMatch.matchId = _matchID.ToGuid();
-            TargetJoinGame(true, _matchID, playerIndex);
+    //public void JoinGame(string _inputID)
+    //{
+    //    CmdJoinGame(_inputID);
+    //}
 
-            //Host
-            if (isServer && playerLobbyUI != null)
-            {
-                playerLobbyUI.SetActive(true);
-            }
-        }
-        else
-        {
-            Debug.Log($"<color=red>Game Joined failed</color>");
-            TargetJoinGame(false, _matchID, playerIndex);
-        }
-    }
+    //[Command]
+    //void CmdJoinGame(string _matchID)
+    //{
+    //    matchID = _matchID;
+    //    if (MatchMaker.instance.JoinGame(_matchID, this, out playerIndex))
+    //    {
+    //        Debug.Log($"<color=green>Game Joined successfully</color>");
+    //        networkMatch.matchId = _matchID.ToGuid();
+    //        TargetJoinGame(true, _matchID, playerIndex);
 
-    [TargetRpc]
-    void TargetJoinGame(bool success, string _matchID, int _playerIndex)
-    {
-        playerIndex = _playerIndex;
-        matchID = _matchID;
-        Debug.Log($"MatchID: {matchID} == {_matchID}");
-        UILobby.instance.JoinSuccess(success, _matchID);
-    }
+    //        //Host
+    //        if (isServer && playerLobbyUI != null)
+    //        {
+    //            playerLobbyUI.SetActive(true);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"<color=red>Game Joined failed</color>");
+    //        TargetJoinGame(false, _matchID, playerIndex);
+    //    }
+    //}
 
-    /* 
-        DISCONNECT
-    */
+    //[TargetRpc]
+    //void TargetJoinGame(bool success, string _matchID, int _playerIndex)
+    //{
+    //    playerIndex = _playerIndex;
+    //    matchID = _matchID;
+    //    Debug.Log($"MatchID: {matchID} == {_matchID}");
+    //    UILobby.instance.JoinSuccess(success, _matchID);
+    //}
 
-    public void DisconnectGame()
-    {
-        CmdDisconnectGame();
-    }
+    //#endregion
 
-    [Command]
-    void CmdDisconnectGame()
-    {
-        ServerDisconnect();
-    }
+    //#region DISCONNECT
 
-    void ServerDisconnect()
-    {
-        MatchMaker.instance.PlayerDisconnected(this, matchID);
-        RpcDisconnectGame();
-        networkMatch.matchId = netIDGuid;
-    }
+    //public void DisconnectGame()
+    //{
+    //    CmdDisconnectGame();
+    //}
 
-    [ClientRpc]
-    void RpcDisconnectGame()
-    {
-        ClientDisconnect();
-    }
+    //[Command]
+    //void CmdDisconnectGame()
+    //{
+    //    ServerDisconnect();
+    //}
 
-    void ClientDisconnect()
-    {
-        if (playerLobbyUI != null)
-        {
-            if (!isServer)
-            {
-                Destroy(playerLobbyUI);
-            }
-            else
-            {
-                playerLobbyUI.SetActive(false);
-            }
-        }
-    }
+    //void ServerDisconnect()
+    //{
+    //    MatchMaker.instance.PlayerDisconnected(this, matchID);
+    //    RpcDisconnectGame();
+    //    networkMatch.matchId = netIDGuid;
+    //}
 
-    /* 
-        SEARCH MATCH
-    */
+    //[ClientRpc]
+    //void RpcDisconnectGame()
+    //{
+    //    ClientDisconnect();
+    //}
 
-    public void SearchGame()
-    {
-        CmdSearchGame();
-    }
+    //void ClientDisconnect()
+    //{
+    //    if (playerLobbyUI != null)
+    //    {
+    //        if (!isServer)
+    //        {
+    //            Destroy(playerLobbyUI);
+    //        }
+    //        else
+    //        {
+    //            playerLobbyUI.SetActive(false);
+    //        }
+    //    }
+    //}
 
-    [Command]
-    void CmdSearchGame()
-    {
-        if (MatchMaker.instance.SearchGame(this, out playerIndex, out matchID))
-        {
-            Debug.Log($"<color=green>Game Found Successfully</color>");
-            networkMatch.matchId = matchID.ToGuid();
-            TargetSearchGame(true, matchID, playerIndex);
+    //#endregion
 
-            //Host
-            if (isServer && playerLobbyUI != null)
-            {
-                playerLobbyUI.SetActive(true);
-            }
-        }
-        else
-        {
-            Debug.Log($"<color=red>Game Search Failed</color>");
-            TargetSearchGame(false, matchID, playerIndex);
-        }
-    }
+    //#region SEARCH MATCH
 
-    [TargetRpc]
-    void TargetSearchGame(bool success, string _matchID, int _playerIndex)
-    {
-        playerIndex = _playerIndex;
-        matchID = _matchID;
-        Debug.Log($"MatchID: {matchID} == {_matchID} | {success}");
-        UILobby.instance.SearchGameSuccess(success, _matchID);
-    }
+    //public void SearchGame()
+    //{
+    //    CmdSearchGame();
+    //}
 
-    /* 
-        MATCH PLAYERS
-    */
+    //[Command]
+    //void CmdSearchGame()
+    //{
+    //    if (MatchMaker.instance.SearchGame(this, out playerIndex, out matchID))
+    //    {
+    //        Debug.Log($"<color=green>Game Found Successfully</color>");
+    //        networkMatch.matchId = matchID.ToGuid();
+    //        TargetSearchGame(true, matchID, playerIndex);
 
-    [Server]
-    public void PlayerCountUpdated(int playerCount)
-    {
-        TargetPlayerCountUpdated(playerCount);
-    }
+    //        //Host
+    //        if (isServer && playerLobbyUI != null)
+    //        {
+    //            playerLobbyUI.SetActive(true);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"<color=red>Game Search Failed</color>");
+    //        TargetSearchGame(false, matchID, playerIndex);
+    //    }
+    //}
 
-    /// <summary>
-    /// Сколько игроков подключено к комнате
-    /// </summary>
-    /// <param name="playerCount"></param>
-    [TargetRpc]
-    void TargetPlayerCountUpdated(int playerCount)
-    {
-        if (playerCount >= 1)
-        {
-            UILobby.instance.SetStartButtonActive(true);
-        }
-        else
-        {
-            UILobby.instance.SetStartButtonActive(false);
-        }
-    }
+    //[TargetRpc]
+    //void TargetSearchGame(bool success, string _matchID, int _playerIndex)
+    //{
+    //    playerIndex = _playerIndex;
+    //    matchID = _matchID;
+    //    Debug.Log($"MatchID: {matchID} == {_matchID} | {success}");
+    //    UILobby.instance.SearchGameSuccess(success, _matchID);
+    //}
 
-    /* 
-        BEGIN MATCH
-    */
+    //#endregion
 
-    public void BeginGame()
-    {
-        CmdBeginGame();
-    }
+    //#region  MATCH PLAYERS
 
-    [Command]
-    void CmdBeginGame()
-    {
-        MatchMaker.instance.BeginGame(matchID);
-        Debug.Log($"<color=red>Game Beginning</color>");
-    }
+    //[Server]
+    //public void PlayerCountUpdated(int playerCount)
+    //{
+    //    TargetPlayerCountUpdated(playerCount);
+    //}
 
-    public void StartGame()
-    { //Server
-        TargetBeginGame();
-    }
+    ///// <summary>
+    ///// Сколько игроков подключено к комнате
+    ///// </summary>
+    ///// <param name="playerCount"></param>
+    //[TargetRpc]
+    //void TargetPlayerCountUpdated(int playerCount)
+    //{
+    //    if (playerCount > 0)
+    //    {
+    //        UILobby.instance.SetStartButtonActive(true);
+    //    }
+    //    else
+    //    {
+    //        UILobby.instance.SetStartButtonActive(false);
+    //    }
+    //}
 
-    [TargetRpc]
-    void TargetBeginGame()
-    {
-        Debug.Log($"MatchID: {matchID} | Beginning");
-        //Additively load game scene
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt(2));
-        SceneManager.MoveGameObjectToScene(playerCharacter, SceneManager.GetSceneAt(2));
-        //SceneManager.MoveGameObjectToScene(NetworkClient.connection.identity.gameObject, new Scene());
-    }
+    //#endregion
+
+    //#region  BEGIN MATCH
+
+    //public void BeginGame()
+    //{
+    //    CmdBeginGame();
+    //}
+
+    //[Command]
+    //void CmdBeginGame()
+    //{
+    //    MatchMaker.instance.BeginGame(matchID);
+    //    Debug.Log($"<color=red>Game Beginning</color>");
+    //}
+
+    //public void StartGame()
+    //{ //Server
+    //    TargetBeginGame();
+    //}
+
+    //[TargetRpc]
+    //void TargetBeginGame()
+    //{
+    //    Debug.Log($"MatchID: {matchID} | Beginning");
+    //    //Additively load game scene
+    //    SceneManager.LoadScene(2, LoadSceneMode.Additive);
+    //}
 
 
-    #endregion
+    //#endregion
 
-    private void Awake()
-    {
-        networkMatch = GetComponent<NetworkMatch>();
-    }
+    //#endregion
 
-    private void Update()
-    {
-        if (!isLocalPlayer) return;
-    }
+    //private void Awake()
+    //{
+    //    networkMatch = GetComponent<NetworkMatch>();
+    //}
+
 }

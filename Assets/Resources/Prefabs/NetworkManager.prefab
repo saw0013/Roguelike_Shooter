@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2038813130493656009}
-  - component: {fileID: 2038813130493656008}
+  - component: {fileID: 7053969124967997395}
   - component: {fileID: 2038813130493656011}
   - component: {fileID: 2038813130493656004}
+  - component: {fileID: 5396412973184279213}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2038813130493656008
+--- !u!114 &7053969124967997395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,26 +44,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2038813130493656005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a960ca52ccd9e4f48a4aa305aa1b13b1, type: 3}
+  m_Script: {fileID: 11500000, guid: e19c79da059622b4dbf53dd38ddba35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
-  offlineScene: Assets/Scenes/Offline.unity
-  onlineScene: Assets/Scenes/Lobby.unity
+  offlineScene: 
+  onlineScene: 
   transport: {fileID: 2038813130493656011}
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 5621016028461215376, guid: 10572685e9363904b9efcae61064f14b, type: 3}
+  playerPrefab: {fileID: 0}
   autoCreatePlayer: 1
-  playerSpawnMethod: 1
-  spawnPrefabs:
-  - {fileID: 2990620777780638792, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
-  moveToSceneOnJoin: Assets/Scenes/Game.unity
-  jumpToPointName: SpawnPoint
+  playerSpawnMethod: 0
+  spawnPrefabs: []
 --- !u!114 &2038813130493656011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,3 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09f5c8bf2f4747b7a9284ef5d9ce2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5396412973184279213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038813130493656005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetX: 0
+  offsetY: 0

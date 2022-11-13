@@ -37,13 +37,13 @@ namespace MirrorBasics {
         public void HostPublic () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            ConnectionPlayer.localPlayer.HostGame (true);
+            PlayerMovementAndLookNetwork.localPlayer.HostGame (true);
         }
 
         public void HostPrivate () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            ConnectionPlayer.localPlayer.HostGame (false);
+            PlayerMovementAndLookNetwork.localPlayer.HostGame (false);
         }
 
         public void HostSuccess (bool success, string matchID) {
@@ -51,7 +51,7 @@ namespace MirrorBasics {
                 lobbyCanvas.enabled = true;
 
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-                localPlayerLobbyUI = SpawnPlayerUIPrefab (ConnectionPlayer.localPlayer);
+                localPlayerLobbyUI = SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork.localPlayer);
                 matchIDText.text = matchID;
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
@@ -61,7 +61,7 @@ namespace MirrorBasics {
         public void Join () {
             lobbySelectables.ForEach (x => x.interactable = false);
 
-            ConnectionPlayer.localPlayer.JoinGame (joinMatchInput.text.ToUpper ());
+            PlayerMovementAndLookNetwork.localPlayer.JoinGame (joinMatchInput.text.ToUpper ());
         }
 
         public void JoinSuccess (bool success, string matchID) {
@@ -69,7 +69,7 @@ namespace MirrorBasics {
                 lobbyCanvas.enabled = true;
 
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-                localPlayerLobbyUI = SpawnPlayerUIPrefab (ConnectionPlayer.localPlayer);
+                localPlayerLobbyUI = SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork.localPlayer);
                 matchIDText.text = matchID;
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
@@ -78,13 +78,13 @@ namespace MirrorBasics {
 
         public void DisconnectGame () {
             if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
-            ConnectionPlayer.localPlayer.DisconnectGame ();
+            PlayerMovementAndLookNetwork.localPlayer.DisconnectGame ();
 
             lobbyCanvas.enabled = false;
             lobbySelectables.ForEach (x => x.interactable = true);
         }
 
-        public GameObject SpawnPlayerUIPrefab (ConnectionPlayer player) {
+        public GameObject SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork player) {
             GameObject newUIPlayer = Instantiate (UIPlayerPrefab, UIPlayerParent);
             newUIPlayer.GetComponent<UIPlayer> ().SetPlayer (player);
             newUIPlayer.transform.SetSiblingIndex (player.playerIndex - 1);
@@ -93,7 +93,7 @@ namespace MirrorBasics {
         }
 
         public void BeginGame () {
-            ConnectionPlayer.localPlayer.BeginGame ();
+            PlayerMovementAndLookNetwork.localPlayer.BeginGame ();
         }
 
         public void SearchGame () {
@@ -124,7 +124,7 @@ namespace MirrorBasics {
                     currentTime -= Time.deltaTime;
                 } else {
                     currentTime = searchInterval;
-                    ConnectionPlayer.localPlayer.SearchGame ();
+                    PlayerMovementAndLookNetwork.localPlayer.SearchGame ();
                 }
                 yield return null;
             }

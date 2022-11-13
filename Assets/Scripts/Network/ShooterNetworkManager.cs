@@ -2,46 +2,19 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
-using Utils;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Mirror.Examples.MultipleAdditiveScenes;
-using UnityEngine.ProBuilder.Shapes;
-using Random = System.Random;
+using Cinemachine;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
 	API Reference: https://mirror-networking.com/docs/api/Mirror.NetworkManager.html
 */
 
-public class GameNetworkManager : NetworkManager
+public class ShooterNetworkManager : NetworkManager
 {
     // Overrides the base singleton so we don't
     // have to cast to this type everywhere.
-    public static new GameNetworkManager singleton { get; private set; }
-
-    #region Variables
-
-    //[Header("Scenes Count")]
-    //public int instances = 3;
-    //
-    //[SerializeField, Scene, Tooltip("Сцена которая будет спавниться только на сервере. Клиент будет подсоединяться к свободной.")]
-    //private string gameScene;
-    //
-    //// Это устанавливается после того, как сервер загружает все экземпляры подсцены.
-    //bool subscenesLoaded;
-    //
-    //// подсцены добавляются в этот список по мере их загрузки
-    //public readonly List<Scene> subScenes = new List<Scene>();
-    //
-    //// Последовательный индекс, используемый при круговом распределении игроков по экземплярам и позиционировании очков
-    //int clientIndex;
-    //
-    //[Header("Setup Spawn"), Tooltip("")]
-    //public GameObject player;
-
-    #endregion
+    public static new ShooterNetworkManager singleton { get; private set; }
 
     #region Unity Callbacks
 
@@ -117,13 +90,6 @@ public class GameNetworkManager : NetworkManager
     /// <param name="newSceneName"></param>
     public override void ServerChangeScene(string newSceneName)
     {
-        //if (newSceneName == subScenes[1].name)
-        //{
-        //    
-        //}
-
-        //var identity = playerPrefab.GetComponent<NetworkIdentity>();
-        //NetworkServer.ReplacePlayerForConnection(identity.connectionToClient, playerPrefab.gameObject);
         base.ServerChangeScene(newSceneName);
     }
 
@@ -167,10 +133,7 @@ public class GameNetworkManager : NetworkManager
     /// <para>Unity calls this on the Server when a Client connects to the Server. Use an override to tell the NetworkManager what to do when a client connects to the server.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerConnect(NetworkConnectionToClient conn)
-    {
-
-    }
+    public override void OnServerConnect(NetworkConnectionToClient conn) { }
 
     /// <summary>
     /// Called on the server when a client is ready.
@@ -189,11 +152,11 @@ public class GameNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        if (numPlayers > 1)
-        {
-        }
-
-        //StartCoroutine(OnServerAddPlayerDelayed(conn));
+        //TODO : Перенастроить камеру
+        base.OnServerAddPlayer(conn);
+        var vCam = Instantiate(spawnPrefabs.FirstOrDefault(x => x.gameObject.name == "VirtualFollowCamera"));
+        NetworkServer.Spawn(vCam);
+        vCam.GetComponent<CinemachineVirtualCamera>().Follow = conn.identity.transform;
     }
 
     /// <summary>
@@ -268,18 +231,15 @@ public class GameNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartServer()
     {
-        var vCam = Instantiate(spawnPrefabs.FirstOrDefault(x => x.gameObject.name == "VirtualFollowCamera"));
-        NetworkServer.Spawn(vCam);
-        //StartCoroutine(ServerLoadSubScenes());
-        base.OnStartServer();
+       
     }
 
     /// <summary>
     /// This is invoked when the client is started.
     /// </summary>
-    public override void OnStartClient() 
+    public override void OnStartClient()
     {
-        base.OnStartClient();
+        
     }
 
     /// <summary>
@@ -290,121 +250,12 @@ public class GameNetworkManager : NetworkManager
     /// <summary>
     /// This is called when a server is stopped - including when a host is stopped.
     /// </summary>
-    public override void OnStopServer()
-    {
-        //NetworkServer.SendToAll(new SceneMessage { sceneName = gameScene, sceneOperation = SceneOperation.UnloadAdditive });
-        //StartCoroutine(ServerUnloadSubScenes());
-        //clientIndex = 0;
-        base.OnStopServer();
-    }
+    public override void OnStopServer() { }
 
     /// <summary>
     /// This is called when a client is stopped.
     /// </summary>
-    public override void OnStopClient() 
-    {
-        //// Убидимся, что мы не в режиме хоста
-        //if (mode == NetworkManagerMode.ClientOnly)
-        //    StartCoroutine(ClientUnloadSubScenes());
-        
-        base.OnStopClient();
-    }
-
-    #endregion
-
-    #region Messages
-
-
-
-    #endregion
-
-    #region Клиентские методы
-
-    #region OnServerAddPlayerDelayed
-
-    // Эта задержка в основном связана с хост-плеером, который загружается слишком быстро для
-    // сервер для асинхронной загрузки подсцен с OnStartServer перед ним.
-   // IEnumerator OnServerAddPlayerDelayed(NetworkConnectionToClient conn)
-   // {
-   //     // ждем, пока сервер асинхронно загрузит все подсцены для экземпляров игры
-   //     while (!subscenesLoaded)
-   //         yield return null;
-   //
-   //     // Отправляем клиенту сообщение о сцене для дополнительной загрузки игровой сцены
-   //     conn.Send(new SceneMessage { sceneName = gameScene, sceneOperation = SceneOperation.LoadAdditive });
-   //
-   //     // Дождаться конца кадра перед добавлением игрока, чтобы убедиться, что сообщение сцены идет первым
-   //     yield return new WaitForEndOfFrame();
-   //
-   //     base.OnServerAddPlayer(conn);
-   //
-   //     // Делаем это только на сервере, а не на клиентах
-   //     // Это то, что позволяет выполнить проверку сетевой сцены на объектах игрока и сцены
-   //     // чтобы изолировать совпадения для каждого экземпляра сцены на сервере.
-   //     
-   //     if (subScenes.Count > 0)
-   //     {
-   //         SceneManager.MoveGameObjectToScene(player, subScenes[1]);
-   //     }
-   //
-   //     //Каждого игрока будем спавнить в новой сцене
-   //     clientIndex++;
-   // }
-
-    #endregion
-
-    #region ServerLoadSubScenes
-
-    // Мы загружаем сцены аддитивно, поэтому GetSceneAt(0) вернет основную сцену-"контейнер",
-    // поэтому мы начинаем индекс с еденицы и перебираем значения экземпляров включительно.
-    // Если instances равно нулю, цикл полностью пропускается.
-    //IEnumerator ServerLoadSubScenes()
-    //{
-    //    //for (int index = 0; index <= instances; index++)
-    //    //{
-    //    //    yield return SceneManager.LoadSceneAsync(gameScene,
-    //    //        new LoadSceneParameters { loadSceneMode = LoadSceneMode.Additive, localPhysicsMode = LocalPhysicsMode.Physics3D });
-    //    //
-    //    //    Scene newScene = SceneManager.GetSceneAt(index);
-    //    //    subScenes.Add(newScene);
-    //    //    //Spawner.InitialSpawn(newScene);
-    //    //    Debug.Log($"Индекс {index} | instances {instances}");
-    //    //}
-    //    //
-    //    //subscenesLoaded = true;
-    //}
-
-    #endregion
-
-    #region ServerUnloadSubScenes
-
-    // Выгрузить подсцены и неиспользуемые ресурсы и очистим список подсцен.
-   // IEnumerator ServerUnloadSubScenes()
-   // {
-   //    //for (int index = 0; index < subScenes.Count; index++)
-   //    //    yield return SceneManager.UnloadSceneAsync(subScenes[index]);
-   //    //
-   //    //subScenes.Clear();
-   //    //subscenesLoaded = false;
-   //    //
-   //    //yield return Resources.UnloadUnusedAssets();
-   // }
-
-    #endregion
-
-    #region ClientUnloadSubScenes
-
-    // Выгружаем все, кроме активной сцены, которая является "контейнерной" сценой
-    IEnumerator ClientUnloadSubScenes()
-    {
-        for (int index = 0; index < SceneManager.sceneCount; index++)
-        {
-            if (SceneManager.GetSceneAt(index) != SceneManager.GetActiveScene())
-                yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(index));
-        }
-    }
-
-    #endregion
+    public override void OnStopClient() { }
 
     #endregion
 }

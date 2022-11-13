@@ -27,7 +27,7 @@ public class EscapeMenu : MonoBehaviour
     [SerializeField] private AudioSource[] AudioSourceSound;
     [SerializeField] private AudioSource AudioSourceMusic;
 
-    [SerializeField] private PlayerMovementAndLook player;
+    [SerializeField] private PlayerMovementAndLookNetwork player;
 
     [SerializeField] private Slider volumeSliderSound;
     [SerializeField] private Slider volumeSliderMusic;
@@ -76,9 +76,13 @@ public class EscapeMenu : MonoBehaviour
     #region Sound
     public void SetVolumeSound(float _volume)
     {
+        if (AudioSourceSound.Length <= 0)
+            return;
+
         foreach(AudioSource audioSource in AudioSourceSound)
         {
-            audioSource.volume = _volume;
+            if(audioSource != null)
+                audioSource.volume = _volume;
         }
 
         // Save volume

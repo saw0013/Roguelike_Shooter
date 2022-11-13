@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &118528347 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-  m_PrefabInstance: {fileID: 2038813130408682131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038813130408682132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a960ca52ccd9e4f48a4aa305aa1b13b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &134895907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,7 +517,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: Try connect...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ab8f94a8e4dd744c99c73fedd26f8f8, type: 2}
   m_sharedMaterial: {fileID: 2383952268681313545, guid: 3ab8f94a8e4dd744c99c73fedd26f8f8, type: 2}
@@ -1242,6 +1231,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365529460}
   m_CullTransparentMesh: 1
+--- !u!114 &1374636047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+  m_PrefabInstance: {fileID: 2038813130408682131}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19c79da059622b4dbf53dd38ddba35e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1628298274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,7 +1506,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1641228787}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Mirror.NetworkManager, Mirror
+        m_MethodName: StartClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1641228787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1915,7 +1927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6db18fb9875ee7469d27c57eac61b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkManager: {fileID: 118528347}
+  networkManager: {fileID: 1374636047}
 --- !u!4 &1919084802
 Transform:
   m_ObjectHideFlags: 0
@@ -2369,33 +2381,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2038813130493656005, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: m_Name
-      value: NetworkManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 2990620777780638792, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: gameScene
-      value: Assets/Scenes/Game.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+    - target: {fileID: 93697049650303156, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: onlineScene
       value: Assets/Scenes/Lobby.unity
       objectReference: {fileID: 0}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: characterToSpawn
+    - target: {fileID: 93697049650303156, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/Offline.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 93697049650303156, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 2990620777780638792, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: playerSpawnMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038813130493656008, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: autoSpawnCharacter
+    - target: {fileID: 93697049650303156, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 93697049650303156, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 5119709863314263151, guid: 8d171998c7379004288701355b80d772, type: 3}
+    - target: {fileID: 2038813130493656005, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: m_Name
+      value: NetworkManager
       objectReference: {fileID: 0}
     - target: {fileID: 2038813130493656009, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: m_RootOrder
@@ -2441,24 +2449,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: onlineScene
+      value: Assets/Scenes/Lobby.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/Offline.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 2990620777780638792, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 5119709863314263151, guid: 8d171998c7379004288701355b80d772, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
---- !u!1 &2038813130408682132 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2038813130493656005, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-  m_PrefabInstance: {fileID: 2038813130408682131}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2038813130408682133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038813130408682132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0

@@ -30,23 +30,23 @@ namespace Utils
         /// </summary>
         /// <param name="connId"></param>
         /// <returns></returns>
-        public static ConnectionPlayer GetClientConnection(int connId)
+        public static PlayerMovementAndLookNetwork GetClientConnection(int connId)
         {
             if (NetworkServer.active)
-                return GameObject.FindObjectsOfType<ConnectionPlayer>().ToList().Find(x => x.GetComponent<NetworkIdentity>().connectionToClient.connectionId == connId);
+                return GameObject.FindObjectsOfType<PlayerMovementAndLookNetwork>().ToList().Find(x => x.GetComponent<NetworkIdentity>().connectionToClient.connectionId == connId);
             else
-                return GameObject.FindObjectsOfType<ConnectionPlayer>().ToList().Find(x => x.connId == connId);
+                return GameObject.FindObjectsOfType<PlayerMovementAndLookNetwork>().ToList().Find(x => x.connId == connId);
         }
 
-        /// <summary>
-        /// Возвращает компонент подключения клиента, который соответствует переданному игроку игровому объекту.
-        /// </summary>
-        /// <param name="connId"></param>
-        /// <returns></returns>
-        public static ConnectionPlayer GetClientConnection(GameObject player)
-        {
-            return GameObject.FindObjectsOfType<ConnectionPlayer>().ToList().Find(x => x.playerCharacter.Equals(player));
-        }
+        ///// <summary>
+        ///// Возвращает компонент подключения клиента, который соответствует переданному игроку игровому объекту.
+        ///// </summary>
+        ///// <param name="connId"></param>
+        ///// <returns></returns>
+        //public static PlayerMovementAndLookNetwork GetClientConnection(GameObject player)
+        //{
+        //    return GameObject.FindObjectsOfType<PlayerMovementAndLookNetwork>().ToList().Find(x => x.playerCharacter.Equals(player));
+        //}
     }
 }
 
