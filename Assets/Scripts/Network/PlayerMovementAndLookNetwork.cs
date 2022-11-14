@@ -330,7 +330,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         //Спавним виртаульную камеру на сцену локально
-        var vCam = Instantiate(Resources.Load("Prefabs/VirtualFollowCamera") as GameObject);
+        var vCam = Instantiate(Resources.LoadAsync("Prefabs/VirtualFollowCamera").asset as GameObject);
 
         mainCamera = vCam.GetComponentInChildren<Camera>();
 

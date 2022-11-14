@@ -18,8 +18,8 @@ public class BulletPool : NetworkBehaviour
 
     uint owner;
     bool inited;
-    Vector3 target;
 
+    //TODO : Будем отслеживать кто сделал выстрел, чтобы засчитать очки ему
     [Server]
     public void Init(uint owner)
     {
@@ -32,18 +32,30 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
     }
-    
+
+    void Start()
+    {
+        transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
+    }
+
 
     private void Update()
     {
-        if (inited && isServer)
-            _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
+        _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
 
-        if(_lifeBullet < 0) Destroy(gameObject);
+        if (_lifeBullet < 0) Destroy(gameObject);
         else _lifeBullet -= Time.deltaTime;
     }
 
+    //Не проверено!!!
+    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
+    {
+        RpcCollision();
+    }
+
+    [ClientRpc]
+    void RpcCollision()
     {
         var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
 
@@ -51,5 +63,7 @@ public class BulletPool : NetworkBehaviour
         _audioSource.Play();
 
         Destroy(particle, .7f);
+        NetworkServer.Destroy(gameObject);
+        Destroy(gameObject);
     }
 }

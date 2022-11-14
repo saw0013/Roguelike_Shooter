@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using static UnityEngine.UI.GridLayoutGroup;
+using Zenject.SpaceFighter;
 
 public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 {
@@ -98,12 +100,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         timer = 0f;
         сartridges--;
         ReloadText();
+        CmdFire(netId);
 
-        if (isServer)
-            SpawnBullet(netId);
-        else
-            CmdSpawnBullet(netId);
-        //Instantiate(_bullet, _spawnPoint.position, _spawnPoint.rotation);
         //EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation);
 
         if (spawnParticles)
@@ -113,21 +111,30 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
             _shootAudio.Play();
     }
 
+    #region Метод для сервера. Если игрок является сервером
+
     [Server]
     public void SpawnBullet(uint owner)
     {
-        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position,
-            _spawnPoint.rotation /*transform.position, Quaternion.identity*/); //Создаем локальный объект пули на сервере
+        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
         NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
         bulletGo.GetComponent<BulletPool>().Init(owner); //инициализируем поведение пули
-
-        //TODO : Переместить на клиента
-        bulletGo.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
     }
 
     [Command]
-    public void CmdSpawnBullet(uint owner)
+    public void CmdSpawnBullet(uint owner) => SpawnBullet(owner);
+
+    #endregion
+
+    [ClientRpc]
+    void RpcClientShot(uint owner)
     {
-        SpawnBullet(owner);
+        var __bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
+        __bullet.GetComponent<BulletPool>().Init(owner);
     }
+
+
+    [Command]
+    void CmdFire(uint owner) => RpcClientShot(owner);
+
 }

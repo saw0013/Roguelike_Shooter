@@ -1069,6 +1069,7 @@ MonoBehaviour:
   _textHealth: {fileID: 667439118614316443}
   _maxHealth: 100
   InputActive: 0
+  EscapeMenuActive: 0
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1092,7 +1093,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3827590655909793025}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 2debad4ac21a6644faf4fc93bd5b5869, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.29553714
