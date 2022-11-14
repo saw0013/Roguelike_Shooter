@@ -15,8 +15,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _panelExit;
     [SerializeField] private GameObject _panelMain;
 
-    [Header("Camera")]
-    public Camera mainCamera;
+    //[Header("Camera")]
+    //public Camera mainCamera;
+    private Camera mainCamera;
 
 
     [Header("Movement")]
@@ -42,6 +43,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [Header("Audio VFX")]
     [SerializeField] private AudioSource _runPlayer;
+
+    private CinemachineVirtualCamera vCamera;
 
     #endregion
 
@@ -276,7 +279,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         if (playerCount > 0)
         {
-          UILobby.instance.SetStartButtonActive(true);
+            UILobby.instance.SetStartButtonActive(true);
         }
         else
         {
@@ -321,14 +324,23 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     #endregion
 
-    //Что делаем когда подключились к серверу
+    //Что делаем когда подключились к серверу.
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        //TODO : проверить игровая ли сцена?
+        //Спавним виртаульную камеру на сцену локально
+        var vCam = Instantiate(Resources.Load("Prefabs/VirtualFollowCamera") as GameObject);
+
+        mainCamera = vCam.GetComponentInChildren<Camera>();
+
+        vCamera = vCam.GetComponent<CinemachineVirtualCamera>();
+        vCamera.Follow = transform;
+
+        //TODO : Включить слушатель только на том клиенте на котором играем
+        //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
 
-    
+
 
     #region Awake, Start, Update, FixedUpdate
 
@@ -338,7 +350,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         networkMatch = GetComponent<NetworkMatch>();
     }
 
-    
+    private void Start()
+    {
+        
+    }
+
+
+
     private void Update()
     {
         if (Input.GetButtonDown("Cancel"))

@@ -14,7 +14,7 @@ public class PlayerMovementAndLook : MonoBehaviour
 
     [Header("Camera")]
     public Camera mainCamera;
-
+    Camera cam;
 
     [Header("Movement")]
     public Rigidbody playerRigidbody;
@@ -43,6 +43,7 @@ public class PlayerMovementAndLook : MonoBehaviour
     void Awake()
     {
         CreatePlayerMovementPlane();
+        cam = Camera.main;
     }
 
 
@@ -74,8 +75,8 @@ public class PlayerMovementAndLook : MonoBehaviour
         else inputDirection = new Vector3(0, 0, 0);
 
         //Camera Direction
-        var cameraForward = mainCamera.transform.forward;
-        var cameraRight = mainCamera.transform.right;
+        var cameraForward = cam.transform.forward;
+        var cameraRight = cam.transform.right;
 
         cameraForward.y = 0f;
         cameraRight.y = 0f;
@@ -124,8 +125,7 @@ public class PlayerMovementAndLook : MonoBehaviour
     void TurnThePlayer()
     {
         Vector3 cursorScreenPosition = Input.mousePosition;
-
-        Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, mainCamera);
+        Vector3 cursorWorldPosition = ScreenPointToWorldPointOnPlane(cursorScreenPosition, playerMovementPlane, cam);
 
         playerToMouse = cursorWorldPosition - transform.position;
 

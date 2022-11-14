@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 9221110354246583888}
   - component: {fileID: 8561638412403483145}
   - component: {fileID: 1117181988596638815}
-  - component: {fileID: 9107868603493854498}
+  - component: {fileID: 4212602102006421106}
   - component: {fileID: -2856473802749976201}
   m_Layer: 6
-  m_Name: Bullet
+  m_Name: BulletOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 1
---- !u!114 &9107868603493854498
+--- !u!114 &4212602102006421106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +132,10 @@ MonoBehaviour:
   _hitWallParticles: {fileID: 1294844066107714, guid: 1a0f7225fc3d5408280dfce6c1979b1a, type: 3}
   _audioClipImpactRandom:
   - {fileID: 8300000, guid: be6692b4305f41442acf890d9be4824d, type: 3}
+  - {fileID: 8300000, guid: 169760fdff417014d8df9a20e3a4bb73, type: 3}
   - {fileID: 8300000, guid: ad4b8bd182043024c8d190fc8e33a4d0, type: 3}
+  - {fileID: 8300000, guid: 20b3faa27d994e848a064e00bb593910, type: 3}
+  - {fileID: 8300000, guid: 616f06a5e54089949adcb3be9d8ff53e, type: 3}
   - {fileID: 8300000, guid: 05075ad9fbaeea24a89b97727d300506, type: 3}
 --- !u!82 &-2856473802749976201
 AudioSource:

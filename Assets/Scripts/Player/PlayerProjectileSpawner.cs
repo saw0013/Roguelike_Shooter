@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using EZ_Pooling;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerProjectileSpawner : MonoBehaviour {
@@ -91,7 +87,7 @@ public class PlayerProjectileSpawner : MonoBehaviour {
 		timer = 0f;
 		сartridges--;
 		ReloadText();
-		EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation /*Quaternion.Euler(_spawnPoint.eulerAngles.x, _spawnPoint.eulerAngles.y, 90)*/);;
+		//EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation /*Quaternion.Euler(_spawnPoint.eulerAngles.x, _spawnPoint.eulerAngles.y, 90)*/);;
 
 		if(spawnParticles)
 			spawnParticles.Play();

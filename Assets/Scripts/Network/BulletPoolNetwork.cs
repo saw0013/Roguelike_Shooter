@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class BulletPool : MonoBehaviour
+public class BulletPoolNetwork : NetworkBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
 
@@ -12,22 +13,26 @@ public class BulletPool : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
-    [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
+    uint owner;
+    bool inited;
+    Vector3 target;
 
-     
-    private void Awake()
+    [Server]
+    public void Init(uint owner, Vector3 target)
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
+        this.owner = owner; //кто сделал выстрел
+        this.target = target; //куда должна лететь пуля
+        inited = true;
     }
-   
+
+    void OnSpawned() => _rigidbody = GetComponent<Rigidbody>();
+    private void Awake() => _audioSource = GetComponent<AudioSource>();
 
     private void Update()
     {
         _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
-
-        if(_lifeBullet < 0) Destroy(gameObject);
-        else _lifeBullet -= Time.deltaTime;
+        
+        //if (inited && isServer)
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -37,6 +42,7 @@ public class BulletPool : MonoBehaviour
         _audioSource.clip = _audioClipImpactRandom[Random.Range(0, _audioClipImpactRandom.Count)];
         _audioSource.Play();
 
+        //EZ_PoolManager.Despawn(transform);
         Destroy(particle, .7f);
     }
 }

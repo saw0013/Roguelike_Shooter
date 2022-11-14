@@ -14,6 +14,7 @@ public class ShooterNetworkManager : NetworkManager
 {
     // Overrides the base singleton so we don't
     // have to cast to this type everywhere.
+
     public static new ShooterNetworkManager singleton { get; private set; }
 
     #region Unity Callbacks
@@ -133,7 +134,10 @@ public class ShooterNetworkManager : NetworkManager
     /// <para>Unity calls this on the Server when a Client connects to the Server. Use an override to tell the NetworkManager what to do when a client connects to the server.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerConnect(NetworkConnectionToClient conn) { }
+    public override void OnServerConnect(NetworkConnectionToClient conn) 
+    {
+        //NetworkServer.Spawn(vCam);
+    }
 
     /// <summary>
     /// Called on the server when a client is ready.
@@ -154,9 +158,6 @@ public class ShooterNetworkManager : NetworkManager
     {
         //TODO : Перенастроить камеру
         base.OnServerAddPlayer(conn);
-        var vCam = Instantiate(spawnPrefabs.FirstOrDefault(x => x.gameObject.name == "VirtualFollowCamera"));
-        NetworkServer.Spawn(vCam);
-        vCam.GetComponent<CinemachineVirtualCamera>().Follow = conn.identity.transform;
     }
 
     /// <summary>
