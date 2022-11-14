@@ -317,6 +317,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         UILobby.instance.gameObject.SetActive(false);
         //GameObject.FindGameObjectWithTag("VirtualFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
+        GetComponent<PlayerData>().InputActive = true;
     }
 
 

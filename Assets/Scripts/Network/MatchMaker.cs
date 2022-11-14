@@ -61,17 +61,17 @@ namespace MirrorBasics {
 
             if (matchIDs.Contains (_matchID)) {
 
-                for (int i = 0; i < matches.Count; i++) {
-                    if (matches[i].matchID == _matchID) {
-                        if (!matches[i].inMatch && !matches[i].matchFull) {
-                            matches[i].players.Add (_player);
-                            _player.currentMatch = matches[i];
-                            playerIndex = matches[i].players.Count;
+                for (int i = 0; i < matches.Count; i++) { //Пройдёмся по всем созданным комнатам
+                    if (matches[i].matchID == _matchID) { //Если наш ID совпадает с существующей комнатой
+                        if (!matches[i].inMatch && !matches[i].matchFull) { //Если комната ещё не стартанула и комната не полная
+                            matches[i].players.Add (_player); //Добавим плеера в матч
+                            _player.currentMatch = matches[i]; //Назначим плееру комнату в которую мы только что добавили
+                            playerIndex = matches[i].players.Count; //Внешнюю ссылку индекса увеличим на число в комнате
 
-                            matches[i].players[0].PlayerCountUpdated (matches[i].players.Count);
+                            matches[i].players[0].PlayerCountUpdated (matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
 
-                            if (matches[i].players.Count == maxMatchPlayers) {
-                                matches[i].matchFull = true;
+                            if (matches[i].players.Count == maxMatchPlayers) { //Если количество игроков в комнате максимальное
+                                matches[i].matchFull = true; //Закроем комнату для набора
                             }
 
                             break;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using MeshRenderer = UnityEngine.MeshRenderer;
 
 public class BulletPool : NetworkBehaviour
 {
@@ -31,7 +32,7 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
     }
-   
+    
 
     private void Update()
     {

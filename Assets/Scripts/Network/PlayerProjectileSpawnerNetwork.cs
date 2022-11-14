@@ -116,9 +116,13 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [Server]
     public void SpawnBullet(uint owner)
     {
-        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation/*transform.position, Quaternion.identity*/); //Создаем локальный объект пули на сервере
+        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position,
+            _spawnPoint.rotation /*transform.position, Quaternion.identity*/); //Создаем локальный объект пули на сервере
         NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
         bulletGo.GetComponent<BulletPool>().Init(owner); //инициализируем поведение пули
+
+        //TODO : Переместить на клиента
+        bulletGo.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
     }
 
     [Command]

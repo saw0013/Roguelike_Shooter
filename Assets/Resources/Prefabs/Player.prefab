@@ -1068,7 +1068,7 @@ MonoBehaviour:
   _healthSlider: {fileID: 667439118467462177}
   _textHealth: {fileID: 667439118614316443}
   _maxHealth: 100
-  InputActive: 1
+  InputActive: 0
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
