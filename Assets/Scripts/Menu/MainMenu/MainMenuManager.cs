@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -39,9 +40,15 @@ public class MainMenuManager : MonoBehaviour
 
     // Components
     [Header("Components")]
+    [SerializeField] RectTransform welcomePanel;
     [SerializeField] GameObject homePanel;
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject connectionPanel;
+
+    [SerializeField] private TMP_InputField _nameField;
+
+    [Header("Buttons")]
+    [SerializeField] private Button _buttonDone;
 
     [Header("Fade")]
     [Space(10)] [SerializeField] Animator fadeAnimator;
@@ -69,10 +76,28 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        if (!PlayerPrefs.HasKey("PlayerName")) WelcomePlayer(); 
+
         SetStartUI();
         SetStartVolumeSound();
         SetStartVolumeMusic();
         PrepareResolutions();
+    }
+
+    private void Update()
+    {
+        if (!PlayerPrefs.HasKey("PlayerName"))
+        {
+            if(_nameField.text != "") _buttonDone.interactable = true;
+            else _buttonDone.interactable = false;
+        }
+    }
+
+    private void WelcomePlayer()
+    {
+        Debug.Log("1");
+        welcomePanel.gameObject.SetActive(true);
+        welcomePanel.DOScale(new Vector3(0.7791322f, 0.7791322f, 0.7791322f), 2);
     }
 
     private void SetStartUI()
@@ -111,10 +136,16 @@ public class MainMenuManager : MonoBehaviour
     }
 
     #region Levels
-    public void Quit()
+    public void Quit() => Application.Quit();
+
+    public void ButtonDone()
     {
-        Application.Quit();
+        PlayerPrefs.SetString("PlayerName", _nameField.text);
+        var _tweenOn = welcomePanel.DOScale(new Vector3(0.001039826f, 0.001039826f, 0.001039826f), 2);
+        _tweenOn.onComplete = () => welcomePanel.gameObject.SetActive(false);   
+        Debug.Log(_nameField.text);
     }
+
     #endregion
 
     #region Audio
@@ -240,5 +271,14 @@ public class MainMenuManager : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
+    #endregion
+
+    #region UNITY_EDITOR
+
+    [ContextMenu("ClearPrefs")]
+    private void ClearPrefs()
+    {
+        PlayerPrefs.DeleteKey("PlayerName");
+    }
     #endregion
 }

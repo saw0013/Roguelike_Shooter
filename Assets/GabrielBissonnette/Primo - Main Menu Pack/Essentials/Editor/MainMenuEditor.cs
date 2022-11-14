@@ -134,24 +134,6 @@ public class MainMenuEditor : Editor
         EditorGUILayout.BeginHorizontal();
         m_TabsSelected = GUILayout.Toolbar(m_TabsSelected, m_Tabs);
         EditorGUILayout.EndHorizontal();
-
-        if(m_TabsSelected >= 0 || m_TabsSelected < m_Tabs.Length)
-        {
-            switch (m_Tabs[m_TabsSelected])
-            {
-                case "Values":
-                    Values();
-                    break;
-
-                case "Components":
-                    Components();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
         #endregion
 
         if (EditorGUI.EndChangeCheck())
@@ -161,89 +143,5 @@ public class MainMenuEditor : Editor
 
         mainMenuManager = (MainMenuManager)target;
         mainMenuManager.UIEditorUpdate();
-    }
-
-    private void Values()
-    {
-        // Image
-        EditorGUI.DrawPreviewTexture(new Rect(18, 30, 520, 80), texturePanel1, mat: null, ScaleMode.ScaleToFit);
-
-        EditorGUILayout.Space(90);
-        EditorGUILayout.PropertyField(showBackground);
-        EditorGUILayout.PropertyField(showSocial1);
-        EditorGUILayout.PropertyField(showSocial2);
-        EditorGUILayout.PropertyField(showSocial3);
-        EditorGUILayout.PropertyField(showVersion);
-        EditorGUILayout.PropertyField(showFade);
-        EditorGUILayout.HelpBox("Enable and disable specific elements in the menu", MessageType.None);
-
-        EditorGUILayout.PropertyField(sceneToLoad);
-        EditorGUILayout.HelpBox("The name of the first scene to load", MessageType.None);
-
-        EditorGUILayout.PropertyField(logo);
-        EditorGUILayout.PropertyField(background);
-        EditorGUILayout.PropertyField(buttons);
-        EditorGUILayout.HelpBox("Sprites applied to specific elements. Do not edit directly in the component", MessageType.None);
-
-        EditorGUILayout.PropertyField(mainColor);
-        EditorGUILayout.PropertyField(secondaryColor);
-        EditorGUILayout.HelpBox("The main and secondary color to be applied to every UI Element", MessageType.None);
-
-        EditorGUILayout.PropertyField(version);
-        EditorGUILayout.HelpBox("A reference for development. Can be disabled in the On/Off section", MessageType.None);
-
-        EditorGUILayout.PropertyField(play);
-        EditorGUILayout.PropertyField(settings);
-        EditorGUILayout.PropertyField(quit);
-        EditorGUILayout.HelpBox("Texts for the main buttons. Do not edit directly in the component", MessageType.None);
-
-        EditorGUILayout.PropertyField(social1Icon);
-        EditorGUILayout.PropertyField(social1Link);
-        EditorGUILayout.PropertyField(social2Icon);
-        EditorGUILayout.PropertyField(social2Link);
-        EditorGUILayout.PropertyField(social3Icon);
-        EditorGUILayout.PropertyField(social3Link);
-        EditorGUILayout.HelpBox("Social links and sprites. Do not edit directly in the component", MessageType.None);
-
-        EditorGUILayout.PropertyField(defaultVolume);
-        EditorGUILayout.HelpBox("Default volume for the AudioListener. Volume is saved in PlayerPrefs.", MessageType.None);
-
-        EditorGUILayout.PropertyField(uiClick);
-        EditorGUILayout.PropertyField(uiHover);
-        EditorGUILayout.PropertyField(uiSpecial);
-        EditorGUILayout.HelpBox("Sounds when buttons are clicked or hovered", MessageType.None);
-    }
-
-    private void Components()
-    {
-        // Image
-        EditorGUI.DrawPreviewTexture(new Rect(18, 30, 520, 80), texturePanel2, mat: null, ScaleMode.ScaleToFit);
-
-        EditorGUILayout.Space(120);
-        EditorGUILayout.HelpBox("To link an element with the colors, add it in a category below", MessageType.Info);
-        EditorGUILayout.PropertyField(mainColorImages);
-        EditorGUILayout.PropertyField(mainColorTexts);
-        EditorGUILayout.PropertyField(secondaryColorImages);
-        EditorGUILayout.PropertyField(secondaryColorTexts);
-        EditorGUILayout.PropertyField(buttonsElements);
-
-        EditorGUILayout.Space(50);
-        EditorGUILayout.HelpBox("You shouldn't need to edit the rest of theses components", MessageType.Info);
-        EditorGUILayout.PropertyField(homePanel);
-        EditorGUILayout.PropertyField(settingsPanel);
-        EditorGUILayout.PropertyField(social1Image);
-        EditorGUILayout.PropertyField(social2Image);
-        EditorGUILayout.PropertyField(social3Image);
-        EditorGUILayout.PropertyField(fadeAnimator);
-        EditorGUILayout.PropertyField(playText);
-        EditorGUILayout.PropertyField(settingsText);
-        EditorGUILayout.PropertyField(quitText);
-        EditorGUILayout.PropertyField(versionText);
-        EditorGUILayout.PropertyField(logoImage);
-        EditorGUILayout.PropertyField(backgroundImage);
-        EditorGUILayout.PropertyField(volumeSlider);
-        EditorGUILayout.PropertyField(resolutionDropdown);
-
-        EditorGUILayout.PropertyField(audioSource);
     }
 }

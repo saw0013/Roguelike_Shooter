@@ -12,7 +12,7 @@ namespace MirrorBasics {
 
         public void SetPlayer (PlayerMovementAndLookNetwork player) {
             this.player = player;
-            text.text = "Player " + player.playerIndex.ToString ();
+            text.text = PlayerPrefs.GetString("PlayerName") + " " + player.playerIndex.ToString ();
         }
 
     }
