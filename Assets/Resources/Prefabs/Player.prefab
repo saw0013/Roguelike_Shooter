@@ -1005,10 +1005,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _panelEscape: {fileID: 4786157575715076372}
+  _panelEscape: {fileID: 4786157574923197536}
   _panelSetting: {fileID: 4786157575300798943}
   _panelExit: {fileID: 4786157574296197941}
-  _panelMain: {fileID: 4786157574923197536}
+  _panelMain: {fileID: 4786157575715076372}
   playerRigidbody: {fileID: 3827590655909793030}
   speed: 4.5
   playerData: {fileID: 3827590655909793146}

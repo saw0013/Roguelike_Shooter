@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Mirror;
 public class PlayerMovementAndLook : MonoBehaviour
@@ -54,7 +55,7 @@ public class PlayerMovementAndLook : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel") && playerData.EscapeMenuActive)
         {
             if (playerData.InputActive)
             {

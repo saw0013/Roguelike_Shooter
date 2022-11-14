@@ -13,6 +13,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _maxHealth;
 
     public bool InputActive = true;
+    public bool EscapeMenuActive;
 
     private float health;
 

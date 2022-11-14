@@ -78,6 +78,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("PlayerName")) WelcomePlayer(); 
 
+
         SetStartUI();
         SetStartVolumeSound();
         SetStartVolumeMusic();

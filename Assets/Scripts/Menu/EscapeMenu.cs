@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class EscapeMenu : MonoBehaviour
 {
-
     [Header("Panel")]
     [SerializeField] private RectTransform _panelWantExit;
     [SerializeField] private float _moveYEnd;
