@@ -4,6 +4,8 @@ using Mirror;
 
 public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 {
+    #region Variables
+
     [Header("UI")]
     [SerializeField] private Text _textCartridges;
 
@@ -36,6 +38,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     [SerializeField] private PlayerData playerData;
 
+    #endregion
+
     private void Start()
     {
         сartridges = MaxCartridges;
@@ -44,39 +48,41 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     void Update()
     {
-
-        timer += Time.deltaTime;
-
-        if (playerData.InputActive)
+        if (hasAuthority)
         {
-            if (Input.GetKey(reloadKey) && !reloading && сartridges != MaxCartridges)
-            {
-                reloading = true;
+            timer += Time.deltaTime;
 
-                if (_reloadAudio) _reloadAudio.Play();
-            }
-
-            if (Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
+            if (playerData.InputActive)
             {
-                if (сartridges > 0)
+                if (Input.GetKey(reloadKey) && !reloading && сartridges != MaxCartridges)
                 {
-                    SpawnProjectile();
+                    reloading = true;
+
+                    if (_reloadAudio) _reloadAudio.Play();
                 }
-                else
-                {
-                    _nullShootAudio.Play();
-                }
-            }
 
-            if (reloading)
-            {
-                timerReload += Time.deltaTime;
-                if (timerReload >= ReloadTime)
+                if (Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
                 {
-                    сartridges = MaxCartridges;
-                    timerReload = 0;
-                    reloading = false;
-                    ReloadText();
+                    if (сartridges > 0)
+                    {
+                        SpawnProjectile();
+                    }
+                    else
+                    {
+                        _nullShootAudio.Play();
+                    }
+                }
+
+                if (reloading)
+                {
+                    timerReload += Time.deltaTime;
+                    if (timerReload >= ReloadTime)
+                    {
+                        сartridges = MaxCartridges;
+                        timerReload = 0;
+                        reloading = false;
+                        ReloadText();
+                    }
                 }
             }
         }
@@ -93,7 +99,11 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         сartridges--;
         ReloadText();
 
-        var bullet = Instantiate(_bullet, _spawnPoint.position, _spawnPoint.rotation);
+        if (isServer)
+            SpawnBullet(netId);
+        else
+            CmdSpawnBullet(netId);
+        //Instantiate(_bullet, _spawnPoint.position, _spawnPoint.rotation);
         //EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation);
 
         if (spawnParticles)
@@ -101,5 +111,19 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
         if (_shootAudio)
             _shootAudio.Play();
+    }
+
+    [Server]
+    public void SpawnBullet(uint owner)
+    {
+        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation/*transform.position, Quaternion.identity*/); //Создаем локальный объект пули на сервере
+        NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
+        bulletGo.GetComponent<BulletPool>().Init(owner); //инициализируем поведение пули
+    }
+
+    [Command]
+    public void CmdSpawnBullet(uint owner)
+    {
+        SpawnBullet(owner);
     }
 }

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1117181988596638815}
   - component: {fileID: 9107868603493854498}
   - component: {fileID: -2856473802749976201}
+  - component: {fileID: 4562704176670012570}
+  - component: {fileID: 3512868439919987300}
   m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
@@ -129,11 +131,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741667e0c062ea544ad394c0cb22391f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _hitWallParticles: {fileID: 1294844066107714, guid: 1a0f7225fc3d5408280dfce6c1979b1a, type: 3}
   _audioClipImpactRandom:
   - {fileID: 8300000, guid: be6692b4305f41442acf890d9be4824d, type: 3}
+  - {fileID: 8300000, guid: 169760fdff417014d8df9a20e3a4bb73, type: 3}
   - {fileID: 8300000, guid: ad4b8bd182043024c8d190fc8e33a4d0, type: 3}
+  - {fileID: 8300000, guid: 20b3faa27d994e848a064e00bb593910, type: 3}
+  - {fileID: 8300000, guid: 616f06a5e54089949adcb3be9d8ff53e, type: 3}
   - {fileID: 8300000, guid: 05075ad9fbaeea24a89b97727d300506, type: 3}
+  _lifeBullet: 4
 --- !u!82 &-2856473802749976201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -146,7 +154,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: be6692b4305f41442acf890d9be4824d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -230,6 +238,60 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4562704176670012570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052257516798179371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: f04fa7263ecd93e4f8da48c633bd9f20
+  hasSpawned: 0
+--- !u!114 &3512868439919987300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052257516798179371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  sendRate: 30
+  bufferTimeMultiplier: 2
+  bufferSizeLimit: 64
+  catchupNegativeThreshold: -1
+  catchupPositiveThreshold: 1
+  catchupSpeed: 0.009999999776482582
+  slowdownSpeed: 0.009999999776482582
+  driftEmaDuration: 1
+  dynamicAdjustment: 1
+  dynamicAdjustmentTolerance: 1
+  deliveryTimeEmaDuration: 2
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &5612897477020773206
 GameObject:
   m_ObjectHideFlags: 0
