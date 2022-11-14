@@ -156,7 +156,6 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        //TODO : Перенастроить камеру
         base.OnServerAddPlayer(conn);
     }
 

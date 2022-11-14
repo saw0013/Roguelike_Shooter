@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class BulletPool : MonoBehaviour
+public class BulletPool : NetworkBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
 
@@ -14,7 +15,17 @@ public class BulletPool : MonoBehaviour
 
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
-     
+    uint owner;
+    bool inited;
+    Vector3 target;
+
+    [Server]
+    public void Init(uint owner)
+    {
+        this.owner = owner; //кто сделал выстрел
+        inited = true;
+    }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -24,7 +35,8 @@ public class BulletPool : MonoBehaviour
 
     private void Update()
     {
-        _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
+        if (inited && isServer)
+            _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
 
         if(_lifeBullet < 0) Destroy(gameObject);
         else _lifeBullet -= Time.deltaTime;
