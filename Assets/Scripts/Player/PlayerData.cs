@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using DG.Tweening;
+using Mirror;
 using TMPro;
 
-public class PlayerData : MonoBehaviour
+public class PlayerData : NetworkBehaviour
 {
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private TMP_Text _textHealth;
@@ -14,6 +15,9 @@ public class PlayerData : MonoBehaviour
 
     public bool InputActive = true;
     public bool EscapeMenuActive;
+
+    [SyncVar(hook = nameof(SyncHealth))]
+    float _SyncHealth;
 
     private float health;
 
@@ -25,18 +29,40 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        // Test
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (hasAuthority)
         {
-            health -= 10;
-            ShowHP(health / 100);
+            // Test
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                CmdChangeHealth(health - 10);
+                CmdShowHP(_SyncHealth / 100);
+                Debug.Log("Hit");
+            }
+            // Test
         }
-        // Test
     }
 
-    public void ShowHP(float PlayerHp)
+    void SyncHealth(float oldValue, float newValue) //обязательно делаем два значения - старое и новое. 
+    {
+        health = newValue;
+    }
+
+    [Command] //обозначаем, что этот метод должен будет выполняться на сервере по запросу клиента
+    public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
+    {
+        ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
+    }
+
+    [Server] //обозначаем, что этот метод будет вызываться и выполняться только на сервере
+    public void ChangeHealthValue(float newValue)
+    {
+        _SyncHealth = newValue;
+    }
+
+    [Command]
+    public void CmdShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp, Time.deltaTime * 20);
-        _textHealth.text = $"{health}/{_maxHealth}";
+        _textHealth.text = $"{_SyncHealth}/{_maxHealth}";
     }
 }
