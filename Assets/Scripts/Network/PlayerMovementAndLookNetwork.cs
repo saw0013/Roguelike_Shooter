@@ -360,10 +360,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            ShooterNetworkManager.singleton.PlayNewScene();
-        }
         if (Input.GetButtonDown("Cancel"))
         {
             if (playerData.InputActive)
