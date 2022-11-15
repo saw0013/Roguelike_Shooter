@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Mirror;
 using System.Linq;
 using Cinemachine;
+using UnityEngine.ProBuilder.Shapes;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -14,6 +15,8 @@ public class ShooterNetworkManager : NetworkManager
 {
     // Overrides the base singleton so we don't
     // have to cast to this type everywhere.
+    [SerializeField] private GameObject CharacterPlayer;
+    [Scene, SerializeField] private string GameScene;
 
     public static new ShooterNetworkManager singleton { get; private set; }
 
@@ -84,6 +87,10 @@ public class ShooterNetworkManager : NetworkManager
 
     #region Scene Management
 
+    public void PlayNewScene()
+    {
+        ServerChangeScene(GameScene);
+    }
     /// <summary>
     /// This causes the server to switch scenes and sets the networkSceneName.
     /// <para>Clients that connect to this server will automatically switch to this scene. This is called automatically if onlineScene or offlineScene are set, but it can be called from user code to switch scenes again while the game is in progress. This automatically sets clients to be not-ready. The clients must call NetworkClient.Ready() again to participate in the new scene.</para>
@@ -91,6 +98,10 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="newSceneName"></param>
     public override void ServerChangeScene(string newSceneName)
     {
+        if (newSceneName == GameScene)
+        {
+
+        }
         base.ServerChangeScene(newSceneName);
     }
 
@@ -105,7 +116,10 @@ public class ShooterNetworkManager : NetworkManager
     /// Called on the server when a scene is completed loaded, when the scene load was initiated by the server with ServerChangeScene().
     /// </summary>
     /// <param name="sceneName">The name of the new scene.</param>
-    public override void OnServerSceneChanged(string sceneName) { }
+    public override void OnServerSceneChanged(string sceneName)
+    {
+
+    }
 
     /// <summary>
     /// Called from ClientChangeScene immediately before SceneManager.LoadSceneAsync is executed
@@ -157,6 +171,7 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
+        //NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
     }
 
     /// <summary>

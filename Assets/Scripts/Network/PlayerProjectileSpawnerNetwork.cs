@@ -101,7 +101,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         сartridges--;
         ReloadText();
         CmdFire(netId);
-
+        //CmdSpawnBullet(netId);
         //EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation);
 
         if (spawnParticles)
@@ -118,6 +118,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     {
         GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
         NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
+        
         bulletGo.GetComponent<BulletPool>().Init(owner); //инициализируем поведение пули
     }
 

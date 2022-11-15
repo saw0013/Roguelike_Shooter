@@ -59,8 +59,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     Mirror.NetworkMatch networkMatch;
 
-    [SerializeField] GameNetworkManager networkManager;
-
     [SyncVar] public Match currentMatch;
 
     [SerializeField] GameObject playerLobbyUI;
@@ -318,6 +316,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //GameObject.FindGameObjectWithTag("VirtualFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
         GetComponent<PlayerData>().InputActive = true;
+
+        
     }
 
 
@@ -360,6 +360,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            ShooterNetworkManager.singleton.PlayNewScene();
+        }
         if (Input.GetButtonDown("Cancel"))
         {
             if (playerData.InputActive)

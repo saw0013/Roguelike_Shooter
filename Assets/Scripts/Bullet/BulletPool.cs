@@ -47,18 +47,10 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
-    //Не проверено!!!
-    [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        RpcCollision();
-    }
-
-    [ClientRpc]
-    void RpcCollision()
-    {
         var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
-
+        
         _audioSource.clip = _audioClipImpactRandom[Random.Range(0, _audioClipImpactRandom.Count)];
         _audioSource.Play();
 
@@ -66,4 +58,5 @@ public class BulletPool : NetworkBehaviour
         NetworkServer.Destroy(gameObject);
         Destroy(gameObject);
     }
+
 }
