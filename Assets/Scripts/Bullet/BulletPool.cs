@@ -10,6 +10,8 @@ public class BulletPool : NetworkBehaviour
 
     [SerializeField] private List<AudioClip> _audioClipImpactRandom;
 
+    public int ForceShoot = 1000;
+
     private AudioSource _audioSource;
 
     private Rigidbody _rigidbody;
@@ -42,7 +44,7 @@ public class BulletPool : NetworkBehaviour
     private void Update()
     {
         //Куда летит пуля?
-        _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
+        _rigidbody.AddForce(transform.forward * ForceShoot);
 
         if (_lifeBullet < 0) Destroy(gameObject);
         else _lifeBullet -= Time.deltaTime;

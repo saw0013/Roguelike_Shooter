@@ -112,14 +112,14 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     
 
-    [Server]
-    public void SpawnBullet()
+    [ClientRpc]
+    public void RpcSpawnBullet()
     {
-        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
+        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере                                       
         NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
     }
 
     [Command]
-    public void CmdSpawnBullet() => SpawnBullet();
+    public void CmdSpawnBullet() => RpcSpawnBullet();
     
 }

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
-  visible: 2
+  visible: 0
   m_AssetId: 21c6f231d02d70d428a6da12152aab15
   hasSpawned: 0
 --- !u!114 &6375636100545199242
@@ -158,6 +158,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 20b3faa27d994e848a064e00bb593910, type: 3}
   - {fileID: 8300000, guid: 616f06a5e54089949adcb3be9d8ff53e, type: 3}
   - {fileID: 8300000, guid: 05075ad9fbaeea24a89b97727d300506, type: 3}
+  ForceShoot: 1
   _lifeBullet: 4
 --- !u!114 &7350069009424761576
 MonoBehaviour:
