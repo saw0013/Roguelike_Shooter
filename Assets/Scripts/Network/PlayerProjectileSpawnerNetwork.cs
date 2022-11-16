@@ -100,8 +100,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         timer = 0f;
         сartridges--;
         ReloadText();
-        CmdFire(netId);
-        //CmdSpawnBullet(netId);
+        CmdSpawnBullet();
         //EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation);
 
         if (spawnParticles)
@@ -111,31 +110,16 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
             _shootAudio.Play();
     }
 
-    #region Метод для сервера. Если игрок является сервером
+    
 
     [Server]
-    public void SpawnBullet(uint owner)
+    public void SpawnBullet()
     {
         GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
         NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
-        
-        bulletGo.GetComponent<BulletPool>().Init(owner); //инициализируем поведение пули
     }
 
     [Command]
-    public void CmdSpawnBullet(uint owner) => SpawnBullet(owner);
-
-    #endregion
-
-    [ClientRpc]
-    void RpcClientShot(uint owner)
-    {
-        var __bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
-        __bullet.GetComponent<BulletPool>().Init(owner);
-    }
-
-
-    [Command]
-    void CmdFire(uint owner) => RpcClientShot(owner);
-
+    public void CmdSpawnBullet() => SpawnBullet();
+    
 }

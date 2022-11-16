@@ -35,12 +35,13 @@ public class BulletPool : NetworkBehaviour
 
     void Start()
     {
-        transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
+        transform.GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
     }
 
 
     private void Update()
     {
+        //Куда летит пуля?
         _rigidbody.MovePosition(transform.position + (transform.forward * 130 * Time.deltaTime));
 
         if (_lifeBullet < 0) Destroy(gameObject);

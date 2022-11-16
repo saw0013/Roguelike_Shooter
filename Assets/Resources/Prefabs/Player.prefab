@@ -1213,7 +1213,7 @@ MonoBehaviour:
   _textCartridges: {fileID: 4728338001037284856}
   spawnKey: 323
   reloadKey: 324
-  _bullet: {fileID: 628801033502131834, guid: f04fa7263ecd93e4f8da48c633bd9f20, type: 3}
+  _bullet: {fileID: 3607918559644205627, guid: 21c6f231d02d70d428a6da12152aab15, type: 3}
   _spawnPoint: {fileID: 7776673961621920768}
   SpawnRate: 0.15
   ReloadTime: 3
@@ -1512,7 +1512,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3827590655909793035}
-  m_LocalRotation: {x: 0.00000009530986, y: 0.00000029719504, z: -2.8325619e-14, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.3052868, y: 0.29228166, z: -0.03242244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
