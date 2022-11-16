@@ -14,6 +14,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _panelSetting;
     [SerializeField] private GameObject _panelExit;
     [SerializeField] private GameObject _panelMain;
+    [SerializeField] private GameObject[] _panelsCanvas;
 
     //[Header("Camera")]
     //public Camera mainCamera;
@@ -358,6 +359,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Start()
     {
+        foreach (var pan in _panelsCanvas)
+            if(isLocalPlayer)
+                pan.SetActive(true);
         
     }
 

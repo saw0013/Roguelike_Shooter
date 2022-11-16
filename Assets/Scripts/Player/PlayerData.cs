@@ -17,8 +17,9 @@ public class PlayerData : NetworkBehaviour
     public bool InputActive = true;
     public bool EscapeMenuActive;
 
+    //Данные которые будем синхронизировать.
     [SyncVar(hook = nameof(SyncHealth))]
-    float _SyncHealth;
+    public float _SyncHealth;
 
     private float health;
 
@@ -29,7 +30,6 @@ public class PlayerData : NetworkBehaviour
         _healthSliderRpc.maxValue = _maxHealth / 100;
     }
 
-    [ClientCallback]
     void Update()
     {
         if (hasAuthority)
@@ -38,14 +38,16 @@ public class PlayerData : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 CmdChangeHealth(health - 10);
-                CmdShowHP(_SyncHealth / 100);
+                CmdShowHP(health / 100);
+                LocalShowHP(health / 100);
                 Debug.Log("Hit");
             }
             // Test
         }
     }
 
-    void SyncHealth(float newValue) => health = newValue;
+    //метод который будет выставлять Health в соответствии с синхронизированным значением
+    void SyncHealth(float oldvalue, float newValue) => health = newValue;
 
     [Command] //обозначаем, что этот метод должен будет выполняться на сервере по запросу клиента
     public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
@@ -53,17 +55,24 @@ public class PlayerData : NetworkBehaviour
         ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
     }
 
-    [Server] //обозначаем, что этот метод будет вызываться и выполняться только на сервере
+    //метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере.
+    [Server]
     public void ChangeHealthValue(float newValue)
     {
         _SyncHealth = newValue;
     }
 
+    //Сделаем изменения на всех клиентах в полосочке над головой
+    [ClientRpc]
+    void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp, Time.deltaTime * 20);
+
+    //Выполним команду с сервера чтобы обновить у всех клиентов
     [Command]
-    public void CmdShowHP(float PlayerHp)
+    void CmdShowHP(float PlayerHp) => RpcShowHP(PlayerHp);
+
+    void LocalShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp, Time.deltaTime * 20);
-        _healthSliderRpc.DOValue(PlayerHp, Time.deltaTime * 20);
-        _textHealth.text = $"{_SyncHealth}/{_maxHealth}";
+        _textHealth.text = $"{health}/{_maxHealth}";
     }
 }
