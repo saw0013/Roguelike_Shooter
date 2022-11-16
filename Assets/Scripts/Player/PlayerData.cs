@@ -9,6 +9,7 @@ using TMPro;
 public class PlayerData : NetworkBehaviour
 {
     [SerializeField] private Slider _healthSlider;
+    [SerializeField] private Slider _healthSliderRpc;
     [SerializeField] private TMP_Text _textHealth;
 
     [SerializeField] private float _maxHealth;
@@ -25,8 +26,10 @@ public class PlayerData : NetworkBehaviour
     {
         health = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
+        _healthSliderRpc.maxValue = _maxHealth / 100;
     }
 
+    [ClientCallback]
     void Update()
     {
         if (hasAuthority)
@@ -42,10 +45,7 @@ public class PlayerData : NetworkBehaviour
         }
     }
 
-    void SyncHealth(float oldValue, float newValue) //обязательно делаем два значения - старое и новое. 
-    {
-        health = newValue;
-    }
+    void SyncHealth(float newValue) => health = newValue;
 
     [Command] //обозначаем, что этот метод должен будет выполняться на сервере по запросу клиента
     public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
@@ -63,6 +63,7 @@ public class PlayerData : NetworkBehaviour
     public void CmdShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp, Time.deltaTime * 20);
+        _healthSliderRpc.DOValue(PlayerHp, Time.deltaTime * 20);
         _textHealth.text = $"{_SyncHealth}/{_maxHealth}";
     }
 }

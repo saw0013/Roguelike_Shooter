@@ -17,7 +17,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     //[Header("Camera")]
     //public Camera mainCamera;
-    private Camera mainCamera;
+    internal Camera mainCamera;
 
 
     [Header("Movement")]
@@ -46,10 +46,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private CinemachineVirtualCamera vCamera;
 
+    [Header("Tool")]
+    [SerializeField] private GameObject _healthBarRpcLookAt;
+
     #endregion
 
     #region Network Variables
     public static PlayerMovementAndLookNetwork localPlayer;
+    
+    [Space(20)]
     [SyncVar] public string matchID;
     [SyncVar] public int playerIndex;
 

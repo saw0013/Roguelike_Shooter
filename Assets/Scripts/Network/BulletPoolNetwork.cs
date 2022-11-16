@@ -13,17 +13,17 @@ public class BulletPoolNetwork : NetworkBehaviour
 
     private Rigidbody _rigidbody;
 
-    uint owner;
-    bool inited;
-    Vector3 target;
-
-    [Server]
-    public void Init(uint owner, Vector3 target)
-    {
-        this.owner = owner; //кто сделал выстрел
-        this.target = target; //куда должна лететь пуля
-        inited = true;
-    }
+    //uint owner;
+    //bool inited;
+    //Vector3 target;
+    //
+    //[Server]
+    //public void Init(uint owner, Vector3 target)
+    //{
+    //    this.owner = owner; //кто сделал выстрел
+    //    this.target = target; //куда должна лететь пуля
+    //    inited = true;
+    //}
 
     void OnSpawned() => _rigidbody = GetComponent<Rigidbody>();
     private void Awake() => _audioSource = GetComponent<AudioSource>();
