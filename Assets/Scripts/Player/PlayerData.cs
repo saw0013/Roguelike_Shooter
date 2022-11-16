@@ -7,7 +7,7 @@ using Mirror;
 using TMPro;
 
 public class PlayerData : NetworkBehaviour
-{
+{ 
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _healthSliderRpc;
     [SerializeField] private TMP_Text _textHealth;
@@ -16,6 +16,8 @@ public class PlayerData : NetworkBehaviour
 
     public bool InputActive = true;
     public bool EscapeMenuActive;
+
+    public string Name;
 
     //Данные которые будем синхронизировать.
     [SyncVar(hook = nameof(SyncHealth))]

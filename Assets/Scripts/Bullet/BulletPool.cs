@@ -44,7 +44,7 @@ public class BulletPool : NetworkBehaviour
     private void Update()
     {
         //Куда летит пуля?
-        _rigidbody.AddForce(transform.forward * ForceShoot);
+        _rigidbody.AddForce(transform.forward * ForceShoot,ForceMode.Impulse);
 
         if (_lifeBullet < 0) Destroy(gameObject);
         else _lifeBullet -= Time.deltaTime;
