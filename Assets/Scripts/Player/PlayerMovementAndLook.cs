@@ -31,7 +31,7 @@ public class PlayerMovementAndLook : MonoBehaviour
 
     private Vector3 playerToMouse;
 
-    //[SerializeField] private  PlayerData playerData;
+    [SerializeField] private  PlayerData playerData;
 
 
     [Header("Animation")]
@@ -55,15 +55,15 @@ public class PlayerMovementAndLook : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetButtonDown("Cancel") && playerData.EscapeMenuActive)
-        //{
-        //    if (playerData.InputActive)
-        //    {
-        //        StartMenu();
-        //        EscapeMenu(true, false);
-        //    }
-        //    else EscapeMenu(false, true);
-        //}
+        if (Input.GetButtonDown("Cancel") && playerData.EscapeMenuActive)
+        {
+            if (playerData.InputActive)
+            {
+                StartMenu();
+                EscapeMenu(true, false);
+            }
+            else EscapeMenu(false, true);
+        }
     }
 
     private  void FixedUpdate()
@@ -72,8 +72,8 @@ public class PlayerMovementAndLook : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        /*if (playerData.InputActive) */ inputDirection = new Vector3(h, 0, v);
-        //else inputDirection = new Vector3(0, 0, 0);
+        if (playerData.InputActive) inputDirection = new Vector3(h, 0, v);
+        else inputDirection = new Vector3(0, 0, 0);
 
         //Camera Direction
         var cameraForward = cam.transform.forward;
@@ -94,15 +94,15 @@ public class PlayerMovementAndLook : MonoBehaviour
         }
 
         MoveThePlayer(desiredDirection);
-        /*if (playerData.InputActive) */ TurnThePlayer();              
+        if (playerData.InputActive) TurnThePlayer();      
         AnimateThePlayer(desiredDirection);
     }
 
-    //public void EscapeMenu(bool active, bool input)
-    //{
-    //    _panelEscape.SetActive(active);
-    //    playerData.InputActive = input;
-    //}
+    public void EscapeMenu(bool active, bool input)
+    {
+        _panelEscape.SetActive(active);
+        playerData.InputActive = input;
+    }
 
     public void StartMenu()
     {
