@@ -22,15 +22,13 @@ public class PlayerData : NetworkBehaviour
     [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
 
-    [SyncVar]
-    public string UserName;
 
     private float health;
 
     void Awake()
     {
-        UserName = PlayerPrefs.GetString("PlayerName");
-        _textHealthRpc.text = UserName;
+        
+        _textHealthRpc.text = PlayerMovementAndLookNetwork.localPlayer.UserName;
         health = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
@@ -64,7 +62,6 @@ public class PlayerData : NetworkBehaviour
     internal void ChangeHealth(float maxHealth)
     {
         _maxHealth = maxHealth;
-        _SyncHealth = maxHealth;
         _healthSlider.maxValue = maxHealth / 100;
         _healthSliderRpc.maxValue = maxHealth / 100;
         CmdChangeHealth(maxHealth);

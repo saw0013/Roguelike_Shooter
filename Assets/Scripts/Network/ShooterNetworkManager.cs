@@ -18,6 +18,7 @@ public class ShooterNetworkManager : NetworkManager
     //[SerializeField] private GameObject CharacterPlayer;
     //[Scene, SerializeField] private string GameScene;
 
+    [SerializeField] private GameObject SpawnPointsItemsDefault;
     public static new ShooterNetworkManager singleton { get; private set; }
 
     #region Unity Callbacks
@@ -271,13 +272,16 @@ public class ShooterNetworkManager : NetworkManager
 
     public void BuffSpawn()
     {
+        //TODO : Временный спавн шестерёнки
         spawnPrefabs.ForEach(obj =>
         {
             if (obj.tag == "Buffs")
             {
-                //TODO : Подумать над компонентами спавна итемов
-                var _obj = Instantiate(obj);
-                NetworkServer.Spawn(_obj);
+                for (int i = 0; i < SpawnPointsItemsDefault.transform.childCount; i++)
+                {
+                    var _obj = Instantiate(obj, SpawnPointsItemsDefault.transform.GetChild(i));
+                    NetworkServer.Spawn(_obj);
+                }
             }
 
         });

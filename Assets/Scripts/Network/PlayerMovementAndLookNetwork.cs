@@ -69,6 +69,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [SerializeField] GameObject playerLobbyUI;
 
+    [SyncVar] public string UserName;
+
     Guid netIDGuid;
 
     #endregion
@@ -342,6 +344,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         vCamera = vCam.GetComponent<CinemachineVirtualCamera>();
         vCamera.Follow = transform;
+
+        UserName = PlayerPrefs.GetString("PlayerName");
 
         //TODO : ¬ключить слушатель только на том клиенте на котором играем
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
