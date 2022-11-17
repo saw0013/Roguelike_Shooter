@@ -55,6 +55,12 @@ public class PlayerData : NetworkBehaviour
         ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
     }
 
+    internal void ChangeHealth(float maxHealth)
+    {
+        _maxHealth = maxHealth;
+        CmdChangeHealth(maxHealth);
+    }
+
     //метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере.
     [Server]
     public void ChangeHealthValue(float newValue)

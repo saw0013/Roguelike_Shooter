@@ -15,5 +15,7 @@ namespace MirrorBasics {
             text.text = PlayerPrefs.GetString("PlayerName") + " " + player.playerIndex.ToString ();
         }
 
+        public void SetPlayerName(string name) => text.text = name;
+
     }
 }

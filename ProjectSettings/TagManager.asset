@@ -6,6 +6,9 @@ TagManager:
   tags:
   - VirtualFollowCamera
   - NetworkSpawnPoint
+  - ship
+  - asteroid
+  - Buffs
   layers:
   - Default
   - TransparentFX

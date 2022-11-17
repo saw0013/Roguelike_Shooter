@@ -323,7 +323,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         GetComponent<PlayerData>().InputActive = true;
 
-        
+        ShooterNetworkManager.singleton.BuffSpawn();
     }
 
 
@@ -337,7 +337,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         base.OnStartLocalPlayer();
         //Спавним виртаульную камеру на сцену локально
         var vCam = Instantiate(Resources.LoadAsync("Prefabs/VirtualFollowCamera").asset as GameObject);
-
+        
         mainCamera = vCam.GetComponentInChildren<Camera>();
 
         vCamera = vCam.GetComponent<CinemachineVirtualCamera>();

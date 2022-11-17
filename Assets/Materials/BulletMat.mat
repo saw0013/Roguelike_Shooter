@@ -100,7 +100,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _InvFade: 3
-    - _Itensity: 0.56
+    - _Itensity: 10
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -119,7 +119,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.5188679, g: 0.2971997, b: 0, a: 1}
+    - _EmissionColor: {r: 0.4716981, g: 0.0793516, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _TintColor: {r: 1, g: 0.98529404, b: 0.98529404, a: 1}

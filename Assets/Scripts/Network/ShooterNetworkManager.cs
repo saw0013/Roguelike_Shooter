@@ -119,7 +119,9 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="newSceneName">Name of the scene that's about to be loaded</param>
     /// <param name="sceneOperation">Scene operation that's about to happen</param>
     /// <param name="customHandling">true to indicate that scene loading will be handled through overrides</param>
-    public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) { }
+    public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) 
+    {
+    }
 
     /// <summary>
     /// Called on clients when a scene has completed loaded, when the scene load was initiated by the server.
@@ -262,6 +264,24 @@ public class ShooterNetworkManager : NetworkManager
     /// This is called when a client is stopped.
     /// </summary>
     public override void OnStopClient() { }
+
+    #endregion
+
+    #region Client manage
+
+    public void BuffSpawn()
+    {
+        spawnPrefabs.ForEach(obj =>
+        {
+            if (obj.tag == "Buffs")
+            {
+                //TODO : Подумать над компонентами спавна итемов
+                var _obj = Instantiate(obj);
+                NetworkServer.Spawn(_obj);
+            }
+
+        });
+    }
 
     #endregion
 }
