@@ -89,14 +89,13 @@ public class MainMenuManager : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("PlayerName"))
         {
-            if(_nameField.text != "") _buttonDone.interactable = true;
+            if(!string.IsNullOrWhiteSpace(_nameField.text)) _buttonDone.interactable = true;
             else _buttonDone.interactable = false;
         }
     }
 
     private void WelcomePlayer()
     {
-        Debug.Log("1");
         welcomePanel.gameObject.SetActive(true);
         welcomePanel.DOScale(new Vector3(0.7791322f, 0.7791322f, 0.7791322f), 2);
     }
