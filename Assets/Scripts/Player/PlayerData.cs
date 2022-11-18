@@ -14,17 +14,23 @@ public class PlayerData : NetworkBehaviour
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _healthSliderRpc;
     [SerializeField] private TMP_Text _textHealth;
+    [SerializeField] private TMP_Text _textGuard;
 
     [SerializeField] private float _maxHealth;
+    [SerializeField] private float _guardStart;
 
     public bool InputActive = true;
     public bool EscapeMenuActive;
+
+    [SyncVar(hook = nameof(SyncHealth))]
+    private float _SyncGuardPlayer;
+    private float guardPlayer;
 
     //Данные которые будем синхронизировать.
     [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
     private float health;
-    
+
     [SerializeField] internal TMP_Text _nameDisplayRpc;
 
     [SyncVar(hook = nameof(NameDisplay))]
@@ -35,6 +41,7 @@ public class PlayerData : NetworkBehaviour
     #region Awake, Start, Update
     void Awake()
     {
+        guardPlayer = _guardStart;
         health = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
@@ -70,6 +77,8 @@ public class PlayerData : NetworkBehaviour
         _maxHealth = maxHealth;
         _healthSlider.maxValue = maxHealth / 100;
         _healthSliderRpc.maxValue = maxHealth / 100;
+        LocalShowHP(maxHealth);
+        CmdShowHP(maxHealth);
         CmdChangeHealth(maxHealth);
     }
 
@@ -103,6 +112,39 @@ public class PlayerData : NetworkBehaviour
     public void ShowDisplayName(string newName) => _nameDisplay = newName;
     [Command]
     public void CmdShowName(string newName) => ShowDisplayName(newName);
+
+    #endregion
+
+    #region ItemsBuff
+
+    #region CommonGuard
+    void SyncGuard(float oldvalue, float newValue) => guardPlayer = newValue;
+
+    [Command] 
+    public void CmdChangeGuard(float newValue) 
+    {
+        ChangeGuardValue(newValue);  
+    }
+
+    [Server]
+    public void ChangeGuardValue(float newValue)
+    {
+        _SyncHealth = newValue;
+    }
+
+    public void ChangeGuard(float BuffGuard)
+    {
+        guardPlayer += BuffGuard;
+        _textGuard.text = $"Щит: {guardPlayer}";
+    }
+
+    public void StopBuffGuard()
+    {
+        guardPlayer = _guardStart;
+        _textGuard.text = $"Щит: {guardPlayer}";
+    }
+
+    #endregion
 
     #endregion
 }
