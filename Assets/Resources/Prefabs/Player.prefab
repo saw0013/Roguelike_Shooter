@@ -1187,6 +1187,7 @@ MonoBehaviour:
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
   matchID: 
   playerIndex: 0
+  UserName: 
   connId: 0
   inScene: 
   currentMatch:
@@ -1240,12 +1241,11 @@ MonoBehaviour:
   _healthSlider: {fileID: 667439118467462177}
   _healthSliderRpc: {fileID: 2175263270486950549}
   _textHealth: {fileID: 667439118614316443}
-  _textHealthRpc: {fileID: 1972920438032672338}
   _maxHealth: 100
   InputActive: 0
   EscapeMenuActive: 0
   _SyncHealth: 0
-  UserName: 
+  _nameDisplayRpc: {fileID: 1972920438032672338}
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0

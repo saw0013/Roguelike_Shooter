@@ -18,7 +18,6 @@ public class ShooterNetworkManager : NetworkManager
     //[SerializeField] private GameObject CharacterPlayer;
     //[Scene, SerializeField] private string GameScene;
 
-    [SerializeField] private GameObject SpawnPointsItemsDefault;
     public static new ShooterNetworkManager singleton { get; private set; }
 
     #region Unity Callbacks
@@ -120,7 +119,7 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="newSceneName">Name of the scene that's about to be loaded</param>
     /// <param name="sceneOperation">Scene operation that's about to happen</param>
     /// <param name="customHandling">true to indicate that scene loading will be handled through overrides</param>
-    public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) 
+    public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
     {
     }
 
@@ -142,7 +141,7 @@ public class ShooterNetworkManager : NetworkManager
     /// <para>Unity calls this on the Server when a Client connects to the Server. Use an override to tell the NetworkManager what to do when a client connects to the server.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerConnect(NetworkConnectionToClient conn) 
+    public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         //NetworkServer.Spawn(vCam);
     }
@@ -240,7 +239,7 @@ public class ShooterNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartServer()
     {
-       
+
     }
 
     /// <summary>
@@ -248,7 +247,7 @@ public class ShooterNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient()
     {
-        
+
     }
 
     /// <summary>
@@ -277,11 +276,8 @@ public class ShooterNetworkManager : NetworkManager
         {
             if (obj.tag == "Buffs")
             {
-                for (int i = 0; i < SpawnPointsItemsDefault.transform.childCount; i++)
-                {
-                    var _obj = Instantiate(obj, SpawnPointsItemsDefault.transform.GetChild(i));
-                    NetworkServer.Spawn(_obj);
-                }
+                var _obj = Instantiate(obj);
+                NetworkServer.Spawn(_obj);
             }
 
         });

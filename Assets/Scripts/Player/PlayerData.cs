@@ -4,14 +4,16 @@ using UnityEngine.UI;
 using UnityEngine;
 using DG.Tweening;
 using Mirror;
+using MirrorBasics;
 using TMPro;
 
 public class PlayerData : NetworkBehaviour
 {
+    #region Variables
+
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _healthSliderRpc;
     [SerializeField] private TMP_Text _textHealth;
-    [SerializeField] private TMP_Text _textHealthRpc;
 
     [SerializeField] private float _maxHealth;
 
@@ -21,14 +23,18 @@ public class PlayerData : NetworkBehaviour
     //ƒанные которые будем синхронизировать.
     [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
-
-
     private float health;
+    
+    [SerializeField] internal TMP_Text _nameDisplayRpc;
 
+    [SyncVar(hook = nameof(NameDisplay))]
+    public string _nameDisplay;
+
+    #endregion
+
+    #region Awake, Start, Update
     void Awake()
     {
-        
-        _textHealthRpc.text = PlayerMovementAndLookNetwork.localPlayer.UserName;
         health = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
@@ -38,18 +44,18 @@ public class PlayerData : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            // Test
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 CmdChangeHealth(health - 10);
                 CmdShowHP(health / 100);
                 LocalShowHP(health / 100);
-                Debug.Log("Hit");
             }
-            // Test
         }
     }
 
+    #endregion
+
+    #region Server Client Call ChangeHealth
     //метод который будет выставл€ть Health в соответствии с синхронизированным значением
     void SyncHealth(float oldvalue, float newValue) => health = newValue;
 
@@ -87,4 +93,16 @@ public class PlayerData : NetworkBehaviour
         _healthSlider.DOValue(PlayerHp, Time.deltaTime * 20);
         _textHealth.text = $"{health}/{_maxHealth}";
     }
+
+    #endregion
+
+    #region Server Client Call DisplayName
+
+    void NameDisplay(string oldName, string newName) => _nameDisplayRpc.text = newName;
+    [Server]
+    public void ShowDisplayName(string newName) => _nameDisplay = newName;
+    [Command]
+    public void CmdShowName(string newName) => ShowDisplayName(newName);
+
+    #endregion
 }

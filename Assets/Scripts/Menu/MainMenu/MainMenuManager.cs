@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using MirrorBasics;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -142,8 +143,7 @@ public class MainMenuManager : MonoBehaviour
     {
         PlayerPrefs.SetString("PlayerName", _nameField.text);
         var _tweenOn = welcomePanel.DOScale(new Vector3(0.001039826f, 0.001039826f, 0.001039826f), 2);
-        _tweenOn.onComplete = () => welcomePanel.gameObject.SetActive(false);   
-        Debug.Log(_nameField.text);
+        _tweenOn.onComplete = () => welcomePanel.gameObject.SetActive(false);
     }
 
     #endregion

@@ -2,8 +2,10 @@ using Cinemachine;
 using Mirror;
 using MirrorBasics;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = System.Random;
 
 
 public class PlayerMovementAndLookNetwork : NetworkBehaviour
@@ -59,6 +61,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SyncVar] public string matchID;
     [SyncVar] public int playerIndex;
 
+    [SyncVar] public string UserName;
+
     [SyncVar] public int connId;
 
     [SyncVar] public string inScene = "";
@@ -68,8 +72,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SyncVar] public Match currentMatch;
 
     [SerializeField] GameObject playerLobbyUI;
-
-    [SyncVar] public string UserName;
 
     Guid netIDGuid;
 
@@ -94,6 +96,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             Debug.Log($"Spawning other player UI Prefab");
             playerLobbyUI = UILobby.instance.SpawnPlayerUIPrefab(this);
         }
+
+        UserName = !string.IsNullOrWhiteSpace(PlayerPrefs.GetString("PlayerName")) ?
+            PlayerPrefs.GetString("PlayerName") : $"Player{UnityEngine.Random.Range(1, 999999)}";
+        GetComponent<PlayerData>().CmdShowName(UserName);
     }
 
     public override void OnStopClient()
@@ -345,13 +351,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         vCamera = vCam.GetComponent<CinemachineVirtualCamera>();
         vCamera.Follow = transform;
 
-        UserName = PlayerPrefs.GetString("PlayerName");
-
         //TODO : ¬ключить слушатель только на том клиенте на котором играем
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
-
-
 
     #region Awake, Start, Update, FixedUpdate
 
@@ -366,7 +368,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         foreach (var pan in _panelsCanvas)
             if(isLocalPlayer)
                 pan.SetActive(true);
-        
     }
 
 
