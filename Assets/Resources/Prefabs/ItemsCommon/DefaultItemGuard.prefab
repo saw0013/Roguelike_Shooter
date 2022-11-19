@@ -115,6 +115,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  _imageItem: {fileID: 1024832678030775063, guid: 8ec7ee6afcb7d6f47a22149da84d1e31, type: 3}
+  _textTime: {fileID: 3605075895109501727, guid: 7968028e4ea47a94985a9c7bdbb2795d, type: 3}
+  _timeBuff: 60
 --- !u!114 &7641706167452246463
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  _imageItem: {fileID: 1024832678030775063, guid: ce9306ec74ca5b844a8482c40ac2aa06, type: 3}
 --- !u!135 &3368568677631573648
 SphereCollider:
   m_ObjectHideFlags: 0

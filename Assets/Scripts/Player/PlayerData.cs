@@ -10,6 +10,7 @@ using TMPro;
 public class PlayerData : NetworkBehaviour
 {
     #region Variables
+    public Transform ItemsGrind;
 
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _healthSliderRpc;
