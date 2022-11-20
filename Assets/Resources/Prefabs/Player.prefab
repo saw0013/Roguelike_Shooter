@@ -1309,9 +1309,11 @@ MonoBehaviour:
   _maxHealth: 100
   _guardStart: 10
   _speedStart: 5
+  _damageStart: 0
   InputActive: 0
   EscapeMenuActive: 0
-  _speedPlayer: 0
+  SpeedPlayer: 0
+  DamagePlayer: 0
   _SyncHealth: 0
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 
