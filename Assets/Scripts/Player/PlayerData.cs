@@ -19,11 +19,14 @@ public class PlayerData : NetworkBehaviour
 
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _guardStart;
+    [SerializeField] private int _speedStart;
 
     public bool InputActive = true;
     public bool EscapeMenuActive;
 
-    [SyncVar(hook = nameof(SyncHealth))]
+    public int _speedPlayer;
+
+    [SyncVar(hook = nameof(SyncGuard))]
     private float _SyncGuardPlayer;
     private float guardPlayer;
 
@@ -43,6 +46,7 @@ public class PlayerData : NetworkBehaviour
     void Awake()
     {
         guardPlayer = _guardStart;
+        _speedPlayer = _speedStart;
         health = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
@@ -130,7 +134,7 @@ public class PlayerData : NetworkBehaviour
     [Server]
     public void ChangeGuardValue(float newValue)
     {
-        _SyncHealth = newValue;
+        _SyncGuardPlayer = newValue;
     }
 
     public void ChangeGuard(float BuffGuard)
@@ -143,6 +147,31 @@ public class PlayerData : NetworkBehaviour
     {
         guardPlayer = _guardStart;
         _textGuard.text = $"Ùèò: {guardPlayer}";
+    }
+
+    #endregion
+
+    #region CommonMoveSpeed
+    [Command]
+    public void CmdChangeMoveSpeed(int newValue)
+    {
+        ChangeMoveSpeedValue(newValue);
+    }
+
+    [Server]
+    public void ChangeMoveSpeedValue(int newValue)
+    {
+        _speedPlayer = newValue;
+    }
+
+    public void ChangeMoveSpeed(int BuffSpeed)
+    {
+        _speedPlayer += BuffSpeed;
+    }
+
+    public void StopBuffMoveSpeed()
+    {
+        _speedPlayer = _speedStart;
     }
 
     #endregion

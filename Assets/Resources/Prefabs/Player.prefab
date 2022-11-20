@@ -1244,7 +1244,6 @@ MonoBehaviour:
   - {fileID: 667439118803868658}
   - {fileID: 7266520760870401687}
   playerRigidbody: {fileID: 3827590655909793030}
-  speed: 4.5
   playerData: {fileID: 3827590655909793146}
   playerAnimator: {fileID: 3827590655917096605}
   _runPlayer: {fileID: 7776673961458087687}
@@ -1309,8 +1308,10 @@ MonoBehaviour:
   _textGuard: {fileID: 2737344952758089390}
   _maxHealth: 100
   _guardStart: 10
+  _speedStart: 5
   InputActive: 0
   EscapeMenuActive: 0
+  _speedPlayer: 0
   _SyncHealth: 0
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 

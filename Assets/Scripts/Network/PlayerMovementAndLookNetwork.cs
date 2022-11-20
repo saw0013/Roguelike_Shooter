@@ -25,7 +25,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [Header("Movement")]
     public Rigidbody playerRigidbody;
-    public float speed = 4.5f;
     private Vector3 inputDirection;
     private Vector3 movement;
 
@@ -449,7 +448,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         movement.Set(desiredDirection.x, 0f, desiredDirection.z);
 
-        movement = movement.normalized * speed * Time.deltaTime;
+        movement = movement.normalized * playerData._speedPlayer * Time.deltaTime;
 
         playerRigidbody.MovePosition(transform.position + movement);
     }
