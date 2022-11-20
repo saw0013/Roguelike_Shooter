@@ -448,7 +448,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         movement.Set(desiredDirection.x, 0f, desiredDirection.z);
 
-        movement = movement.normalized * playerData._speedPlayer * Time.deltaTime;
+        movement = movement.normalized * playerData.SpeedPlayer * Time.deltaTime;
 
         playerRigidbody.MovePosition(transform.position + movement);
     }
