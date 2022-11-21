@@ -12,11 +12,11 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 {
     #region Variables
     [Header("Panels")]
-    [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject _panelEscape;
     [SerializeField] private GameObject _panelSetting;
     [SerializeField] private GameObject _panelExit;
     [SerializeField] private GameObject _panelMain;
+    [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject[] _panelsCanvas;
 
     //[Header("Camera")]
@@ -87,6 +87,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        Debug.Log($"Client connected");
         if (isLocalPlayer)
         {
             localPlayer = this;
@@ -327,7 +328,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
         UILobby.instance.gameObject.SetActive(false);
-        //GameObject.FindGameObjectWithTag("VirtualFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
         GetComponent<PlayerData>().InputActive = true;
 
@@ -385,7 +385,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else EscapeMenu(false, true);
         }
 
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1))
         {
             if (playerData.InputActive) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
