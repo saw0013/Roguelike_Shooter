@@ -9,6 +9,7 @@ TagManager:
   - ship
   - asteroid
   - Buffs
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[ClassHeader("HealthController", iconName = "HealthControllerIcon")]
 public class ObjectHealth : MonoBehaviour
 {
     [SerializeField][ReadOnly] protected bool _isDead;
@@ -35,7 +34,7 @@ public class ObjectHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Damage d = new Damage { damageValue = 10, damageType = "projectile" };
+        Damage d = new Damage { damageValue = UnityEngine.Random.Range(5, 25), damageType = "projectile" }; //Получить дамаг от объекта
         TakeDamage(d);
     }
 

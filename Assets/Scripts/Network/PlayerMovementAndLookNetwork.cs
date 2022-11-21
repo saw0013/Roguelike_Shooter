@@ -354,6 +354,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
 
+   
     #region Awake, Start, Update, FixedUpdate
 
     void Awake()

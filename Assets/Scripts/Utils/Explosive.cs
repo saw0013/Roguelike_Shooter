@@ -61,12 +61,6 @@ public class Explosive : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (method == ExplosiveMethod.collisionEnter)
@@ -105,7 +99,7 @@ public class Explosive : MonoBehaviour
         }
     }
 
-    protected virtual IEnumerator DestroyBomb()
+    protected IEnumerator DestroyBomb()
     {
         yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
@@ -132,9 +126,9 @@ public class Explosive : MonoBehaviour
                 _damage.receiver = colliders[i].transform;
                 var distance = Vector3.Distance(transform.position, _damage.hitPosition);
                 var damageValue = distance <= minExplosionRadius ? damage.damageValue : GetPercentageForce(distance, damage.damageValue);
-                _damage.activeRagdoll = distance > maxExplosionRadius * 0.5f ? false : _damage.activeRagdoll;
-
+                _damage.activeRagdoll = distance > maxExplosionRadius * 0.5f ? false : _damage.activeRagdoll; //Добавить персонажу Ragdoll
                 _damage.damageValue = (int)damageValue;
+                colliders[i].gameObject.ApplyDamage(_damage);
             }
         }
         StartCoroutine(ApplyExplosionForce());
@@ -154,6 +148,7 @@ public class Explosive : MonoBehaviour
             if (_rigdbody)
             {
                 _rigdbody.AddExplosionForce(force, transform.position, maxExplosionRadius, upwardsModifier, forceMode);
+                Debug.Log("Имя объекта который летит " + _rigdbody.gameObject.name);
             }
         }
     }

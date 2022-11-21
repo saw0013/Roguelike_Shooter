@@ -14979,7 +14979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage:
-    damageValue: 60
+    damageValue: 90
     ignoreDefense: 0
     activeRagdoll: 0
     senselessTime: 0
@@ -14989,9 +14989,9 @@ MonoBehaviour:
     hitReaction: 1
     recoil_id: 0
     reaction_id: 0
-    damageType: projectly
+    damageType: projectile
     force: {x: 0, y: 0, z: 0}
-  explosionForce: 1
+  explosionForce: 100
   minExplosionRadius: 2
   maxExplosionRadius: 5
   upwardsModifier: 1
@@ -14999,10 +14999,10 @@ MonoBehaviour:
   method: 2
   applyDamageLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 9
   applyForceLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 9
   timeToExplode: 1
   normalizeTime: 0
   showGizmos: 1

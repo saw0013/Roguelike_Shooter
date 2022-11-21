@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 
-public static class Extensions 
+public static class Extensions
 {
+    #region Vector3
+
     public static Vector3 AngleFormOtherDirection(this Vector3 directionA, Vector3 directionB)
     {
         return Quaternion.LookRotation(directionA).eulerAngles.AngleFormOtherEuler(Quaternion.LookRotation(directionB).eulerAngles);
@@ -57,4 +60,46 @@ public static class Extensions
     {
         return otherVector - vector;
     }
+
+    #endregion
+
+    #region GameObject
+
+    #region TakeDamage
+    public static void ApplyDamage(this GameObject receiver, Damage damage)
+    {
+        var receivers = receiver.GetComponents<PlayerData>();
+        if (receivers != null)
+            for (int i = 0; i < receivers.Length; i++)
+                receivers[i].TakeDamage(damage);
+    }
+    #endregion
+
+    #endregion
+
+    #region Transform
+
+    private const float GIZMO_DISK_THICKNESS = 0.02f;
+
+    public static void EnemyAttackToPlayer(this Transform t, float radius, LayerMask AttackLayer, float headDetectHeight)
+    {
+        var color = Color.green;
+        Matrix4x4 oldMatrix = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(t.position, t.rotation, new Vector3(1, GIZMO_DISK_THICKNESS, 1));
+        Vector3 pos = t.position + Vector3.forward * 0.4f;
+        Ray ray2 = new Ray(pos, Vector3.up);
+
+        if (Physics.SphereCast(ray2, radius, (headDetectHeight + (radius)), AttackLayer))
+            color = Color.red;
+        else
+            color = Color.green;
+
+        color.a = 0.4f;
+        Gizmos.color = color;
+        //Gizmos.DrawWireSphere(pos + Vector3.up * ((headDetectHeight + (radius))), radius);
+        Gizmos.DrawSphere(Vector3.up * (headDetectHeight + (radius)), radius);
+        Gizmos.matrix = oldMatrix;
+    }
+
+    #endregion
 }

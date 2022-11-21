@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6387079767576723789}
   - component: {fileID: 6387079767576723788}
   - component: {fileID: 7178003346978430048}
+  - component: {fileID: 888369491949090323}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -52,7 +53,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
+  m_FocalLength: 25.734083
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -61,7 +62,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 500
-  field of view: 50
+  field of view: 57
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -74,7 +75,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -107,10 +108,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -166,11 +167,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
+  m_IsGlobal: 0
+  priority: 1
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: e10cacc3198ea43f08f0ecfaa0435918, type: 2}
+--- !u!65 &888369491949090323
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6387079767576723825}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3930084, y: 1.4789492, z: 1.4618062}
+  m_Center: {x: -0.0881837, y: -0.029311959, z: -0.048160557}
 --- !u!1 &8532264010294454578
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +241,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 3827590655909826849, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
   m_Lens:
-    FieldOfView: 50
+    FieldOfView: 57
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 500

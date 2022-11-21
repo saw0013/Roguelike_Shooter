@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   ItemsGrind: {fileID: 2565443205666880929}
   _healthSlider: {fileID: 667439118467462177}
   _healthSliderRpc: {fileID: 2175263270486950549}
@@ -1317,6 +1317,12 @@ MonoBehaviour:
   _SyncHealth: 0
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 
+  _onStartReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1344,9 +1350,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.29553714
-  m_Height: 2.3521032
+  m_Height: 1.9959948
   m_Direction: 1
-  m_Center: {x: 0, y: 1.13505, z: 0.020863563}
+  m_Center: {x: 0, y: 0.95699584, z: 0.020863563}
 --- !u!114 &1647746316410821255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2978,6 +2984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3827590655909826943}
+  - component: {fileID: 4584043975657184822}
   m_Layer: 3
   m_Name: Character1_Head
   m_TagString: Untagged
@@ -3001,6 +3008,19 @@ Transform:
   m_Father: {fileID: 3827590655909826903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4584043975657184822
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793119}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17171311
+  m_Center: {x: -0.0069551715, y: 0.1112838, z: 0.040340304}
 --- !u!1 &4728338000780435983
 GameObject:
   m_ObjectHideFlags: 0

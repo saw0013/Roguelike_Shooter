@@ -42,6 +42,13 @@ public class PlayerData : NetworkBehaviour
     [SyncVar(hook = nameof(NameDisplay))]
     public string _nameDisplay;
 
+    [SerializeField] protected OnReceiveDamage _onStartReceiveDamage = new OnReceiveDamage();
+    [SerializeField] protected OnReceiveDamage _onReceiveDamage = new OnReceiveDamage();
+    public OnReceiveDamage onStartReceiveDamage { get { return _onStartReceiveDamage; } protected set { _onStartReceiveDamage = value; } }
+    public OnReceiveDamage onReceiveDamage { get { return _onReceiveDamage; } protected set { _onReceiveDamage = value; } }
+
+    private bool isImmortal = false;
+
     #endregion
 
     #region Awake, Start, Update
@@ -127,10 +134,10 @@ public class PlayerData : NetworkBehaviour
     #region CommonGuard
     void SyncGuard(float oldvalue, float newValue) => guardPlayer = newValue;
 
-    [Command] 
-    public void CmdChangeGuard(float newValue) 
+    [Command]
+    public void CmdChangeGuard(float newValue)
     {
-        ChangeGuardValue(newValue);  
+        ChangeGuardValue(newValue);
     }
 
     [Server]
@@ -201,6 +208,26 @@ public class PlayerData : NetworkBehaviour
         DamagePlayer = _damageStart;
     }
     #endregion
+
+    #endregion
+
+    #region Virtual method
+
+    public virtual void TakeDamage(Damage damage)
+    {
+        onStartReceiveDamage.Invoke(damage);
+
+        if (health > 0 && !isImmortal)
+        {
+            //health -= ;
+            CmdChangeHealth(health - damage.damageValue);
+            CmdShowHP(health / 100);
+            LocalShowHP(health / 100);
+        }
+
+        if (damage.damageValue > 0)
+            onReceiveDamage.Invoke(damage);
+    }
 
     #endregion
 }
