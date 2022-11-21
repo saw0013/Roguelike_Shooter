@@ -7,68 +7,94 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : MonoBehaviour
 {
+
+    #region  Variables
+
     [Header("Draw Eye")]
-    [SerializeField] private bool showGizmos;
-    [SerializeField, Range(0, 25)] private float radius = 5f;
-    [SerializeField, Range(1, 100)]
-    public float headDetectHeight = 5f;
+    [SerializeField, Range(0, 25)] internal float radius = 5f;
+    [Range(0, 360)] public float angle;
+    [SerializeField] internal GameObject Eyes;
 
     [Header("Layers")]
     [SerializeField] LayerMask AttackLayer;
+    public LayerMask obstructionMask;
 
     private NavMeshAgent agent;
 
+    [HideInInspector]
+    public bool canSeePlayer;
+
+    [SerializeField, Tooltip("Как в оффлайн так и в Runtime")] internal bool isShowGizmos = false;
+
+    #endregion
+
+    #region Base method. Start, Awake, Enable and too...
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        StartCoroutine(FOVRoutine());
     }
 
     private void Update()
     {
-        if (Atack()) Debug.Log("ATAAAACK!!!");
+        if (canSeePlayer) Debug.Log("SEE PLAYER!!!");
     }
 
-    void OnDrawGizmosSelected()
+#if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
+    void OnDrawGizmos()
     {
-        if (!showGizmos) return;
-        transform.EnemyAttackToPlayer(radius, AttackLayer, headDetectHeight);
+       if(isShowGizmos) 
+           this.ShowGizmos();
     }
+#endif
 
-    #region Поведение МОБА
+    #endregion
 
-    /// <summary>
-    /// Проверяет можно ли атаковать? Если да то идём к Player
-    /// <para>Копия для Debug <see cref="Extensions.EnemyAttackToPlayer(Transform, float, LayerMask, float)"/></para>
-    /// </summary>
-    /// <returns></returns>
-    bool Atack()
+    #region IEnumerators
+
+    public virtual IEnumerator FOVRoutine()
     {
-        Matrix4x4 oldMatrix = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(1, 0.02f, 1));
-        Vector3 pos = transform.position + Vector3.up * 0.4f;
-        Ray ray2 = new Ray(pos, Vector3.up);
+        WaitForSeconds wait = new WaitForSeconds(0.2f);
 
-        if (Physics.SphereCast(ray2, radius,(headDetectHeight + (radius)), AttackLayer))
+        while (true)
         {
-            var colliders = Physics.OverlapSphere(transform.position, radius, AttackLayer);
-            Debug.Log(colliders.Length);
-            //foreach(var collider in colliders)
-            //{
-                //TODO : СДелать проеврку у кого меньше ХП
-                //var Health = collider.GetComponent<PlayerData>()._SyncHealth;
-                //if(Health > -1)
-                //{
-                Debug.Log(transform.name);
-                    agent.SetDestination(transform.position);
-                //}
-            //}
-            return true; 
+            yield return wait;
+            FieldOfViewCheck();
         }
-        else
-            return false;
-        
     }
 
+    #endregion
 
+    #region Поведение Врага
+
+    public virtual void FieldOfViewCheck()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
+
+        if (rangeChecks.Length != 0)
+        {
+            foreach (var collider in rangeChecks)
+            {
+                
+            }
+            Transform target = rangeChecks[0].transform;
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+
+            if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    canSeePlayer = true;
+                else
+                    canSeePlayer = false;
+            }
+            else
+                canSeePlayer = false;
+        }
+        else if (canSeePlayer)
+            canSeePlayer = false;
+    }
 
     #endregion
 }

@@ -1,19 +1,15 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DefaultItemDamage : NetworkBehaviour
 {
     [SerializeField] private GameObject _imageItem;
-    [SerializeField] private UnityEvent _event;
 
     private PlayerData _owner;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null & other.tag == "Player")
+        if(other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
 
@@ -23,6 +19,7 @@ public class DefaultItemDamage : NetworkBehaviour
         _owner.ChangeDamage(50);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(_owner);
-        _event.Invoke();
+        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 }

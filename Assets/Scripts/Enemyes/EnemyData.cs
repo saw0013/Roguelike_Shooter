@@ -9,12 +9,16 @@ public class EnemyData : EnemyBehaviour
     [SerializeField] private float health;
     void Start()
     {
-        
+        StartCoroutine(FOVRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void FieldOfViewCheck()
     {
-        
+        base.FieldOfViewCheck();
+    }
+
+    public override IEnumerator FOVRoutine()
+    {
+        return base.FOVRoutine();
     }
 }
