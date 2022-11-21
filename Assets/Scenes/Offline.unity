@@ -2298,18 +2298,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: networkAddress
-      value: localhost
-      objectReference: {fileID: 0}
-    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-      propertyPath: spawnPrefabs.Array.data[6]
-      value: 
-      objectReference: {fileID: 7807593867751606716, guid: 59495c5330db3ea4bb803ebf47a0dd0f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
 --- !u!1001 &2161981804532413119

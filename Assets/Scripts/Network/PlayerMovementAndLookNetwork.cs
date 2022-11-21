@@ -12,6 +12,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 {
     #region Variables
     [Header("Panels")]
+    [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject _panelEscape;
     [SerializeField] private GameObject _panelSetting;
     [SerializeField] private GameObject _panelExit;
@@ -383,6 +384,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             }
             else EscapeMenu(false, true);
         }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (playerData.InputActive) InfoItemMenu(true, false);
+            else InfoItemMenu(false, true);
+        }
+
     }
 
     private void FixedUpdate()
@@ -428,6 +436,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void EscapeMenu(bool active, bool input)
     {
         _panelEscape.SetActive(active);
+        playerData.InputActive = input;
+    }
+
+    public void InfoItemMenu(bool active, bool input)
+    {
+        _panelInfoItem.SetActive(active);
         playerData.InputActive = input;
     }
 

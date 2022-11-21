@@ -265,4 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57c1cc4032f5204fbba23149420a46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _imageItem: {fileID: 1024832678030775063, guid: d8ad02bc7069083419367407fecb9742, type: 3}

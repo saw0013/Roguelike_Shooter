@@ -54,7 +54,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/Offline.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 2038813130493656011}
-  networkAddress: 92.241.230.143
+  networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 3827590655909793025, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
@@ -67,6 +67,7 @@ MonoBehaviour:
   - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
   - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
   - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
+  - {fileID: 7807593867751606716, guid: 59495c5330db3ea4bb803ebf47a0dd0f, type: 3}
 --- !u!114 &5396412973184279213
 MonoBehaviour:
   m_ObjectHideFlags: 0

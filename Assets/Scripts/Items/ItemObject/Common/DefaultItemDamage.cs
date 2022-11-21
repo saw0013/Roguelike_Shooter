@@ -2,10 +2,12 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DefaultItemDamage : NetworkBehaviour
 {
     [SerializeField] private GameObject _imageItem;
+    [SerializeField] private UnityEvent _event;
 
     private PlayerData _owner;
 
@@ -21,6 +23,6 @@ public class DefaultItemDamage : NetworkBehaviour
         _owner.ChangeDamage(50);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(_owner);
-        Destroy(gameObject);
+        _event.Invoke();
     }
 }
