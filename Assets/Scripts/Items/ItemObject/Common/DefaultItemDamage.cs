@@ -18,7 +18,7 @@ public class DefaultItemDamage : NetworkBehaviour
         _owner = player.GetComponent<PlayerData>();
         _owner.ChangeDamage(50);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
-        item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(_owner);
+        item.GetComponent<DefaultItemDamageUI>().RegisterOwner(_owner);
         Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
     }
