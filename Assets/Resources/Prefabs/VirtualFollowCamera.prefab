@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6387079767576723788}
   - component: {fileID: 7178003346978430048}
   - component: {fileID: 888369491949090323}
+  - component: {fileID: 2147097347782385623}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -76,7 +77,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 1
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -185,6 +186,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3930084, y: 1.4789492, z: 1.4618062}
   m_Center: {x: -0.0881837, y: -0.029311959, z: -0.048160557}
+--- !u!114 &2147097347782385623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6387079767576723825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb42831ee5422f409e7f24f9e7488ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage: 0
+  renderingStrategy: 0
+  renderingMode: 0
+  outlineLayerMask: -1
+  primaryBufferSizeMode: 0
+  primaryRendererScale: 0.75
+  primarySizeReference: 800
+  blurShift: 1
+  dilateShift: 1
+  dilateIterations: 1
+  dilateQuality: 0
+  blurIterations: 1
+  blurType: 1
 --- !u!1 &8532264010294454578
 GameObject:
   m_ObjectHideFlags: 0

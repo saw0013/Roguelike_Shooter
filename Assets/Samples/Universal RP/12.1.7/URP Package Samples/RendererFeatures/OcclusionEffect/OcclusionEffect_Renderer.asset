@@ -17,7 +17,8 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 5502740500323776050}
   - {fileID: 8601900955648852967}
-  m_RendererFeatureMap: 3236f48c54a95d4ce7038b2658176077
+  - {fileID: 3761520277225469621}
+  m_RendererFeatureMap: 3236f48c54a95d4ce7038b2658176077b5f67343c39a3334
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -55,6 +56,19 @@ MonoBehaviour:
   m_ClusteredRendering: 0
   m_TileSize: 32
   m_IntermediateTextureMode: 1
+--- !u!114 &3761520277225469621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d111dc2a0b22b142804f4d59508b893, type: 3}
+  m_Name: URPOutlineFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
 --- !u!114 &5502740500323776050
 MonoBehaviour:
   m_ObjectHideFlags: 0
