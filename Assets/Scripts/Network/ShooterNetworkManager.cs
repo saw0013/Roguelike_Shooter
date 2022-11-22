@@ -283,5 +283,17 @@ public class ShooterNetworkManager : NetworkManager
         });
     }
 
+    public void SpiderSpawn()
+    {
+        var objPatroolSpawn = spawnPrefabs.FirstOrDefault(x => x.name == "PatroolPoints");
+        var PatroolPoint = Instantiate(objPatroolSpawn);
+        NetworkServer.Spawn(PatroolPoint);
+
+        var Spider = spawnPrefabs.FirstOrDefault(x => x.tag == "Enemy");
+        var _Spider = Instantiate(Spider, PatroolPoint.transform.position, Quaternion.identity);
+        NetworkServer.Spawn(_Spider);
+
+    }
+
     #endregion
 }

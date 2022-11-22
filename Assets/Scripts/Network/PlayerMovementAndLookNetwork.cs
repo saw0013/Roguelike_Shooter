@@ -332,6 +332,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GetComponent<PlayerData>().InputActive = true;
 
         ShooterNetworkManager.singleton.BuffSpawn();
+        ShooterNetworkManager.singleton.SpiderSpawn();
     }
 
 

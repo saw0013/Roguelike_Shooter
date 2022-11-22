@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBehaviour : MonoBehaviour
+public class EnemyBehaviour : NetworkBehaviour
 {
 
     #region  Variables
@@ -24,33 +25,75 @@ public class EnemyBehaviour : MonoBehaviour
     [HideInInspector]
     public bool canSeePlayer;
 
+    private bool canAttack;
+
+    private EnemyAnimation e_anim;
+
     [SerializeField, Tooltip("Как в оффлайн так и в Runtime")] internal bool isShowGizmos = false;
+
+    [SerializeField] private Damage damage;
+
+    [HideInInspector]
+    public Transform patroolPoints;
+
+    private bool isPatrool;
 
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
-    private void Start()
+
+    public virtual void OnStart()
     {
         agent = GetComponent<NavMeshAgent>();
+        e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
+        StartCoroutine(Patrool(isPatrool));
+    }
+    private void Start()
+    {
+
     }
 
     private void Update()
     {
-        if (canSeePlayer) Debug.Log("SEE PLAYER!!!");
+        isPatrool = canSeePlayer;
+        Animation();
     }
 
 #if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
     void OnDrawGizmos()
     {
-       if(isShowGizmos) 
-           this.ShowGizmos();
+        if (isShowGizmos)
+            this.ShowGizmos();
     }
 #endif
 
     #endregion
 
     #region IEnumerators
+
+    private IEnumerator Patrool(bool isPatrooling)
+    {
+        WaitForSeconds wait = new WaitForSeconds(1.0f);
+        while (isPatrooling)
+        {
+            yield return wait;
+            Patrool();
+        }
+    }
+
+    private void Patrool()
+    {
+        var point = patroolPoints.GetChild(Random.Range(0, patroolPoints.childCount)); //Получаю рандомную парульную точку
+        var distance = Vector3.Distance(transform.position , point.position); //Проверим дистанцию до выбранной точки
+
+        //Если мы не видим игрока и не атакуем, есть путь к точке и расстояние до неё меньше 1м
+        if (!canSeePlayer & !canAttack & distance < 1f & !agent.hasPath)
+        {
+            transform.LookAt(point.position);
+            agent.SetDestination(point.position); //Перемещаемся к точку
+        }
+    }
 
     public virtual IEnumerator FOVRoutine()
     {
@@ -75,25 +118,50 @@ public class EnemyBehaviour : MonoBehaviour
         {
             foreach (var collider in rangeChecks)
             {
-                
-            }
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+                //TODO : Проверить ХП каждого и выявить слабого
 
-            if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                Transform target = collider.transform;
+                Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-                if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
+                if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                    if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    {
+                        if (distanceToTarget > 2.5f)
+                        {
+                            agent.isStopped = false;
+                            agent.SetDestination(collider.transform.position);
+                            canAttack = false;
+                        }
+
+                        else
+                        {
+                            canAttack = true;
+                            agent.isStopped = true;
+                            collider.GetComponent<PlayerData>().TakeDamage(damage);
+                        }
+                        canSeePlayer = true;
+                    }
+                    else
+                        canSeePlayer = false;
+                }
                 else
                     canSeePlayer = false;
             }
-            else
-                canSeePlayer = false;
         }
         else if (canSeePlayer)
             canSeePlayer = false;
+    }
+
+    #endregion
+
+    #region Animation behaviour
+
+    private void Animation()
+    {
+        e_anim.anim_Walk(agent.hasPath);
+        e_anim.anim_Attack(canAttack, Random.Range(1, 2));
     }
 
     #endregion
