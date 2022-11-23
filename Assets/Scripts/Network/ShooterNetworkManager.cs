@@ -5,6 +5,9 @@ using Mirror;
 using System.Linq;
 using Cinemachine;
 using UnityEngine.ProBuilder.Shapes;
+using System.Collections.Generic;
+using System.Collections;
+using Utils;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -15,8 +18,17 @@ public class ShooterNetworkManager : NetworkManager
 {
     // Overrides the base singleton so we don't
     // have to cast to this type everywhere.
-    //[SerializeField] private GameObject CharacterPlayer;
-    //[Scene, SerializeField] private string GameScene;
+    [Header("MultiScene Setup")]
+    public int instances = 3;
+
+    [Scene]
+    public string gameScene;
+
+    // This is set true after server loads all subscene instances
+    bool subscenesLoaded;
+
+    // subscenes are added to this list as they're loaded
+    readonly List<Scene> subScenes = new List<Scene>();
 
     public static new ShooterNetworkManager singleton { get; private set; }
 
@@ -163,7 +175,9 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        base.OnServerAddPlayer(conn);
+        Debug.Log("Подключился игрок " + numPlayers);
+        StartCoroutine(OnServerAddPlayerDelayed(conn));
+        //base.OnServerAddPlayer(conn);
         //NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
     }
 
@@ -239,7 +253,7 @@ public class ShooterNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartServer()
     {
-
+        StartCoroutine(ServerLoadSubScenes());
     }
 
     /// <summary>
@@ -258,30 +272,48 @@ public class ShooterNetworkManager : NetworkManager
     /// <summary>
     /// This is called when a server is stopped - including when a host is stopped.
     /// </summary>
-    public override void OnStopServer() { }
+    public override void OnStopServer() 
+    {
+        NetworkServer.SendToAll(new SceneMessage { sceneName = gameScene, sceneOperation = SceneOperation.UnloadAdditive });
+        StartCoroutine(ServerUnloadSubScenes());
+    }
+
+    // Unload the subScenes and unused assets and clear the subScenes list.
+    IEnumerator ServerUnloadSubScenes()
+    {
+        for (int index = 0; index < subScenes.Count; index++)
+            yield return SceneManager.UnloadSceneAsync(subScenes[index]);
+
+        subScenes.Clear();
+        subscenesLoaded = false;
+
+        yield return Resources.UnloadUnusedAssets();
+    }
 
     /// <summary>
     /// This is called when a client is stopped.
     /// </summary>
-    public override void OnStopClient() { }
+    public override void OnStopClient() 
+    {
+        // make sure we're not in host mode
+        if (mode == NetworkManagerMode.ClientOnly)
+            StartCoroutine(ClientUnloadSubScenes());
+    }
+
+     // Unload all but the active scene, which is the "container" scene
+        IEnumerator ClientUnloadSubScenes()
+        {
+            for (int index = 0; index < SceneManager.sceneCount; index++)
+            {
+                if (SceneManager.GetSceneAt(index) != SceneManager.GetActiveScene())
+                    yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(index));
+            }
+        }
 
     #endregion
 
     #region Client manage
 
-    public void BuffSpawn()
-    {
-        //TODO : Временный спавн шестерёнки
-        spawnPrefabs.ForEach(obj =>
-        {
-            if (obj.tag == "Buffs")
-            {
-                var _obj = Instantiate(obj);
-                NetworkServer.Spawn(_obj);
-            }
-
-        });
-    }
 
     public void SpiderSpawn()
     {
@@ -293,6 +325,45 @@ public class ShooterNetworkManager : NetworkManager
         var _Spider = Instantiate(Spider, PatroolPoint.transform.position, Quaternion.identity);
         NetworkServer.Spawn(_Spider);
 
+    }
+
+    
+    public IEnumerator OnServerAddPlayerDelayed(NetworkConnectionToClient conn)
+    {
+        // wait for server to async load all subscenes for game instances
+        while (!subscenesLoaded)
+            yield return null;
+
+        // Send Scene message to client to additively load the game scene
+        conn.Send(new SceneMessage { sceneName = gameScene, sceneOperation = SceneOperation.LoadAdditive });
+
+        // Wait for end of frame before adding the player to ensure Scene Message goes first
+        yield return new WaitForEndOfFrame();
+
+        base.OnServerAddPlayer(conn);
+
+        // Do this only on server, not on clients
+        // This is what allows the NetworkSceneChecker on player and scene objects
+        // to isolate matches per scene instance on server.
+        
+        if (subScenes.Count > 0)
+        {
+            SceneManager.MoveGameObjectToScene(conn.identity.gameObject, subScenes[1]);
+        }
+    }
+
+    IEnumerator ServerLoadSubScenes()
+    {
+        for (int index = 0; index <= instances; index++)
+        {
+            yield return SceneManager.LoadSceneAsync(gameScene, new LoadSceneParameters { loadSceneMode = LoadSceneMode.Additive, localPhysicsMode = LocalPhysicsMode.Physics3D });
+
+            Scene newScene = SceneManager.GetSceneAt(index);
+            subScenes.Add(newScene);
+            Spawner.InitialSpawn(newScene);
+        }
+
+        subscenesLoaded = true;
     }
 
     #endregion

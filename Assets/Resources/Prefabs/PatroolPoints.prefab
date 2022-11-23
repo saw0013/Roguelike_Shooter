@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208951548030648}
-  - component: {fileID: 8812117203800424210}
   m_Layer: 0
   m_Name: PatroolPoint
   m_TagString: Untagged
@@ -32,23 +31,6 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8812117203800424210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208951548030649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0
 --- !u!1 &6343208951807120503
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208951807120502}
-  - component: {fileID: 9027603170949153940}
   m_Layer: 0
   m_Name: PatroolPoint (2)
   m_TagString: Untagged
@@ -81,23 +62,6 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9027603170949153940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208951807120503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0
 --- !u!1 &6343208952235207723
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +71,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208952235207722}
-  - component: {fileID: 5270033464514436413}
   m_Layer: 0
   m_Name: PatroolPoint (3)
   m_TagString: Untagged
@@ -130,23 +93,6 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5270033464514436413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208952235207723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0
 --- !u!1 &6343208952578138898
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +157,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208952839716943}
-  - component: {fileID: 7301393471691546383}
   m_Layer: 0
   m_Name: PatroolPoint (5)
   m_TagString: Untagged
@@ -234,23 +179,6 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7301393471691546383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208952839716976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0
 --- !u!1 &6343208952904551535
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +188,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208952904551534}
-  - component: {fileID: 2328662109186119843}
   m_Layer: 0
   m_Name: PatroolPoint (4)
   m_TagString: Untagged
@@ -283,23 +210,6 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2328662109186119843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208952904551535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0
 --- !u!1 &6343208953402456746
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +219,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343208953402456745}
-  - component: {fileID: 411980488513748749}
   m_Layer: 0
   m_Name: PatroolPoint (1)
   m_TagString: Untagged
@@ -332,20 +241,3 @@ Transform:
   m_Father: {fileID: 6343208952578138896}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &411980488513748749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343208953402456746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7c9c09783c52bd341a2c08e552a5feec
-  hasSpawned: 0

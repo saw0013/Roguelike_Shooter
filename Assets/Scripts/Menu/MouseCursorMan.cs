@@ -12,7 +12,7 @@ public class MouseCursorMan : MonoBehaviour
     void OnGUI()
     {
         GUI.depth = 1;
-        GUI.DrawTexture(new Rect(Input.mousePosition.x - 12.0f, Screen.height - Input.mousePosition.y - 2.0f, 20.0f, 20.0f), cursor);
+        GUI.DrawTexture(new Rect(Input.mousePosition.x - 1.0f, Screen.height - Input.mousePosition.y - 2.0f, 20.0f, 20.0f), cursor);
 
     }
 }

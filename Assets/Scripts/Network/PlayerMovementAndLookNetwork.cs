@@ -326,13 +326,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        //
+        //var sceneGame = SceneManager.GetSceneAt(1);
+        //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
+        
         UILobby.instance.gameObject.SetActive(false);
 
         GetComponent<PlayerData>().InputActive = true;
-
-        ShooterNetworkManager.singleton.BuffSpawn();
-        ShooterNetworkManager.singleton.SpiderSpawn();
+       // CmdSpawnBuff();
     }
 
 
@@ -344,8 +346,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+
         //Спавним виртаульную камеру на сцену локально
         var vCam = Instantiate(Resources.LoadAsync("Prefabs/VirtualFollowCamera").asset as GameObject);
+        //NetworkServer.Spawn(vCam);
         
         mainCamera = vCam.GetComponentInChildren<Camera>();
 

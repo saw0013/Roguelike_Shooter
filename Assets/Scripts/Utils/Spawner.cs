@@ -28,13 +28,22 @@ namespace Utils
         {
             if (!NetworkServer.active) return;
 
-            Vector3 spawnPosition = new Vector3(Random.Range(-19, 20), 1, Random.Range(-19, 20));
-            GameObject cp = Object.Instantiate(((GameNetworkManager)NetworkManager.singleton).playerPrefab, spawnPosition, Quaternion.identity);
-            SceneManager.MoveGameObjectToScene(cp, scene);
-            NetworkServer.Spawn(cp);
-            //GameObject reward = Object.Instantiate(((GameNetworkManager)NetworkManager.singleton).player, spawnPosition, Quaternion.identity);
-            //SceneManager.MoveGameObjectToScene(reward, scene);
-            //NetworkServer.Spawn(reward);
+            ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach
+                (obj =>
+                {
+                    if (obj.tag == "Buffs")
+                    {
+                        var _obj = Object.Instantiate(obj);
+                        SceneManager.MoveGameObjectToScene(_obj, scene);
+                        NetworkServer.Spawn(_obj);
+                    }
+
+                });
+
+            //Vector3 spawnPosition = new Vector3(Random.Range(-19, 20), 1, Random.Range(-19, 20));
+            // GameObject reward = Object.Instantiate(((ShooterNetworkManager)NetworkManager.singleton).ItemHP);
+            // SceneManager.MoveGameObjectToScene(reward, scene);
+            // NetworkServer.Spawn(reward);
         }
     }
 }

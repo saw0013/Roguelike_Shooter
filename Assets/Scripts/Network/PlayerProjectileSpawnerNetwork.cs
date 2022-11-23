@@ -45,7 +45,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     private void Start()
     {
         сartridges = MaxCartridges;
-        _textCartridges.text = $"Cartridges: {сartridges}";
+        _textCartridges.text = $"AMMO: {сartridges}";
     }
 
     void Update()
@@ -91,9 +91,9 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     }
 
-    public void ReloadText() => _textCartridges.text = $"Cartridges: {сartridges}";
+    public void ReloadText() => _textCartridges.text = $"AMMO: {сartridges}";
 
-   
+
 
     void SpawnProjectile()
     {
@@ -107,19 +107,20 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
             _shootAudio.Play();
     }
 
-    
+    [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
+    public void CmdSpawnBullet()
+    {
+        //GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере                                       
+        //NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
+        RpcSpawnBullet();
+    }
 
-    [ClientRpc]
+    [ClientRpc] //позволяет серверу удаленно вызывать эту функцию для всех клиентских копий объекта
     public void RpcSpawnBullet()
     {
-        GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере                                       
-        NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
-
+        Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
         if (spawnParticles)
             spawnParticles.Play();
     }
 
-    [Command]
-    public void CmdSpawnBullet() => RpcSpawnBullet();
-    
 }

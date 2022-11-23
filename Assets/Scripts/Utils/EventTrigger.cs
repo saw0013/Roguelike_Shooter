@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
+using Mirror;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
-public class EventTrigger : MonoBehaviour
+public class EventTrigger : NetworkBehaviour
 {
 
     [Header("---COLOR COLLIDER ONLY INSPECTOR---")]
@@ -19,6 +20,8 @@ public class EventTrigger : MonoBehaviour
 
     [HideInInspector,]
     public bool isTriggered;
+
+    [SerializeField] SpawningNPC spawningNPC;
 
     public UnityEvent OnEnterTrigger;
 
@@ -60,6 +63,7 @@ public class EventTrigger : MonoBehaviour
         {
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
+            Spawn();
         }
     }
 
@@ -68,6 +72,22 @@ public class EventTrigger : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         OnEnterTrigger.Invoke();
         Destroy(this, delayDestroy);
+    }
 
+    private void Spawn()
+    {
+        switch (spawningNPC)
+        {
+            case SpawningNPC.Spider:
+                break;
+        }
+    }
+
+    enum SpawningNPC
+    {
+        None = 0,
+        Spider = 1,
+        Solder = 2,
+        Boss = 3
     }
 }

@@ -16,19 +16,21 @@ public class EnemyData : EnemyBehaviour
     private float health;
     [SerializeField] private bool FillHealth = true;
 
-    void Awake()
+
+    void Start()
     {
         if (FillHealth)
         {
             health = _maxHealth;
             _healthSliderRpc.maxValue = _maxHealth / 100;
         }
-    }
-
-    void Start()
-    {
         StartCoroutine(FOVRoutine());
         OnStart();
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 
     #region Server Client Call ChangeHealth

@@ -54,7 +54,7 @@ public class EnemyBehaviour : NetworkBehaviour
 
     }
 
-    private void Update()
+    public virtual void Update()
     {
         isPatrool = canSeePlayer;
         Animation();

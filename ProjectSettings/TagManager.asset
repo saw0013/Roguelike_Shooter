@@ -10,6 +10,7 @@ TagManager:
   - asteroid
   - Buffs
   - Enemy
+  - ServerManager
   layers:
   - Default
   - TransparentFX

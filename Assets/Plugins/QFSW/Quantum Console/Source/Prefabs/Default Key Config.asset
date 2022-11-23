@@ -15,12 +15,12 @@ MonoBehaviour:
   SubmitCommandKey: 13
   ShowConsoleKey:
     Key: 0
-    Ctrl: 1
+    Ctrl: 0
     Alt: 0
     Shift: 0
   HideConsoleKey:
     Key: 0
-    Ctrl: 1
+    Ctrl: 0
     Alt: 0
     Shift: 0
   ToggleConsoleVisibilityKey:
