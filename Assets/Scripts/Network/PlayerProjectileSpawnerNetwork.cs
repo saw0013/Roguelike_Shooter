@@ -20,7 +20,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     public float SpawnRate;
-    public float ReloadTime;
+   // public float ReloadTime;
     public int MaxCartridges;
 
     private float timer;
@@ -78,7 +78,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                 if (reloading)
                 {
                     timerReload += Time.deltaTime;
-                    if (timerReload >= ReloadTime)
+                    if (timerReload >= playerData.AmmoReload)
                     {
                         сartridges = MaxCartridges;
                         timerReload = 0;
@@ -118,7 +118,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [ClientRpc] //позволяет серверу удаленно вызывать эту функцию для всех клиентских копий объекта
     public void RpcSpawnBullet()
     {
-        Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
+        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
+        bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
         if (spawnParticles)
             spawnParticles.Play();
     }

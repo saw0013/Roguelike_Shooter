@@ -62,4 +62,5 @@ public class BulletPool : NetworkBehaviour
         Destroy(gameObject);
     }
 
+    public void OnSpawnBullet(int force) => ForceShoot = force; 
 }

@@ -17,6 +17,8 @@ public class PlayerData : NetworkBehaviour
     [SerializeField] private TMP_Text _textHealth;
     [SerializeField] private TMP_Text _textGuard;
 
+    [SerializeField] private float _startAmmoReload;
+    [SerializeField] private int _startForceBulet;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _guardStart;
     [SerializeField] private int _speedStart;
@@ -27,6 +29,8 @@ public class PlayerData : NetworkBehaviour
 
     public int SpeedPlayer;
     public float DamagePlayer;
+    public float AmmoReload;
+    public int BuletForce;
 
     [SyncVar(hook = nameof(SyncGuard))]
     private float _SyncGuardPlayer;
@@ -206,6 +210,20 @@ public class PlayerData : NetworkBehaviour
     public void StopBuffDamage()
     {
         DamagePlayer = _damageStart;
+    }
+    #endregion
+
+    #region CommonAmmo
+    public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce)
+    {
+        AmmoReload -= BuffAmmoReload;
+        BuletForce += BuffAmmoForce;
+    }
+
+    public void StopBuffAmmo()
+    {
+        AmmoReload = _startAmmoReload;
+        BuletForce = _startForceBulet;
     }
     #endregion
 
