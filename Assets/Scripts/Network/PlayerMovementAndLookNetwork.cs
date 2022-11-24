@@ -319,6 +319,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         MatchMaker.instance.BeginGame(matchID);
         Debug.Log($"<color=red>Game Beginning</color>");
+        GameObject matchControllerObject = Instantiate(Resources.LoadAsync("Prefabs/SpawnTestSpider").asset as GameObject);
+        matchControllerObject.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        NetworkServer.Spawn(matchControllerObject);
     }
 
     public void StartGame()
@@ -340,43 +343,47 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputActive = true;
-        if(playerIndex == 1)
-            if (isLocalPlayer)
-                CmdSpawnBuff();
+        //f(playerIndex == 1)
+        //   if (isLocalPlayer)
+        //       CmdSpawnBuff();
 
-
-
-
-        Debug.Log("Сколько доступно объектов " + ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.Count);
+        //NetworkClient.PrepareToSpawnSceneObjects();
     }
 
-    [Server]
-    void spawnClient()
-    {
-        Debug.Log("Вывали спавнер пауков чистый CMD");
-        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-           x.name == "SpawnTestSpider");
+   // [Command]
+   // void spawnClient()
+   // {
+   //     Debug.Log("Вывали спавнер пауков чистый CMD");
+   //     var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+   //        x.name == "SpawnTestSpider");
+   //
+   //     var _obj = Instantiate(go);
+   //     // SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
+   //     NetworkServer.Spawn(_obj, connectionToClient);
+   // }
 
-        var _obj = Instantiate(go);
-        // SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
-        NetworkServer.Spawn(_obj);
-        RpcSpawnBuff();
-    }
+    
 
     [Command]
     private void CmdSpawnBuff()
     {
-        RpcSpawnBuff();
+        var go = Instantiate(Resources.LoadAsync("Prefabs/SpawnTestSpider").asset as GameObject);
+        NetworkServer.Spawn(go);
     }
 
     [ClientRpc]
-    public void RpcSpawnBuff()
+    public void SpawnBuff(GameObject go)
     {
-        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-           x.name == "SpawnTestSpider");
-
-        Instantiate(go);
+        //var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+        //   x.name == "SpawnTestSpider");
+        if(!go)
+            Instantiate(go);
+        else
+        {
+            Debug.Log("Объекта нету");
+        }
     }
+
 
     #endregion
 

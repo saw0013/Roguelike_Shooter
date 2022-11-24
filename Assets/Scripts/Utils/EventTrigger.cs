@@ -61,16 +61,36 @@ public class EventTrigger : NetworkBehaviour
         
     }
 
+    [ServerCallback]
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isTriggered)
+        if (other.CompareTag("Player")/* && !isTriggered*/)
         {
+            Debug.Log("Зашёл игрок с ConnID "+ other.GetComponent<NetworkIdentity>().netId);
             CmdSpawnSpider();
-            StartCoroutine(OnTrigEnter());
-            isTriggered = true;
-            
+            //StartCoroutine(OnTrigEnter());
+            //isTriggered = true;
+
         }
     }
+
+    [Command]
+    void Cmd_AssignLocalAuthority(GameObject player)
+    {
+        NetworkIdentity ni = player.GetComponent<NetworkIdentity>();
+        ni.AssignClientAuthority(connectionToClient);
+    }
+
+    //public void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        other.GetComponent<NetworkIdentity>()
+    //            .RemoveClientAuthority();
+    //    }
+    //
+    //    Debug.Log("Полномочий больше нет");
+    //}
 
     private IEnumerator OnTrigEnter()
     {
@@ -83,7 +103,7 @@ public class EventTrigger : NetworkBehaviour
     private void RpcSpawn()
     {
         var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-            x.name == "Level");
+            x.name == "BarrelExpl");
 
         var _obj = Instantiate(go, transform);
         //SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
@@ -100,7 +120,9 @@ public class EventTrigger : NetworkBehaviour
     [Command]
     void CmdSpawnSpider()
     {
-        RpcSpawn();
+        var go = Instantiate(Resources.LoadAsync("Prefabs/BarrelExpl").asset as GameObject);
+        var _obj = Instantiate(go);
+        NetworkServer.Spawn(_obj);
     }
 
     enum SpawningNPC
