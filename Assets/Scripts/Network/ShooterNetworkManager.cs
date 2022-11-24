@@ -134,6 +134,7 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="customHandling">true to indicate that scene loading will be handled through overrides</param>
     public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
     {
+        Debug.Log("OnClientChangeScene");
     }
 
     /// <summary>
@@ -143,6 +144,7 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnClientSceneChanged()
     {
         base.OnClientSceneChanged();
+        Debug.Log("OnClientSceneChanged");
     }
 
     #endregion
@@ -157,6 +159,7 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         //NetworkServer.Spawn(vCam);
+        Debug.Log("OnServerConnect");
     }
 
     /// <summary>
@@ -167,6 +170,7 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnServerReady(NetworkConnectionToClient conn)
     {
         base.OnServerReady(conn);
+        Debug.Log("OnServerReady");
     }
 
     /// <summary>
@@ -177,9 +181,11 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         Debug.Log("Подключился игрок " + numPlayers);
-        StartCoroutine(OnServerAddPlayerDelayed(conn));
+        //StartCoroutine(OnServerAddPlayerDelayed(conn));
         //base.OnServerAddPlayer(conn);
-        //NetworkServer.ReplacePlayerForConnection(GetComponent<NetworkIdentity>().connectionToClient, _playerCharacter, true);
+        GameObject player = Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
+        player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+        NetworkServer.AddPlayerForConnection(conn, player);
     }
 
     /// <summary>
@@ -211,6 +217,7 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        Debug.Log("OnClientConnect");
     }
 
     /// <summary>
@@ -246,7 +253,10 @@ public class ShooterNetworkManager : NetworkManager
     /// This is invoked when a host is started.
     /// <para>StartHost has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartHost() { }
+    public override void OnStartHost() 
+    {
+        Debug.Log("OnStartHost");
+    }
 
     /// <summary>
     /// This is invoked when a server is started - including when a host is started.
@@ -254,7 +264,7 @@ public class ShooterNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartServer()
     {
-        StartCoroutine(ServerLoadSubScenes());
+        //StartCoroutine(ServerLoadSubScenes());
     }
 
     /// <summary>
@@ -262,7 +272,7 @@ public class ShooterNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient()
     {
-
+        Debug.Log("OnStartClient");
     }
 
     /// <summary>
@@ -315,18 +325,6 @@ public class ShooterNetworkManager : NetworkManager
 
     #region Client manage
 
-
-    public void SpiderSpawn()
-    {
-        var objPatroolSpawn = spawnPrefabs.FirstOrDefault(x => x.name == "PatroolPoints");
-        var PatroolPoint = Instantiate(objPatroolSpawn);
-        NetworkServer.Spawn(PatroolPoint);
-
-        var Spider = spawnPrefabs.FirstOrDefault(x => x.tag == "Enemy");
-        var _Spider = Instantiate(Spider, PatroolPoint.transform.position, Quaternion.identity);
-        NetworkServer.Spawn(_Spider);
-    }
-
     
     public IEnumerator OnServerAddPlayerDelayed(NetworkConnectionToClient conn)
     {
@@ -346,7 +344,6 @@ public class ShooterNetworkManager : NetworkManager
         // Do this only on server, not on clients
         // This is what allows the NetworkSceneChecker on player and scene objects
         // to isolate matches per scene instance on server.
-        
         if (subScenes.Count > 0)
         {
             SceneManager.MoveGameObjectToScene(conn.identity.gameObject, subScenes[1]);

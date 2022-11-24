@@ -21,7 +21,7 @@ public class EventTrigger : NetworkBehaviour
     public float delayDestroy = .1f;
 
     [HideInInspector,]
-    public bool isTriggered;
+    public bool isTriggered = false;
 
     [SerializeField] SpawningNPC spawningNPC;
 
@@ -65,9 +65,10 @@ public class EventTrigger : NetworkBehaviour
     {
         if (other.CompareTag("Player") && !isTriggered)
         {
+            CmdSpawnSpider();
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
-            Spawn();
+            
         }
     }
 
@@ -78,10 +79,17 @@ public class EventTrigger : NetworkBehaviour
         Destroy(this, delayDestroy);
     }
 
-    private void Spawn()
+    [ClientRpc]
+    private void RpcSpawn()
     {
-        CmdSpawnSpider();
-        Debug.Log("Спавним паука");
+        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+            x.name == "Level");
+
+        var _obj = Instantiate(go, transform);
+        //SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
+        //NetworkServer.Spawn(_obj);
+
+        Debug.Log("Спавним Уровень");
         switch (spawningNPC)
         {
             case SpawningNPC.Spider:
@@ -92,14 +100,7 @@ public class EventTrigger : NetworkBehaviour
     [Command]
     void CmdSpawnSpider()
     {
-        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-            x.name == "SpiderNpc");
-
-        var _obj = Instantiate(go);
-        SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
-        NetworkServer.Spawn(_obj);
-
-
+        RpcSpawn();
     }
 
     enum SpawningNPC

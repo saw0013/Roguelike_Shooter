@@ -117,7 +117,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [ClientRpc] //позволяет серверу удаленно вызывать эту функцию для всех клиентских копий объекта
     public void RpcSpawnBullet()
     {
-        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
+        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
         if (spawnParticles)
             spawnParticles.Play();

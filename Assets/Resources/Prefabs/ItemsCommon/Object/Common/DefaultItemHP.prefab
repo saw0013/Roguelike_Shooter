@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3368568677631573648}
   - component: {fileID: 6141149033847697368}
   - component: {fileID: 7528328850062258536}
+  - component: {fileID: 5662847388789288398}
   m_Layer: 0
   m_Name: DefaultItemHP
   m_TagString: Buffs
@@ -171,6 +172,20 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 1516142440620493916}
+--- !u!114 &5662847388789288398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368568677631573649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &5803991409038397165
 GameObject:
   m_ObjectHideFlags: 0

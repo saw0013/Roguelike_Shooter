@@ -1283,7 +1283,6 @@ MonoBehaviour:
   _bullet: {fileID: 3607918559644205627, guid: 21c6f231d02d70d428a6da12152aab15, type: 3}
   _spawnPoint: {fileID: 7776673961621920768}
   SpawnRate: 0.15
-  ReloadTime: 3
   MaxCartridges: 45
   spawnParticles: {fileID: 4253011153332654913}
   _shootAudio: {fileID: 7776673959959146265}
@@ -1309,6 +1308,8 @@ MonoBehaviour:
   _healthSliderRpc: {fileID: 2175263270486950549}
   _textHealth: {fileID: 667439118614316443}
   _textGuard: {fileID: 2737344952758089390}
+  _startAmmoReload: 0
+  _startForceBulet: 0
   _maxHealth: 100
   _guardStart: 10
   _speedStart: 5
@@ -1317,6 +1318,8 @@ MonoBehaviour:
   EscapeMenuActive: 0
   SpeedPlayer: 0
   DamagePlayer: 0
+  AmmoReload: 0
+  BuletForce: 3
   _SyncHealth: 0
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 
@@ -1623,8 +1626,24 @@ MonoBehaviour:
   complexMaskingMode: 2
   drawingMode: 1
   outlineLayer: 0
-  outlineTargets: []
-  renderStyle: 2
+  outlineTargets:
+  - IsVisible: 1
+    CutoutMask: 8
+    edgeDilateAmount: 5
+    frontEdgeDilateAmount: 5
+    backEdgeDilateAmount: 5
+    renderer: {fileID: 3827590655921291357}
+    SubmeshIndex: 0
+    BoundsMode: 0
+    Bounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+    CutoutThreshold: 0.5
+    CullMode: 2
+    cutoutTextureName: _BaseMap
+    DilateRenderingMode: 0
+    cutoutTextureIndex: 0
+  renderStyle: 1
   outlineParameters:
     enabled: 1
     color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

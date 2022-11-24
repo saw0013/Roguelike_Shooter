@@ -2,6 +2,7 @@ using Cinemachine;
 using Mirror;
 using MirrorBasics;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -99,9 +100,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             playerLobbyUI = UILobby.instance.SpawnPlayerUIPrefab(this);
         }
 
-        UserName = !string.IsNullOrWhiteSpace(PlayerPrefs.GetString("PlayerName")) ?
-            PlayerPrefs.GetString("PlayerName") : $"Player{UnityEngine.Random.Range(1, 999999)}";
-        GetComponent<PlayerData>().CmdShowName(UserName);
+        if (hasAuthority)
+        {
+            UserName = !string.IsNullOrWhiteSpace(PlayerPrefs.GetString("PlayerName")) ?
+                PlayerPrefs.GetString("PlayerName") : $"Player{UnityEngine.Random.Range(1, 999999)}";
+            GetComponent<PlayerData>().CmdShowName(UserName);
+        }
     }
 
     public override void OnStopClient()
@@ -327,31 +331,51 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
-        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
         //
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
 
         UILobby.instance.gameObject.SetActive(false);
         Debug.Log($"Мой индекс " + playerIndex);
+        Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputActive = true;
-
         if(playerIndex == 1)
-            CmdSpawnBuff();
-        //CmdSpawnBuff();
+            if (isLocalPlayer)
+                CmdSpawnBuff();
+
+
+
+
+        Debug.Log("Сколько доступно объектов " + ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.Count);
     }
 
+    [Server]
+    void spawnClient()
+    {
+        Debug.Log("Вывали спавнер пауков чистый CMD");
+        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+           x.name == "SpawnTestSpider");
+
+        var _obj = Instantiate(go);
+        // SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
+        NetworkServer.Spawn(_obj);
+        RpcSpawnBuff();
+    }
 
     [Command]
     private void CmdSpawnBuff()
     {
-        SpawnBuff();
+        RpcSpawnBuff();
     }
 
-    public void SpawnBuff()
+    [ClientRpc]
+    public void RpcSpawnBuff()
     {
-        //TODO: Force shown
-        Spawner.InitialSpawn(((ShooterNetworkManager)NetworkManager.singleton).subScenes[1]);
+        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+           x.name == "SpawnTestSpider");
+
+        Instantiate(go);
     }
 
     #endregion
