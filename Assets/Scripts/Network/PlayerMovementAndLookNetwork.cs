@@ -5,6 +5,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 using Random = System.Random;
 
 
@@ -330,13 +331,28 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
-        
-        UILobby.instance.gameObject.SetActive(false);
 
+        UILobby.instance.gameObject.SetActive(false);
+        Debug.Log($"Мой индекс " + playerIndex);
         GetComponent<PlayerData>().InputActive = true;
-       // CmdSpawnBuff();
+
+        if(playerIndex == 1)
+            CmdSpawnBuff();
+        //CmdSpawnBuff();
     }
 
+
+    [Command]
+    private void CmdSpawnBuff()
+    {
+        SpawnBuff();
+    }
+
+    public void SpawnBuff()
+    {
+        //TODO: Force shown
+        Spawner.InitialSpawn(((ShooterNetworkManager)NetworkManager.singleton).subScenes[1]);
+    }
 
     #endregion
 

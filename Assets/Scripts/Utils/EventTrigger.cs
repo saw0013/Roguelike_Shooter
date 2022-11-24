@@ -2,10 +2,12 @@ using System;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
@@ -52,9 +54,11 @@ public class EventTrigger : NetworkBehaviour
     }
 
     #endregion
+
+
     void Start()
     {
-
+        
     }
 
     public void OnTriggerEnter(Collider other)
@@ -76,11 +80,26 @@ public class EventTrigger : NetworkBehaviour
 
     private void Spawn()
     {
+        CmdSpawnSpider();
+        Debug.Log("Спавним паука");
         switch (spawningNPC)
         {
             case SpawningNPC.Spider:
                 break;
         }
+    }
+
+    [Command]
+    void CmdSpawnSpider()
+    {
+        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
+            x.name == "SpiderNpc");
+
+        var _obj = Instantiate(go);
+        SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
+        NetworkServer.Spawn(_obj);
+
+
     }
 
     enum SpawningNPC

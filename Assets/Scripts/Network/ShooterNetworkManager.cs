@@ -7,6 +7,7 @@ using Cinemachine;
 using UnityEngine.ProBuilder.Shapes;
 using System.Collections.Generic;
 using System.Collections;
+using Telepathy;
 using Utils;
 
 /*
@@ -28,7 +29,7 @@ public class ShooterNetworkManager : NetworkManager
     bool subscenesLoaded;
 
     // subscenes are added to this list as they're loaded
-    readonly List<Scene> subScenes = new List<Scene>();
+    public List<Scene> subScenes = new List<Scene>();
 
     public static new ShooterNetworkManager singleton { get; private set; }
 
@@ -324,7 +325,6 @@ public class ShooterNetworkManager : NetworkManager
         var Spider = spawnPrefabs.FirstOrDefault(x => x.tag == "Enemy");
         var _Spider = Instantiate(Spider, PatroolPoint.transform.position, Quaternion.identity);
         NetworkServer.Spawn(_Spider);
-
     }
 
     
@@ -334,6 +334,7 @@ public class ShooterNetworkManager : NetworkManager
         while (!subscenesLoaded)
             yield return null;
 
+        //NetworkServer.AddPlayerForConnection(conn, playerPrefab);
         // Send Scene message to client to additively load the game scene
         conn.Send(new SceneMessage { sceneName = gameScene, sceneOperation = SceneOperation.LoadAdditive });
 
@@ -360,11 +361,18 @@ public class ShooterNetworkManager : NetworkManager
 
             Scene newScene = SceneManager.GetSceneAt(index);
             subScenes.Add(newScene);
-            Spawner.InitialSpawn(newScene);
+            //spawnItem(newScene);
+
         }
 
         subscenesLoaded = true;
     }
 
+    public void spawnItem(Scene newScene)
+    {
+        Spawner.InitialSpawn(newScene);
+    }
+
     #endregion
+
 }

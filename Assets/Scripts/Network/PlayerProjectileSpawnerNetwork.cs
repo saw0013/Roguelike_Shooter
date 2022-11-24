@@ -101,7 +101,6 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         ñartridges--;
         ReloadText();
         CmdSpawnBullet();
-        //EZ_PoolManager.Spawn(_bullet, _spawnPoint.position, _spawnPoint.rotation);
 
         if (_shootAudio)
             _shootAudio.Play();
