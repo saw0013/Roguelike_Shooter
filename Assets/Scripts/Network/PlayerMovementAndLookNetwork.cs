@@ -331,10 +331,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
             .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
 
+        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+    .FirstOrDefault(x => x.name == "DefaultItemHP"));
+
         //Укажем ему наш ID match
         TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
 
+        DefaultItemHP.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+
         NetworkServer.Spawn(TriggerSpawnMob);
+        NetworkServer.Spawn(DefaultItemHP);
     }
 
     public void StartGame()

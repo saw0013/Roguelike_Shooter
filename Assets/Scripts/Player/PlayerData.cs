@@ -58,6 +58,8 @@ public class PlayerData : NetworkBehaviour
     #region Awake, Start, Update
     void Awake()
     {
+        AmmoReload = _startAmmoReload;
+        BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
         health = _maxHealth;

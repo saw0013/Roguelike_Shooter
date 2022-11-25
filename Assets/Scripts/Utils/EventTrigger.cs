@@ -83,29 +83,29 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    if (NetworkServer.active == false) return;
-    //
-    //    if (other.CompareTag("Player") && !isTriggered)
-    //    {
-    //        
-    //        //StartCoroutine(OnTrigEnter());
-    //        isTriggered = true;
-    //        ServerSpawn();
-    //    }
-    //}
-
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        //Clients and server run OnTriggerEnter so we just need to check           
-        //for server only, this means you can avoid the [Command] since it         
-        //is already server side
         if (NetworkServer.active == false) return;
 
-        if (other.tag == "Player")
+        if (other.CompareTag("Player") && !isTriggered)
+        {
+
+            StartCoroutine(OnTrigEnter());
+            isTriggered = true;
             ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
+        }
     }
+
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    //Clients and server run OnTriggerEnter so we just need to check           
+    //    //for server only, this means you can avoid the [Command] since it         
+    //    //is already server side
+    //    if (NetworkServer.active == false) return;
+
+    //    if (other.tag == "Player")
+    //        ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
+    //}
 
     public void OnTriggerExit(Collider other)
     {

@@ -135,11 +135,14 @@ public class EnemyBehaviour : NetworkBehaviour
                             agent.SetDestination(collider.transform.position);
                             canAttack = false;
                         }
-
                         else
                         {
                             canAttack = true;
                             agent.isStopped = true;
+                            var _damage = new Damage(damage);
+                            _damage.sender = transform;
+                            _damage.receiver = collider.transform;
+                            collider.gameObject.ApplyDamage(_damage);
                             //collider.GetComponent<PlayerData>().TakeDamage(damage);
                         }
                         canSeePlayer = true;
