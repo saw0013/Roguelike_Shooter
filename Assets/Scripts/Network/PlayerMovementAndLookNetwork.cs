@@ -334,13 +334,32 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
     .FirstOrDefault(x => x.name == "DefaultItemHP"));
 
+        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "DefaultItemDamage"));
+
+        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "DefaultItemMove"));
+
+        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
+
+        GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "DefaultItemGuard"));
+
         //Укажем ему наш ID match
         TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-
         DefaultItemHP.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        DefaultItemDamage.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        DefaultItemMove.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        DefaultItemGuard.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
 
         NetworkServer.Spawn(TriggerSpawnMob);
+        NetworkServer.Spawn(DefaultItemDamage);
+        NetworkServer.Spawn(DefaultItemMove);
         NetworkServer.Spawn(DefaultItemHP);
+        NetworkServer.Spawn(DefaultItemAmmo);
+        NetworkServer.Spawn(DefaultItemGuard);
     }
 
     public void StartGame()

@@ -27,9 +27,9 @@ public class DefaultItemAmmoUI : MonoBehaviour
         }
         else
         {
-            GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);
+            GetComponent<Image>().CrossFadeColor(new Color(0.5f, 0, 1, 0.4f), 2, false, true);
             Destroy(textTime.gameObject);
-            owner.StopBuffMoveSpeed();
+            owner.StopBuffAmmo();
         }
     }
 

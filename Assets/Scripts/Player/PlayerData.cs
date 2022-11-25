@@ -32,8 +32,6 @@ public class PlayerData : NetworkBehaviour
     public float AmmoReload;
     public int BuletForce;
 
-    [SyncVar(hook = nameof(SyncGuard))]
-    private float _SyncGuardPlayer;
     private float guardPlayer;
 
     //Данные которые будем синхронизировать.
@@ -138,19 +136,6 @@ public class PlayerData : NetworkBehaviour
     #region ItemsBuff
 
     #region CommonGuard
-    void SyncGuard(float oldvalue, float newValue) => guardPlayer = newValue;
-
-    [Command]
-    public void CmdChangeGuard(float newValue)
-    {
-        ChangeGuardValue(newValue);
-    }
-
-    [Server]
-    public void ChangeGuardValue(float newValue)
-    {
-        _SyncGuardPlayer = newValue;
-    }
 
     public void ChangeGuard(float BuffGuard)
     {
@@ -163,22 +148,9 @@ public class PlayerData : NetworkBehaviour
         guardPlayer = _guardStart;
         _textGuard.text = $"Щит: {guardPlayer}";
     }
-
     #endregion
 
     #region CommonMoveSpeed
-    [Command]
-    public void CmdChangeMoveSpeed(int newValue)
-    {
-        ChangeMoveSpeedValue(newValue);
-    }
-
-    [Server]
-    public void ChangeMoveSpeedValue(int newValue)
-    {
-        SpeedPlayer = newValue;
-    }
-
     public void ChangeMoveSpeed(int BuffSpeed)
     {
         SpeedPlayer += BuffSpeed;

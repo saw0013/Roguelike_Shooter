@@ -1,9 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DefaultItemGuard : NetworkBehaviour
 {
@@ -25,5 +21,6 @@ public class DefaultItemGuard : NetworkBehaviour
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemGuardUI>().RegisterOwner(_owner);
         Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 }

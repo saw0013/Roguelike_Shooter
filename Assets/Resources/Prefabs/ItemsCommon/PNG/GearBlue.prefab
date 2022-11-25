@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 153659370010235147}
   - component: {fileID: 6543352782365442426}
   - component: {fileID: 3268804235199476514}
+  - component: {fileID: 4420478228549195267}
+  - component: {fileID: -3274038147235353443}
   m_Layer: 5
   m_Name: GearBlue
   m_TagString: Untagged
@@ -91,6 +93,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textTime: {fileID: 1535788823564321961}
+--- !u!114 &4420478228549195267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024832678030775063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 8ec7ee6afcb7d6f47a22149da84d1e31
+  hasSpawned: 0
+--- !u!114 &-3274038147235353443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024832678030775063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1535788823564322390
 GameObject:
   m_ObjectHideFlags: 0

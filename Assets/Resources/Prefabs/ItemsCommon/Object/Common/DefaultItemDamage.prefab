@@ -109,9 +109,10 @@ GameObject:
   - component: {fileID: 1734431908024800723}
   - component: {fileID: 1734431908024800714}
   - component: {fileID: 1734431908024800559}
+  - component: {fileID: 4894504536932740271}
   - component: {fileID: 1734431908024800908}
   - component: {fileID: 1734431908024800947}
-  - component: {fileID: 4894504536932740271}
+  - component: {fileID: 1171832586152839412}
   m_Layer: 0
   m_Name: DefaultItemDamage
   m_TagString: Buffs
@@ -198,6 +199,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4894504536932740271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734431908024800676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c20e4791598df42a4dad14146f5cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  _imageItem: {fileID: 1024832678030775063, guid: 071dc33babac5c844a4ab2fe46bdb67e, type: 3}
 --- !u!114 &1734431908024800908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +269,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 1734431908024800711}
---- !u!114 &4894504536932740271
+--- !u!114 &1171832586152839412
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,9 +278,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1734431908024800676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c20e4791598df42a4dad14146f5cf3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _imageItem: {fileID: 1024832678030775063, guid: 071dc33babac5c844a4ab2fe46bdb67e, type: 3}

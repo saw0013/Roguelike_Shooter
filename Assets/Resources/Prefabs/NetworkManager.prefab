@@ -62,8 +62,8 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs: []
-  instances: 3
-  gameScene: 
+  instances: 1
+  gameScene: Assets/Scenes/Game.unity
   subScenes: []
 --- !u!114 &8281951297748787399
 MonoBehaviour:
@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   folderPath:
   - Prefabs\ItemsCommon\Object\Common
+  - Prefabs\ItemsCommon\PNG
   - Prefabs\Enviroment
   - Prefabs\PlayerCommon
   - Prefabs\MobNpc

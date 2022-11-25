@@ -21,5 +21,6 @@ public class DefaultItemHP : NetworkBehaviour
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemHPUI>().RegisterOwner(_owner);
         Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 }
