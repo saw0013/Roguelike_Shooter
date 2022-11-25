@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 114832139408792490}
   - component: {fileID: 114338341816592800}
   - component: {fileID: 2991752286308270999}
-  - component: {fileID: 8124644222607427050}
+  - component: {fileID: 3161179303295393169}
   m_Layer: 5
   m_Name: Quantum Console
   m_TagString: Untagged
@@ -695,7 +695,7 @@ MonoBehaviour:
   _scaler: {fileID: 114832139408792490}
   _uiRoot: {fileID: 224785810147451886}
   _referenceResolution: {x: 1920, y: 1080}
---- !u!114 &8124644222607427050
+--- !u!114 &3161179303295393169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2085,7 +2085,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224005418473288314}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9694398
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

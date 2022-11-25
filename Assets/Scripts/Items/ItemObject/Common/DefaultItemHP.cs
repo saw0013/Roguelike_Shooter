@@ -17,7 +17,7 @@ public class DefaultItemHP : NetworkBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeHealth(150);
+        _owner.BuffHealth(150);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemHPUI>().RegisterOwner(_owner);
         Destroy(gameObject);

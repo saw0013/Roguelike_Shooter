@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using Mirror;
+using Mono.CSharp;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -139,10 +140,8 @@ public class EnemyBehaviour : NetworkBehaviour
                         {
                             canAttack = true;
                             agent.isStopped = true;
-                            var _damage = new Damage(damage);
-                            _damage.sender = transform;
-                            _damage.receiver = collider.transform;
-                            collider.gameObject.ApplyDamage(_damage);
+                            StartCoroutine(damagePlayer(collider));
+
                             //collider.GetComponent<PlayerData>().TakeDamage(damage);
                         }
                         canSeePlayer = true;
@@ -158,6 +157,20 @@ public class EnemyBehaviour : NetworkBehaviour
             canSeePlayer = false;
     }
 
+
+    private IEnumerator damagePlayer(Collider collider)
+    {
+        yield return new WaitForEndOfFrame();
+
+        while (canAttack)
+        {
+            var _damage = new Damage(damage);
+            _damage.sender = transform;
+            _damage.receiver = collider.transform;
+            collider.gameObject.ApplyDamage(_damage);
+            yield return new WaitForSeconds(3f);
+        }
+    }
     #endregion
 
     #region Animation behaviour

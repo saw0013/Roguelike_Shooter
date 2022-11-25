@@ -8,6 +8,8 @@ public class BulletPool : NetworkBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
 
+    [SerializeField] private Damage damage;
+
     [SerializeField] private List<AudioClip> _audioClipImpactRandom;
 
     public int ForceShoot = 1000;

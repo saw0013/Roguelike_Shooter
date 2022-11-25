@@ -6,6 +6,7 @@ using DG.Tweening;
 using Mirror;
 using MirrorBasics;
 using TMPro;
+using UnityEngine.Networking.Types;
 
 public class PlayerData : NetworkBehaviour
 {
@@ -46,10 +47,14 @@ public class PlayerData : NetworkBehaviour
 
     [SerializeField] protected OnReceiveDamage _onStartReceiveDamage = new OnReceiveDamage();
     [SerializeField] protected OnReceiveDamage _onReceiveDamage = new OnReceiveDamage();
+    [SerializeField] protected OnDead _onDead = new OnDead();
     public OnReceiveDamage onStartReceiveDamage { get { return _onStartReceiveDamage; } protected set { _onStartReceiveDamage = value; } }
     public OnReceiveDamage onReceiveDamage { get { return _onReceiveDamage; } protected set { _onReceiveDamage = value; } }
+    public OnDead onDead { get { return _onDead; } protected set { _onDead = value; } }
 
     private bool isImmortal = false;
+
+    private bool isDead = false;
 
     #endregion
 
@@ -78,48 +83,77 @@ public class PlayerData : NetworkBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Bullet"))
+        {
+            var _damage = collision.transform.GetComponent<Damage>();
+            gameObject.ApplyDamage(_damage);
+        }
+    }
+
     #endregion
 
     #region Server Client Call ChangeHealth
     //метод который будет выставл€ть Health в соответствии с синхронизированным значением
     void SyncHealth(float oldvalue, float newValue) => health = newValue;
 
+
+    /// <summary>
+    /// Ѕудем мен€ть и синхронизировать ’ѕ
+    /// </summary>
+    /// <param name="newValue"></param>
     [Command] //обозначаем, что этот метод должен будет выполн€тьс€ на сервере по запросу клиента
     public void CmdChangeHealth(float newValue) //об€зательно ставим Cmd в начале названи€ метода
     {
         ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
     }
 
-    internal void ChangeHealth(float maxHealth)
+    internal void BuffHealth(float maxHealth)
     {
         _maxHealth = maxHealth;
         _healthSlider.maxValue = maxHealth / 100;
         _healthSliderRpc.maxValue = maxHealth / 100;
-        LocalShowHP(maxHealth);
-        CmdShowHP(maxHealth);
+        LocalShowHP(maxHealth / 100);
+        CmdShowHP(maxHealth / 100);
         CmdChangeHealth(maxHealth);
     }
 
-    //метод, который будет мен€ть переменную _SyncHealth. Ётот метод будет выполн€тьс€ только на сервере.
+    /// <summary>
+    /// метод, который будет мен€ть переменную _SyncHealth. Ётот метод будет выполн€тьс€ только на сервере и мен€ть ’ѕ игрока
+    /// </summary>
+    /// <param name="newValue"></param>
     [Server]
     public void ChangeHealthValue(float newValue)
     {
         _SyncHealth = newValue;
     }
 
-    //—делаем изменени€ на всех клиентах в полосочке над головой
+    /// <summary>
+    /// ќбновим дл€ всех клиентов HP над головой чтобы было видно
+    /// </summary>
+    /// <param name="PlayerHp"></param>
     [ClientRpc]
     void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp, Time.deltaTime * 20);
 
-    //¬ыполним команду с сервера чтобы обновить у всех клиентов
+    /// <summary>
+    /// ¬ызываем RpcShowHP <see cref="RpcShowHP"/>
+    /// </summary>
+    /// <param name="PlayerHp"></param>
     [Command]
     void CmdShowHP(float PlayerHp) => RpcShowHP(PlayerHp);
 
+    #region Ћокальные ’ѕ
+    /// <summary>
+    /// ќтобразим локальные ’ѕ в верхнем левом углу
+    /// </summary>
+    /// <param name="PlayerHp"></param>
     void LocalShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp, Time.deltaTime * 20);
         _textHealth.text = $"{health}/{_maxHealth}";
     }
+    #endregion  
 
     #endregion
 
@@ -207,18 +241,28 @@ public class PlayerData : NetworkBehaviour
 
     public virtual void TakeDamage(Damage damage)
     {
-        onStartReceiveDamage.Invoke(damage);
-
-        if (health > 0 && !isImmortal)
+       if (damage != null)
         {
-            //health -= ;
-            CmdChangeHealth(health - damage.damageValue);
-            CmdShowHP(health / 100);
-            LocalShowHP(health / 100);
+            onReceiveDamage.Invoke(damage);
+
+            if (health > 0 && !isImmortal)
+            {
+                //health -= damage.damageValue;
+                //CmdChangeHealth(health - damage.damageValue);
+                CmdShowHP(health / 100);
+                LocalShowHP(health / 100);
+            }
+
+            if (damage.damageValue > 0)
+                onReceiveDamage.Invoke(damage);
+
+            if (!isDead && health <= 0)
+            {
+                isDead = true;
+                onDead.Invoke(gameObject);
+            }
         }
 
-        if (damage.damageValue > 0)
-            onReceiveDamage.Invoke(damage);
     }
 
     #endregion

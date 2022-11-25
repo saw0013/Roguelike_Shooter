@@ -152,6 +152,19 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _hitWallParticles: {fileID: 1294844066107714, guid: 1a0f7225fc3d5408280dfce6c1979b1a, type: 3}
+  damage:
+    damageValue: 5
+    ignoreDefense: 0
+    activeRagdoll: 0
+    senselessTime: 0
+    sender: {fileID: 0}
+    receiver: {fileID: 0}
+    hitPosition: {x: 0, y: 0, z: 0}
+    hitReaction: 1
+    recoil_id: 0
+    reaction_id: 0
+    damageType: projectile
+    force: {x: 0, y: 0, z: 0}
   _audioClipImpactRandom:
   - {fileID: 8300000, guid: be6692b4305f41442acf890d9be4824d, type: 3}
   - {fileID: 8300000, guid: 169760fdff417014d8df9a20e3a4bb73, type: 3}

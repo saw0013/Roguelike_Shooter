@@ -11,6 +11,7 @@ TagManager:
   - Buffs
   - Enemy
   - ServerManager
+  - Bullet
   layers:
   - Default
   - TransparentFX

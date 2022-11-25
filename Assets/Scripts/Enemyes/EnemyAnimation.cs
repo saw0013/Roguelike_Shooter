@@ -19,4 +19,9 @@ public class EnemyAnimation : MonoBehaviour
     {
         playerAnimator.SetBool($"attack{AttackIndex}", canAttack);
     }
+
+    public void anim_Dead(bool isDead)
+    {
+        playerAnimator.SetBool("dead", isDead);
+    }
 }

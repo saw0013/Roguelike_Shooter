@@ -1330,6 +1330,9 @@ MonoBehaviour:
   _onReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1628,7 +1631,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
