@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2038813130493656009}
   - component: {fileID: 7053969124967997395}
+  - component: {fileID: 8281951297748787399}
   - component: {fileID: 5396412973184279213}
   - component: {fileID: 2038813130493656011}
   - component: {fileID: 2038813130493656004}
@@ -60,14 +61,27 @@ MonoBehaviour:
   playerPrefab: {fileID: 3827590655909793025, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs:
-  - {fileID: 8532264010294454578, guid: 8d171998c7379004288701355b80d772, type: 3}
-  - {fileID: 3607918559644206034, guid: 21c6f231d02d70d428a6da12152aab15, type: 3}
-  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
-  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
-  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
-  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
-  - {fileID: 7807593867751606716, guid: 59495c5330db3ea4bb803ebf47a0dd0f, type: 3}
+  spawnPrefabs: []
+  instances: 3
+  gameScene: 
+  subScenes: []
+--- !u!114 &8281951297748787399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038813130493656005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0f74b3ad7e718408fc45b534866192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  folderPath:
+  - Prefabs\ItemsCommon\Object\Common
+  - Prefabs\Enviroment
+  - Prefabs\PlayerCommon
+  - Prefabs\MobNpc
 --- !u!114 &5396412973184279213
 MonoBehaviour:
   m_ObjectHideFlags: 0

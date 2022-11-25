@@ -4,6 +4,7 @@ using System.Drawing;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : NetworkBehaviour
@@ -139,7 +140,7 @@ public class EnemyBehaviour : NetworkBehaviour
                         {
                             canAttack = true;
                             agent.isStopped = true;
-                            collider.GetComponent<PlayerData>().TakeDamage(damage);
+                            //collider.GetComponent<PlayerData>().TakeDamage(damage);
                         }
                         canSeePlayer = true;
                     }

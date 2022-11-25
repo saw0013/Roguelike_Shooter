@@ -69,7 +69,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [SyncVar] public string inScene = "";
 
-    Mirror.NetworkMatch networkMatch;
+    internal NetworkMatch networkMatch;
+
+    public string MymatchID;
 
     [SyncVar] public Match currentMatch;
 
@@ -80,6 +82,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     #endregion
 
     #region Network singleton
+
+    #region OVERRIDES BASE
 
     public override void OnStartServer()
     {
@@ -119,6 +123,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Client Stopped on Server");
         ServerDisconnect();
     }
+
+    #endregion
 
     #region HOST MATCH
 
@@ -319,9 +325,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         MatchMaker.instance.BeginGame(matchID);
         Debug.Log($"<color=red>Game Beginning</color>");
-        GameObject matchControllerObject = Instantiate(Resources.LoadAsync("Prefabs/SpawnTestSpider").asset as GameObject);
-        matchControllerObject.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        NetworkServer.Spawn(matchControllerObject);
+        MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
+
+        //Найдём наш триггер спавн
+        GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+            .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
+
+        //Укажем ему наш ID match
+        TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+
+        NetworkServer.Spawn(TriggerSpawnMob);
     }
 
     public void StartGame()
@@ -335,7 +348,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        //
+        
+        //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
 
@@ -343,47 +357,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputActive = true;
-        //f(playerIndex == 1)
-        //   if (isLocalPlayer)
-        //       CmdSpawnBuff();
-
-        //NetworkClient.PrepareToSpawnSceneObjects();
     }
-
-   // [Command]
-   // void spawnClient()
-   // {
-   //     Debug.Log("Вывали спавнер пауков чистый CMD");
-   //     var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-   //        x.name == "SpawnTestSpider");
-   //
-   //     var _obj = Instantiate(go);
-   //     // SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
-   //     NetworkServer.Spawn(_obj, connectionToClient);
-   // }
-
-    
-
-    [Command]
-    private void CmdSpawnBuff()
-    {
-        var go = Instantiate(Resources.LoadAsync("Prefabs/SpawnTestSpider").asset as GameObject);
-        NetworkServer.Spawn(go);
-    }
-
-    [ClientRpc]
-    public void SpawnBuff(GameObject go)
-    {
-        //var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-        //   x.name == "SpawnTestSpider");
-        if(!go)
-            Instantiate(go);
-        else
-        {
-            Debug.Log("Объекта нету");
-        }
-    }
-
 
     #endregion
 
@@ -395,7 +369,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         base.OnStartLocalPlayer();
 
         //Спавним виртаульную камеру на сцену локально
-        var vCam = Instantiate(Resources.LoadAsync("Prefabs/VirtualFollowCamera").asset as GameObject);
+        var vCam = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/VirtualFollowCamera").asset as GameObject);
         //NetworkServer.Spawn(vCam);
         
         mainCamera = vCam.GetComponentInChildren<Camera>();

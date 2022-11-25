@@ -180,12 +180,11 @@ public class ShooterNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        Debug.Log("Подключился игрок " + numPlayers);
         //StartCoroutine(OnServerAddPlayerDelayed(conn));
-        //base.OnServerAddPlayer(conn);
-        GameObject player = Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
-        player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
-        NetworkServer.AddPlayerForConnection(conn, player);
+        base.OnServerAddPlayer(conn);
+        //GameObject player = Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
+        //player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+        //NetworkServer.AddPlayerForConnection(conn, player);
     }
 
     /// <summary>

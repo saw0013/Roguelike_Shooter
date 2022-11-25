@@ -101,9 +101,6 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         сartridges--;
         ReloadText();
         CmdSpawnBullet();
-
-        if (_shootAudio)
-            _shootAudio.Play();
     }
 
     [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
@@ -121,6 +118,9 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
         if (spawnParticles)
             spawnParticles.Play();
+
+        if (_shootAudio)
+            _shootAudio.Play();
     }
 
 }

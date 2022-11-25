@@ -7,12 +7,25 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using Mirror;
+using UnityEngine.Networking.Types;
 using UnityEngine.SceneManagement;
+using Utils;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
 public class EventTrigger : NetworkBehaviour
 {
+    /*
+     * Clients and server run OnTriggerEnter so we just need to check
+     * for server only, this means you can avoid the [Command] since it
+     * is already server side
+     *
+     * ===========RU============
+     * Клиенты и сервер запускают OnTriggerEnter, поэтому нам просто нужно проверить
+     * только для сервера, это означает, что вы можете избежать [Command], так как она
+    *  уже на стороне сервера
+     */
+    #region Variables
 
     [Header("---COLOR COLLIDER ONLY INSPECTOR---")]
     [SerializeField] private bool ShowWire = false;
@@ -23,9 +36,22 @@ public class EventTrigger : NetworkBehaviour
     [HideInInspector,]
     public bool isTriggered = false;
 
-    [SerializeField] SpawningNPC spawningNPC;
+    [SerializeField] SpawningNPC spawningWho;
+    [SerializeField] private Transform spawnMob;
 
     public UnityEvent OnEnterTrigger;
+    public UnityEvent OnExitTrigger;
+
+    private NetworkIdentity trigger;
+
+    #endregion
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+    }
+
+    void Start() => trigger = GetComponent<NetworkIdentity>();
 
     #region OnInspectorSetting
     void OnDrawGizmos()
@@ -55,42 +81,57 @@ public class EventTrigger : NetworkBehaviour
 
     #endregion
 
+    #region Trigger Methods
 
-    void Start()
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //    if (NetworkServer.active == false) return;
+    //
+    //    if (other.CompareTag("Player") && !isTriggered)
+    //    {
+    //        
+    //        //StartCoroutine(OnTrigEnter());
+    //        isTriggered = true;
+    //        ServerSpawn();
+    //    }
+    //}
+
+    void OnTriggerEnter(Collider other)
     {
-        
+        //Clients and server run OnTriggerEnter so we just need to check           
+        //for server only, this means you can avoid the [Command] since it         
+        //is already server side
+        if (NetworkServer.active == false) return;
+
+        if (other.tag == "Player")
+            ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
     }
 
-    [ServerCallback]
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")/* && !isTriggered*/)
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Зашёл игрок с ConnID "+ other.GetComponent<NetworkIdentity>().netId);
-            CmdSpawnSpider();
-            //StartCoroutine(OnTrigEnter());
-            //isTriggered = true;
-
+            //DO
+            OnExitTrigger?.Invoke();
         }
     }
 
-    [Command]
-    void Cmd_AssignLocalAuthority(GameObject player)
-    {
-        NetworkIdentity ni = player.GetComponent<NetworkIdentity>();
-        ni.AssignClientAuthority(connectionToClient);
-    }
+    #endregion
 
-    //public void OnTriggerExit(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        other.GetComponent<NetworkIdentity>()
-    //            .RemoveClientAuthority();
-    //    }
-    //
-    //    Debug.Log("Полномочий больше нет");
-    //}
+    private void ServerSpawn(Guid matchID)
+    {
+        var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+            x.name == "SpiderNpc"), new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
+        npc.GetComponent<NetworkMatch>().matchId = matchID;
+        NetworkServer.Spawn(npc);
+        switch (spawningWho)
+        {
+            case SpawningNPC.Spider:
+                //TODO : Передать спавн позиций
+               
+                break;
+        }
+    }
 
     private IEnumerator OnTrigEnter()
     {
@@ -99,37 +140,15 @@ public class EventTrigger : NetworkBehaviour
         Destroy(this, delayDestroy);
     }
 
-    [ClientRpc]
-    private void RpcSpawn()
-    {
-        var go = ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.FirstOrDefault(x =>
-            x.name == "BarrelExpl");
-
-        var _obj = Instantiate(go, transform);
-        //SceneManager.MoveGameObjectToScene(_obj, gameObject.scene);
-        //NetworkServer.Spawn(_obj);
-
-        Debug.Log("Спавним Уровень");
-        switch (spawningNPC)
-        {
-            case SpawningNPC.Spider:
-                break;
-        }
-    }
-
-    [Command]
-    void CmdSpawnSpider()
-    {
-        var go = Instantiate(Resources.LoadAsync("Prefabs/BarrelExpl").asset as GameObject);
-        var _obj = Instantiate(go);
-        NetworkServer.Spawn(_obj);
-    }
+    #region Enums
 
     enum SpawningNPC
     {
         None = 0,
         Spider = 1,
         Solder = 2,
-        Boss = 3
+        Boss = 10
     }
+
+    #endregion
 }
