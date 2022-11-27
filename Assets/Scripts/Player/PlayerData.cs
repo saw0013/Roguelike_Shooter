@@ -136,7 +136,7 @@ public class PlayerData : NetworkBehaviour
         _healthSlider.maxValue = maxHealth / 100;
         _healthSliderRpc.maxValue = maxHealth / 100;
         ClientServerChangeHp(maxHealth);
-        LocalShowHP(_maxHealth);
+        LocalShowHP(maxHealth);
     }
 
 
@@ -248,15 +248,8 @@ public class PlayerData : NetworkBehaviour
 
             if (_SyncHealth > 0 && !isImmortal)
             {
-                if (isServer) //если мы являемся сервером, то переходим к непосредственному изменению переменной
-                {
-                    ChangeHealthValue(_SyncHealth - damage.damageValue);
-                }
-                else
-                {
-                    CmdChangeHealth(_SyncHealth - damage.damageValue); //в противном случае делаем на сервер запрос об изменении переменной
-                }
-                LocalShowHP(_SyncHealth / 100);
+                ClientServerChangeHp(_SyncHealth - damage.damageValue);
+                LocalShowHP(_SyncHealth - damage.damageValue);
             }
 
             if (damage.damageValue > 0)
