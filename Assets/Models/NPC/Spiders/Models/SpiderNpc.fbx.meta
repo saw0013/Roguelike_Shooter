@@ -21,6 +21,9 @@ ModelImporter:
   - first:
       74: -4042596859388947455
     second: Spider|Spider|Walk
+  - first:
+      74: -7965418313515403012
+    second: Spider|Spider|Walk (1)
   externalObjects: {}
   materials:
     materialImportMode: 2

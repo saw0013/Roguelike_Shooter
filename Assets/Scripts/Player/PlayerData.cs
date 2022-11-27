@@ -7,6 +7,7 @@ using Mirror;
 using MirrorBasics;
 using TMPro;
 using UnityEngine.Networking.Types;
+using Zenject.SpaceFighter;
 
 public class PlayerData : NetworkBehaviour
 {
@@ -39,6 +40,8 @@ public class PlayerData : NetworkBehaviour
     [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
 
+    private float playerHealth;
+
     [SerializeField] internal TMP_Text _nameDisplayRpc;
 
     [SyncVar(hook = nameof(NameDisplay))]
@@ -64,9 +67,14 @@ public class PlayerData : NetworkBehaviour
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
-        _SyncHealth = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        //playerHealth = _maxHealth;
     }
 
     void Update()
@@ -75,8 +83,8 @@ public class PlayerData : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-               ClientServerChangeHp(_SyncHealth - 10);
-               LocalShowHP(_SyncHealth - 10);
+               ClientServerChangeHp(playerHealth - 10);
+               LocalShowHP(playerHealth - 10);
             }
         }
     }
@@ -90,6 +98,11 @@ public class PlayerData : NetworkBehaviour
         }
     }
 
+    void Start()
+    {
+        playerHealth = _maxHealth;
+    }
+
     #endregion
 
     #region Server Client Call ChangeHealth
@@ -100,7 +113,7 @@ public class PlayerData : NetworkBehaviour
         else CmdChangeHealth(hp); //в противном случае делаем на сервер запрос об изменении переменной
     }
     //метод который будет выставлять Health в соответствии с синхронизированным значением
-    void SyncHealth(float oldvalue, float newValue) => _SyncHealth = newValue; //обязательно делаем два значения - старое и новое. 
+    void SyncHealth(float oldvalue, float newValue) => playerHealth = newValue; //обязательно делаем два значения - старое и новое. 
 
     /// <summary>
     /// метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере и менять ХП игрока
@@ -148,7 +161,7 @@ public class PlayerData : NetworkBehaviour
     void LocalShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-        _textHealth.text = $"{_SyncHealth}/{_maxHealth}";
+        _textHealth.text = $"{playerHealth}/{_maxHealth}";
     }
     #endregion  
 
@@ -246,16 +259,16 @@ public class PlayerData : NetworkBehaviour
         {
             onReceiveDamage.Invoke(damage);
 
-            if (_SyncHealth > 0 && !isImmortal)
+            if (playerHealth > 0 && !isImmortal)
             {
-                ClientServerChangeHp(_SyncHealth - damage.damageValue);
-                LocalShowHP(_SyncHealth - damage.damageValue);
+                ClientServerChangeHp(playerHealth - damage.damageValue);
+                LocalShowHP(playerHealth - damage.damageValue);
             }
 
             if (damage.damageValue > 0)
                 onReceiveDamage.Invoke(damage);
 
-            if (!isDead && _SyncHealth <= 0)
+            if (!isDead && playerHealth <= 0)
             {
                 isDead = true;
                 onDead.Invoke(gameObject);

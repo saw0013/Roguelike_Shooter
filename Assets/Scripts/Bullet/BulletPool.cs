@@ -10,7 +10,7 @@ public class BulletPool : NetworkBehaviour
 
     [SerializeField] private Damage damage;
 
-    [SerializeField] private List<AudioClip> _audioClipImpactRandom;
+    [SerializeField] private List<AudioClip> _audioClipImpactRandom = new List<AudioClip>();
 
     public int ForceShoot = 1000;
 
@@ -34,12 +34,14 @@ public class BulletPool : NetworkBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
     {
-        transform.GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
+        //TODO : Метод появления изменён. Проверить!!!
+        if(!transform.GetComponent<MeshRenderer>().enabled)
+            transform.GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
+        _audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -60,7 +62,6 @@ public class BulletPool : NetworkBehaviour
         _audioSource.Play();
 
         Destroy(particle, .7f);
-        NetworkServer.Destroy(gameObject);
         Destroy(gameObject);
     }
 

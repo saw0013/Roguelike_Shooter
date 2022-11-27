@@ -40,10 +40,13 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     [SerializeField] private PlayerData playerData;
 
+    private PlayerMovementAndLookNetwork playerNetwork;
+
     #endregion
 
     private void Start()
     {
+        playerNetwork = GetComponent<PlayerMovementAndLookNetwork>();
         сartridges = MaxCartridges;
         _textCartridges.text = $"AMMO: {сartridges}";
     }
@@ -100,28 +103,25 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         timer = 0f;
         сartridges--;
         ReloadText();
-        //Shoot();
         CmdSpawnBullet();
     }
 
-    void Shoot()
-    {
-        RpcSpawnBullet();
-    }
+    
     [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
     public void CmdSpawnBullet()
     {
-        //GameObject bulletGo = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули на сервере
-        //bulletGo.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
-        //NetworkServer.Spawn(bulletGo); //отправляем информацию о сетевом объекте всем игрокам.
+        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
+        bullet.GetComponent<NetworkMatch>().matchId = playerNetwork.networkMatch.matchId;
+        bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
+        NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
         RpcSpawnBullet();
     }
 
     [ClientRpc] //позволяет серверу удаленно вызывать эту функцию для всех клиентских копий объекта
     public void RpcSpawnBullet()
     {
-        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
-        bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
+        //var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
+        //bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
         if (spawnParticles)
             spawnParticles.Play();
 
