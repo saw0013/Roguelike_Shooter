@@ -100,9 +100,14 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         timer = 0f;
         сartridges--;
         ReloadText();
+        //Shoot();
         CmdSpawnBullet();
     }
 
+    void Shoot()
+    {
+        RpcSpawnBullet();
+    }
     [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
     public void CmdSpawnBullet()
     {

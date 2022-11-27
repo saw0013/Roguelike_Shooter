@@ -5,10 +5,12 @@ using Mirror;
 using Mono.CSharp;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using Zenject;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : NetworkBehaviour
+
 {
 
     #region  Variables
@@ -141,7 +143,6 @@ public class EnemyBehaviour : NetworkBehaviour
                             canAttack = true;
                             agent.isStopped = true;
                             StartCoroutine(damagePlayer(collider));
-
                             //collider.GetComponent<PlayerData>().TakeDamage(damage);
                         }
                         canSeePlayer = true;
@@ -156,7 +157,6 @@ public class EnemyBehaviour : NetworkBehaviour
         else if (canSeePlayer)
             canSeePlayer = false;
     }
-
 
     private IEnumerator damagePlayer(Collider collider)
     {

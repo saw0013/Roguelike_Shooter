@@ -58,7 +58,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     #region Network Variables
     public static PlayerMovementAndLookNetwork localPlayer;
-    
+
     [Space(20)]
     [SyncVar] public string matchID;
     [SyncVar] public int playerIndex;
@@ -373,7 +373,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
-        
+
         //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
@@ -396,7 +396,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //Спавним виртаульную камеру на сцену локально
         var vCam = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/VirtualFollowCamera").asset as GameObject);
         //NetworkServer.Spawn(vCam);
-        
+
         mainCamera = vCam.GetComponentInChildren<Camera>();
 
         vCamera = vCam.GetComponent<CinemachineVirtualCamera>();
@@ -406,7 +406,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
 
-   
+
     #region Awake, Start, Update, FixedUpdate
 
     void Awake()
@@ -418,7 +418,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     private void Start()
     {
         foreach (var pan in _panelsCanvas)
-            if(isLocalPlayer)
+            if (isLocalPlayer)
                 pan.SetActive(true);
     }
 
@@ -441,7 +441,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             if (playerData.InputActive) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
         }
-
     }
 
     private void FixedUpdate()
@@ -507,6 +506,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     }
 
     #endregion
+
 
     #region Передвижение и вращение персонажа
 

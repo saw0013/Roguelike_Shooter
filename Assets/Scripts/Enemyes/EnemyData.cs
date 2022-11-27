@@ -3,9 +3,10 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EnemyData : EnemyBehaviour
+public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Space(30)]
     [Header("Enemy Data"), Tooltip("Health")]
@@ -32,6 +33,19 @@ public class EnemyData : EnemyBehaviour
     {
         base.Update();
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+        cursorManager.cursor = cursorManager.cursorAttack;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+        cursorManager.cursor = cursorManager.cursorNormal;
+    }
+
 
     #region Server Client Call ChangeHealth
     //метод который будет выставлять Health в соответствии с синхронизированным значением
