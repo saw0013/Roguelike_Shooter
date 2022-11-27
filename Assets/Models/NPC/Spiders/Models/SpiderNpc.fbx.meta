@@ -51,11 +51,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Spider|Spider|Attack1
-      takeName: Spider|Spider|Attack1
+      name: Spider|Spider|Walk (1)
+      takeName: Spider|Spider|Walk
       internalID: 0
       firstFrame: 0
-      lastFrame: 79
+      lastFrame: 39
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

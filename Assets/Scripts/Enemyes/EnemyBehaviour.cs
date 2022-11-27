@@ -10,9 +10,7 @@ using Zenject;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : NetworkBehaviour
-
 {
-
     #region  Variables
 
     [Header("Draw Eye")]
@@ -28,6 +26,7 @@ public class EnemyBehaviour : NetworkBehaviour
 
     [HideInInspector]
     public bool canSeePlayer;
+    public bool Attacked;
 
     private bool canAttack;
 
@@ -36,6 +35,10 @@ public class EnemyBehaviour : NetworkBehaviour
     [SerializeField, Tooltip("Как в оффлайн так и в Runtime")] internal bool isShowGizmos = false;
 
     [SerializeField] private Damage damage;
+    [SerializeField] private NetworkDamageTrigger damageTrigger;
+    [SerializeField] private float _timeAttack;
+
+    private float currentTimeAttack;
 
     [HideInInspector]
     public Transform patroolPoints;
@@ -62,6 +65,17 @@ public class EnemyBehaviour : NetworkBehaviour
     {
         isPatrool = canSeePlayer;
         Animation();
+        if (Attacked)
+        {
+            currentTimeAttack += Time.deltaTime;
+            if (currentTimeAttack >= _timeAttack)
+            {
+                currentTimeAttack = 0;
+                damageTrigger.AttackNum = 0;
+                Attacked = false;
+                agent.isStopped = false;
+            }
+        }
     }
 
 #if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN
@@ -132,17 +146,22 @@ public class EnemyBehaviour : NetworkBehaviour
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
                     if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        if (distanceToTarget > 2.5f)
+                        if (distanceToTarget >= agent.stoppingDistance + 0.5f)
                         {
-                            agent.isStopped = false;
+                            //agent.isStopped = false;
                             agent.SetDestination(collider.transform.position);
                             canAttack = false;
                         }
                         else
                         {
                             canAttack = true;
-                            agent.isStopped = true;
-                            StartCoroutine(damagePlayer(collider));
+                            if (!Attacked)
+                            {
+                                Attacked = true;
+                                agent.isStopped = true;
+                                damageTrigger.AttackNum = 1;
+                            }
+                            //StartCoroutine(damagePlayer(collider));
                             //collider.GetComponent<PlayerData>().TakeDamage(damage);
                         }
                         canSeePlayer = true;
@@ -158,19 +177,19 @@ public class EnemyBehaviour : NetworkBehaviour
             canSeePlayer = false;
     }
 
-    private IEnumerator damagePlayer(Collider collider)
-    {
-        yield return new WaitForEndOfFrame();
+    //private IEnumerator damagePlayer(Collider collider)
+    //{
+    //    yield return new WaitForEndOfFrame();
 
-        while (canAttack)
-        {
-            var _damage = new Damage(damage);
-            _damage.sender = transform;
-            _damage.receiver = collider.transform;
-            collider.gameObject.ApplyDamage(_damage);
-            yield return new WaitForSeconds(3f);
-        }
-    }
+    //    while (canAttack)
+    //    {
+    //        var _damage = new Damage(damage);
+    //        _damage.sender = transform;
+    //        _damage.receiver = collider.transform;
+    //        collider.gameObject.ApplyDamage(_damage);
+    //        yield return new WaitForSeconds(3f);
+    //    }
+    //}
     #endregion
 
     #region Animation behaviour
@@ -178,7 +197,7 @@ public class EnemyBehaviour : NetworkBehaviour
     private void Animation()
     {
         e_anim.anim_Walk(agent.hasPath);
-        e_anim.anim_Attack(canAttack, Random.Range(1, 2));
+        e_anim.anim_Attack(Attacked, Random.Range(1, 2));
     }
 
     #endregion
