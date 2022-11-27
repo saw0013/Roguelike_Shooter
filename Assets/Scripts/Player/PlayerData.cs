@@ -39,8 +39,6 @@ public class PlayerData : NetworkBehaviour
     [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
 
-    private float health;
-
     [SerializeField] internal TMP_Text _nameDisplayRpc;
 
     [SyncVar(hook = nameof(NameDisplay))]
@@ -66,7 +64,7 @@ public class PlayerData : NetworkBehaviour
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
-        health = _maxHealth;
+        _SyncHealth = _maxHealth;
         _healthSlider.maxValue = _maxHealth / 100;
         _healthSliderRpc.maxValue = _maxHealth / 100;
     }
@@ -77,12 +75,8 @@ public class PlayerData : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (isServer) //если мы являемся сервером, то переходим к непосредственному изменению переменной
-                    ChangeHealthValue(health - 10);
-                else
-                    CmdChangeHealth(health - 10); //в противном случае делаем на сервер запрос об изменении переменной
-
-                LocalShowHP(health - 10);
+               ClientServerChangeHp(_SyncHealth - 10);
+               LocalShowHP(_SyncHealth - 10);
             }
         }
     }
@@ -100,8 +94,13 @@ public class PlayerData : NetworkBehaviour
 
     #region Server Client Call ChangeHealth
 
+    void ClientServerChangeHp(float hp)
+    {
+        if (isServer) ChangeHealthValue(hp);//если мы являемся сервером, то переходим к непосредственному изменению переменной
+        else CmdChangeHealth(hp); //в противном случае делаем на сервер запрос об изменении переменной
+    }
     //метод который будет выставлять Health в соответствии с синхронизированным значением
-    void SyncHealth(float oldvalue, float newValue) => health = newValue; //обязательно делаем два значения - старое и новое. 
+    void SyncHealth(float oldvalue, float newValue) => _SyncHealth = newValue; //обязательно делаем два значения - старое и новое. 
 
     /// <summary>
     /// метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере и менять ХП игрока
@@ -136,18 +135,7 @@ public class PlayerData : NetworkBehaviour
         _maxHealth = maxHealth;
         _healthSlider.maxValue = maxHealth / 100;
         _healthSliderRpc.maxValue = maxHealth / 100;
-        if (isServer) //если мы являемся сервером, то переходим к непосредственному изменению переменной
-        {
-            ChangeHealthValue(_maxHealth);
-            Debug.LogWarning("Взяли баф и мы сервер");
-        }
-
-        else
-        {
-            Debug.LogWarning("Взяли баф МЫ НЕСЕРВЕР");
-            CmdChangeHealth(_maxHealth); //в противном случае делаем на сервер запрос об изменении переменной
-        }
-
+        ClientServerChangeHp(maxHealth);
         LocalShowHP(_maxHealth);
     }
 
@@ -160,7 +148,7 @@ public class PlayerData : NetworkBehaviour
     void LocalShowHP(float PlayerHp)
     {
         _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-        _textHealth.text = $"{health}/{_maxHealth}";
+        _textHealth.text = $"{_SyncHealth}/{_maxHealth}";
     }
     #endregion  
 
@@ -258,26 +246,23 @@ public class PlayerData : NetworkBehaviour
         {
             onReceiveDamage.Invoke(damage);
 
-            if (health > 0 && !isImmortal)
+            if (_SyncHealth > 0 && !isImmortal)
             {
                 if (isServer) //если мы являемся сервером, то переходим к непосредственному изменению переменной
                 {
-                    ChangeHealthValue(health - damage.damageValue);
-                    Debug.LogWarning("Получили урон мы сервер");
+                    ChangeHealthValue(_SyncHealth - damage.damageValue);
                 }
-
                 else
                 {
-                    Debug.LogWarning("Получили урон МЫ НЕСЕРВЕР");
-                    CmdChangeHealth(health - damage.damageValue); //в противном случае делаем на сервер запрос об изменении переменной
+                    CmdChangeHealth(_SyncHealth - damage.damageValue); //в противном случае делаем на сервер запрос об изменении переменной
                 }
-                LocalShowHP(health / 100);
+                LocalShowHP(_SyncHealth / 100);
             }
 
             if (damage.damageValue > 0)
                 onReceiveDamage.Invoke(damage);
 
-            if (!isDead && health <= 0)
+            if (!isDead && _SyncHealth <= 0)
             {
                 isDead = true;
                 onDead.Invoke(gameObject);
