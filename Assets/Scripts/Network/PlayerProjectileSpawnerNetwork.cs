@@ -107,12 +107,13 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     }
 
     
-    [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
+    [Command(requiresAuthority = false)] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
     public void CmdSpawnBullet()
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         bullet.GetComponent<NetworkMatch>().matchId = playerNetwork.networkMatch.matchId;
-        bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
+        bullet.GetComponent<BulletPool>()?.OnSpawnBullet(playerData.BuletForce);
+        bullet.GetComponent<BulletPool>().owner = netId;
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
         RpcSpawnBullet();
     }
@@ -122,6 +123,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     {
         //var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         //bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce);
+        //bullet.GetComponent<BulletPool>().owner = netId;
         if (spawnParticles)
             spawnParticles.Play();
 

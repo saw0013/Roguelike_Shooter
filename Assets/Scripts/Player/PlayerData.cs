@@ -89,13 +89,19 @@ public class PlayerData : NetworkBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            //TODO : Сделать счётчик и вести счётчик в BulletPool OnCollisionEnter
+            Debug.LogWarning($"Тимдамаг от {other.GetComponent<BulletPool>().owner}");
+        }
+
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            var _damage = collision.transform.GetComponent<Damage>();
-            gameObject.ApplyDamage(_damage);
-        }
+       
     }
 
     void Start()
@@ -145,11 +151,14 @@ public class PlayerData : NetworkBehaviour
 
     internal void BuffHealth(float maxHealth)
     {
-        _maxHealth = maxHealth;
-        _healthSlider.maxValue = maxHealth / 100;
-        _healthSliderRpc.maxValue = maxHealth / 100;
-        ClientServerChangeHp(maxHealth);
-        LocalShowHP(maxHealth);
+        if (hasAuthority) //Если мы имеем право на изменение
+        {
+            _maxHealth = maxHealth;
+            _healthSlider.maxValue = maxHealth / 100;
+            _healthSliderRpc.maxValue = maxHealth / 100;
+            ClientServerChangeHp(maxHealth);
+            LocalShowHP(maxHealth);
+        }
     }
 
 
@@ -160,8 +169,11 @@ public class PlayerData : NetworkBehaviour
     /// <param name="PlayerHp"></param>
     void LocalShowHP(float PlayerHp)
     {
-        _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-        _textHealth.text = $"{playerHealth}/{_maxHealth}";
+        if (isLocalPlayer) //Если мы локальный игрок
+        {
+            _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
+            _textHealth.text = $"{PlayerHp}/{_maxHealth}";
+        }
     }
     #endregion  
 
@@ -255,23 +267,27 @@ public class PlayerData : NetworkBehaviour
 
     public virtual void TakeDamage(Damage damage)
     {
-        if (damage != null)
+        if (hasAuthority)
         {
-            onReceiveDamage.Invoke(damage);
-
-            if (playerHealth > 0 && !isImmortal)
+            if (damage != null)
             {
-                ClientServerChangeHp(playerHealth - damage.damageValue);
-                LocalShowHP(playerHealth - damage.damageValue);
-            }
-
-            if (damage.damageValue > 0)
                 onReceiveDamage.Invoke(damage);
 
-            if (!isDead && playerHealth <= 0)
-            {
-                isDead = true;
-                onDead.Invoke(gameObject);
+                if (playerHealth > 0 && !isImmortal)
+                {
+                    ClientServerChangeHp(playerHealth - damage.damageValue);
+                    LocalShowHP(playerHealth - damage.damageValue);
+                }
+
+                if (damage.damageValue > 0)
+                    onReceiveDamage.Invoke(damage);
+
+                if (!isDead && playerHealth <= 0)
+                {
+                    isDead = true;
+                    onDead.Invoke(gameObject);
+                    InputActive = false;
+                }
             }
         }
 

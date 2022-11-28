@@ -1159,11 +1159,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3827590655909826849}
+  - component: {fileID: 8793499387899410415}
   - component: {fileID: 3827590655917096605}
   - component: {fileID: 6104845788952485230}
   - component: {fileID: 3170911305126743654}
   - component: {fileID: 3827590655909793146}
   - component: {fileID: 3827590655909793030}
+  - component: {fileID: 3225267570092020803}
   - component: {fileID: 3827590655909793024}
   - component: {fileID: 1647746316410821255}
   - component: {fileID: 4230446274181604814}
@@ -1202,6 +1204,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &8793499387899410415
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
 --- !u!95 &3827590655917096605
 Animator:
   serializedVersion: 4
@@ -1283,7 +1293,7 @@ MonoBehaviour:
   reloadKey: 324
   _bullet: {fileID: 3607918559644205627, guid: 21c6f231d02d70d428a6da12152aab15, type: 3}
   _spawnPoint: {fileID: 7776673961621920768}
-  SpawnRate: 0.15
+  SpawnRate: 0.25
   MaxCartridges: 45
   spawnParticles: {fileID: 4253011153332654913}
   _shootAudio: {fileID: 7776673959959146265}
@@ -1310,7 +1320,7 @@ MonoBehaviour:
   _textHealth: {fileID: 667439118614316443}
   _textGuard: {fileID: 2737344952758089390}
   _startAmmoReload: 3
-  _startForceBulet: 3
+  _startForceBulet: 2
   _maxHealth: 100
   _guardStart: 10
   _speedStart: 5
@@ -1332,7 +1342,19 @@ MonoBehaviour:
       m_Calls: []
   _onDead:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6104845788952485230}
+        m_TargetAssemblyTypeName: PlayerMovementAndLookNetwork, Assembly-CSharp
+        m_MethodName: DeadPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1348,7 +1370,20 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!65 &3225267570092020803
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5406228, y: 2.2960997, z: 0.5160135}
+  m_Center: {x: -0.012304753, y: 1.1443412, z: 0.045117438}
 --- !u!136 &3827590655909793024
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1359,10 +1394,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 2debad4ac21a6644faf4fc93bd5b5869, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.29553714
-  m_Height: 1.9959948
+  m_Radius: 0.23829353
+  m_Height: 1.9701543
   m_Direction: 1
-  m_Center: {x: 0, y: 0.95699584, z: 0.020863563}
+  m_Center: {x: -0.0019327998, y: 0.9699161, z: 0.020863563}
 --- !u!114 &1647746316410821255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1914,8 +1949,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2177801, y: 0.32652235, z: 0.2383007}
-  m_Center: {x: -0.0023549795, y: 0.02828753, z: 0.000000014901161}
+  m_Size: {x: 1.0327126, y: 0.32652235, z: 0.2383007}
+  m_Center: {x: 0.09017879, y: 0.02828753, z: 0.000000014901161}
 --- !u!1 &3827590655909793037
 GameObject:
   m_ObjectHideFlags: 0
@@ -2737,7 +2772,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3827590655909793087}
-  m_LocalRotation: {x: 0.000004071404, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.000004074314, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.06298324, y: -0.5939984, z: 0.0028223908}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
@@ -7958,7 +7993,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7776673961621920769}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.654, y: 0.097, z: -0.0002}
+  m_LocalPosition: {x: -0.6619, y: 0.097, z: -0.0002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using MeshRenderer = UnityEngine.MeshRenderer;
+using Newtonsoft.Json.Bson;
 
 public class BulletPool : NetworkBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
+    [SerializeField] private GameObject _hitPlayerParticles;
 
     [SerializeField] private Damage damage;
 
-    [SerializeField] private List<AudioClip> _audioClipImpactRandom = new List<AudioClip>();
+
 
     public int ForceShoot = 1000;
 
-    private AudioSource _audioSource;
+
 
     private Rigidbody _rigidbody;
 
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
-    uint owner;
-    bool inited;
+    internal uint owner;
 
     //TODO : Будем отслеживать кто сделал выстрел, чтобы засчитать очки ему
     [Server]
     public void Init(uint owner)
     {
         this.owner = owner; //кто сделал выстрел
-        inited = true;
     }
 
     private void Awake()
@@ -38,10 +38,7 @@ public class BulletPool : NetworkBehaviour
 
     void Start()
     {
-        //TODO : Метод появления изменён. Проверить!!!
-        if(!transform.GetComponent<MeshRenderer>().enabled)
-            transform.GetComponent<MeshRenderer>().enabled = true; //Включим meshrenderer
-        _audioSource = GetComponent<AudioSource>();
+
     }
 
 
@@ -54,16 +51,29 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
-        var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
-        
-        _audioSource.clip = _audioClipImpactRandom[Random.Range(0, _audioClipImpactRandom.Count)];
-        _audioSource.Play();
+        switch(collision.gameObject.tag)
+        {
+            case "Player":
+                var _damage = new Damage(damage);
+                _damage.sender = transform;
+                _damage.receiver = collision.transform;
+                collision.gameObject.ApplyDamage(_damage);
 
-        Destroy(particle, .7f);
-        Destroy(gameObject);
+                var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
+                Destroy(particlePlayer, .7f);
+                Destroy(gameObject);
+                break;
+
+            default:
+                var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
+                Destroy(particle, .7f);
+                Destroy(gameObject);
+                break;
+        }
     }
 
-    public void OnSpawnBullet(int force) => ForceShoot = force; 
+    public void OnSpawnBullet(int force) => ForceShoot = force;
 }

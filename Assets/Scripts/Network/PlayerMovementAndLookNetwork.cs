@@ -1,6 +1,7 @@
 using Cinemachine;
 using Mirror;
 using MirrorBasics;
+using Mono.CSharp;
 using System;
 using System.Linq;
 using TMPro;
@@ -388,6 +389,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     #endregion
 
+    #region Server \ Client callback
     //Что делаем когда подключились к серверу.
     public override void OnStartLocalPlayer()
     {
@@ -406,6 +408,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
 
+    #endregion
 
     #region Awake, Start, Update, FixedUpdate
 
@@ -507,7 +510,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     #endregion
 
-
     #region Передвижение и вращение персонажа
 
     void MoveThePlayer(Vector3 desiredDirection)
@@ -579,5 +581,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 		*/
 
     }
+
+    public void DeadPlayer() => playerAnimator.SetBool("dead", true);
     #endregion
 }
