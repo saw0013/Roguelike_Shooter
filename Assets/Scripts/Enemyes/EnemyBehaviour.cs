@@ -40,8 +40,9 @@ public class EnemyBehaviour : NetworkBehaviour
 
     private float currentTimeAttack;
 
-    [HideInInspector]
     public Transform patroolPoints;
+
+    private Transform currentPoint;
 
     private bool isPatrool;
 
@@ -54,11 +55,7 @@ public class EnemyBehaviour : NetworkBehaviour
         agent = GetComponent<NavMeshAgent>();
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
-        StartCoroutine(Patrool(isPatrool));
-    }
-    private void Start()
-    {
-
+        StartCoroutine(Patrool());
     }
 
     public virtual void Update()
@@ -90,26 +87,35 @@ public class EnemyBehaviour : NetworkBehaviour
 
     #region IEnumerators
 
-    private IEnumerator Patrool(bool isPatrooling)
+    private IEnumerator Patrool()
     {
         WaitForSeconds wait = new WaitForSeconds(1.0f);
-        while (isPatrooling)
+        while (true)
         {
             yield return wait;
-            Patrool();
+            Patrooling();
         }
     }
 
-    private void Patrool()
+    private void Patrooling()
     {
-        var point = patroolPoints.GetChild(Random.Range(0, patroolPoints.childCount)); //Получаю рандомную парульную точку
-        var distance = Vector3.Distance(transform.position , point.position); //Проверим дистанцию до выбранной точки
-
-        //Если мы не видим игрока и не атакуем, есть путь к точке и расстояние до неё меньше 1м
-        if (!canSeePlayer & !canAttack & distance < 1f & !agent.hasPath)
+        if (!canSeePlayer)
         {
-            transform.LookAt(point.position);
-            agent.SetDestination(point.position); //Перемещаемся к точку
+            if(currentPoint != null)
+            {
+                var distance = Vector3.Distance(transform.position, currentPoint.position); //Проверим дистанцию до выбранной точки
+                //Если мы не видим игрока и не атакуем, есть путь к точке и расстояние до неё меньше 1м
+                if (!canAttack & distance < agent.stoppingDistance + 0.5f /* & !agent.hasPath */)
+                {
+                    transform.LookAt(currentPoint.position);
+                    agent.SetDestination(currentPoint.position); //Перемещаемся к точку
+                }
+                else currentPoint = null;
+            }
+            else
+            {
+                currentPoint = patroolPoints.GetChild(Random.Range(0, patroolPoints.childCount)); //Получаю рандомную парульную точку
+            }
         }
     }
 

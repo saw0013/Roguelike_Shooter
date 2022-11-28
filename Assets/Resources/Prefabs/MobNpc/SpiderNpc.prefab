@@ -4343,7 +4343,7 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 2754921565222824068}
   _timeAttack: 2.37
-  patroolPoints: {fileID: 6343208952578138896, guid: 7c9c09783c52bd341a2c08e552a5feec, type: 3}
+  patroolPoints: {fileID: 0}
   _maxHealth: 150
   _healthSliderRpc: {fileID: 6468711090700708575}
   _SyncHealth: 0
@@ -4368,7 +4368,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602873899293615943}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.78919417
   m_Height: 1.6633704
@@ -4382,7 +4382,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602873899293615943}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5176023

@@ -184,10 +184,9 @@ public class PlayerData : NetworkBehaviour
     //метод не выполнитс€, если старое значение равно новому
     void NameDisplay(string oldName, string newName) => _nameDisplayRpc.text = newName; //об€зательно делаем два значени€ - старое и новое. 
 
-
-
     [Server]
     public void ShowDisplayName(string newName) => _nameDisplay = newName;
+
     [Command]
     public void CmdShowName(string newName) => ShowDisplayName(newName);
 
@@ -199,14 +198,20 @@ public class PlayerData : NetworkBehaviour
 
     public void ChangeGuard(float BuffGuard)
     {
-        guardPlayer += BuffGuard;
-        _textGuard.text = $"ўит: {guardPlayer}";
+        if (isLocalPlayer)
+        {
+            guardPlayer += BuffGuard;
+            _textGuard.text = $"ўит: {guardPlayer}";
+        }
     }
 
     public void StopBuffGuard()
     {
-        guardPlayer = _guardStart;
-        _textGuard.text = $"ўит: {guardPlayer}";
+        if (isLocalPlayer)
+        {
+            guardPlayer = _guardStart;
+            _textGuard.text = $"ўит: {guardPlayer}";
+        }       
     }
     #endregion
 

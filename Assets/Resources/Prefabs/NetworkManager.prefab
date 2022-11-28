@@ -79,7 +79,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   folderPath:
   - Prefabs\ItemsCommon\Object\Common
-  - Prefabs\ItemsCommon\PNG
   - Prefabs\Enviroment
   - Prefabs\PlayerCommon
   - Prefabs\MobNpc

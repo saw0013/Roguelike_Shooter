@@ -129,7 +129,11 @@ public class EventTrigger : NetworkBehaviour
             case SpawningNPC.Spider:
                 //TODO : Передать спавн позиций
                 var obj = GameObject.Find("PatroolPoints");
-                if (obj != null) Debug.LogWarning("Объект для патруля найден");
+                if (obj != null)
+                {
+                    Debug.LogWarning("Объект для патруля найден");
+                    npc.GetComponent<EnemyBehaviour>().patroolPoints = obj.transform;
+                }
                 else Debug.LogWarning("НЕТ ПАТРУЛЬНЫХ ТОЧЕК!!!");
                 break;
         }

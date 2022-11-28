@@ -12,7 +12,6 @@ public class DefaultItemMoveSpeed : NetworkBehaviour
 
     internal NetworkMatch networkMatch;
 
-    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
@@ -26,6 +25,5 @@ public class DefaultItemMoveSpeed : NetworkBehaviour
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(_owner);
         Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
     }
 }

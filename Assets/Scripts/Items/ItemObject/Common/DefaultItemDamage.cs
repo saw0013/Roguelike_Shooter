@@ -7,7 +7,6 @@ public class DefaultItemDamage : NetworkBehaviour
 
     private PlayerData _owner;
 
-    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if(other != null & other.tag == "Player")

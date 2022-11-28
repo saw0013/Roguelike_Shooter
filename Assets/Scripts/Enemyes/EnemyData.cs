@@ -12,8 +12,10 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     [Header("Enemy Data"), Tooltip("Health")]
     [SerializeField] private float _maxHealth = 150;
     [SerializeField] private Slider _healthSliderRpc;
-    //[SyncVar(hook = nameof(SyncHealth))]
+
+    [SyncVar(hook = nameof(SyncHealth))]
     public float _SyncHealth;
+
     private float health;
     [SerializeField] private bool FillHealth = true;
 
@@ -50,42 +52,41 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     #region Server Client Call ChangeHealth
     //метод который будет выставлять Health в соответствии с синхронизированным значением
-    void SyncHealth(float oldvalue, float newValue) => health = newValue;
-
-    //[Command] //обозначаем, что этот метод должен будет выполняться на сервере по запросу клиента
-    public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
+    void ClientServerChangeHp(float hp)
     {
-        ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
+        if (isServer) ChangeHealthValue(hp);//если мы являемся сервером, то переходим к непосредственному изменению переменной
+        else CmdChangeHealth(hp); //в противном случае делаем на сервер запрос об изменении переменной
     }
+    //метод который будет выставлять Health в соответствии с синхронизированным значением
+    void SyncHealth(float oldvalue, float newValue) => health = newValue; //обязательно делаем два значения - старое и новое. 
 
-    internal void ChangeHealth(float maxHealth)
-    {
-        _maxHealth = maxHealth;
-        _healthSliderRpc.maxValue = maxHealth / 100;
-        LocalShowHP(maxHealth);
-        CmdShowHP(maxHealth);
-        CmdChangeHealth(maxHealth);
-    }
-
-    //метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере.
-    //[Server]
+    /// <summary>
+    /// метод, который будет менять переменную _SyncHealth. Этот метод будет выполняться только на сервере и менять ХП игрока
+    /// </summary>
+    /// <param name="newValue"></param>
+    [Server]
     public void ChangeHealthValue(float newValue)
     {
         _SyncHealth = newValue;
     }
 
-    //Сделаем изменения на всех клиентах в полосочке над головой
-    //[ClientRpc]
-    void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp, Time.deltaTime * 20);
-
-    //Выполним команду с сервера чтобы обновить у всех клиентов
-    //[Command]
-    void CmdShowHP(float PlayerHp) => RpcShowHP(PlayerHp);
-
-    void LocalShowHP(float PlayerHp)
+    /// <summary>
+    /// Будем менять и синхронизировать ХП
+    /// </summary>
+    /// <param name="newValue"></param>
+    [Command] //обозначаем, что этот метод должен будет выполняться на сервере по запросу клиента
+    public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
     {
-        //_textHealth.text = $"{health}/{_maxHealth}";
+        ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
+        RpcShowHP(newValue);
     }
+
+    /// <summary>
+    /// Обновим для всех клиентов HP над головой чтобы было видно
+    /// </summary>
+    /// <param name="PlayerHp"></param>
+    [ClientRpc]
+    void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp / 100, Time.deltaTime * 20);
 
     #endregion
 

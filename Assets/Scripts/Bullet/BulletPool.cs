@@ -57,13 +57,24 @@ public class BulletPool : NetworkBehaviour
         switch(collision.gameObject.tag)
         {
             case "Player":
-                var _damage = new Damage(damage);
-                _damage.sender = transform;
-                _damage.receiver = collision.transform;
-                collision.gameObject.ApplyDamage(_damage);
+                var _damageToPlayer = new Damage(damage);
+                _damageToPlayer.sender = transform;
+                _damageToPlayer.receiver = collision.transform;
+                collision.gameObject.ApplyDamage(_damageToPlayer);
 
                 var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
                 Destroy(particlePlayer, .7f);
+                Destroy(gameObject);
+                break;
+
+            case "Enemy":
+                var _damageToEnemy = new Damage(damage);
+                _damageToEnemy.sender = transform;
+                _damageToEnemy.receiver = collision.transform;
+                collision.gameObject.ApplyDamage(_damageToEnemy);
+
+                var particleEnemy = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
+                Destroy(particleEnemy, .7f);
                 Destroy(gameObject);
                 break;
 
