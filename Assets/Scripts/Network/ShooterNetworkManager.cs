@@ -28,6 +28,7 @@ public class ShooterNetworkManager : NetworkManager
     // This is set true after server loads all subscene instances
     bool subscenesLoaded;
 
+    public Dictionary<string, Transform> PlayersRoom = new Dictionary<string, Transform>();
     // subscenes are added to this list as they're loaded
     public List<Scene> subScenes = new List<Scene>();
 

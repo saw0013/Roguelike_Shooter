@@ -10,6 +10,7 @@ using Mirror;
 using UnityEngine.Networking.Types;
 using UnityEngine.SceneManagement;
 using Utils;
+using Random = UnityEngine.Random;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
@@ -43,8 +44,8 @@ public class EventTrigger : NetworkBehaviour
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
 
+    [SerializeField] private List<Vector3> randomSpawnPoints;
 
-   
 
     #endregion
 
@@ -53,7 +54,7 @@ public class EventTrigger : NetworkBehaviour
         base.OnStartServer();
     }
 
-
+    void Start() => AddRandomPoints();
     #region OnInspectorSetting
     void OnDrawGizmos()
     {
@@ -82,10 +83,28 @@ public class EventTrigger : NetworkBehaviour
 
     #endregion
 
-    #region Trigger Methods
 
+    #region Trigger Methods
+    //TODO : попробовать использовать MatchID
+    public void AddRandomPoints()
+    {
+        for (int i = 0; i < 100;)
+        {
+            var p = GetPointPatrool.Instance.GetRandomPoint();
+            if (p == Vector3.zero)
+                return;
+            else
+            {
+                randomSpawnPoints.Add(p);
+                i++;
+                Debug.LogWarning("Добавлена случайная точка");
+            }
+        }
+
+    }
     public void OnTriggerEnter(Collider other)
     {
+
         if (NetworkServer.active == false) return;
 
         if (other.CompareTag("Player") && !isTriggered)
@@ -96,17 +115,6 @@ public class EventTrigger : NetworkBehaviour
             ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
         }
     }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    //Clients and server run OnTriggerEnter so we just need to check           
-    //    //for server only, this means you can avoid the [Command] since it         
-    //    //is already server side
-    //    if (NetworkServer.active == false) return;
-
-    //    if (other.tag == "Player")
-    //        ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
-    //}
 
     public void OnTriggerExit(Collider other)
     {
@@ -124,12 +132,16 @@ public class EventTrigger : NetworkBehaviour
         switch (spawningWho)
         {
             case SpawningNPC.BigSpider:
-                var StartPointNpc = GameObject.Find(NpcPatroolNameFind).transform.GetChild(0);
 
-                var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                    x.name == "SpiderNpc"), StartPointNpc.position, Quaternion.identity);
-                npc.GetComponent<NetworkMatch>().matchId = matchID;
-                NetworkServer.Spawn(npc);
+                for (int i = 0; i < 3; i++)
+                {
+                    var StartPointNpc = randomSpawnPoints[Random.Range(0, randomSpawnPoints.Count)];
+
+                    var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+                        x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
+                    npc.GetComponent<NetworkMatch>().matchId = matchID;
+                    NetworkServer.Spawn(npc);
+                }
 
                 break;
         }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GetPointPatrool : MonoBehaviour
+public class GetPointPatrool : NetworkBehaviour
 {
     public static GetPointPatrool Instance;
     public float Range;
@@ -37,8 +38,8 @@ public class GetPointPatrool : MonoBehaviour
     /// <summary>
     /// Vector3 рандомная точка на NavMesh. Метод поиска смотри тут <see cref="RandomPoint"/>
     /// </summary>
-    /// <param name="point"></param>
-    /// <returns></returns>
+    /// <param name="point">Входящая точка</param>
+    /// <returns>Возвращаем transform</returns>
     public Vector3 GetRandomPoint(Transform point = null, float radius = 0)
     {
         Vector3 _point;

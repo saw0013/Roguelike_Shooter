@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Mirror;
 using Mono.CSharp;
 using UnityEngine;
@@ -42,8 +43,6 @@ public class EnemyBehaviour : NetworkBehaviour
 
     private float currentTimeAttack;
 
-    [SyncVar][SerializeField] private List<Vector3> randomPoints;
-
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
@@ -52,7 +51,6 @@ public class EnemyBehaviour : NetworkBehaviour
     public virtual void OnStart()
     {
         agent = GetComponent<NavMeshAgent>();
-        PatroolPoints();
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
 
@@ -86,17 +84,6 @@ public class EnemyBehaviour : NetworkBehaviour
 
     #region IEnumerators
 
-    /// <summary>
-    /// Назначим рандомную точку если мы не видим игрока
-    /// </summary>
-    private void PatroolPoints()
-    {
-        for (int i = 0; i < 6; i++)
-            randomPoints.Add(GetPointPatrool.Instance.GetRandomPoint());
-
-        randomPoints.Remove(randomPoints.Last());
-    }
-
     public virtual IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -117,7 +104,7 @@ public class EnemyBehaviour : NetworkBehaviour
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (rangeChecks.Length > 0)
+        if (rangeChecks.Length != 0)
         {
             foreach (var collider in rangeChecks)
             {
@@ -161,14 +148,19 @@ public class EnemyBehaviour : NetworkBehaviour
         else if (canSeePlayer)
             canSeePlayer = false;
 
-        else //Если в обзоре нет ниодного игрока, просто следуем рандомной точке
-        {
-            var pointPatrol = randomPoints[Random.Range(0, randomPoints.Count)]; //Выберем одну из точек
-                float distanceToTarget = Vector3.Distance(transform.position, pointPatrol); //Проверим дистанцию до рандомной точки
-                if (distanceToTarget >= agent.stoppingDistance) //Если до нужной точки не дошли
-                    agent.SetDestination(pointPatrol); //Идём к рандомной  точке
-                else return;
-        }
+        #region Заставить пауков ходить по карте SyncVar?
+        //else //Если в обзоре нет ниодного игрока, просто следуем рандомной точке
+        //{
+        //    // Choose the next point in the array as the destination,
+        //        // cycling to the start if necessary.
+        //        //var pointPatrol = randomPoints[Random.Range(0, randomPoints.Count)]; //Выберем одну из точек
+        //        //float distanceToTarget =
+        //        //    Vector3.Distance(transform.position, pointPatrol); //Проверим дистанцию до рандомной точки
+        //        //if (distanceToTarget > 1f) //Если до нужной точки не дошли
+        //        //    agent.SetDestination(pointPatrol); //Идём к рандомной  точке
+        //    
+        //}
+        #endregion
     }
 
     #endregion

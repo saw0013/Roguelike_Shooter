@@ -50,7 +50,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Header("Audio VFX")]
     [SerializeField] private AudioSource _runPlayer;
 
-    private CinemachineVirtualCamera vCamera;
+    internal CinemachineVirtualCamera vCamera;
 
     [Header("Tool")]
     [SerializeField] private GameObject _healthBarRpcLookAt;
@@ -383,6 +383,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputActive = true;
+        ShooterNetworkManager.singleton.PlayersRoom.Add(matchID, this.transform);
     }
 
     #endregion

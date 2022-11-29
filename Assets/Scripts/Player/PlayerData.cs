@@ -292,6 +292,7 @@ public class PlayerData : NetworkBehaviour
                     isDead = true;
                     onDead.Invoke(gameObject);
                     InputActive = false;
+                    StartCoroutine(ChangeCameraToLiveParty());
                 }
             }
         }
@@ -300,8 +301,11 @@ public class PlayerData : NetworkBehaviour
 
     private IEnumerator ChangeCameraToLiveParty()
     {
+        Debug.LogWarning("CPUNT " + ShooterNetworkManager.singleton.PlayersRoom.Count);
         yield return new WaitForSeconds(3.0f);
-        //TODO : Просто сменить в MainCam
+        Transform t = ShooterNetworkManager.singleton.PlayersRoom[GetComponent<PlayerMovementAndLookNetwork>().matchID];
+        GetComponent<PlayerMovementAndLookNetwork>().vCamera.Follow = t;
+
     }
 
     #endregion
