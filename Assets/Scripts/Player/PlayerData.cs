@@ -298,5 +298,11 @@ public class PlayerData : NetworkBehaviour
 
     }
 
+    private IEnumerator ChangeCameraToLiveParty()
+    {
+        yield return new WaitForSeconds(3.0f);
+        //TODO : Просто сменить в MainCam
+    }
+
     #endregion
 }

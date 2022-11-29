@@ -33,6 +33,7 @@ public class EventTrigger : NetworkBehaviour
 
     public float delayDestroy = .1f;
 
+    [SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
     [HideInInspector,]
     public bool isTriggered = false;
 
@@ -42,7 +43,8 @@ public class EventTrigger : NetworkBehaviour
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
 
-    private NetworkIdentity trigger;
+
+   
 
     #endregion
 
@@ -51,7 +53,6 @@ public class EventTrigger : NetworkBehaviour
         base.OnStartServer();
     }
 
-    void Start() => trigger = GetComponent<NetworkIdentity>();
 
     #region OnInspectorSetting
     void OnDrawGizmos()
@@ -120,21 +121,16 @@ public class EventTrigger : NetworkBehaviour
 
     private void ServerSpawn(Guid matchID)
     {
-        var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-            x.name == "SpiderNpc"), new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
-        npc.GetComponent<NetworkMatch>().matchId = matchID;
-        NetworkServer.Spawn(npc);
         switch (spawningWho)
         {
-            case SpawningNPC.Spider:
-                //TODO : Передать спавн позиций
-                var obj = GameObject.Find("PatroolPoints");
-                if (obj != null)
-                {
-                    Debug.LogWarning("Объект для патруля найден");
-                    npc.GetComponent<EnemyBehaviour>().patroolPoints = obj.transform;
-                }
-                else Debug.LogWarning("НЕТ ПАТРУЛЬНЫХ ТОЧЕК!!!");
+            case SpawningNPC.BigSpider:
+                var StartPointNpc = GameObject.Find(NpcPatroolNameFind).transform.GetChild(0);
+
+                var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+                    x.name == "SpiderNpc"), StartPointNpc.position, Quaternion.identity);
+                npc.GetComponent<NetworkMatch>().matchId = matchID;
+                NetworkServer.Spawn(npc);
+
                 break;
         }
     }
@@ -151,7 +147,8 @@ public class EventTrigger : NetworkBehaviour
     enum SpawningNPC
     {
         None = 0,
-        Spider = 1,
+        BigSpider = 1,
+        LowSpider = 1,
         Solder = 2,
         Boss = 10
     }

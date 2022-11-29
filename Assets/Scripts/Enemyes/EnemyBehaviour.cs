@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Security.Cryptography;
 using Mirror;
 using Mono.CSharp;
 using UnityEngine;
@@ -40,27 +42,24 @@ public class EnemyBehaviour : NetworkBehaviour
 
     private float currentTimeAttack;
 
-    public Transform patroolPoints;
-
-    private Transform currentPoint;
-
-    private bool isPatrool;
+    [SyncVar][SerializeField] private List<Vector3> randomPoints;
 
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
 
+
     public virtual void OnStart()
     {
         agent = GetComponent<NavMeshAgent>();
+        PatroolPoints();
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
-        StartCoroutine(Patrool());
+
     }
 
     public virtual void Update()
     {
-        isPatrool = canSeePlayer;
         Animation();
         if (Attacked)
         {
@@ -87,36 +86,15 @@ public class EnemyBehaviour : NetworkBehaviour
 
     #region IEnumerators
 
-    private IEnumerator Patrool()
+    /// <summary>
+    /// Назначим рандомную точку если мы не видим игрока
+    /// </summary>
+    private void PatroolPoints()
     {
-        WaitForSeconds wait = new WaitForSeconds(1.0f);
-        while (true)
-        {
-            yield return wait;
-            Patrooling();
-        }
-    }
+        for (int i = 0; i < 6; i++)
+            randomPoints.Add(GetPointPatrool.Instance.GetRandomPoint());
 
-    private void Patrooling()
-    {
-        if (!canSeePlayer)
-        {
-            if(currentPoint != null)
-            {
-                var distance = Vector3.Distance(transform.position, currentPoint.position); //Проверим дистанцию до выбранной точки
-                //Если мы не видим игрока и не атакуем, есть путь к точке и расстояние до неё меньше 1м
-                if (!canAttack & distance < agent.stoppingDistance + 0.5f /* & !agent.hasPath */)
-                {
-                    transform.LookAt(currentPoint.position);
-                    agent.SetDestination(currentPoint.position); //Перемещаемся к точку
-                }
-                else currentPoint = null;
-            }
-            else
-            {
-                currentPoint = patroolPoints.GetChild(Random.Range(0, patroolPoints.childCount)); //Получаю рандомную парульную точку
-            }
-        }
+        randomPoints.Remove(randomPoints.Last());
     }
 
     public virtual IEnumerator FOVRoutine()
@@ -138,7 +116,8 @@ public class EnemyBehaviour : NetworkBehaviour
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
 
-        if (rangeChecks.Length != 0)
+        //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
+        if (rangeChecks.Length > 0)
         {
             foreach (var collider in rangeChecks)
             {
@@ -181,21 +160,17 @@ public class EnemyBehaviour : NetworkBehaviour
         }
         else if (canSeePlayer)
             canSeePlayer = false;
+
+        else //Если в обзоре нет ниодного игрока, просто следуем рандомной точке
+        {
+            var pointPatrol = randomPoints[Random.Range(0, randomPoints.Count)]; //Выберем одну из точек
+                float distanceToTarget = Vector3.Distance(transform.position, pointPatrol); //Проверим дистанцию до рандомной точки
+                if (distanceToTarget >= agent.stoppingDistance) //Если до нужной точки не дошли
+                    agent.SetDestination(pointPatrol); //Идём к рандомной  точке
+                else return;
+        }
     }
 
-    //private IEnumerator damagePlayer(Collider collider)
-    //{
-    //    yield return new WaitForEndOfFrame();
-
-    //    while (canAttack)
-    //    {
-    //        var _damage = new Damage(damage);
-    //        _damage.sender = transform;
-    //        _damage.receiver = collider.transform;
-    //        collider.gameObject.ApplyDamage(_damage);
-    //        yield return new WaitForSeconds(3f);
-    //    }
-    //}
     #endregion
 
     #region Animation behaviour

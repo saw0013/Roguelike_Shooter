@@ -134,11 +134,14 @@ MonoBehaviour:
   ShowWire: 0
   color: {r: 0.745283, g: 0.33397114, b: 0.33397114, a: 1}
   delayDestroy: 0.1
+  NpcPatroolNameFind: PatroolPoints
   isTriggered: 0
-  spawningNPC: 0
-  spawnedNames:
-  - 
+  spawningWho: 1
+  spawnMob: {fileID: 0}
   OnEnterTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExitTrigger:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &8262974643397862385
