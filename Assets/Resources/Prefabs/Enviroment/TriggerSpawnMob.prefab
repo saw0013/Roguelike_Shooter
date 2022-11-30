@@ -108,7 +108,7 @@ MonoBehaviour:
   NpcPatroolNameFind: PatroolPoints
   isTriggered: 0
   spawningWho: 1
-  spawnMob: {fileID: 0}
+  CountSpawn: 5
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls: []

@@ -8,6 +8,10 @@ using MirrorBasics;
 using TMPro;
 using UnityEngine.Networking.Types;
 using Zenject.SpaceFighter;
+using Unity.Entities.UniversalDelegates;
+using System.Linq;
+using ModestTree.Util;
+using System;
 
 public class PlayerData : NetworkBehaviour
 {
@@ -83,8 +87,12 @@ public class PlayerData : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-               ClientServerChangeHp(playerHealth - 10);
-               LocalShowHP(playerHealth - 10);
+                ClientServerChangeHp(playerHealth - 10);
+                LocalShowHP(playerHealth - 10);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                StartCoroutine(ChangeCameraToLiveParty());
             }
         }
     }
@@ -101,7 +109,7 @@ public class PlayerData : NetworkBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-       
+
     }
 
     void Start()
@@ -211,7 +219,7 @@ public class PlayerData : NetworkBehaviour
         {
             guardPlayer = _guardStart;
             _textGuard.text = $"Ùèò: {guardPlayer}";
-        }       
+        }
     }
     #endregion
 
@@ -299,13 +307,36 @@ public class PlayerData : NetworkBehaviour
 
     }
 
+    private List<Transform> RoomPlayers()
+    {
+        var playerlist = new List<Transform>();
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+            if (p.TryGetComponent(out PlayerMovementAndLookNetwork playerMov))
+            {
+                if (playerMov.matchID == GetComponent<PlayerMovementAndLookNetwork>().matchID)
+                {
+                    playerlist.Add(p.transform);
+                }
+            }
+
+        return playerlist;
+    }
+
+
     private IEnumerator ChangeCameraToLiveParty()
     {
-        Debug.LogWarning("CPUNT " + ShooterNetworkManager.singleton.PlayersRoom.Count);
-        yield return new WaitForSeconds(3.0f);
-        Transform t = ShooterNetworkManager.singleton.PlayersRoom[GetComponent<PlayerMovementAndLookNetwork>().matchID];
-        GetComponent<PlayerMovementAndLookNetwork>().vCamera.Follow = t;
+        var listPlayer = RoomPlayers();
+        yield return new WaitForSeconds(5.0f);
 
+        foreach(var player in listPlayer)
+        {
+            if (player.GetComponent<NetworkIdentity>().netId != netId)
+                GetComponent<PlayerMovementAndLookNetwork>().vCamera.Follow = player;
+        }
+        
+        yield return new WaitForSeconds(3.0f);
+        //GetComponentsInChildren<Collider>().ToList().ForEach(col => { DestroyImmediate(col); });
     }
 
     #endregion

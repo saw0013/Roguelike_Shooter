@@ -39,13 +39,10 @@ public class EventTrigger : NetworkBehaviour
     public bool isTriggered = false;
 
     [SerializeField] SpawningNPC spawningWho;
-    [SerializeField] private Transform spawnMob;
+    [SerializeField] int CountSpawn = 5;
 
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
-
-    [SerializeField] private List<Vector3> randomSpawnPoints;
-
 
     #endregion
 
@@ -54,8 +51,7 @@ public class EventTrigger : NetworkBehaviour
         base.OnStartServer();
     }
 
-    void Start() => AddRandomPoints();
-    #region OnInspectorSetting
+    #region DrawGizmos
     void OnDrawGizmos()
     {
 
@@ -83,25 +79,8 @@ public class EventTrigger : NetworkBehaviour
 
     #endregion
 
-
     #region Trigger Methods
-    //TODO : попробовать использовать MatchID
-    public void AddRandomPoints()
-    {
-        for (int i = 0; i < 100;)
-        {
-            var p = GetPointPatrool.Instance.GetRandomPoint();
-            if (p == Vector3.zero)
-                return;
-            else
-            {
-                randomSpawnPoints.Add(p);
-                i++;
-                Debug.LogWarning("Добавлена случайная точка");
-            }
-        }
 
-    }
     public void OnTriggerEnter(Collider other)
     {
 
@@ -127,22 +106,42 @@ public class EventTrigger : NetworkBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Сам спавн пауков
+    /// </summary>
+    /// <param name="matchID"></param>
+    /// <returns></returns>
+    public IEnumerator SpawnBigSpiderRandomPoints(Guid matchID)
+    {
+        var rp = GetPointPatrool.Instance.RandomPoints; //Получим все точки спавна
+
+        for (int i = 0; i < CountSpawn; i++) //Спавнить будем в цикле
+        {
+            var StartPointNpc = rp[Random.Range(0, rp.Count)]; //Точка спавна рандомная из списка
+
+            var PreSpawn = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+                x.name == "ParticleSpawnNpc"), StartPointNpc, Quaternion.Euler(-90,0,0));
+            PreSpawn.GetComponent<NetworkMatch>().matchId = matchID;
+            NetworkServer.Spawn(PreSpawn); 
+
+            yield return new WaitForSeconds(1.2f);
+            var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+                x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
+            npc.GetComponent<NetworkMatch>().matchId = matchID;
+            NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
+
+            rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
+            yield return new WaitForSeconds(2.0f);
+        }
+
+    }
+
     private void ServerSpawn(Guid matchID)
     {
         switch (spawningWho)
         {
             case SpawningNPC.BigSpider:
-
-                for (int i = 0; i < 3; i++)
-                {
-                    var StartPointNpc = randomSpawnPoints[Random.Range(0, randomSpawnPoints.Count)];
-
-                    var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                        x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
-                    npc.GetComponent<NetworkMatch>().matchId = matchID;
-                    NetworkServer.Spawn(npc);
-                }
-
+                StartCoroutine(SpawnBigSpiderRandomPoints(matchID));
                 break;
         }
     }

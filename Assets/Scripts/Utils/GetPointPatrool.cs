@@ -9,17 +9,38 @@ public class GetPointPatrool : NetworkBehaviour
 {
     public static GetPointPatrool Instance;
     public float Range;
-    [SerializeField] private Color color;
+    [SerializeField]
+    private Color color;
+
+    [SerializeField] internal List<Vector3> RandomPoints = new List<Vector3>();
 
     private void Awake()
     {
         Instance = this;
     }
 
+    private void Start()
+    {
+        AddRandomPointState1();
+    }
+
+    void AddRandomPointState1()
+    {
+        for (int i = 0; i < 50;)
+        {
+            var p = GetRandomPoint();
+            if (p != Vector3.zero)
+            {
+                RandomPoints.Add(p);
+                i++;
+            }
+        }
+    }
+
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 40; i++)
         {
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
             NavMeshHit hit;
