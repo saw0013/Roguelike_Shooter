@@ -206,7 +206,7 @@ public class PlayerData : NetworkBehaviour
 
     public void ChangeGuard(float BuffGuard)
     {
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
             guardPlayer += BuffGuard;
             _textGuard.text = $"Ùèò: {guardPlayer}";
@@ -215,7 +215,7 @@ public class PlayerData : NetworkBehaviour
 
     public void StopBuffGuard()
     {
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
             guardPlayer = _guardStart;
             _textGuard.text = $"Ùèò: {guardPlayer}";
@@ -226,51 +226,51 @@ public class PlayerData : NetworkBehaviour
     #region CommonMoveSpeed
     public void ChangeMoveSpeed(int BuffSpeed)
     {
-        SpeedPlayer += BuffSpeed;
+        if (hasAuthority)
+            SpeedPlayer += BuffSpeed;
     }
 
     public void StopBuffMoveSpeed()
     {
-        SpeedPlayer = _speedStart;
+        if (hasAuthority)
+            SpeedPlayer = _speedStart;
     }
 
     #endregion
 
     #region CommonDamage
-    [Command]
-    public void CmdChangeDamage(int newValue)
-    {
-        ChangeDamageValue(newValue);
-    }
 
-    [Server]
-    public void ChangeDamageValue(int newValue)
-    {
-        DamagePlayer = newValue;
-    }
 
     public void ChangeDamage(float BuffDamage)
     {
-        DamagePlayer += BuffDamage;
+        if (hasAuthority)
+            DamagePlayer += BuffDamage;
     }
 
     public void StopBuffDamage()
     {
-        DamagePlayer = _damageStart;
+        if(hasAuthority)
+            DamagePlayer = _damageStart;
     }
     #endregion
 
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce)
     {
-        AmmoReload -= BuffAmmoReload;
-        BuletForce += BuffAmmoForce;
+        if (hasAuthority)
+        {
+            AmmoReload -= BuffAmmoReload;
+            BuletForce += BuffAmmoForce;
+        }
     }
 
     public void StopBuffAmmo()
     {
-        AmmoReload = _startAmmoReload;
-        BuletForce = _startForceBulet;
+        if (hasAuthority)
+        {
+            AmmoReload = _startAmmoReload;
+            BuletForce = _startForceBulet;
+        }
     }
     #endregion
 
@@ -329,12 +329,12 @@ public class PlayerData : NetworkBehaviour
         var listPlayer = RoomPlayers();
         yield return new WaitForSeconds(5.0f);
 
-        foreach(var player in listPlayer)
+        foreach (var player in listPlayer)
         {
             if (player.GetComponent<NetworkIdentity>().netId != netId)
                 GetComponent<PlayerMovementAndLookNetwork>().vCamera.Follow = player;
         }
-        
+
         yield return new WaitForSeconds(3.0f);
         //GetComponentsInChildren<Collider>().ToList().ForEach(col => { DestroyImmediate(col); });
     }
