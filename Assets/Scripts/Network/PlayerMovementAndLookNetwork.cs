@@ -383,7 +383,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputActive = true;
-        ShooterNetworkManager.singleton.PlayersRoom.Add(matchID, this.transform);
     }
 
     #endregion
