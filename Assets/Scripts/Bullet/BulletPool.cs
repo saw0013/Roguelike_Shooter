@@ -9,6 +9,7 @@ public class BulletPool : NetworkBehaviour
 {
     [SerializeField] private GameObject _hitWallParticles;
     [SerializeField] private GameObject _hitPlayerParticles;
+    [SerializeField] private GameObject _hitEnemyParticles;
 
     [SerializeField] private Damage damage;
 
@@ -73,7 +74,7 @@ public class BulletPool : NetworkBehaviour
                 _damageToEnemy.receiver = collision.transform;
                 collision.gameObject.ApplyDamage(_damageToEnemy);
 
-                var particleEnemy = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
+                var particleEnemy = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
                 Destroy(particleEnemy, .7f);
                 Destroy(gameObject);
                 break;

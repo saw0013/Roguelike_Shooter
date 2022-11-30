@@ -2,14 +2,25 @@ using DG.Tweening;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField] protected OnReceiveDamage _onStartReceiveDamage = new OnReceiveDamage();
+    [SerializeField] protected OnReceiveDamage _onReceiveDamage = new OnReceiveDamage();
+    [SerializeField] protected OnDead _onDead = new OnDead();
+    public OnReceiveDamage onStartReceiveDamage { get { return _onStartReceiveDamage; } protected set { _onStartReceiveDamage = value; } }
+    public OnReceiveDamage onReceiveDamage { get { return _onReceiveDamage; } protected set { _onReceiveDamage = value; } }
+    public OnDead onDead { get { return _onDead; } protected set { _onDead = value; } }
+
+    private bool isDead = false;
+
     [Space(30)]
     [Header("Enemy Data"), Tooltip("Health")]
+    [SerializeField] private TMP_Text _textHP;
     [SerializeField] private float _maxHealth = 150;
     [SerializeField] private Slider _healthSliderRpc;
 
@@ -26,6 +37,7 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             health = _maxHealth;
             _healthSliderRpc.maxValue = _maxHealth / 100;
+            _healthSliderRpc.value = health / 100;
         }
         StartCoroutine(FOVRoutine());
         OnStart();
@@ -86,8 +98,11 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     /// </summary>
     /// <param name="PlayerHp"></param>
     [ClientRpc]
-    void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-
+    void RpcShowHP(float PlayerHp)
+    {
+        _healthSliderRpc.DOValue(PlayerHp / 100, Time.deltaTime * 20);
+        _textHP.text = PlayerHp.ToString();
+    }
     #endregion
 
     #region BASE class
@@ -103,6 +118,36 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     public override void OnStart() => base.OnStart();
+
+    #endregion
+
+    #region Virtual method
+
+    public virtual void TakeDamage(Damage damage)
+    {
+        Debug.Log("Имеем право изменть урон");
+        if (damage != null)
+        {
+            Debug.Log("Урон не null");
+            onReceiveDamage.Invoke(damage);
+
+            if (health > 0)
+            {
+                Debug.Log("Блок 1");
+                ClientServerChangeHp(health - damage.damageValue);
+            }
+
+            if (damage.damageValue > 0)
+                onReceiveDamage.Invoke(damage);
+
+            if (!isDead && health <= 0)
+            {
+                Debug.Log("Блок 2");
+                isDead = true;
+                onDead.Invoke(gameObject);
+            }
+        }
+    }
 
     #endregion
 }

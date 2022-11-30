@@ -4342,7 +4342,16 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 2754921565222824068}
   _timeAttack: 2.37
-  randomPoints: []
+  _onStartReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  _textHP: {fileID: 6468711090088869159}
   _maxHealth: 150
   _healthSliderRpc: {fileID: 6468711090700708575}
   _SyncHealth: 0

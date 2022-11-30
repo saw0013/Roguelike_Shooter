@@ -35,6 +35,7 @@ public class EventTrigger : NetworkBehaviour
     public float delayDestroy = .1f;
 
     [SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
+    [SerializeField] private DoorSystem _doorSystem;
     [HideInInspector,]
     public bool isTriggered = false;
 
@@ -91,6 +92,7 @@ public class EventTrigger : NetworkBehaviour
 
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
+            _doorSystem.AthorCloseDoor += 1;  //Последущие разы прибовляем на 2 больше, чем в прошлый раз
             ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
         }
     }

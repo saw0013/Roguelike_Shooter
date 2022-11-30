@@ -347,6 +347,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
+        GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "Level"));
+
         //Укажем ему наш ID match
         TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
         DefaultItemHP.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
@@ -354,6 +357,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         DefaultItemMove.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
         DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
         DefaultItemGuard.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        Level.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
 
         NetworkServer.Spawn(TriggerSpawnMob);
         NetworkServer.Spawn(DefaultItemDamage);
@@ -361,6 +365,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(DefaultItemHP);
         NetworkServer.Spawn(DefaultItemAmmo);
         NetworkServer.Spawn(DefaultItemGuard);
+        NetworkServer.Spawn(Level);
     }
 
     public void StartGame()
@@ -424,8 +429,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             if (isLocalPlayer)
                 pan.SetActive(true);
     }
-
-
 
     private void Update()
     {
