@@ -4974,7 +4974,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &4786157574483153567
 MonoBehaviour:
@@ -5038,11 +5038,9 @@ MonoBehaviour:
   uiHover: {fileID: 8300000, guid: ba42f48a9ff131c448d194647eeb174b, type: 3}
   uiSpecial: {fileID: 8300000, guid: 505ca3812bdbf5a4c90ac131fa071ee5, type: 3}
   AudioSourceSound:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7776673959959146265}
+  - {fileID: 7776673960583660910}
+  - {fileID: 7776673961594626633}
   AudioSourceMusic: {fileID: 7776673959938284005}
   player: {fileID: 6104845788952485230}
   volumeSliderSound: {fileID: 1536911138732714416}

@@ -576,7 +576,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   AudioSourceMusic: {fileID: 0}
-  player: {fileID: 0}
+  player: {fileID: 6104845788952485230, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
   volumeSliderSound: {fileID: 401934932484834800}
   volumeSliderMusic: {fileID: 5957164771357602609}
 --- !u!1 &5957164771357602611
@@ -3011,7 +3011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5957164772918226977
 RectTransform:
   m_ObjectHideFlags: 0
