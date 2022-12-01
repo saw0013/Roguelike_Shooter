@@ -105,14 +105,24 @@ MonoBehaviour:
   ShowWire: 1
   color: {r: 0.8301887, g: 0.16055535, b: 0.16055535, a: 1}
   delayDestroy: 100
-  NpcPatroolNameFind: PatroolPoints
-  _doorSystem: {fileID: 2432599821450851407, guid: dde7259271a388a4eac91604c208f796, type: 3}
   isTriggered: 0
   spawningWho: 1
   CountSpawn: 5
   OnEnterTrigger:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6439535282330825718, guid: 038868c5cad7a024cb2c6b28b464749a, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Close
+          m_BoolArgument: 0
+        m_CallState: 2
   OnExitTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -144,7 +154,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 1003854c82b96754bbf654a7fd8fdd81
+  m_AssetId: ab4ec2321b933d641b580eeb7d6dff13
   hasSpawned: 0
 --- !u!114 &3066678387064324975
 MonoBehaviour:

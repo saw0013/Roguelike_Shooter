@@ -347,6 +347,24 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
+        ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
+        {
+            if (x.tag == "Door")
+            {
+                var obj = Instantiate(x);
+                obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+                NetworkServer.Spawn(obj);
+            }
+        });
+
+        GameObject[] Doors = ((ShooterNetworkManager.singleton).spawnPrefabs.FindAll(x => x.tag == "Door").ToArray());
+
+        for (int i = 0; i < 2; i++)
+        {
+            Doors[i].GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+            NetworkServer.Spawn(Doors[i]);
+        }
+
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "Level"));
 

@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - ServerManager
   - Bullet
+  - Door
   layers:
   - Default
   - TransparentFX

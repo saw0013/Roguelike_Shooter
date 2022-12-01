@@ -18,13 +18,13 @@ public class DoorSystem : NetworkBehaviour
         if(countOpenDoor < AthorOpenDoor)
         {
             countOpenDoor++;
-            _animatorsDoor[AthorOpenDoor - 1].SetTrigger("Open");
+            _animatorsDoor[countOpenDoor - 1].SetTrigger("Open");
         }
 
-        if(AthorCloseDoor > countCloseDoor)
+        if(countCloseDoor < AthorCloseDoor)
         {
             countCloseDoor++;
-            _animatorsDoor[AthorOpenDoor - 1].SetTrigger("Close");
+            _animatorsDoor[countCloseDoor - 1].SetTrigger("Close");
         }
     }
 

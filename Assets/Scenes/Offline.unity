@@ -785,6 +785,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[1]
+      value: Prefabs\Doors
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[2]
+      value: Prefabs\Enviroment
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[3]
+      value: Prefabs\PlayerCommon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[4]
+      value: Prefabs\MobNpc
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
 --- !u!114 &519019671 stripped
