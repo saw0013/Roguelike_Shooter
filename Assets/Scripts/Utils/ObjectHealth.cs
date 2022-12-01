@@ -1,3 +1,4 @@
+using Cosmoground;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -78,9 +79,3 @@ public class ObjectHealth : MonoBehaviour
 
 [Serializable]
 public class ValueChangedEvent : UnityEvent<float> { }
-
-[Serializable]
-public class OnReceiveDamage : UnityEvent<Damage> { }
-
-[Serializable]
-public class OnDead : UnityEvent<GameObject> { }

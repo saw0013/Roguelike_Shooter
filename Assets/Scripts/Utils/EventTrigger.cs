@@ -34,7 +34,7 @@ public class EventTrigger : NetworkBehaviour
 
     public float delayDestroy = .1f;
 
-    [SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
+    //[SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
     [SerializeField] private DoorSystem _doorSystem;
     [HideInInspector,]
     public bool isTriggered = false;

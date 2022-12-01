@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Cosmoground;
 
 public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
 {

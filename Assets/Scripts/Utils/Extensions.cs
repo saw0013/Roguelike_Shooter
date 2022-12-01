@@ -66,13 +66,13 @@ public static class Extensions
     #region GameObject
 
     #region TakeDamage
-    public static void ApplyDamage(this GameObject receiver, Damage damage)
-    {
-        var receivers = receiver.GetComponents<PlayerData>();
-        if (receivers != null)
-            for (int i = 0; i < receivers.Length; i++)
-                receivers[i].TakeDamage(damage);
-    }
+    //public static void ApplyDamage(this GameObject receiver, Damage damage)
+    //{
+    //    var receivers = receiver.GetComponents<PlayerData>();
+    //    if (receivers != null)
+    //        for (int i = 0; i < receivers.Length; i++)
+    //            receivers[i].TakeDamage(damage);
+    //}
     #endregion
 
     #endregion

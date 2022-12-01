@@ -1,35 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using DG.Tweening;
 using Mirror;
-using MirrorBasics;
-using TMPro;
-using UnityEngine.Networking.Types;
-using Zenject.SpaceFighter;
-using Unity.Entities.UniversalDelegates;
-using System.Linq;
-using ModestTree.Util;
-using System;
+using Cosmoground;
 
-public class PlayerData : NetworkBehaviour
+public class PlayerData : HealthController
 {
     #region Variables
-    public Transform ItemsGrind;
 
-    [SerializeField] private Slider _healthSlider;
-    [SerializeField] private Slider _healthSliderRpc;
-    [SerializeField] private TMP_Text _textHealth;
-    [SerializeField] private TMP_Text _textGuard;
-
-    [SerializeField] private float _startAmmoReload;
-    [SerializeField] private int _startForceBulet;
-    [SerializeField] private float _maxHealth;
-    [SerializeField] private float _guardStart;
-    [SerializeField] private int _speedStart;
-    [SerializeField] private float _damageStart;
-
+    [Space(10), Header("===PlayerData===")]
     public bool InputActive = true;
     public bool EscapeMenuActive;
 
@@ -37,43 +17,31 @@ public class PlayerData : NetworkBehaviour
     public float DamagePlayer;
     public float AmmoReload;
     public int BuletForce;
-
     private float guardPlayer;
 
-    //ƒанные которые будем синхронизировать.
-    [SyncVar(hook = nameof(SyncHealth))]
-    public float _SyncHealth;
-
-    private float playerHealth;
-
-    [SerializeField] internal TMP_Text _nameDisplayRpc;
+    [SerializeField] private float _startAmmoReload;
+    [SerializeField] private int _startForceBulet;
+    [SerializeField] private float _guardStart;
+    [SerializeField] private int _speedStart;
+    [SerializeField] private float _damageStart;
 
     [SyncVar(hook = nameof(NameDisplay))]
     public string _nameDisplay;
 
-    [SerializeField] protected OnReceiveDamage _onStartReceiveDamage = new OnReceiveDamage();
-    [SerializeField] protected OnReceiveDamage _onReceiveDamage = new OnReceiveDamage();
-    [SerializeField] protected OnDead _onDead = new OnDead();
-    public OnReceiveDamage onStartReceiveDamage { get { return _onStartReceiveDamage; } protected set { _onStartReceiveDamage = value; } }
-    public OnReceiveDamage onReceiveDamage { get { return _onReceiveDamage; } protected set { _onReceiveDamage = value; } }
-    public OnDead onDead { get { return _onDead; } protected set { _onDead = value; } }
-
-    private bool isImmortal = false;
-
-    private bool isDead = false;
-
     #endregion
 
     #region Awake, Start, Update
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         AmmoReload = _startAmmoReload;
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
-        _healthSlider.maxValue = _maxHealth / 100;
-        _healthSliderRpc.maxValue = _maxHealth / 100;
+        
     }
+
+    protected override void Start() => base.Start();
 
     public override void OnStartServer()
     {
@@ -87,8 +55,8 @@ public class PlayerData : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                ClientServerChangeHp(playerHealth - 10);
-                LocalShowHP(playerHealth - 10);
+                ClientServerChangeHp(currentHealth - 10);
+                LocalShowHP(currentHealth - 10);
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -107,61 +75,19 @@ public class PlayerData : NetworkBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
-    void Start()
-    {
-        playerHealth = _maxHealth;
-    }
+    void OnCollisionEnter(Collision collision) { } 
 
     #endregion
 
     #region Server Client Call ChangeHealth
 
-    void ClientServerChangeHp(float hp)
-    {
-        if (isServer) ChangeHealthValue(hp);//если мы €вл€емс€ сервером, то переходим к непосредственному изменению переменной
-        else CmdChangeHealth(hp); //в противном случае делаем на сервер запрос об изменении переменной
-    }
-    //метод который будет выставл€ть Health в соответствии с синхронизированным значением
-    void SyncHealth(float oldvalue, float newValue) => playerHealth = newValue; //об€зательно делаем два значени€ - старое и новое. 
-
-    /// <summary>
-    /// метод, который будет мен€ть переменную _SyncHealth. Ётот метод будет выполн€тьс€ только на сервере и мен€ть ’ѕ игрока
-    /// </summary>
-    /// <param name="newValue"></param>
-    [Server]
-    public void ChangeHealthValue(float newValue)
-    {
-        _SyncHealth = newValue;
-    }
-
-    /// <summary>
-    /// Ѕудем мен€ть и синхронизировать ’ѕ
-    /// </summary>
-    /// <param name="newValue"></param>
-    [Command] //обозначаем, что этот метод должен будет выполн€тьс€ на сервере по запросу клиента
-    public void CmdChangeHealth(float newValue) //об€зательно ставим Cmd в начале названи€ метода
-    {
-        ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
-        RpcShowHP(newValue);
-    }
-
-    /// <summary>
-    /// ќбновим дл€ всех клиентов HP над головой чтобы было видно
-    /// </summary>
-    /// <param name="PlayerHp"></param>
-    [ClientRpc]
-    void RpcShowHP(float PlayerHp) => _healthSliderRpc.DOValue(PlayerHp / 100, Time.deltaTime * 20);
+  
 
     internal void BuffHealth(float maxHealth)
     {
         if (hasAuthority) //≈сли мы имеем право на изменение
         {
-            _maxHealth = maxHealth;
+            MaxHealth = (int)maxHealth;
             _healthSlider.maxValue = maxHealth / 100;
             _healthSliderRpc.maxValue = maxHealth / 100;
             ClientServerChangeHp(maxHealth);
@@ -170,20 +96,7 @@ public class PlayerData : NetworkBehaviour
     }
 
 
-    #region Ћокальные ’ѕ
-    /// <summary>
-    /// ќтобразим локальные ’ѕ в верхнем левом углу
-    /// </summary>
-    /// <param name="PlayerHp"></param>
-    void LocalShowHP(float PlayerHp)
-    {
-        if (isLocalPlayer) //≈сли мы локальный игрок
-        {
-            _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-            _textHealth.text = $"{PlayerHp}/{_maxHealth}";
-        }
-    }
-    #endregion  
+   
 
     #endregion
 
@@ -276,26 +189,17 @@ public class PlayerData : NetworkBehaviour
 
     #endregion
 
-    #region Virtual method
+    #region Override TakeDamage
 
-    public virtual void TakeDamage(Damage damage)
+    public override void TakeDamage(Damage damage)
     {
         if (hasAuthority)
         {
             if (damage != null)
             {
-                onReceiveDamage.Invoke(damage);
+                base.TakeDamage(damage);
 
-                if (playerHealth > 0 && !isImmortal)
-                {
-                    ClientServerChangeHp(playerHealth - damage.damageValue);
-                    LocalShowHP(playerHealth - damage.damageValue);
-                }
-
-                if (damage.damageValue > 0)
-                    onReceiveDamage.Invoke(damage);
-
-                if (!isDead && playerHealth <= 0)
+                if (!isDead && currentHealth <= 0)
                 {
                     isDead = true;
                     onDead.Invoke(gameObject);
@@ -307,6 +211,9 @@ public class PlayerData : NetworkBehaviour
 
     }
 
+    #endregion
+
+    #region Camera change after Die
     private List<Transform> RoomPlayers()
     {
         var playerlist = new List<Transform>();

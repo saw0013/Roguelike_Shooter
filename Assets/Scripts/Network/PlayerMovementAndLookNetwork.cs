@@ -432,7 +432,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel") && _panelInfoItem.active != true)
+        if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true)
         {
             if (playerData.InputActive)
             {
@@ -442,7 +442,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else EscapeMenu(false, true);
         }
 
-        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.active != true)
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true)
         {
             if (playerData.InputActive) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);

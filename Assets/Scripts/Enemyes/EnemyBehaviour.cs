@@ -31,7 +31,7 @@ public class EnemyBehaviour : NetworkBehaviour
     public bool canSeePlayer;
     public bool Attacked;
 
-    private bool canAttack;
+    private bool canAttack = false;
 
     private EnemyAnimation e_anim;
 

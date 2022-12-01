@@ -1319,21 +1319,21 @@ MonoBehaviour:
   _healthSliderRpc: {fileID: 2175263270486950549}
   _textHealth: {fileID: 667439118614316443}
   _textGuard: {fileID: 2737344952758089390}
+  _nameDisplayRpc: {fileID: 1972920438032672338}
   _startAmmoReload: 3
   _startForceBulet: 2
   _maxHealth: 100
   _guardStart: 10
   _speedStart: 5
   _damageStart: 10
-  InputActive: 0
-  EscapeMenuActive: 0
-  SpeedPlayer: 0
-  DamagePlayer: 0
-  AmmoReload: 0
-  BuletForce: 0
-  _SyncHealth: 0
-  _nameDisplayRpc: {fileID: 1972920438032672338}
-  _nameDisplay: 
+  _isDead: 0
+  _currentHealth: 0
+  isImmortal: 0
+  fillHealthOnStart: 1
+  maxHealth: 100
+  _healthRecovery: 0
+  healthRecoveryDelay: 0
+  checkHealthEvents: []
   _onStartReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -1439,6 +1439,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  InputActive: 0
+  EscapeMenuActive: 0
+  SpeedPlayer: 0
+  DamagePlayer: 0
+  AmmoReload: 0
+  BuletForce: 0
+  _SyncHealth: 0
+  _nameDisplay: 
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
