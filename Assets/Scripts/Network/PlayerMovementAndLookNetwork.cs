@@ -347,6 +347,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
+        GameObject RareItemBullet = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "RareItemRed"));
+
         ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
         {
             if (x.tag == "Door")
@@ -376,6 +379,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
         DefaultItemGuard.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
         Level.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        RareItemBullet.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
 
         NetworkServer.Spawn(TriggerSpawnMob);
         NetworkServer.Spawn(DefaultItemDamage);
@@ -384,6 +388,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(DefaultItemAmmo);
         NetworkServer.Spawn(DefaultItemGuard);
         NetworkServer.Spawn(Level);
+        NetworkServer.Spawn(RareItemBullet);
     }
 
     public void StartGame()

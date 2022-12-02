@@ -1446,6 +1446,7 @@ MonoBehaviour:
   DamagePlayer: 0
   AmmoReload: 0
   BuletForce: 0
+  SizeBullet: 0.05
   _startAmmoReload: 3
   _startForceBulet: 2
   _guardStart: 10

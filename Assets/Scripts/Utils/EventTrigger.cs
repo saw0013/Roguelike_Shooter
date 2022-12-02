@@ -35,7 +35,6 @@ public class EventTrigger : NetworkBehaviour
     public float delayDestroy = .1f;
 
     //[SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
-    private DoorSystem doorSystem;
     [HideInInspector,]
     public bool isTriggered = false;
 
@@ -89,7 +88,6 @@ public class EventTrigger : NetworkBehaviour
 
         if (other.CompareTag("Player") && !isTriggered)
         {
-            doorSystem = GameObject.Find("Level").GetComponent<DoorSystem>();
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
             ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
@@ -150,7 +148,6 @@ public class EventTrigger : NetworkBehaviour
     private IEnumerator OnTrigEnter()
     {
         yield return new WaitForSeconds(.1f);
-        //doorSystem.AthorCloseDoor += 1;  //Последущие разы прибовляем на 2 больше, чем в прошлый раз
         OnEnterTrigger.Invoke();
         Destroy(this, delayDestroy);
     }

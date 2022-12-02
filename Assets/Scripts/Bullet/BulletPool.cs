@@ -10,11 +10,7 @@ public class BulletPool : NetworkBehaviour
 
     [SerializeField] private Damage damage;
 
-
-
     public int ForceShoot = 1000;
-
-
 
     private Rigidbody _rigidbody;
 

@@ -16,6 +16,7 @@ public class PlayerData : HealthController, ICharacter
     public float DamagePlayer;
     public float AmmoReload;
     public int BuletForce;
+    public float SizeBullet;
     private float guardPlayer;
 
     [SerializeField] private float _startAmmoReload;
@@ -132,6 +133,8 @@ public class PlayerData : HealthController, ICharacter
 
     #region ItemsBuff
 
+    #region Common
+
     #region CommonGuard
 
     public void ChangeGuard(float BuffGuard)
@@ -202,6 +205,26 @@ public class PlayerData : HealthController, ICharacter
             BuletForce = _startForceBulet;
         }
     }
+    #endregion
+
+    #endregion
+
+    #region Rare
+
+    #region RareBullet
+
+    public void ChangeBullet(float BuffBullet)
+    {
+        Debug.LogWarning("Нету прав");
+        if (hasAuthority)
+        {
+            Debug.LogWarning("Есть права");
+            SizeBullet += BuffBullet;
+        }
+    }
+
+    #endregion
+
     #endregion
 
     #endregion

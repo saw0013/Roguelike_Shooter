@@ -791,22 +791,30 @@ PrefabInstance:
       objectReference: {fileID: 3827590655909793025, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.size
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[0]
+      value: Prefabs\Items\ItemsCommon\Object\Common
       objectReference: {fileID: 0}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.data[1]
-      value: Prefabs\Doors
+      value: Prefabs\Items\ItemsRare\ItemObject
       objectReference: {fileID: 0}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.data[2]
-      value: Prefabs\Enviroment
+      value: Prefabs\Doors
       objectReference: {fileID: 0}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.data[3]
-      value: Prefabs\PlayerCommon
+      value: Prefabs\Enviroment
       objectReference: {fileID: 0}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.data[4]
+      value: Prefabs\PlayerCommon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: folderPath.Array.data[5]
       value: Prefabs\MobNpc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1330,7 +1338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000091552734
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y
