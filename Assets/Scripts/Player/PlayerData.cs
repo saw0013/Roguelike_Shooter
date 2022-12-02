@@ -233,24 +233,18 @@ public class PlayerData : HealthController, ICharacter
 
     public override void TakeDamage(Damage damage)
     {
-        if (isLocalPlayer)
+
+        TriggerDamageReaction(damage);
+        if (!isDead && currentHealth <= 0)
         {
-            TriggerDamageReaction(damage);
-            if (!isDead && currentHealth <= 0)
-            {
-                Debug.LogWarning("Мы локальный игрок который УМЕР");
-                isDead = true;
-                onDead.Invoke(gameObject);
-                InputActive = false;
-                StartCoroutine(ChangeCameraToLiveParty());
-            }
+            Debug.LogWarning("Мы локальный игрок который УМЕР");
+            isDead = true;
+            onDead.Invoke(gameObject);
+            InputActive = false;
+            StartCoroutine(ChangeCameraToLiveParty());
         }
 
-        
         base.TakeDamage(damage);
-        
-
-
     }
 
     #endregion
