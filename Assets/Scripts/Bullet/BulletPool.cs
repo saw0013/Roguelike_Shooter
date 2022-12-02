@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using MeshRenderer = UnityEngine.MeshRenderer;
-using Newtonsoft.Json.Bson;
-using Cosmoground;
+using Cosmo;
 
 public class BulletPool : NetworkBehaviour
 {

@@ -785,6 +785,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 3827590655909793025, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.size
       value: 5
@@ -1326,7 +1330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000091552734
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y

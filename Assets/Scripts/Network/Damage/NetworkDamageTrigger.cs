@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cosmoground;
+using Cosmo;
 
 public class NetworkDamageTrigger : MonoBehaviour
 {

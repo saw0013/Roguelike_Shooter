@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cosmoground
+namespace Cosmo
 {
     [System.Serializable]
     public class OnDead : UnityEngine.Events.UnityEvent<GameObject> { }

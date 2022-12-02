@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Mirror;
-using Cosmoground;
+using Cosmo;
 
-public class PlayerData : HealthController
+public class PlayerData : HealthController, ICharacter
 {
     #region Variables
 
@@ -28,6 +27,29 @@ public class PlayerData : HealthController
     [SyncVar(hook = nameof(NameDisplay))]
     public string _nameDisplay;
 
+    [Space(10), Header("===Ragdoll===")]
+    public DeathBy deathBy = DeathBy.Animation;
+    public bool removeComponentsAfterDie;
+    [HideInInspector]
+    public bool debugActionListener;
+
+    #region ICharacter & Ragdoll
+    [SerializeField] protected OnActiveRagdoll _onActiveRagdoll = new OnActiveRagdoll();
+    public OnActiveRagdoll onActiveRagdoll { get { return _onActiveRagdoll; } protected set { _onActiveRagdoll = value; } }
+
+    public Animator animator { get; protected set; }
+
+    public bool _ragdolled = false;
+    public virtual bool ragdolled { get { return _ragdolled; } set { _ragdolled = value; } }
+
+    protected AnimatorParameter hitDirectionHash;
+    protected AnimatorParameter reactionIDHash;
+    protected AnimatorParameter triggerReactionHash;
+    protected AnimatorParameter triggerResetStateHash;
+    protected AnimatorParameter recoilIDHash;
+    protected AnimatorParameter triggerRecoilHash;
+
+    #endregion
     #endregion
 
     #region Awake, Start, Update
@@ -38,7 +60,7 @@ public class PlayerData : HealthController
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
-        
+
     }
 
     protected override void Start() => base.Start();
@@ -57,6 +79,7 @@ public class PlayerData : HealthController
             {
                 ClientServerChangeHp(currentHealth - 10);
                 LocalShowHP(currentHealth - 10);
+                currentHealth -= 10;
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -75,13 +98,13 @@ public class PlayerData : HealthController
 
     }
 
-    void OnCollisionEnter(Collision collision) { } 
+    void OnCollisionEnter(Collision collision) { }
 
     #endregion
 
     #region Server Client Call ChangeHealth
 
-  
+
 
     internal void BuffHealth(float maxHealth)
     {
@@ -96,7 +119,7 @@ public class PlayerData : HealthController
     }
 
 
-   
+
 
     #endregion
 
@@ -162,7 +185,7 @@ public class PlayerData : HealthController
 
     public void StopBuffDamage()
     {
-        if(hasAuthority)
+        if (hasAuthority)
             DamagePlayer = _damageStart;
     }
     #endregion
@@ -193,21 +216,17 @@ public class PlayerData : HealthController
 
     public override void TakeDamage(Damage damage)
     {
-        if (hasAuthority)
-        {
-            if (damage != null)
-            {
-                base.TakeDamage(damage);
+        base.TakeDamage(damage);
+        TriggerDamageReaction(damage);
 
-                if (!isDead && currentHealth <= 0)
-                {
-                    isDead = true;
-                    onDead.Invoke(gameObject);
-                    InputActive = false;
-                    StartCoroutine(ChangeCameraToLiveParty());
-                }
-            }
+        if (!isDead && currentHealth <= 0)
+        {
+            isDead = true;
+            onDead.Invoke(gameObject);
+            InputActive = false;
+            StartCoroutine(ChangeCameraToLiveParty());
         }
+
 
     }
 
@@ -244,6 +263,64 @@ public class PlayerData : HealthController
 
         yield return new WaitForSeconds(3.0f);
         //GetComponentsInChildren<Collider>().ToList().ForEach(col => { DestroyImmediate(col); });
+    }
+
+    public void EnableRagdoll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ResetRagdoll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion
+
+    #region Ragdoll
+
+    public enum DeathBy
+    {
+        Animation,
+        AnimationWithRagdoll,
+        Ragdoll
+    }
+
+    private IEnumerator SetTriggerRoutine(int trigger)
+    {
+        animator.SetTrigger(trigger);
+        yield return new WaitForSeconds(0.1f);
+        animator.ResetTrigger(trigger);
+    }
+
+    public virtual void SetTrigger(int trigger)
+    {
+        StartCoroutine(SetTriggerRoutine(trigger));
+    }
+
+    protected virtual void TriggerDamageReaction(Damage damage)
+    {
+        if (animator != null && animator.enabled && !damage.activeRagdoll && currentHealth > 0)
+        {
+            if (hitDirectionHash.isValid && damage.sender) animator.SetInteger(hitDirectionHash, (int)transform.HitAngle(damage.sender.position));
+
+            // trigger hitReaction animation
+            if (damage.hitReaction)
+            {
+                // set the ID of the reaction based on the attack animation state of the attacker - Check the MeleeAttackBehaviour script
+                if (reactionIDHash.isValid) animator.SetInteger(reactionIDHash, damage.reaction_id);
+                if (triggerReactionHash.isValid) SetTrigger(triggerReactionHash);
+                if (triggerResetStateHash.isValid) SetTrigger(triggerResetStateHash);
+            }
+            else
+            {
+                if (recoilIDHash.isValid) animator.SetInteger(recoilIDHash, damage.recoil_id);
+                if (triggerRecoilHash.isValid) SetTrigger(triggerRecoilHash);
+                if (triggerResetStateHash.isValid) SetTrigger(triggerResetStateHash);
+            }
+        }
+        if (damage.activeRagdoll)
+            onActiveRagdoll.Invoke(damage);
     }
 
     #endregion

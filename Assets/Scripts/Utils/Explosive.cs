@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Cosmoground;
+using Cosmo;
 
 public class Explosive : MonoBehaviour
 {

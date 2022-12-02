@@ -1,5 +1,5 @@
 using UnityEngine;
-using Cosmoground;
+using Cosmo;
 
 public class DamageReceiver : MonoBehaviour
 {

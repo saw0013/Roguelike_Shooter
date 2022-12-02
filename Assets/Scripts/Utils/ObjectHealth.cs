@@ -1,4 +1,4 @@
-using Cosmoground;
+using Cosmo;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class ObjectHealth : MonoBehaviour
 {
-    [SerializeField][ReadOnly] protected bool _isDead;
+    [SerializeField] protected bool _isDead;
     [SerializeField] protected float _currentHealth;
 
     public bool isImmortal = false;

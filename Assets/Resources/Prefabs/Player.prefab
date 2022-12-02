@@ -1320,17 +1320,12 @@ MonoBehaviour:
   _textHealth: {fileID: 667439118614316443}
   _textGuard: {fileID: 2737344952758089390}
   _nameDisplayRpc: {fileID: 1972920438032672338}
-  _startAmmoReload: 3
-  _startForceBulet: 2
-  _maxHealth: 100
-  _guardStart: 10
-  _speedStart: 5
-  _damageStart: 10
   _isDead: 0
   _currentHealth: 0
   isImmortal: 0
   fillHealthOnStart: 1
   maxHealth: 100
+  _SyncHealth: 0
   _healthRecovery: 0
   healthRecoveryDelay: 0
   checkHealthEvents: []
@@ -1451,8 +1446,19 @@ MonoBehaviour:
   DamagePlayer: 0
   AmmoReload: 0
   BuletForce: 0
-  _SyncHealth: 0
+  _startAmmoReload: 3
+  _startForceBulet: 2
+  _guardStart: 10
+  _speedStart: 5
+  _damageStart: 10
   _nameDisplay: 
+  deathBy: 0
+  removeComponentsAfterDie: 1
+  debugActionListener: 0
+  _onActiveRagdoll:
+    m_PersistentCalls:
+      m_Calls: []
+  _ragdolled: 0
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1468,7 +1474,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!65 &3225267570092020803
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3368,7 +3374,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3827590655909826943}
-  - component: {fileID: 4584043975657184822}
   m_Layer: 3
   m_Name: Character1_Head
   m_TagString: Untagged
@@ -3392,19 +3397,6 @@ Transform:
   m_Father: {fileID: 3827590655909826903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4584043975657184822
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3827590655909793119}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.17171311
-  m_Center: {x: -0.0069551715, y: 0.1112838, z: 0.040340304}
 --- !u!1 &4728338000780435983
 GameObject:
   m_ObjectHideFlags: 0

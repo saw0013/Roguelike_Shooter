@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Cosmoground
+namespace Cosmo
 {
     public class HealthController : NetworkBehaviour, IHealthController
     {
@@ -307,8 +307,9 @@ namespace Cosmoground
         /// <param name="damage">damage</param>
         public virtual void TakeDamage(Damage damage)
         {
-            if (hasAuthority)
-            {
+            if (NetworkClient.active) Debug.LogWarning("Ïîðà îòíèìàòü ÕÏÓËÜÊÈ");
+            //if (hasAuthority)
+            //{
                 if (damage != null)
                 {
                     onStartReceiveDamage.Invoke(damage);
@@ -316,16 +317,16 @@ namespace Cosmoground
 
                     if (currentHealth > 0 && !isImmortal)
                     {
-                        ClientServerChangeHp(currentHealth - damage.damageValue);
+                        currentHealth -= damage.damageValue;
                         LocalShowHP(currentHealth - damage.damageValue);
-                        //currentHealth -= damage.damageValue;
+                        ClientServerChangeHp(currentHealth - damage.damageValue);
                     }
 
                     if (damage.damageValue > 0)
                         onReceiveDamage.Invoke(damage);
                     HandleCheckHealthEvents();
                 }
-            }
+            //}
         }
 
         protected virtual void HandleCheckHealthEvents()
