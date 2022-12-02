@@ -24,7 +24,7 @@ namespace Cosmo
         [SerializeField] protected bool _isDead;
         [SerializeField] protected float _currentHealth;
         public bool isImmortal = false;
-        
+
         public bool fillHealthOnStart = true;
         public int maxHealth = 100;
 
@@ -125,8 +125,8 @@ namespace Cosmo
         //метод ХУКА который будет выставлять Health в соответствии с синхронизированным значением
         void SyncHealth(float oldvalue, float newValue)
         {
-            if (NetworkServer.active) return;
-            _currentHealth = newValue; //обязательно делаем два значения - старое и новое. 
+            //if (NetworkServer.active) return;
+            currentHealth = newValue; //обязательно делаем два значения - старое и новое. 
         }
 
         protected void ClientServerChangeHp(float hp)
@@ -172,6 +172,7 @@ namespace Cosmo
         {
             if (isLocalPlayer) //Если мы локальный игрок
             {
+                //currentHealth = PlayerHp;
                 _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
                 _textHealth.text = $"{PlayerHp}/{MaxHealth}";
             }
@@ -307,9 +308,8 @@ namespace Cosmo
         /// <param name="damage">damage</param>
         public virtual void TakeDamage(Damage damage)
         {
-            if (NetworkClient.active) Debug.LogWarning("Пора отнимать ХПУЛЬКИ");
-            //if (hasAuthority)
-            //{
+            if (hasAuthority)
+            {
                 if (damage != null)
                 {
                     onStartReceiveDamage.Invoke(damage);
@@ -317,16 +317,15 @@ namespace Cosmo
 
                     if (currentHealth > 0 && !isImmortal)
                     {
-                        currentHealth -= damage.damageValue;
-                        LocalShowHP(currentHealth - damage.damageValue);
                         ClientServerChangeHp(currentHealth - damage.damageValue);
+                        LocalShowHP(currentHealth - damage.damageValue);
                     }
 
                     if (damage.damageValue > 0)
                         onReceiveDamage.Invoke(damage);
                     HandleCheckHealthEvents();
                 }
-            //}
+            }
         }
 
         protected virtual void HandleCheckHealthEvents()

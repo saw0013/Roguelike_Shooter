@@ -75,12 +75,6 @@ public class PlayerData : HealthController, ICharacter
     {
         if (hasAuthority)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ClientServerChangeHp(currentHealth - 10);
-                LocalShowHP(currentHealth - 10);
-                currentHealth -= 10;
-            }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 StartCoroutine(ChangeCameraToLiveParty());
@@ -216,16 +210,22 @@ public class PlayerData : HealthController, ICharacter
 
     public override void TakeDamage(Damage damage)
     {
-        base.TakeDamage(damage);
-        TriggerDamageReaction(damage);
-
-        if (!isDead && currentHealth <= 0)
+        if (isLocalPlayer)
         {
-            isDead = true;
-            onDead.Invoke(gameObject);
-            InputActive = false;
-            StartCoroutine(ChangeCameraToLiveParty());
+            TriggerDamageReaction(damage);
+            if (!isDead && currentHealth <= 0)
+            {
+                Debug.LogWarning("Мы локальный игрок который УМЕР");
+                isDead = true;
+                onDead.Invoke(gameObject);
+                InputActive = false;
+                StartCoroutine(ChangeCameraToLiveParty());
+            }
         }
+
+        
+        base.TakeDamage(damage);
+        
 
 
     }
