@@ -45,7 +45,6 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)

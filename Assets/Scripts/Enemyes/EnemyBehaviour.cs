@@ -4,15 +4,17 @@ using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Cosmo;
 using Mirror;
 using Mono.CSharp;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using Zenject;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBehaviour : NetworkBehaviour
+public class EnemyBehaviour : HealthController
 {
     #region  Variables
 
@@ -47,6 +49,15 @@ public class EnemyBehaviour : NetworkBehaviour
 
     #region Base method. Start, Awake, Enable and too...
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
 
     public virtual void OnStart()
     {
@@ -174,4 +185,5 @@ public class EnemyBehaviour : NetworkBehaviour
     }
 
     #endregion
+
 }

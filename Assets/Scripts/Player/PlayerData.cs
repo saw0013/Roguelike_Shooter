@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Cosmo;
+using TMPro;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -11,7 +12,7 @@ public class PlayerData : HealthController, ICharacter
     [Space(10), Header("===PlayerData===")]
     public bool InputActive = true;
     public bool EscapeMenuActive;
-
+    public Transform ItemsGrind;
     public int SpeedPlayer;
     public float DamagePlayer;
     public float AmmoReload;
@@ -26,6 +27,8 @@ public class PlayerData : HealthController, ICharacter
     [SerializeField] private float _guardStart;
     [SerializeField] private int _speedStart;
     [SerializeField] private float _damageStart;
+    [SerializeField] private TMP_Text _textGuard;
+    [SerializeField] internal TMP_Text _nameDisplayRpc;
 
     [SyncVar(hook = nameof(NameDisplay))]
     public string _nameDisplay;
@@ -235,20 +238,25 @@ public class PlayerData : HealthController, ICharacter
 
     #region Override TakeDamage
 
+    //public override bool isDead { get; set; }
+    //public override float currentHealth { get; protected set; }
+    //Если переопределить методы, то будет срабатывать при -ХП но будет работать камера
     public override void TakeDamage(Damage damage)
     {
-
-        TriggerDamageReaction(damage);
-        if (!isDead && currentHealth <= 0)
-        {
-            Debug.LogWarning("Мы локальный игрок который УМЕР");
-            isDead = true;
-            onDead.Invoke(gameObject);
-            InputActive = false;
-            StartCoroutine(ChangeCameraToLiveParty());
-        }
-
         base.TakeDamage(damage);
+
+        if (isLocalPlayer)
+        {
+            //TriggerDamageReaction(damage); //Отключим пока нету Ragdoll
+            if (!base.isDead && base.currentHealth <= 0)
+            {
+                Debug.LogWarning("Мы локальный игрок который УМЕР");
+                base.isDead = true;
+                onDead.Invoke(gameObject);
+                InputActive = false;
+                StartCoroutine(ChangeCameraToLiveParty());
+            }
+        }
     }
 
     #endregion

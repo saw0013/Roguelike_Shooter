@@ -107,7 +107,7 @@ MonoBehaviour:
   delayDestroy: 100
   isTriggered: 0
   spawningWho: 1
-  CountSpawn: 5
+  CountSpawn: 2
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:

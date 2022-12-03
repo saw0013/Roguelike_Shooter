@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 906578309212869564}
   - component: {fileID: 186528855912945343}
   - component: {fileID: 186528855912945342}
+  - component: {fileID: 1829491658172427583}
   m_Layer: 0
   m_Name: Spider_LP.002
   m_TagString: Untagged
@@ -632,6 +633,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &1829491658172427583
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186528855912945329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &212578028531840065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3833,7 +3848,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4221,6 +4236,7 @@ GameObject:
   - component: {fileID: 5830418239253413350}
   - component: {fileID: 5830418239253413369}
   - component: {fileID: 5830418239253413368}
+  - component: {fileID: 3937019862977469644}
   - component: {fileID: 5830418239253413349}
   - component: {fileID: 5830418239253413371}
   - component: {fileID: 5202976319297654991}
@@ -4315,6 +4331,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
+  typeController: 1
+  _healthSlider: {fileID: 0}
+  _healthSliderRpc: {fileID: 6468711090700708575}
+  _textHealth: {fileID: 6468711090088869159}
+  _isDead: 0
+  _currentHealth: 0
+  isImmortal: 0
+  fillHealthOnStart: 1
+  maxHealth: 400
+  _SyncHealth: 400
+  _healthRecovery: 0
+  healthRecoveryDelay: 0
+  checkHealthEvents: []
+  _onStartReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onReceiveDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDead:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  onResetHealth:
+    m_PersistentCalls:
+      m_Calls: []
   radius: 15
   angle: 215
   Eyes: {fileID: 6468711089356231354}
@@ -4342,20 +4386,22 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 2754921565222824068}
   _timeAttack: 2.37
-  _onStartReceiveDamage:
+--- !u!114 &3937019862977469644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602873899293615943}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07483fadf542d7149957a3b0ba6f37eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0
+  onDestroy:
     m_PersistentCalls:
       m_Calls: []
-  _onReceiveDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  _onDead:
-    m_PersistentCalls:
-      m_Calls: []
-  _textHP: {fileID: 6468711090088869159}
-  _maxHealth: 150
-  _healthSliderRpc: {fileID: 6468711090700708575}
-  _SyncHealth: 0
-  FillHealth: 1
 --- !u!114 &5830418239253413349
 MonoBehaviour:
   m_ObjectHideFlags: 0
