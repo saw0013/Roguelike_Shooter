@@ -16,7 +16,9 @@ public class PlayerData : HealthController, ICharacter
     public float DamagePlayer;
     public float AmmoReload;
     public int BuletForce;
+
     public float SizeBullet;
+
     private float guardPlayer;
 
     [SerializeField] private float _startAmmoReload;
@@ -215,12 +217,14 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeBullet(float BuffBullet)
     {
-        Debug.LogWarning("Нету прав");
-        if (hasAuthority)
-        {
-            Debug.LogWarning("Есть права");
-            SizeBullet += BuffBullet;
-        }
+        //Debug.LogWarning("Нету прав");
+        //if (hasAuthority)
+        //{
+        //    Debug.LogWarning("Есть права");
+        //    SizeBullet += BuffBullet;
+        //}
+
+        SizeBullet += BuffBullet;
     }
 
     #endregion

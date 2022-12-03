@@ -48,7 +48,7 @@ public class BulletPool : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        switch(collision.gameObject.tag)
+        switch (collision.gameObject.tag)
         {
             case "Player":
                 var _damageToPlayer = new Damage(damage);
@@ -80,5 +80,9 @@ public class BulletPool : NetworkBehaviour
         }
     }
 
-    public void OnSpawnBullet(int force) => ForceShoot = force;
+    public void OnSpawnBullet(int force, float size)
+    {
+        ForceShoot = force;
+        transform.localScale = new Vector3(size, size, size);
+    }
 }

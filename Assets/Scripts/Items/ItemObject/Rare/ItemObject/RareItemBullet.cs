@@ -16,7 +16,7 @@ public class RareItemBullet : NetworkBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeBullet(0.5f);
+        _owner.ChangeBullet(0.05f);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<RareItemBulletUI>().RegisterOwner(_owner);
         Destroy(gameObject);

@@ -16,7 +16,7 @@ public class DefaultItemAmmo : NetworkBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeAmmo(1f, 5);
+        _owner.ChangeAmmo(1f, 10);
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(_owner);
         Destroy(gameObject);
