@@ -364,8 +364,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            Doors[i].GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-            NetworkServer.Spawn(Doors[i]);
+            var Door = Instantiate(Doors[i]);
+            Door.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+            NetworkServer.Spawn(Door);
         }
 
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs

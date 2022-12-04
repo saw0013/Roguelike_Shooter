@@ -4330,7 +4330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.1
   typeController: 1
   _healthSlider: {fileID: 0}
   _healthSliderRpc: {fileID: 6468711090700708575}
