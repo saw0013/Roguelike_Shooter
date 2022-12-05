@@ -124,14 +124,15 @@ public class HealthController : NetworkBehaviour, IHealthController
     //метод ХУКА который будет выставлять Health в соответствии с синхронизированным значением
     void SyncHealth(float oldvalue, float newValue)
     {
-        //if (NetworkServer.active) return;
         currentHealth = newValue; //обязательно делаем два значения - старое и новое. 
 
         //RpcМетод
         _healthSliderRpc.DOValue(newValue / 100, Time.deltaTime * 20);
 
         //ХП синхронизируем в хуке только для врагов
-        if(typeController == TypeController.Enemy) _textHealth.text = $"{newValue}/{MaxHealth}";
+        if (typeController == TypeController.Enemy) _textHealth.text = $"{newValue}/{MaxHealth}";
+
+        LocalShowHP(newValue);
     }
 
     protected void ClientServerChangeHp(float hp)
@@ -158,19 +159,9 @@ public class HealthController : NetworkBehaviour, IHealthController
     public void CmdChangeHealth(float newValue) //обязательно ставим Cmd в начале названия метода
     {
         ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
-        //RpcShowHP(newValue);
     }
 
-    /// <summary>
-    /// Обновим для всех клиентов HP над головой чтобы было видно
-    /// </summary>
-    /// <param name="PlayerHp"></param>
-    //Метод теперь не нужен. Обновлять будем прямо в ХУКЕ
-    //[ClientRpc]
-    //void RpcShowHP(float PlayerHp)
-    //{
-    //    _healthSliderRpc.DOValue(PlayerHp / 100, Time.deltaTime * 20);
-    //}
+   
     #region Локальные ХП
     /// <summary>
     /// Отобразим локальные ХП в верхнем левом углу
@@ -207,6 +198,8 @@ public class HealthController : NetworkBehaviour, IHealthController
         if (fillHealthOnStart)
             currentHealth = maxHealth;
         currentHealthRecoveryDelay = healthRecoveryDelay;
+
+        _SyncHealth = MaxHealth;
     }
 
     protected virtual bool canRecoverHealth
@@ -325,32 +318,37 @@ public class HealthController : NetworkBehaviour, IHealthController
     /// <param name="damage">damage</param>
     public virtual void TakeDamage(Damage damage)
     {
-        if (typeController == TypeController.Player)
-        {
-            if (hasAuthority)
-            {
-                Debug.LogWarning("Дамаг наносится игроку");
-                if (damage != null)
-                {
-                    onStartReceiveDamage.Invoke(damage);
-                    currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
-
-                    if (currentHealth > 0 && !isImmortal)
-                    {
-                        ClientServerChangeHp(currentHealth - damage.damageValue);
-                        LocalShowHP(currentHealth - damage.damageValue);
-                    }
-
-                    if (damage.damageValue > 0)
-                        onReceiveDamage.Invoke(damage);
-                    HandleCheckHealthEvents();
-                }
-            }
-        }
-
-        else
-        {
-            Debug.LogWarning("Дамаг наносится врагу");
+        //TODO : Проверить hasAuthority и нанести дамаг от паука
+       // if (typeController == TypeController.Player)
+       // {
+       //     if (hasAuthority)
+       //     {
+       //         Debug.LogWarning("Я игрок который получил дамаг");
+       //         if (damage != null)
+       //         {
+       //             onStartReceiveDamage.Invoke(damage);
+       //             currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
+       //
+       //             if (currentHealth > 0 && !isImmortal)
+       //             {
+       //                 ClientServerChangeHp(currentHealth - damage.damageValue);
+       //                 LocalShowHP(currentHealth - damage.damageValue);
+       //             }
+       //
+       //             if (damage.damageValue > 0)
+       //                 onReceiveDamage.Invoke(damage);
+       //             HandleCheckHealthEvents();
+       //         }
+       //     }
+       //     else
+       //     {
+       //         if (isServer)
+       //             _SyncHealth -= damage.damageValue;
+       //     }
+       // }
+       //
+       // else
+       // {
             if (damage != null)
             {
                 onStartReceiveDamage.Invoke(damage);
@@ -358,14 +356,15 @@ public class HealthController : NetworkBehaviour, IHealthController
 
                 if (currentHealth > 0 && !isImmortal)
                 {
-                    _SyncHealth -= damage.damageValue;
+                    if (isServer)
+                        _SyncHealth -= damage.damageValue;
                 }
 
                 if (damage.damageValue > 0)
                     onReceiveDamage.Invoke(damage);
                 HandleCheckHealthEvents();
             }
-        }
+       // }
     }
 
     protected virtual void HandleCheckHealthEvents()

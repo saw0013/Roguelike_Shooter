@@ -178,10 +178,15 @@ public class EnemyBehaviour : HealthController
 
     #region Animation behaviour
 
+    //TODO : Всё равно ошибкка при анимации agent.hasPath
+    [ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
+        if (e_anim == null) return;
+
         e_anim.anim_Walk(agent.hasPath);
         e_anim.anim_Attack(Attacked, Random.Range(1, 2));
+
     }
 
     #endregion

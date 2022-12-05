@@ -93,7 +93,7 @@ public class PlayerData : HealthController, ICharacter
         if (other.CompareTag("Bullet"))
         {
             //TODO : Сделать счётчик и вести счётчик в BulletPool OnCollisionEnter
-            Debug.LogWarning($"Тимдамаг от {other.GetComponent<BulletPool>().owner}");
+            //Debug.LogWarning($"Тимдамаг от {other.GetComponent<BulletPool>().owner}");
         }
 
     }
@@ -238,20 +238,21 @@ public class PlayerData : HealthController, ICharacter
 
     #region Override TakeDamage
 
-    //public override bool isDead { get; set; }
-    //public override float currentHealth { get; protected set; }
+    public override bool isDead { get; set; }
+    public override float currentHealth { get; protected set; }
     //Если переопределить методы, то будет срабатывать при -ХП но будет работать камера
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
 
-        if (isLocalPlayer)
+        //TODO : isServer?
+        if (hasAuthority)
         {
             //TriggerDamageReaction(damage); //Отключим пока нету Ragdoll
-            if (!base.isDead && base.currentHealth <= 0)
+            if (!isDead && currentHealth <= 0)
             {
                 Debug.LogWarning("Мы локальный игрок который УМЕР");
-                base.isDead = true;
+                isDead = true;
                 onDead.Invoke(gameObject);
                 InputActive = false;
                 StartCoroutine(ChangeCameraToLiveParty());
