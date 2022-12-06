@@ -411,7 +411,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         UILobby.instance.gameObject.SetActive(false);
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
-        GetComponent<PlayerData>().InputActive = true;
+        GetComponent<PlayerData>().InputIsActive(true);
     }
 
     #endregion
@@ -458,7 +458,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true)
         {
-            if (playerData.InputActive)
+            if (playerData.GetInputActive())
             {
                 StartMenu();
                 EscapeMenu(true, false);
@@ -468,7 +468,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true)
         {
-            if (playerData.InputActive) InfoItemMenu(true, false);
+            if (playerData.GetInputActive()) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
         }
     }
@@ -481,7 +481,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            if (playerData.InputActive) inputDirection = new Vector3(h, 0, v);
+            if (playerData.GetInputActive()) inputDirection = new Vector3(h, 0, v);
             else inputDirection = new Vector3(0, 0, 0);
 
             //Camera Direction
@@ -504,7 +504,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
             MoveThePlayer(desiredDirection);
 
-            if (playerData.InputActive) TurnThePlayer();
+            if (playerData.GetInputActive()) TurnThePlayer();
 
             AnimateThePlayer(desiredDirection);
         }
@@ -516,13 +516,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void EscapeMenu(bool active, bool input)
     {
         _panelEscape.SetActive(active);
-        playerData.InputActive = input;
+        playerData.InputIsActive(input);
     }
 
     public void InfoItemMenu(bool active, bool input)
     {
         _panelInfoItem.SetActive(active);
-        playerData.InputActive = input;
+        playerData.InputIsActive(input);
     }
 
     public void StartMenu()

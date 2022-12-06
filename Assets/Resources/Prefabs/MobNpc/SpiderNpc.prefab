@@ -4236,6 +4236,7 @@ GameObject:
   - component: {fileID: 5830418239253413350}
   - component: {fileID: 5830418239253413369}
   - component: {fileID: 5830418239253413368}
+  - component: {fileID: 2293027235446811131}
   - component: {fileID: 5830418239253413349}
   - component: {fileID: 5830418239253413371}
   - component: {fileID: 5202976319297654991}
@@ -4351,7 +4352,31 @@ MonoBehaviour:
       m_Calls: []
   _onDead:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5830418239253413349}
+        m_TargetAssemblyTypeName: EnemyAnimation, Assembly-CSharp
+        m_MethodName: anim_Dead
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2293027235446811131}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onChangeHealth:
     m_PersistentCalls:
       m_Calls: []
@@ -4385,6 +4410,22 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 2754921565222824068}
   _timeAttack: 2.37
+--- !u!114 &2293027235446811131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602873899293615943}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07483fadf542d7149957a3b0ba6f37eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 45
+  onDestroy:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5830418239253413349
 MonoBehaviour:
   m_ObjectHideFlags: 0

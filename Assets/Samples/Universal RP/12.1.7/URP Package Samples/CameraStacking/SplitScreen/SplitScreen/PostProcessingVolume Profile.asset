@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.197
+    m_Value: 0.152
 --- !u!114 &-4862257252676269051
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -50,10 +50,10 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.82
+    m_Value: 0.9
   intensity:
     m_OverrideState: 1
-    m_Value: 1.5
+    m_Value: 1.46
   scatter:
     m_OverrideState: 1
     m_Value: 0.7
@@ -62,7 +62,7 @@ MonoBehaviour:
     m_Value: 100
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.35248306, g: 0.47957417, b: 0.8396226, a: 1}
+    m_Value: {r: 0.9150943, g: 0.828983, b: 0.6517889, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
@@ -76,6 +76,22 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-953407137786488044
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +111,8 @@ MonoBehaviour:
   - {fileID: -4862257252676269051}
   - {fileID: -7957705811678021704}
   - {fileID: 1021391229407337484}
+  - {fileID: -953407137786488044}
+  - {fileID: 5924633254989345999}
 --- !u!114 &1021391229407337484
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -135,7 +153,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: -0.01
+    m_Value: 1.8
   contrast:
     m_OverrideState: 1
     m_Value: 4.4
@@ -176,3 +194,22 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 1
     m_Value: 1
+--- !u!114 &5924633254989345999
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  temperature:
+    m_OverrideState: 1
+    m_Value: 16
+  tint:
+    m_OverrideState: 1
+    m_Value: 53

@@ -1336,6 +1336,18 @@ MonoBehaviour:
   _onDead:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3827590655909793146}
+        m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
+        m_MethodName: InputIsActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 6104845788952485230}
         m_TargetAssemblyTypeName: PlayerMovementAndLookNetwork, Assembly-CSharp
         m_MethodName: DeadPlayer
@@ -1432,13 +1444,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3827590655909793146}
+        m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
+        m_MethodName: TargetChangeCameraToLivePlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onChangeHealth:
     m_PersistentCalls:
       m_Calls: []
   onResetHealth:
     m_PersistentCalls:
       m_Calls: []
-  InputActive: 0
   EscapeMenuActive: 0
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0

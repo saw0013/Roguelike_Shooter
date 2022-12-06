@@ -10,7 +10,7 @@ using Cosmo;
 
 public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-  
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,22 +54,9 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     public override void OnStart() => base.OnStart();
-
-    public override bool isDead { get; set; }
-    public override float currentHealth { get; protected set; }
-
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
-        if (isClient)
-        {
-            if (!isDead && currentHealth <= 0)
-            {
-               Destroy(gameObject);
-                isDead = true;
-                onDead.Invoke(gameObject);
-            }
-        }
     }
 
     #endregion

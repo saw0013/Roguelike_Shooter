@@ -70,7 +70,7 @@ public class EnemyBehaviour : HealthController
     public virtual void Update()
     {
         Animation();
-        if (Attacked)
+        if (Attacked & !isDead)
         {
             currentTimeAttack += Time.deltaTime;
             if (currentTimeAttack >= _timeAttack)
@@ -112,6 +112,8 @@ public class EnemyBehaviour : HealthController
 
     public virtual void FieldOfViewCheck()
     {
+        if(isDead) return;
+        
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
@@ -182,7 +184,8 @@ public class EnemyBehaviour : HealthController
     [ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
-        if (e_anim == null) return;
+        if(isDead) return;
+        if (agent == null) return;
 
         e_anim.anim_Walk(agent.hasPath);
         e_anim.anim_Attack(Attacked, Random.Range(1, 2));

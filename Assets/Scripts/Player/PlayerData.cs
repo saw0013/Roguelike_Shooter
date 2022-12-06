@@ -10,7 +10,7 @@ public class PlayerData : HealthController, ICharacter
     #region Variables
 
     [Space(10), Header("===PlayerData===")]
-    public bool InputActive = true;
+    private bool InputActive/* = true*/;
     public bool EscapeMenuActive;
     public Transform ItemsGrind;
     public int SpeedPlayer;
@@ -236,33 +236,39 @@ public class PlayerData : HealthController, ICharacter
 
     #endregion
 
+    #region Public
+
+    /// <summary>
+    /// Устанавливаем, можно ли управлять персонажем
+    /// </summary>
+    /// <param name="input"></param>
+    public void InputIsActive(bool input) => InputActive = input;
+    /// <summary>
+    /// Проверяет, можно ли управлять персонажем
+    /// </summary>
+    /// <returns></returns>
+    internal bool GetInputActive() => InputActive;
+
+    #endregion
+
     #region Override TakeDamage
 
-    public override bool isDead { get; set; }
-    public override float currentHealth { get; protected set; }
+
     //Если переопределить методы, то будет срабатывать при -ХП но будет работать камера
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
-
-        //TODO : isServer?
-        if (hasAuthority)
-        {
-            //TriggerDamageReaction(damage); //Отключим пока нету Ragdoll
-            if (!isDead && currentHealth <= 0)
-            {
-                Debug.LogWarning("Мы локальный игрок который УМЕР");
-                isDead = true;
-                onDead.Invoke(gameObject);
-                InputActive = false;
-                StartCoroutine(ChangeCameraToLiveParty());
-            }
-        }
     }
 
     #endregion
 
     #region Camera change after Die
+
+    public void TargetChangeCameraToLivePlayer()
+    {
+        StartCoroutine(ChangeCameraToLiveParty());
+    }
+
     private List<Transform> RoomPlayers()
     {
         var playerlist = new List<Transform>();
@@ -291,19 +297,11 @@ public class PlayerData : HealthController, ICharacter
                 GetComponent<PlayerMovementAndLookNetwork>().vCamera.Follow = player;
         }
 
-        yield return new WaitForSeconds(3.0f);
+        //yield return new WaitForSeconds(3.0f);
         //GetComponentsInChildren<Collider>().ToList().ForEach(col => { DestroyImmediate(col); });
     }
 
-    public void EnableRagdoll()
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public void ResetRagdoll()
-    {
-        throw new System.NotImplementedException();
-    }
 
     #endregion
 
@@ -314,6 +312,16 @@ public class PlayerData : HealthController, ICharacter
         Animation,
         AnimationWithRagdoll,
         Ragdoll
+    }
+
+    public void EnableRagdoll()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ResetRagdoll()
+    {
+        throw new System.NotImplementedException();
     }
 
     private IEnumerator SetTriggerRoutine(int trigger)

@@ -161,7 +161,7 @@ public class HealthController : NetworkBehaviour, IHealthController
         ChangeHealthValue(newValue);  //переходим к непосредственному изменению переменной
     }
 
-   
+
     #region Локальные ХП
     /// <summary>
     /// Отобразим локальные ХП в верхнем левом углу
@@ -318,53 +318,32 @@ public class HealthController : NetworkBehaviour, IHealthController
     /// <param name="damage">damage</param>
     public virtual void TakeDamage(Damage damage)
     {
-        //TODO : Проверить hasAuthority и нанести дамаг от паука
-       // if (typeController == TypeController.Player)
-       // {
-       //     if (hasAuthority)
-       //     {
-       //         Debug.LogWarning("Я игрок который получил дамаг");
-       //         if (damage != null)
-       //         {
-       //             onStartReceiveDamage.Invoke(damage);
-       //             currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
-       //
-       //             if (currentHealth > 0 && !isImmortal)
-       //             {
-       //                 ClientServerChangeHp(currentHealth - damage.damageValue);
-       //                 LocalShowHP(currentHealth - damage.damageValue);
-       //             }
-       //
-       //             if (damage.damageValue > 0)
-       //                 onReceiveDamage.Invoke(damage);
-       //             HandleCheckHealthEvents();
-       //         }
-       //     }
-       //     else
-       //     {
-       //         if (isServer)
-       //             _SyncHealth -= damage.damageValue;
-       //     }
-       // }
-       //
-       // else
-       // {
-            if (damage != null)
+        if (damage != null)
+        {
+            onStartReceiveDamage.Invoke(damage);
+            currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
+
+            if (currentHealth > 0 && !isImmortal)
             {
-                onStartReceiveDamage.Invoke(damage);
-                currentHealthRecoveryDelay = currentHealth <= 0 ? 0 : healthRecoveryDelay;
+                if (isServer) //Если мы проверяем получение дамага на сервере
+                    _SyncHealth -= damage.damageValue;
 
-                if (currentHealth > 0 && !isImmortal)
+                else if (isClient) //Если проверяем получение дамага на клиенте
                 {
-                    if (isServer)
-                        _SyncHealth -= damage.damageValue;
+                    if (hasAuthority) //Есть ли у нас права изменять объект
+                    {
+                        Debug.LogWarning("Есть hasAuthority"); 
+                        CmdChangeHealth(currentHealth - damage.damageValue);
+                    }
+                    else Debug.LogWarning("НЕТУ hasAuthority"); //Нету прав на изменение
                 }
-
-                if (damage.damageValue > 0)
-                    onReceiveDamage.Invoke(damage);
-                HandleCheckHealthEvents();
             }
-       // }
+
+
+            if (damage.damageValue > 0)
+                onReceiveDamage.Invoke(damage);
+            HandleCheckHealthEvents();
+        }
     }
 
     protected virtual void HandleCheckHealthEvents()

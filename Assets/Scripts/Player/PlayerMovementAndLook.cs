@@ -57,7 +57,7 @@ public class PlayerMovementAndLook : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel") && playerData.EscapeMenuActive)
         {
-            if (playerData.InputActive)
+            if (playerData.GetInputActive())
             {
                 StartMenu();
                 EscapeMenu(true, false);
@@ -72,7 +72,7 @@ public class PlayerMovementAndLook : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (playerData.InputActive) inputDirection = new Vector3(h, 0, v);
+        if (playerData.GetInputActive()) inputDirection = new Vector3(h, 0, v);
         else inputDirection = new Vector3(0, 0, 0);
 
         //Camera Direction
@@ -94,14 +94,14 @@ public class PlayerMovementAndLook : MonoBehaviour
         }
 
         MoveThePlayer(desiredDirection);
-        if (playerData.InputActive) TurnThePlayer();      
+        if (playerData.GetInputActive()) TurnThePlayer();      
         AnimateThePlayer(desiredDirection);
     }
 
     public void EscapeMenu(bool active, bool input)
     {
         _panelEscape.SetActive(active);
-        playerData.InputActive = input;
+        playerData.InputIsActive(input);
     }
 
     public void StartMenu()

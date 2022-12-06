@@ -57,7 +57,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         {
             timer += Time.deltaTime;
 
-            if (playerData.InputActive)
+            if (playerData.GetInputActive())
             {
                 if (Input.GetKey(reloadKey) && !reloading && ñartridges != MaxCartridges)
                 {
