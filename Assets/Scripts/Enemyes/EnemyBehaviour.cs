@@ -59,6 +59,8 @@ public class EnemyBehaviour : HealthController
         base.Start();
     }
 
+    public override bool isDead { get; set; }
+
     public virtual void OnStart()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -181,7 +183,7 @@ public class EnemyBehaviour : HealthController
     #region Animation behaviour
 
     //TODO : Всё равно ошибкка при анимации agent.hasPath
-    [ClientCallback] //Незачем выполнять это на сервере 
+    //[ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
         if(isDead) return;

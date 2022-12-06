@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using Cosmo;
+using Mirror.Experimental;
 
 public class BulletPool : NetworkBehaviour
 {
