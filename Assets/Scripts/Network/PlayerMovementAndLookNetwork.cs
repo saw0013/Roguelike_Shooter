@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using Utils;
 using Random = System.Random;
 
-
+[Serializable]
 public class PlayerMovementAndLookNetwork : NetworkBehaviour
 {
     #region Variables

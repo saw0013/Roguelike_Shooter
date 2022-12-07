@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Cosmoground/ManagerSession")]
-public class ManagerSessionSaved : ScriptableObject
+//[CreateAssetMenu(menuName = "Cosmoground/ManagerSession")]
+[System.Serializable]
+public class ManagerSessionSaved
 {
-    [SerializeField] public List<PlayerMovementAndLookNetwork> players;
+    [SerializeField] private List<PlayerMovementAndLookNetwork> players;
+    [SerializeField] private List<GameObject> CreatedObjectsInMatch;
 
+    [SerializeField]
+    public string NameManager
+    {
+        get => _nameManager;
+        set => _nameManager = value;
+    }
+
+    private string _nameManager;
     /// <summary>
     /// ƒобавление пользователей в список комнаты
     /// </summary>
@@ -15,6 +25,16 @@ public class ManagerSessionSaved : ScriptableObject
     {
         if (players == null) players = new List<PlayerMovementAndLookNetwork>();
         players.Add(player);
+    }
+
+    /// <summary>
+    /// ”даление пользователей из списка комнаты
+    /// </summary>
+    /// <param name="player"></param>
+    public void RemovePlayer(PlayerMovementAndLookNetwork player)
+    {
+        if (players == null) players = new List<PlayerMovementAndLookNetwork>();
+        players.Remove(player);
     }
 
 }

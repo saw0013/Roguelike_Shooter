@@ -31,6 +31,7 @@ public class EnemyBehaviour : HealthController
 
     private NavMeshAgent agent;
 
+    [Tooltip("Задержка в расстоянии, нужно чтобы НПЦ начанал атаку раньше")]
     public float DelayDistance;
 
     public float TimeToCharge;
