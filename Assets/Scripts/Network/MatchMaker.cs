@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Mirror;
@@ -128,6 +129,12 @@ namespace MirrorBasics {
                     _id += (random - 26).ToString ();
                 }
             }
+            //Происходит при создании матча
+            var ms = ShooterNetworkManager.singleton.spawnPrefabs.Find(x => x.name == "ManagerSessions");
+            Debug.LogWarning(ms.name);
+            var sm = ms.GetComponent<ManagerSessions>();
+            sm.AddManagerSession(_id);
+
             Debug.Log ($"Random Match ID: {_id}");
             return _id;
         }

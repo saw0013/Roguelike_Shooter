@@ -263,6 +263,8 @@ public class ShooterNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         //StartCoroutine(ServerLoadSubScenes());
+        //var manager = Instantiate(Resources.Load("Prefabs/ManagerSessions") as GameObject);
+        //NetworkServer.Spawn(manager);
     }
 
     /// <summary>
