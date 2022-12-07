@@ -125,7 +125,7 @@ public class EventTrigger : NetworkBehaviour
 
             yield return new WaitForSeconds(1.2f);
             var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
+                x.name == "SmalSpiderNpc"), StartPointNpc, Quaternion.identity);
             npc.GetComponent<NetworkMatch>().matchId = matchID;
             NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
 

@@ -18,6 +18,8 @@ public class EnemyBehaviour : HealthController
 {
     #region  Variables
 
+    [SerializeField] private TypeEnemy typeEnemy;
+
     [Header("Draw Eye")]
     [SerializeField, Range(0, 25)] internal float radius = 5f;
     [Range(0, 360)] public float angle;
@@ -29,9 +31,17 @@ public class EnemyBehaviour : HealthController
 
     private NavMeshAgent agent;
 
+    public float DelayDistance;
+
+    public float TimeToCharge;
+
     [HideInInspector]
     public bool canSeePlayer;
     public bool Attacked;
+
+    private bool chardge;
+    private bool beginCharge;
+    private float TimeChardge;
 
     private bool canAttack = false;
 
@@ -81,6 +91,23 @@ public class EnemyBehaviour : HealthController
                 damageTrigger.AttackNum = 0;
                 Attacked = false;
                 agent.isStopped = false;
+                chardge = false;
+            }
+        }
+
+        if (beginCharge && !chardge)
+        {
+            agent.isStopped = true;
+            TimeToCharge -= Time.deltaTime;
+
+            if (TimeToCharge <= 0)
+            {
+                agent.isStopped = false;
+                chardge = true;
+                agent.speed += 3;
+                beginCharge = false;
+                DelayDistance = 0.5f;
+                TimeChardge = 1.5f;
             }
         }
     }
@@ -133,7 +160,18 @@ public class EnemyBehaviour : HealthController
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
                     if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        if (distanceToTarget >= agent.stoppingDistance + 0.5f)
+                        //if (chardge)
+                        //{
+                        //    TimeChardge += Time.deltaTime;
+                        //    if (TimeChardge >= 1.5f)
+                        //    {
+                        //        TimeToCharge = 1.5f;
+                        //        chardge = false;
+                        //        TimeChardge = 0;
+                        //    }
+                        //}
+
+                        if (distanceToTarget >= agent.stoppingDistance + DelayDistance)
                         {
                             //agent.isStopped = false;
                             agent.SetDestination(collider.transform.position);
@@ -141,15 +179,32 @@ public class EnemyBehaviour : HealthController
                         }
                         else
                         {
-                            canAttack = true;
-                            if (!Attacked)
+                            if(typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
-                                Attacked = true;
-                                agent.isStopped = true;
-                                damageTrigger.AttackNum = 1;
+                                canAttack = true;
+                                if (!Attacked)
+                                {
+                                    Attacked = true;
+                                    agent.isStopped = true;
+                                    damageTrigger.AttackNum = 1;
+                                }
+                                //StartCoroutine(damagePlayer(collider));
+                                //collider.GetComponent<PlayerData>().TakeDamage(damage);
                             }
-                            //StartCoroutine(damagePlayer(collider));
-                            //collider.GetComponent<PlayerData>().TakeDamage(damage);
+                            else if (typeEnemy == TypeEnemy.LittleMeleeFighter)
+                            {
+                                if (chardge)
+                                {
+                                    if (!Attacked)
+                                    {
+                                        Attacked = true;
+                                        agent.isStopped = true;
+                                        damageTrigger.AttackNum = 1;
+                                        DelayDistance = 1.5f;
+                                    }
+                                }
+                                else beginCharge = true;                         
+                            }
                         }
                         canSeePlayer = true;
                     }
@@ -196,4 +251,8 @@ public class EnemyBehaviour : HealthController
 
     #endregion
 
+    enum TypeEnemy
+    {
+        LittleMeleeFighter, BigMeleeFighter
+    }
 }

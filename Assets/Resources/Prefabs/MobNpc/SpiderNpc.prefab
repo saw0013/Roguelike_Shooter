@@ -4578,6 +4578,7 @@ MonoBehaviour:
   onResetHealth:
     m_PersistentCalls:
       m_Calls: []
+  typeEnemy: 1
   radius: 15
   angle: 215
   Eyes: {fileID: 6468711089356231354}
@@ -4587,6 +4588,8 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 1024
+  DelayDistance: 0.5
+  TimeToCharge: 0
   canSeePlayer: 0
   Attacked: 0
   isShowGizmos: 1
