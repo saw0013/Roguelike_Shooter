@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening.Core.Easing;
 using Mirror;
 using MirrorBasics;
 using Mono.CSharp;
@@ -390,6 +391,20 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(DefaultItemGuard);
         NetworkServer.Spawn(Level);
         NetworkServer.Spawn(RareItemBullet);
+
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(TriggerSpawnMob);
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(DefaultItemDamage);
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(DefaultItemMove);
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(DefaultItemHP);
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(DefaultItemAmmo);
+        MatchMaker.managerSessionSavedFromCollection(matchID)
+            .AddObjectWithMatch(Level);
+
     }
 
     public void StartGame()

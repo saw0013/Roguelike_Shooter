@@ -118,9 +118,9 @@ namespace MirrorBasics
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
 
-                           managerSessionSavedFromCollection(_matchID).AddPlayer(_player);;
+                            managerSessionSavedFromCollection(_matchID).AddPlayer(_player); ;
 
-                           if (matches[i].players.Count == maxMatchPlayers)
+                            if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
                                 matches[i].matchFull = true; //Закроем комнату для набора
                             }
@@ -207,7 +207,7 @@ namespace MirrorBasics
                     _id += (random - 26).ToString();
                 }
             }
-            
+
             Debug.Log($"Random Match ID: {_id}");
             return _id;
         }
@@ -229,7 +229,7 @@ namespace MirrorBasics
                         matches[i].players.RemoveAt(playerIndex);
                         managerSessionSavedFromCollection(_matchID).RemovePlayer(player); ;
                     }
-                    
+
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
                     Debug.Log($"Player disconnected from match {_matchID} | {matches[i].players.Count} players remaining");
 
@@ -239,6 +239,26 @@ namespace MirrorBasics
                         Debug.Log($"No more players in Match. Terminating {_matchID}");
                         matches.RemoveAt(i);
                         matchIDs.Remove(_matchID);
+
+                        //var listObjects = FindObjectsOfType<NetworkMatch>()
+                        //.Where(go => //Найти все элементы у которых MatchId совпадает с искомым и GO не является Player и MainCamera
+                        //go.matchId == _matchID.ToGuid() 
+                        //&& !go.gameObject.CompareTag("Player")
+                        //&& !go.gameObject.CompareTag("MainCamera")
+                        //).ToList();
+                        if (managerSessionSavedFromCollection(_matchID).ObjectsWithMatch != null)
+                        {
+                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID)
+                                         .ObjectsWithMatch)
+                            {
+                                var o = GameObject.Find(MatchGameObject.name);
+                                if (o.GetComponent<NetworkMatch>().matchId == _matchID.ToGuid())
+                                    Destroy(o);
+                            }
+                        }
+
+                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID));
+                        // managerSessionSavedFromCollection(_matchID).ObjectsWithMatch;
                     }
                     else
                     {
@@ -268,7 +288,6 @@ namespace MirrorBasics
                 file.Close();
             }
 
-
             Debug.LogWarning("Saved manage: " + _manager.NameManager + $"\n{pathToSaveAssets()}/ Manager_{matchId}.asset");
             //#if UNITY_EDITOR
             //AssetDatabase.CreateAsset(_manager, $"{pathToSaveAssets()}/Manager_{NameRoom}.asset");
@@ -283,7 +302,13 @@ namespace MirrorBasics
         private static void RemoveManagerSession(string matchId)
         {
             var _manager = managerSessionSavedFromCollection(matchId);
-            if (_manager != null) instance.managers.Remove(_manager);
+            if (_manager != null)
+            {
+                //Удаляем все объекты, созданные для этого матча
+                //Удаление
+
+                instance.managers.Remove(_manager);
+            }
         }
 
         /// <summary>
@@ -291,13 +316,14 @@ namespace MirrorBasics
         /// </summary>
         /// <param name="matchID"></param>
         /// <returns></returns>
-        public static ManagerSessionSaved managerSessionSavedFromCollection(string matchID)
+        public static ManagerSessionSaved managerSessionSavedFromCollection(string matchID) //
         {
+            //var msss = instance.managers.Find(x => x.NameManager == matchID);
             var mss = instance.managers.FirstOrDefault(m => m.NameManager == matchID);
             if (mss != null) return mss;
             else return null;
         }
-
+        //TODO : Поиск по GUID
 
         static string pathToSaveAssets()
         {

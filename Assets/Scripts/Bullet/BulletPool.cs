@@ -1,7 +1,9 @@
+using System.Linq;
 using UnityEngine;
 using Mirror;
 using Cosmo;
 using Mirror.Experimental;
+using MirrorBasics;
 
 public class BulletPool : NetworkBehaviour
 {
@@ -18,12 +20,15 @@ public class BulletPool : NetworkBehaviour
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
     internal uint owner;
+    internal PlayerProjectileSpawnerNetwork _owner;
+
 
     //TODO : Будем отслеживать кто сделал выстрел, чтобы засчитать очки ему
     [Server]
-    public void Init(uint owner)
+    public void Init(/*uint owner*/PlayerProjectileSpawnerNetwork owner)
     {
-        this.owner = owner; //кто сделал выстрел
+        //this.owner = owner; //кто сделал выстрел
+        _owner = owner;
     }
 
     private void Awake()
@@ -31,10 +36,6 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Start()
-    {
-
-    }
 
 
     private void Update()
@@ -55,8 +56,8 @@ public class BulletPool : NetworkBehaviour
                 _damageToPlayer.sender = transform;
                 _damageToPlayer.receiver = collision.transform;
                 collision.gameObject.ApplyDamage(_damageToPlayer);
-
                 var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
+
                 Destroy(particlePlayer, .7f);
                 Destroy(gameObject);
                 break;
@@ -66,6 +67,7 @@ public class BulletPool : NetworkBehaviour
                 _damageToEnemy.sender = transform;
                 _damageToEnemy.receiver = collision.transform;
                 collision.gameObject.ApplyDamage(_damageToEnemy);
+
 
                 var particleEnemy = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
                 Destroy(particleEnemy, .7f);

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using Cosmo;
+using Mirror;
 using TMPro;
+using MirrorBasics;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -39,6 +40,8 @@ public class PlayerData : HealthController, ICharacter
     [HideInInspector]
     public bool debugActionListener;
 
+    private PlayerMovementAndLookNetwork _player;
+
     #region ICharacter & Ragdoll
     [SerializeField] protected OnActiveRagdoll _onActiveRagdoll = new OnActiveRagdoll();
     public OnActiveRagdoll onActiveRagdoll { get { return _onActiveRagdoll; } protected set { _onActiveRagdoll = value; } }
@@ -66,10 +69,13 @@ public class PlayerData : HealthController, ICharacter
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
-
     }
 
-    protected override void Start() => base.Start();
+    protected override void Start()
+    {
+        _player = GetComponent<PlayerMovementAndLookNetwork>();
+        base.Start();
+    } 
 
     public override void OnStartServer()
     {

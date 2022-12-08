@@ -75,6 +75,20 @@ public static class Extensions
     //}
     #endregion
 
+    public static void ChangeScorePlayer<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey player, TValue score)
+    {
+        if (dict == null) dict = new Dictionary<TKey, TValue>();
+
+        if (!dict.ContainsKey(player))
+            dict.Add(player, score);
+        else dict[player] = score;
+    }
+
+    #region List
+
+
+    #endregion
+
     #endregion
 
     #region Transform
@@ -101,13 +115,13 @@ public static class Extensions
         Gizmos.matrix = oldMatrix;
     }
 
-    #if UNITY_EDITOR 
+#if UNITY_EDITOR
     public static void ShowGizmos(this EnemyBehaviour eb)
     {
         EnemyBehaviour fov = eb;
         Handles.color = Color.white;
         Handles.DrawWireArc(fov.Eyes.transform.position, Vector3.up, Vector3.forward, 360, fov.radius);
-        
+
 
         Vector3 viewAngle01 = DirectionFromAngle(fov.Eyes.transform.eulerAngles.y, -fov.angle / 2);
         Vector3 viewAngle02 = DirectionFromAngle(fov.Eyes.transform.eulerAngles.y, fov.angle / 2);
@@ -129,7 +143,7 @@ public static class Extensions
 
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
-    #endif
+#endif
 
-#endregion
+    #endregion
 }

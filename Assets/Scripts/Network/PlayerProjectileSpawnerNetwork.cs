@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Mirror.Experimental;
+using MirrorBasics;
 using static UnityEngine.UI.GridLayoutGroup;
 using Zenject.SpaceFighter;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 {
@@ -21,7 +23,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     public float SpawnRate;
-   // public float ReloadTime;
+    // public float ReloadTime;
     public int MaxCartridges;
 
     private float timer;
@@ -107,16 +109,21 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         CmdSpawnBullet();
     }
 
-    
+
     [Command(requiresAuthority = false)] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
     public void CmdSpawnBullet()
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         //Debug.LogWarning(bullet.transform.localScale);
-        bullet.GetComponent<NetworkMatch>().matchId = playerNetwork.networkMatch.matchId;
+        bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
         bullet.GetComponent<BulletPool>().owner = netId;
+        bullet.GetComponent<BulletPool>().Init(this);
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
+
+        MatchMaker.managerSessionSavedFromCollection(playerNetwork.matchID)
+            .AddCountShoot(playerNetwork);
+
         RpcSpawnBullet();
     }
 
@@ -132,5 +139,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         if (_shootAudio)
             _shootAudio.Play();
     }
+
+  
 
 }
