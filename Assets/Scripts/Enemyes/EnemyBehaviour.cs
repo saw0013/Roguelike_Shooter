@@ -31,6 +31,11 @@ public class EnemyBehaviour : HealthController
 
     private NavMeshAgent agent;
 
+    [Header("EnemyOptions")]
+
+    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private GameObject _bullet;
+
     [Tooltip("Задержка в расстоянии, нужно чтобы НПЦ начанал атаку раньше")]
     public float DelayDistance;
 
@@ -42,7 +47,7 @@ public class EnemyBehaviour : HealthController
 
     private bool chardge;
     private bool beginCharge;
-    private float TimeChardge;
+    public float TimeChardge;
 
     private bool canAttack = false;
 
@@ -85,14 +90,28 @@ public class EnemyBehaviour : HealthController
         Animation();
         if (Attacked & !isDead)
         {
-            currentTimeAttack += Time.deltaTime;
-            if (currentTimeAttack >= _timeAttack)
+            if(typeEnemy != TypeEnemy.RangerBot)
             {
-                currentTimeAttack = 0;
-                damageTrigger.AttackNum = 0;
-                Attacked = false;
-                agent.isStopped = false;
-                chardge = false;
+                currentTimeAttack += Time.deltaTime;
+                if (currentTimeAttack >= _timeAttack)
+                {
+                    currentTimeAttack = 0;
+                    damageTrigger.AttackNum = 0;
+                    Attacked = false;
+                    agent.isStopped = false;
+                    chardge = false;
+                }
+            }
+            else
+            {
+                currentTimeAttack += Time.deltaTime;
+                if(currentTimeAttack >= _timeAttack)
+                {
+                    currentTimeAttack = 0;
+                    Attacked = false;
+                    agent.isStopped = false;
+                    CmdSpawnBullet();
+                }
             }
         }
 
@@ -161,17 +180,6 @@ public class EnemyBehaviour : HealthController
                     float distanceToTarget = Vector3.Distance(transform.position, target.position);
                     if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        //if (chardge)
-                        //{
-                        //    TimeChardge += Time.deltaTime;
-                        //    if (TimeChardge >= 1.5f)
-                        //    {
-                        //        TimeToCharge = 1.5f;
-                        //        chardge = false;
-                        //        TimeChardge = 0;
-                        //    }
-                        //}
-
                         if (distanceToTarget >= agent.stoppingDistance + DelayDistance)
                         {
                             //agent.isStopped = false;
@@ -205,6 +213,14 @@ public class EnemyBehaviour : HealthController
                                     }
                                 }
                                 else beginCharge = true;                         
+                            }
+                            else if (typeEnemy == TypeEnemy.RangerBot)
+                            {
+                                if (!Attacked)
+                                {
+                                    Attacked = true;
+                                    agent.isStopped = true;
+                                }
                             }
                         }
                         canSeePlayer = true;
@@ -254,6 +270,14 @@ public class EnemyBehaviour : HealthController
 
     enum TypeEnemy
     {
-        LittleMeleeFighter, BigMeleeFighter
+        LittleMeleeFighter, BigMeleeFighter, RangerBot
+    }
+
+    [Command(requiresAuthority = false)] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
+    public void CmdSpawnBullet()
+    {
+        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
+        NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
+        //RpcSpawnBullet();
     }
 }
