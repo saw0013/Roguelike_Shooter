@@ -81,7 +81,7 @@ namespace MirrorBasics
 
                 AddManagerSession(_matchID);
 
-                managerSessionSavedFromCollection(_matchID).AddPlayer(_player);
+                managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player);
 
                 return true;
             }
@@ -118,7 +118,7 @@ namespace MirrorBasics
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
 
-                            managerSessionSavedFromCollection(_matchID).AddPlayer(_player); ;
+                            managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player); ;
 
                             if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
@@ -227,7 +227,7 @@ namespace MirrorBasics
                     if (matches[i].players.Count > playerIndex)
                     {
                         matches[i].players.RemoveAt(playerIndex);
-                        managerSessionSavedFromCollection(_matchID).RemovePlayer(player); ;
+                        managerSessionSavedFromCollection(_matchID.ToGuid()).RemovePlayer(player); ;
                     }
 
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
@@ -246,9 +246,9 @@ namespace MirrorBasics
                         //&& !go.gameObject.CompareTag("Player")
                         //&& !go.gameObject.CompareTag("MainCamera")
                         //).ToList();
-                        if (managerSessionSavedFromCollection(_matchID).ObjectsWithMatch != null)
+                        if (managerSessionSavedFromCollection(_matchID.ToGuid()).ObjectsWithMatch != null)
                         {
-                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID)
+                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID.ToGuid())
                                          .ObjectsWithMatch)
                             {
                                 var o = GameObject.Find(MatchGameObject.name);
@@ -257,7 +257,7 @@ namespace MirrorBasics
                             }
                         }
 
-                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID));
+                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID.ToGuid()));
                         // managerSessionSavedFromCollection(_matchID).ObjectsWithMatch;
                     }
                     else
@@ -277,7 +277,8 @@ namespace MirrorBasics
         {
             //ManagerSessionSaved _manager = ScriptableObject.CreateInstance<ManagerSessionSaved>();
             ManagerSessionSaved _manager = new ManagerSessionSaved();
-            _manager.NameManager = matchId;
+            //_manager.NameManager = matchId;
+            _manager.MatchID = matchId.ToGuid();
             instance.managers.Add(_manager);
 
             BinaryFormatter bf = new BinaryFormatter();
@@ -288,7 +289,7 @@ namespace MirrorBasics
                 file.Close();
             }
 
-            Debug.LogWarning("Saved manage: " + _manager.NameManager + $"\n{pathToSaveAssets()}/ Manager_{matchId}.asset");
+            Debug.LogWarning("Saved manage: " + _manager.MatchID + $"\n{pathToSaveAssets()}/ Manager_{matchId}.asset");
             //#if UNITY_EDITOR
             //AssetDatabase.CreateAsset(_manager, $"{pathToSaveAssets()}/Manager_{NameRoom}.asset");
             //#endif
@@ -301,7 +302,8 @@ namespace MirrorBasics
         /// <param name="matchId"></param>
         private static void RemoveManagerSession(string matchId)
         {
-            var _manager = managerSessionSavedFromCollection(matchId);
+            //TODO : Взять не string MatchID, а от компонента NetworkMach
+            var _manager = managerSessionSavedFromCollection(matchId.ToGuid());
             if (_manager != null)
             {
                 //Удаляем все объекты, созданные для этого матча
@@ -316,10 +318,10 @@ namespace MirrorBasics
         /// </summary>
         /// <param name="matchID"></param>
         /// <returns></returns>
-        public static ManagerSessionSaved managerSessionSavedFromCollection(string matchID) //
+        public static ManagerSessionSaved managerSessionSavedFromCollection(Guid matchID) //
         {
             //var msss = instance.managers.Find(x => x.NameManager == matchID);
-            var mss = instance.managers.FirstOrDefault(m => m.NameManager == matchID);
+            var mss = instance.managers.FirstOrDefault(m => m.MatchID == matchID);
             if (mss != null) return mss;
             else return null;
         }

@@ -26,11 +26,19 @@ public class ManagerSessionSaved
     /// Имя менеджера которое будем искать чтобы добавлять объекты. Совпадает с MatchID
     /// </summary>
     [SerializeField]
-    public string NameManager
+    protected string NameManager
     {
         get => _nameManager;
         set => _nameManager = value;
     }
+
+    public Guid MatchID
+    {
+        get => _matchid;
+        set => _matchid = value;
+    }
+
+    private Guid _matchid;
 
     private string _nameManager;
 
@@ -70,9 +78,13 @@ public class ManagerSessionSaved
         else return countShoot[player];
     }
 
+    /// <summary>
+    /// Добавляет Очки игроку
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="score"></param>
     public void AddScorePlayer(PlayerMovementAndLookNetwork player, int score = 10)
     {
-        //TODO : Сделать Extension
         if (PlayerScore == null)
             PlayerScore = new Dictionary<PlayerMovementAndLookNetwork, int>();
 
@@ -80,16 +92,22 @@ public class ManagerSessionSaved
             PlayerScore.Add(player, score);
 
         else PlayerScore[player] += score;
+
+        Debug.LogWarning($"Добавлено {score} очков");
     }
 
+    /// <summary>
+    /// Отнимает очки у игрока
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="score"></param>
     public void TakeawayScorePlayer(PlayerMovementAndLookNetwork player, int score = 5)
     {
-        Debug.LogWarning("Проверяем PlayerScore");
-        //Debug.LogWarning(PlayerScore.Count);
-
-        //PlayerScore[player] -= score;
+        if(PlayerScore.ContainsKey(player))
+            PlayerScore[player] -= score;
     }
 
+    [Obsolete("Глупое расширение")]
     public void ChangeScore(PlayerMovementAndLookNetwork player, int score)
     {
         Debug.LogWarning("Добавляем очко");

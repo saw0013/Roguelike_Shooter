@@ -116,12 +116,12 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         //Debug.LogWarning(bullet.transform.localScale);
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
+        Debug.LogWarning("Назначен ID " + playerNetwork.matchID.ToGuid());
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
-        bullet.GetComponent<BulletPool>().owner = netId;
-        bullet.GetComponent<BulletPool>().Init(this);
+        bullet.GetComponent<BulletPool>().Init(playerNetwork);
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
 
-        MatchMaker.managerSessionSavedFromCollection(playerNetwork.matchID)
+        MatchMaker.managerSessionSavedFromCollection(playerNetwork.matchID.ToGuid())
             .AddCountShoot(playerNetwork);
 
         RpcSpawnBullet();

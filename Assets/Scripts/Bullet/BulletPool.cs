@@ -20,12 +20,12 @@ public class BulletPool : NetworkBehaviour
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
     internal uint owner;
-    internal PlayerProjectileSpawnerNetwork _owner;
+    private PlayerMovementAndLookNetwork _owner;
 
 
     //TODO : Будем отслеживать кто сделал выстрел, чтобы засчитать очки ему
     [Server]
-    public void Init(/*uint owner*/PlayerProjectileSpawnerNetwork owner)
+    public void Init(/*uint owner*/PlayerMovementAndLookNetwork owner)
     {
         //this.owner = owner; //кто сделал выстрел
         _owner = owner;
@@ -58,6 +58,9 @@ public class BulletPool : NetworkBehaviour
                 collision.gameObject.ApplyDamage(_damageToPlayer);
                 var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
 
+                MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId)
+                   .TakeawayScorePlayer(_owner, 10);
+
                 Destroy(particlePlayer, .7f);
                 Destroy(gameObject);
                 break;
@@ -68,6 +71,8 @@ public class BulletPool : NetworkBehaviour
                 _damageToEnemy.receiver = collision.transform;
                 collision.gameObject.ApplyDamage(_damageToEnemy);
 
+                MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId)
+                   .AddScorePlayer(_owner, 10);
 
                 var particleEnemy = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
                 Destroy(particleEnemy, .7f);
