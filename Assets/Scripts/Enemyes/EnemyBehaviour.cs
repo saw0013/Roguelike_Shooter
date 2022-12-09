@@ -50,6 +50,7 @@ public class EnemyBehaviour : HealthController
     public float TimeChardge;
 
     private bool canAttack = false;
+    private PlayerData weakPlayer;
 
     private EnemyAnimation e_anim;
 
@@ -168,11 +169,20 @@ public class EnemyBehaviour : HealthController
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
         if (rangeChecks.Length != 0)
         {
-            foreach (var collider in rangeChecks)
+            for(int i = 0; i <= rangeChecks.Length; i++)
             {
+                if (weakPlayer == null) weakPlayer = rangeChecks[i + 1].GetComponent<PlayerData>();
+                else
+                {
+                    if(weakPlayer.currentHealth > rangeChecks[i + 1].GetComponent<PlayerData>().currentHealth) weakPlayer = rangeChecks[i + 1].GetComponent<PlayerData>();
+                }
+            }
+
+            //foreach (var collider in rangeChecks)
+            //{
                 //TODO : Проверить ХП каждого и выявить слабого
 
-                Transform target = collider.transform;
+                Transform target = weakPlayer.transform;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
 
                 if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
@@ -183,7 +193,7 @@ public class EnemyBehaviour : HealthController
                         if (distanceToTarget >= agent.stoppingDistance + DelayDistance)
                         {
                             //agent.isStopped = false;
-                            agent.SetDestination(collider.transform.position);
+                            agent.SetDestination(weakPlayer.transform.position);
                             canAttack = false;
                         }
                         else
@@ -230,7 +240,7 @@ public class EnemyBehaviour : HealthController
                 }
                 else
                     canSeePlayer = false;
-            }
+            //}
         }
         else if (canSeePlayer)
             canSeePlayer = false;
