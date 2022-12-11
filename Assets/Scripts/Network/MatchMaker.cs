@@ -81,7 +81,7 @@ namespace MirrorBasics
 
                 AddManagerSession(_matchID);
 
-                managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player);
+                managerSessionSavedFromCollection(_player.networkMatch.matchId).AddPlayer(_player);
 
                 return true;
             }
@@ -118,7 +118,7 @@ namespace MirrorBasics
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
 
-                            managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player); ;
+                            managerSessionSavedFromCollection(_player.networkMatch.matchId).AddPlayer(_player); ;
 
                             if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
@@ -227,7 +227,7 @@ namespace MirrorBasics
                     if (matches[i].players.Count > playerIndex)
                     {
                         matches[i].players.RemoveAt(playerIndex);
-                        managerSessionSavedFromCollection(_matchID.ToGuid()).RemovePlayer(player); ;
+                        managerSessionSavedFromCollection(player.networkMatch.matchId).RemovePlayer(player); ;
                     }
 
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
@@ -240,25 +240,31 @@ namespace MirrorBasics
                         matches.RemoveAt(i);
                         matchIDs.Remove(_matchID);
 
+                        #region Linq поиск объектов на сцене
                         //var listObjects = FindObjectsOfType<NetworkMatch>()
                         //.Where(go => //Найти все элементы у которых MatchId совпадает с искомым и GO не является Player и MainCamera
                         //go.matchId == _matchID.ToGuid() 
                         //&& !go.gameObject.CompareTag("Player")
                         //&& !go.gameObject.CompareTag("MainCamera")
                         //).ToList();
-                        if (managerSessionSavedFromCollection(_matchID.ToGuid()).ObjectsWithMatch != null)
+                        #endregion
+
+                        //Удаляем все объекты заспавненные в матче
+                        if (managerSessionSavedFromCollection(player.networkMatch.matchId).ObjectsWithMatch != null)
                         {
-                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID.ToGuid())
+                            foreach (var MatchGameObject in managerSessionSavedFromCollection(player.networkMatch.matchId)
                                          .ObjectsWithMatch)
                             {
-                                var o = GameObject.Find(MatchGameObject.name);
-                                if (o.GetComponent<NetworkMatch>().matchId == _matchID.ToGuid())
-                                    Destroy(o);
+                                //Если игровой объект на сервере есть с именем которое мы нашли в коллекции
+                                //Проверим его MatchID и если что удалим его
+                                var go = GameObject.Find(MatchGameObject.name);
+                                if (go.GetComponent<NetworkMatch>().matchId == MatchGameObject.GetComponent<NetworkMatch>().matchId)
+                                    Destroy(go);
                             }
                         }
 
-                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID.ToGuid()));
-                        // managerSessionSavedFromCollection(_matchID).ObjectsWithMatch;
+                        //После удалим и нащ ManagerSession
+                        instance.managers.Remove(managerSessionSavedFromCollection(player.networkMatch.matchId));
                     }
                     else
                     {

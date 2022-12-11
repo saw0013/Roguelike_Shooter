@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Mirror;
 using Mirror.Experimental;
 using MirrorBasics;
+using TMPro;
 using static UnityEngine.UI.GridLayoutGroup;
 using Zenject.SpaceFighter;
 using static Cinemachine.DocumentationSortingAttribute;
@@ -121,7 +122,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         bullet.GetComponent<BulletPool>().Init(playerNetwork);
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
 
-        MatchMaker.managerSessionSavedFromCollection(playerNetwork.matchID.ToGuid())
+        MatchMaker.managerSessionSavedFromCollection(playerNetwork.networkMatch.matchId)
             .AddCountShoot(playerNetwork);
 
         RpcSpawnBullet();

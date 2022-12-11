@@ -60,6 +60,11 @@ public class BulletPool : NetworkBehaviour
 
                 MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId)
                    .TakeawayScorePlayer(_owner, 10);
+                _owner.OnScorePlayerChanger += (sc) =>
+                {
+                    sc = 10;
+                    _owner.ScorePlayer.text = $"{sc}";
+                };
 
                 Destroy(particlePlayer, .7f);
                 Destroy(gameObject);
