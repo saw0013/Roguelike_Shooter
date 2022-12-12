@@ -40,6 +40,8 @@ public class EnemyBehaviour : HealthController
     public float DelayDistance;
 
     public float TimeToCharge;
+    [Tooltip("Время, при исходе которого враг ищет слабую цель")]
+    public float TimeFindWeak;
 
     [HideInInspector]
     public bool canSeePlayer;
@@ -47,10 +49,11 @@ public class EnemyBehaviour : HealthController
 
     private bool chardge;
     private bool beginCharge;
+    private float currentTimeFindeWeak;
     public float TimeChardge;
 
     private bool canAttack = false;
-    private PlayerData weakPlayer;
+    private HealthController weakPlayer;
 
     private EnemyAnimation e_anim;
 
@@ -88,6 +91,25 @@ public class EnemyBehaviour : HealthController
 
     public virtual void Update()
     {
+        currentTimeFindeWeak += Time.deltaTime;
+
+        if(currentTimeFindeWeak >= TimeFindWeak)
+        {
+            var checkPlayer = CheckAround();
+            currentTimeAttack = 0;
+            if(checkPlayer != null)
+            {
+                for (int i = 0; i <= checkPlayer.Length; i++)
+                {
+                    if (weakPlayer == null) weakPlayer = checkPlayer[i].GetComponent<HealthController>();
+                    else
+                    {
+                        if (weakPlayer.currentHealth > checkPlayer[i].GetComponent<HealthController>().currentHealth) weakPlayer = checkPlayer[i].GetComponent<HealthController>();
+                    }
+                }
+            }
+        }
+
         Animation();
         if (Attacked & !isDead)
         {
@@ -159,24 +181,22 @@ public class EnemyBehaviour : HealthController
     #endregion
 
     #region Поведение Врага
+    
+    public Collider[] CheckAround()
+    {
+        if (isDead) return null;
+
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
+        return rangeChecks;
+    }
 
     public virtual void FieldOfViewCheck()
     {
-        if(isDead) return;
-        
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
+        var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (rangeChecks.Length != 0)
+        if (checkPlayer.Length != 0)
         {
-            for(int i = 0; i <= rangeChecks.Length; i++)
-            {
-                if (weakPlayer == null) weakPlayer = rangeChecks[i + 1].GetComponent<PlayerData>();
-                else
-                {
-                    if(weakPlayer.currentHealth > rangeChecks[i + 1].GetComponent<PlayerData>().currentHealth) weakPlayer = rangeChecks[i + 1].GetComponent<PlayerData>();
-                }
-            }
 
             //foreach (var collider in rangeChecks)
             //{
