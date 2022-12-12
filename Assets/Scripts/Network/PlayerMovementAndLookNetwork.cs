@@ -58,11 +58,17 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _healthBarRpcLookAt;
 
     [Header("UI")]
-    [SerializeField] internal TMP_Text ScorePlayer;
-    
-    //TODO : TextChange event
-    public delegate void ScorePlayerChanged(int score);
-    public event ScorePlayerChanged OnScorePlayerChanger;
+    [SerializeField] private TMP_Text ScorePlayer;
+
+    #region Delegate event
+    //public delegate void ScorePlayerChanged(int score);
+    //public event ScorePlayerChanged OnScorePlayerChanger;
+
+    //public void ScoreCHANGED(int score)
+    //{
+    //TMPro_EventManager.TEXT_CHANGED_EVENT.Add(/*value*/);
+    //}
+    #endregion
 
     #endregion
 
@@ -383,14 +389,14 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 .FirstOrDefault(x => x.name == "Level"));
 
         //Укажем ему наш ID match
-        TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        DefaultItemHP.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        DefaultItemDamage.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        DefaultItemMove.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        DefaultItemGuard.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        Level.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        RareItemBullet.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemHP.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemGuard.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        Level.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        RareItemBullet.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
 
         NetworkServer.Spawn(TriggerSpawnMob);
         NetworkServer.Spawn(DefaultItemDamage);
@@ -401,17 +407,17 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(Level);
         NetworkServer.Spawn(RareItemBullet);
 
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(TriggerSpawnMob);
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(DefaultItemDamage);
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(DefaultItemMove);
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(DefaultItemHP);
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(DefaultItemAmmo);
-        MatchMaker.managerSessionSavedFromCollection(networkMatch.matchId)
+        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
             .AddObjectWithMatch(Level);
 
     }
@@ -476,9 +482,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         foreach (var pan in _panelsCanvas)
             if (isLocalPlayer)
                 pan.SetActive(true);
-
-        
     }
+
+   
 
     private void Update()
     {
@@ -633,6 +639,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 		}
 		*/
 
+    }
+
+    /// <summary>
+    /// Изменяем очки игроку
+    /// </summary>
+    /// <param name="score"></param>
+    public void ScorePlayerUpdate(int score)
+    {
+        Debug.LogWarning($"Плееру очко {score}");
+        ScorePlayer.text = score.ToString();
     }
 
     public void DeadPlayer() => playerAnimator.SetBool("dead", true);

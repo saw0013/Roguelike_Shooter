@@ -47,6 +47,11 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
+    void RegHit(PlayerMovementAndLookNetwork player, int score)
+    {
+        MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId).ChangeScorePlayer(player, score);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)
@@ -58,14 +63,8 @@ public class BulletPool : NetworkBehaviour
                 collision.gameObject.ApplyDamage(_damageToPlayer);
                 var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
 
-                MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId)
-                   .TakeawayScorePlayer(_owner, 10);
-                _owner.OnScorePlayerChanger += (sc) =>
-                {
-                    sc = 10;
-                    _owner.ScorePlayer.text = $"{sc}";
-                };
-
+                RegHit(_owner, -5);
+                //player.ScorePlayerUpdate(PlayerScore[player]);
                 Destroy(particlePlayer, .7f);
                 Destroy(gameObject);
                 break;
@@ -76,8 +75,7 @@ public class BulletPool : NetworkBehaviour
                 _damageToEnemy.receiver = collision.transform;
                 collision.gameObject.ApplyDamage(_damageToEnemy);
 
-                MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId)
-                   .AddScorePlayer(_owner, 10);
+                RegHit(_owner, 10);
 
                 var particleEnemy = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
                 Destroy(particleEnemy, .7f);

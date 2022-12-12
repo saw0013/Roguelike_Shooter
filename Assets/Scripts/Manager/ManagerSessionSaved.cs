@@ -17,7 +17,7 @@ public class ManagerSessionSaved
     [SerializeField] private List<GameObject> checkPoints;
 
     [SerializeField] private Dictionary<PlayerMovementAndLookNetwork, int> countShoot;
-    [SerializeField] private Dictionary<PlayerMovementAndLookNetwork, int> PlayerScore;
+    [SerializeField] public Dictionary<PlayerMovementAndLookNetwork, int> PlayerScore;
 
     #endregion
 
@@ -83,7 +83,7 @@ public class ManagerSessionSaved
     /// </summary>
     /// <param name="player"></param>
     /// <param name="score"></param>
-    public void AddScorePlayer(PlayerMovementAndLookNetwork player, int score = 10)
+    public void ChangeScorePlayer(PlayerMovementAndLookNetwork player, int score = 10)
     {
         if (PlayerScore == null)
             PlayerScore = new Dictionary<PlayerMovementAndLookNetwork, int>();
@@ -93,19 +93,9 @@ public class ManagerSessionSaved
 
         else PlayerScore[player] += score;
 
-        Debug.LogWarning($"Добавлено {score} очков");
+        MatchMaker.PlayerScoreChange(player);
     }
 
-    /// <summary>
-    /// Отнимает очки у игрока
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="score"></param>
-    public void TakeawayScorePlayer(PlayerMovementAndLookNetwork player, int score = 5)
-    {
-        if(PlayerScore.ContainsKey(player))
-            PlayerScore[player] -= score;
-    }
 
     [Obsolete("Глупое расширение")]
     public void ChangeScore(PlayerMovementAndLookNetwork player, int score)

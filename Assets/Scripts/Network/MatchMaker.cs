@@ -81,7 +81,7 @@ namespace MirrorBasics
 
                 AddManagerSession(_matchID);
 
-                managerSessionSavedFromCollection(_player.networkMatch.matchId).AddPlayer(_player);
+                managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player);
 
                 return true;
             }
@@ -118,7 +118,7 @@ namespace MirrorBasics
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
 
-                            managerSessionSavedFromCollection(_player.networkMatch.matchId).AddPlayer(_player); ;
+                            managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player); ;
 
                             if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
@@ -227,7 +227,7 @@ namespace MirrorBasics
                     if (matches[i].players.Count > playerIndex)
                     {
                         matches[i].players.RemoveAt(playerIndex);
-                        managerSessionSavedFromCollection(player.networkMatch.matchId).RemovePlayer(player); ;
+                        managerSessionSavedFromCollection(_matchID.ToGuid()).RemovePlayer(player); ;
                     }
 
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
@@ -250,9 +250,9 @@ namespace MirrorBasics
                         #endregion
 
                         //Удаляем все объекты заспавненные в матче
-                        if (managerSessionSavedFromCollection(player.networkMatch.matchId).ObjectsWithMatch != null)
+                        if (managerSessionSavedFromCollection(_matchID.ToGuid()).ObjectsWithMatch != null)
                         {
-                            foreach (var MatchGameObject in managerSessionSavedFromCollection(player.networkMatch.matchId)
+                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID.ToGuid())
                                          .ObjectsWithMatch)
                             {
                                 //Если игровой объект на сервере есть с именем которое мы нашли в коллекции
@@ -264,7 +264,7 @@ namespace MirrorBasics
                         }
 
                         //После удалим и нащ ManagerSession
-                        instance.managers.Remove(managerSessionSavedFromCollection(player.networkMatch.matchId));
+                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID.ToGuid()));
                     }
                     else
                     {
@@ -319,6 +319,11 @@ namespace MirrorBasics
             }
         }
 
+        public static void PlayerScoreChange(PlayerMovementAndLookNetwork player)
+        {
+            player.ScorePlayerUpdate(managerSessionSavedFromCollection(player.matchID.ToGuid()).PlayerScore[player]);
+        }
+
         /// <summary>
         /// Найденый <see cref="ManagerSessionSaved"/> в коллекции по <see cref="matchIDs"/>
         /// </summary>
@@ -331,7 +336,6 @@ namespace MirrorBasics
             if (mss != null) return mss;
             else return null;
         }
-        //TODO : Поиск по GUID
 
         static string pathToSaveAssets()
         {
