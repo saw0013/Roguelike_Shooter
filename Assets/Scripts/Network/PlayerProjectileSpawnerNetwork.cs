@@ -120,9 +120,6 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         bullet.GetComponent<BulletPool>().Init(playerNetwork);
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
 
-        MatchMaker.managerSessionSavedFromCollection(playerNetwork.matchID.ToGuid())
-            .AddCountShoot(playerNetwork);
-
         RpcSpawnBullet();
     }
 

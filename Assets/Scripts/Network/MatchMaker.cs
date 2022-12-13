@@ -39,9 +39,9 @@ namespace MirrorBasics
     public class MatchMaker : NetworkBehaviour
     {
 
-        #region Sessions
+        #region Resycle object by matchID
 
-        [SerializeField] public List<ManagerSessionSaved> managers = new List<ManagerSessionSaved>();
+        [SerializeField] public List<ResycleObjectsByMatch> resycles = new List<ResycleObjectsByMatch>();
 
         #endregion
 
@@ -79,9 +79,7 @@ namespace MirrorBasics
                 _player.currentMatch = match;
                 playerIndex = 1;
 
-                AddManagerSession(_matchID);
-
-                managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player);
+                AddToListResycleObjects(_matchID);
 
                 return true;
             }
@@ -117,8 +115,6 @@ namespace MirrorBasics
                             playerIndex = matches[i].players.Count; //Внешнюю ссылку индекса увеличим на число в комнате
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
-
-                            managerSessionSavedFromCollection(_matchID.ToGuid()).AddPlayer(_player); ;
 
                             if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
@@ -227,7 +223,6 @@ namespace MirrorBasics
                     if (matches[i].players.Count > playerIndex)
                     {
                         matches[i].players.RemoveAt(playerIndex);
-                        managerSessionSavedFromCollection(_matchID.ToGuid()).RemovePlayer(player); ;
                     }
 
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
@@ -249,22 +244,8 @@ namespace MirrorBasics
                         //).ToList();
                         #endregion
 
-                        //Удаляем все объекты заспавненные в матче
-                        if (managerSessionSavedFromCollection(_matchID.ToGuid()).ObjectsWithMatch != null)
-                        {
-                            foreach (var MatchGameObject in managerSessionSavedFromCollection(_matchID.ToGuid())
-                                         .ObjectsWithMatch)
-                            {
-                                //Если игровой объект на сервере есть с именем которое мы нашли в коллекции
-                                //Проверим его MatchID и если что удалим его
-                                var go = GameObject.Find(MatchGameObject.name);
-                                if (go.GetComponent<NetworkMatch>().matchId == MatchGameObject.GetComponent<NetworkMatch>().matchId)
-                                    Destroy(go);
-                            }
-                        }
+                        RemoveResycleObjectsInList(_matchID.ToGuid());
 
-                        //После удалим и нащ ManagerSession
-                        instance.managers.Remove(managerSessionSavedFromCollection(_matchID.ToGuid()));
                     }
                     else
                     {
@@ -276,26 +257,24 @@ namespace MirrorBasics
         }
 
         /// <summary>
-        /// Сохраняем сессию в виде файла и в матчмейкинге, чтобы можно было найти и подключаться для передачи данных
+        /// Сохраняем сессию в матчмейкинге, чтобы можно было найти заспавненные объекты
         /// </summary>
         /// <param name="NameRoom"></param>
-        public static void AddManagerSession(string matchId)
+        public static void AddToListResycleObjects(string matchId)
         {
-            //ManagerSessionSaved _manager = ScriptableObject.CreateInstance<ManagerSessionSaved>();
-            ManagerSessionSaved _manager = new ManagerSessionSaved();
-            //_manager.NameManager = matchId;
-            _manager.MatchID = matchId.ToGuid();
-            instance.managers.Add(_manager);
+            ResycleObjectsByMatch _resycle = new ResycleObjectsByMatch();
+            _resycle.MatchID = matchId.ToGuid();
+            instance.resycles.Add(_resycle);
 
-            BinaryFormatter bf = new BinaryFormatter();
-
-            using (FileStream file = File.Create($"{pathToSaveAssets()}/Manager_{matchId}.asset"))
-            {
-                bf.Serialize(file, _manager);
-                file.Close();
-            }
-
-            Debug.LogWarning("Saved manage: " + _manager.MatchID + $"\n{pathToSaveAssets()}/ Manager_{matchId}.asset");
+            // BinaryFormatter bf = new BinaryFormatter();
+            //
+            // using (FileStream file = File.Create($"{pathToSaveAssets()}/Manager_{matchId}.asset"))
+            // {
+            //     bf.Serialize(file, _resycle);
+            //     file.Close();
+            // }
+            //
+            // Debug.LogWarning("Saved manage: " + _manager.MatchID + $"\n{pathToSaveAssets()}/ Manager_{matchId}.asset");
             //#if UNITY_EDITOR
             //AssetDatabase.CreateAsset(_manager, $"{pathToSaveAssets()}/Manager_{NameRoom}.asset");
             //#endif
@@ -306,37 +285,45 @@ namespace MirrorBasics
         /// Удаление сессии из матчмейкинга, чтобы не висел
         /// </summary>
         /// <param name="matchId"></param>
-        private static void RemoveManagerSession(string matchId)
+        private static void RemoveResycleObjectsInList(Guid matchId)
         {
-            //TODO : Взять не string MatchID, а от компонента NetworkMach
-            var _manager = managerSessionSavedFromCollection(matchId.ToGuid());
+            var _manager = ResycleObjects(matchId);
             if (_manager != null)
             {
+                foreach (var MatchGameObject in _manager.CreatedObjectsInMatch)
+                {
+                    //Если игровой объект на сервере есть с именем которое мы нашли в коллекции
+                    //Проверим его MatchID и если что удалим его
+                    var go = GameObject.Find(MatchGameObject.name);
+                    if (go.GetComponent<NetworkMatch>().matchId == MatchGameObject.GetComponent<NetworkMatch>().matchId)
+                    {
+                        Debug.LogWarning($"Найденый go - {go.GetComponent<NetworkMatch>().matchId}, в пуле {MatchGameObject.GetComponent<NetworkMatch>().matchId}");
+                        Destroy(go);
+                    }
+                        
+                }
+
                 //Удаляем все объекты, созданные для этого матча
                 //Удаление
 
-                instance.managers.Remove(_manager);
+                instance.resycles.Remove(_manager);
             }
         }
 
-        public static void PlayerScoreChange(PlayerMovementAndLookNetwork player)
-        {
-            player.ScorePlayerUpdate(managerSessionSavedFromCollection(player.matchID.ToGuid()).PlayerScore[player]);
-        }
 
         /// <summary>
-        /// Найденый <see cref="ManagerSessionSaved"/> в коллекции по <see cref="matchIDs"/>
+        /// Найденый <see cref="ResycleObjectsByMatch"/> в коллекции по <see cref="matchIDs"/>
         /// </summary>
         /// <param name="matchID"></param>
         /// <returns></returns>
-        public static ManagerSessionSaved managerSessionSavedFromCollection(Guid matchID) //
+        public static ResycleObjectsByMatch ResycleObjects(Guid matchID) //
         {
-            //var msss = instance.managers.Find(x => x.NameManager == matchID);
-            var mss = instance.managers.FirstOrDefault(m => m.MatchID == matchID);
-            if (mss != null) return mss;
+            var res = instance.resycles.FirstOrDefault(m => m.MatchID == matchID);
+            if (res != null) return res;
             else return null;
         }
 
+        #region Путь /game/ManagersSave
         static string pathToSaveAssets()
         {
             var path = Path.Combine(Application.dataPath, "../ManagersSave");
@@ -350,6 +337,8 @@ namespace MirrorBasics
 #endif
 
         }
+
+        #endregion
 
     }
 

@@ -407,18 +407,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(Level);
         NetworkServer.Spawn(RareItemBullet);
 
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(TriggerSpawnMob);
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(DefaultItemDamage);
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(DefaultItemMove);
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(DefaultItemHP);
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(DefaultItemAmmo);
-        MatchMaker.managerSessionSavedFromCollection(matchID.ToGuid())
-            .AddObjectWithMatch(Level);
+        #region Пример добавления в менеджер объектов
+
+        //GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //    .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
+        //TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //NetworkServer.Spawn(TriggerSpawnMob);
+        //MatchMaker.ResycleObjects(matchID.ToGuid()).AddObjectWithMatch(TriggerSpawnMob);
+
+        #endregion
 
     }
 
@@ -484,7 +481,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
                 pan.SetActive(true);
     }
 
-   
+
 
     private void Update()
     {
@@ -504,6 +501,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else InfoItemMenu(false, true);
         }
     }
+
 
     private void FixedUpdate()
     {
@@ -641,6 +639,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     }
 
+    private int myscore = 0;
     /// <summary>
     /// Изменяем очки игроку
     /// </summary>
@@ -648,7 +647,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void ScorePlayerUpdate(int score)
     {
         Debug.LogWarning($"Плееру очко {score}");
-        ScorePlayer.text = score.ToString();
+        ScorePlayer.text = (myscore + score).ToString();
     }
 
     public void DeadPlayer() => playerAnimator.SetBool("dead", true);

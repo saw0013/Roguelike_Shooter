@@ -4,6 +4,7 @@ using Mirror;
 using Cosmo;
 using Mirror.Experimental;
 using MirrorBasics;
+using static UnityEngine.ParticleSystem;
 
 public class BulletPool : NetworkBehaviour
 {
@@ -47,47 +48,34 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
-    void RegHit(PlayerMovementAndLookNetwork player, int score)
-    {
-        MatchMaker.managerSessionSavedFromCollection(GetComponent<NetworkMatch>().matchId).ChangeScorePlayer(player, score);
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
+        var _damageToPlayer = new Damage(damage);
+        _damageToPlayer.sender = transform;
+        _damageToPlayer.receiver = collision.transform;
+        collision.gameObject.ApplyDamage(_damageToPlayer);
+
+        GameObject particle = null;
+
         switch (collision.gameObject.tag)
         {
             case "Player":
-                var _damageToPlayer = new Damage(damage);
-                _damageToPlayer.sender = transform;
-                _damageToPlayer.receiver = collision.transform;
-                collision.gameObject.ApplyDamage(_damageToPlayer);
-                var particlePlayer = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
-
-                RegHit(_owner, -5);
-                //player.ScorePlayerUpdate(PlayerScore[player]);
-                Destroy(particlePlayer, .7f);
-                Destroy(gameObject);
+                particle = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
+                _owner.ScorePlayerUpdate(-5);
                 break;
 
             case "Enemy":
-                var _damageToEnemy = new Damage(damage);
-                _damageToEnemy.sender = transform;
-                _damageToEnemy.receiver = collision.transform;
-                collision.gameObject.ApplyDamage(_damageToEnemy);
-
-                RegHit(_owner, 10);
-
-                var particleEnemy = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
-                Destroy(particleEnemy, .7f);
-                Destroy(gameObject);
+                particle = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
+                _owner.ScorePlayerUpdate(10);
                 break;
 
-            default:
-                var particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
-                Destroy(particle, .7f);
-                Destroy(gameObject);
-                break;
+            default:  particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
+                 break;
         }
+
+        Destroy(particle, .7f);
+        Destroy(gameObject);
     }
 
     public void OnSpawnBullet(int force, float size)
