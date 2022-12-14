@@ -2684,9 +2684,9 @@ GameObject:
   - component: {fileID: 1601825329}
   - component: {fileID: 1601825331}
   - component: {fileID: 1601825330}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2811,7 +2811,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -2844,7 +2844,7 @@ MonoBehaviour:
           PropertyType: 0
   backParameters:
     enabled: 1
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    color: {r: 1, g: 0.015686274, b: 0.5070823, a: 1}
     dilateShift: 1
     blurShift: 1
     fillPass:
@@ -2852,7 +2852,7 @@ MonoBehaviour:
       serializedProperties:
       - PropertyName: _PublicColor
         Property:
-          ColorValue: {r: 0.052918196, g: 1, b: 0, a: 0.019607844}
+          ColorValue: {r: 1, g: 1, b: 1, a: 0.57254905}
           FloatValue: 0
           VectorValue: {x: 0, y: 0, z: 0, w: 0}
           PropertyType: 0
@@ -2972,7 +2972,7 @@ MonoBehaviour:
           PropertyType: 2
   frontParameters:
     enabled: 0
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    color: {r: 1, g: 0.015686274, b: 0.44931662, a: 1}
     dilateShift: 1
     blurShift: 1
     fillPass:

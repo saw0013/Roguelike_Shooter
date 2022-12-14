@@ -1595,7 +1595,6 @@ MonoBehaviour:
   playerAnimator: {fileID: 3827590655917096605}
   _runPlayer: {fileID: 7776673961458087687}
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
-  ScorePlayer: {fileID: 4997396028519895410}
   matchID: 
   playerIndex: 0
   UserName: 
@@ -1797,6 +1796,8 @@ MonoBehaviour:
   onResetHealth:
     m_PersistentCalls:
       m_Calls: []
+  ScorePlayer: 0
+  TextScorePlayer: {fileID: 4997396028519895410}
   EscapeMenuActive: 0
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0

@@ -9,6 +9,11 @@ using MirrorBasics;
 public class PlayerData : HealthController, ICharacter
 {
     #region Variables
+    [SyncVar(hook = nameof(UpdateLocalScore))]
+    public int ScorePlayer;
+
+    [Header("===UI PlayerData===")]
+    [SerializeField] private TMP_Text TextScorePlayer;
 
     [Space(10), Header("===PlayerData===")]
     private bool InputActive/* = true*/;
@@ -366,6 +371,17 @@ public class PlayerData : HealthController, ICharacter
         if (damage.activeRagdoll)
             onActiveRagdoll.Invoke(damage);
     }
+
+    #endregion
+
+    #region ScorePlayer
+
+    void UpdateLocalScore(int oldScore, int newScore)
+    {
+        TextScorePlayer.text = newScore.ToString();
+    }
+
+ 
 
     #endregion
 }

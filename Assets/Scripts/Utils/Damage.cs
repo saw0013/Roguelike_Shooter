@@ -1,3 +1,4 @@
+using Mirror.Examples.Tanks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class Damage
     public int recoil_id = 0;
     [HideInInspector]
     public int reaction_id = 0;
-    public string damageType;
+    public string damageType = "projectile";
     [HideInInspector] public Vector3 force;
 
     public Damage()

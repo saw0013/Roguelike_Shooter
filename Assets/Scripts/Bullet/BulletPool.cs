@@ -21,12 +21,10 @@ public class BulletPool : NetworkBehaviour
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
     internal uint owner;
-    private PlayerMovementAndLookNetwork _owner;
+    private GameObject _owner;
 
-
-    //TODO : Будем отслеживать кто сделал выстрел, чтобы засчитать очки ему
-    [Server]
-    public void Init(/*uint owner*/PlayerMovementAndLookNetwork owner)
+    //[Server]
+    public void Init(/*uint owner*/GameObject owner)
     {
         //this.owner = owner; //кто сделал выстрел
         _owner = owner;
@@ -48,39 +46,52 @@ public class BulletPool : NetworkBehaviour
         else _lifeBullet -= Time.deltaTime;
     }
 
-
+    //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
         var _damageToPlayer = new Damage(damage);
         _damageToPlayer.sender = transform;
         _damageToPlayer.receiver = collision.transform;
-        collision.gameObject.ApplyDamage(_damageToPlayer);
-
-        GameObject particle = null;
 
         switch (collision.gameObject.tag)
         {
             case "Player":
-                particle = Instantiate(_hitPlayerParticles, transform.position, transform.rotation);
-                _owner.ScorePlayerUpdate(-5);
+                RpcParticles(_hitPlayerParticles);
+                ClaimScore(_owner, -5);
+                collision.gameObject.ApplyDamage(_damageToPlayer);
                 break;
 
             case "Enemy":
-                particle = Instantiate(_hitEnemyParticles, transform.position, transform.rotation);
-                _owner.ScorePlayerUpdate(10);
+                ClaimScore(_owner, 10);
+                RpcParticles(_hitEnemyParticles);
+                collision.gameObject.ApplyDamage(_damageToPlayer);
                 break;
 
-            default:  particle = Instantiate(_hitWallParticles, transform.position, transform.rotation);
-                 break;
+            default:
+                RpcParticles(_hitWallParticles);
+                break;
         }
 
-        Destroy(particle, .7f);
         Destroy(gameObject);
     }
+
 
     public void OnSpawnBullet(int force, float size)
     {
         ForceShoot = force;
         transform.localScale = new Vector3(size, size, size);
+    }
+
+    [ClientCallback]
+    void RpcParticles(GameObject prefabParticle)
+    {
+        GameObject particle = Instantiate(prefabParticle, transform.position, transform.rotation);
+        Destroy(particle, .7f);
+    }
+
+    public void ClaimScore(GameObject player, int score)
+    {
+        if(player != null)
+            player.GetComponent<PlayerData>().ScorePlayer += score;
     }
 }

@@ -57,8 +57,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Header("Tool")]
     [SerializeField] private GameObject _healthBarRpcLookAt;
 
-    [Header("UI")]
-    [SerializeField] private TMP_Text ScorePlayer;
 
     #region Delegate event
     //public delegate void ScorePlayerChanged(int score);
@@ -71,7 +69,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     #endregion
 
     #endregion
-
 
     #region Network Variables
     public static PlayerMovementAndLookNetwork localPlayer;
@@ -639,16 +636,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     }
 
-    private int myscore = 0;
-    /// <summary>
-    /// Изменяем очки игроку
-    /// </summary>
-    /// <param name="score"></param>
-    public void ScorePlayerUpdate(int score)
-    {
-        Debug.LogWarning($"Плееру очко {score}");
-        ScorePlayer.text = (myscore + score).ToString();
-    }
+   
 
     public void DeadPlayer() => playerAnimator.SetBool("dead", true);
     #endregion

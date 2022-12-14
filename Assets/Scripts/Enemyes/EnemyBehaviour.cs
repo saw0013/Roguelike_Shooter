@@ -53,7 +53,7 @@ public class EnemyBehaviour : HealthController
     public float TimeChardge;
 
     private bool canAttack = false;
-    private HealthController weakPlayer;
+    //private PlayerData weakPlayer;
 
     private EnemyAnimation e_anim;
 
@@ -91,24 +91,26 @@ public class EnemyBehaviour : HealthController
 
     public virtual void Update()
     {
-        currentTimeFindeWeak += Time.deltaTime;
+        //currentTimeFindeWeak += Time.deltaTime;
 
-        if(currentTimeFindeWeak >= TimeFindWeak)
-        {
-            var checkPlayer = CheckAround();
-            currentTimeAttack = 0;
-            if(checkPlayer != null)
-            {
-                for (int i = 0; i <= checkPlayer.Length; i++)
-                {
-                    if (weakPlayer == null) weakPlayer = checkPlayer[i].GetComponent<HealthController>();
-                    else
-                    {
-                        if (weakPlayer.currentHealth > checkPlayer[i].GetComponent<HealthController>().currentHealth) weakPlayer = checkPlayer[i].GetComponent<HealthController>();
-                    }
-                }
-            }
-        }
+        //if(currentTimeFindeWeak >= TimeFindWeak)
+        //{
+        //    var checkPlayer = CheckAround();
+        //    currentTimeFindeWeak = 0;
+        //    if(checkPlayer != null)
+        //    {
+        //        for (int i = 0; i < checkPlayer.Length; i++)
+        //        {
+        //            if (weakPlayer == null)
+        //                weakPlayer = checkPlayer[i].GetComponent<PlayerData>();
+        //            else
+        //            {
+        //                if (weakPlayer.currentHealth > checkPlayer[i].GetComponent<PlayerData>().currentHealth)
+        //                    weakPlayer = checkPlayer[i].GetComponent<PlayerData>();
+        //            }
+        //        }
+        //    }
+        //}
 
         Animation();
         if (Attacked & !isDead)
@@ -198,11 +200,11 @@ public class EnemyBehaviour : HealthController
         if (checkPlayer.Length != 0)
         {
 
-            //foreach (var collider in rangeChecks)
-            //{
+            foreach (var collider in checkPlayer)
+            {
                 //TODO : Проверить ХП каждого и выявить слабого
 
-                Transform target = weakPlayer.transform;
+                Transform target = collider.transform;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
 
                 if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
@@ -213,12 +215,12 @@ public class EnemyBehaviour : HealthController
                         if (distanceToTarget >= agent.stoppingDistance + DelayDistance)
                         {
                             //agent.isStopped = false;
-                            agent.SetDestination(weakPlayer.transform.position);
+                            agent.SetDestination(collider.transform.position);
                             canAttack = false;
                         }
                         else
                         {
-                            if(typeEnemy == TypeEnemy.BigMeleeFighter)
+                            if (typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
                                 canAttack = true;
                                 if (!Attacked)
@@ -242,7 +244,7 @@ public class EnemyBehaviour : HealthController
                                         DelayDistance = 1.5f;
                                     }
                                 }
-                                else beginCharge = true;                         
+                                else beginCharge = true;
                             }
                             else if (typeEnemy == TypeEnemy.RangerBot)
                             {
@@ -260,7 +262,8 @@ public class EnemyBehaviour : HealthController
                 }
                 else
                     canSeePlayer = false;
-            //}
+                //}
+            }
         }
         else if (canSeePlayer)
             canSeePlayer = false;

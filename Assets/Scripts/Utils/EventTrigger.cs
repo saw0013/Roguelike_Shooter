@@ -81,11 +81,9 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
+    [ServerCallback]
     public void OnTriggerEnter(Collider other)
     {
-
-        if (NetworkServer.active == false) return;
-
         if (other.CompareTag("Player") && !isTriggered)
         {
             StartCoroutine(OnTrigEnter());
@@ -125,7 +123,7 @@ public class EventTrigger : NetworkBehaviour
 
             yield return new WaitForSeconds(1.2f);
             var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                x.name == "SmalSpiderNpc"), StartPointNpc, Quaternion.identity);
+                x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
             npc.GetComponent<NetworkMatch>().matchId = matchID;
             NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
 
@@ -158,8 +156,8 @@ public class EventTrigger : NetworkBehaviour
     {
         None = 0,
         BigSpider = 1,
-        LowSpider = 1,
-        Solder = 2,
+        LowSpider = 2,
+        Solder = 3,
         Boss = 10
     }
 

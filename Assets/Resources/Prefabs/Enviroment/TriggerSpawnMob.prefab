@@ -104,10 +104,10 @@ MonoBehaviour:
   syncInterval: 0.1
   ShowWire: 1
   color: {r: 0.8301887, g: 0.16055535, b: 0.16055535, a: 1}
-  delayDestroy: 100
+  delayDestroy: 1
   isTriggered: 0
   spawningWho: 1
-  CountSpawn: 2
+  CountSpawn: 3
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
