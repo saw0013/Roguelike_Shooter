@@ -4588,10 +4588,15 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 1024
+  _spawnPoint: {fileID: 0}
+  _bullet: {fileID: 0}
+  SpeedWalkAnim: 1
   DelayDistance: 0.5
   TimeToCharge: 0
+  TimeFindWeak: 3
   canSeePlayer: 0
   Attacked: 0
+  TimeChardge: 0
   isShowGizmos: 1
   damage:
     damageValue: 15

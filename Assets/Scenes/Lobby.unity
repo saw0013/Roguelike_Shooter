@@ -821,15 +821,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3910369338567810310, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.91
+      value: 16.12
       objectReference: {fileID: 0}
     - target: {fileID: 3910369338567810310, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 3910369338567810310, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.95
+      value: -19.48
       objectReference: {fileID: 0}
     - target: {fileID: 3910369338567810310, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
       propertyPath: m_LocalRotation.w
@@ -858,10 +858,6 @@ PrefabInstance:
     - target: {fileID: 3910369338567810310, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9147243143817611213, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a9bb85700d4ee4494df9a07ea4d8ba, type: 3}
@@ -3622,7 +3618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  managers: []
+  resycles: []
   maxMatchPlayers: 12
 --- !u!114 &1458826499
 MonoBehaviour:

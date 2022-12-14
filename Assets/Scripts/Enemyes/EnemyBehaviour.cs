@@ -36,6 +36,9 @@ public class EnemyBehaviour : HealthController
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private GameObject _bullet;
 
+    [Tooltip("Скорость анимации ходьбы паука")]
+    [SerializeField] private float SpeedWalkAnim;
+
     [Tooltip("Задержка в расстоянии, нужно чтобы НПЦ начанал атаку раньше")]
     public float DelayDistance;
 
@@ -86,7 +89,7 @@ public class EnemyBehaviour : HealthController
         agent = GetComponent<NavMeshAgent>();
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
-
+        e_anim.anim_WalkSpeed(SpeedWalkAnim);  
     }
 
     public virtual void Update()
@@ -147,6 +150,7 @@ public class EnemyBehaviour : HealthController
 
             if (TimeToCharge <= 0)
             {
+                e_anim.anim_WalkSpeed(SpeedWalkAnim + 5);
                 agent.isStopped = false;
                 chardge = true;
                 agent.speed += 3;
@@ -192,12 +196,17 @@ public class EnemyBehaviour : HealthController
         return rangeChecks;
     }
 
+    private void LookTarget(Transform target)
+    {
+        transform.LookAt(target);
+    }
+
     public virtual void FieldOfViewCheck()
     {
         var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer.Length != 0)
+        if (checkPlayer.Length != 0 && !isDead)
         {
 
             foreach (var collider in checkPlayer)
@@ -220,6 +229,7 @@ public class EnemyBehaviour : HealthController
                         }
                         else
                         {
+                            LookTarget(target);
                             if (typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
                                 canAttack = true;
@@ -238,6 +248,7 @@ public class EnemyBehaviour : HealthController
                                 {
                                     if (!Attacked)
                                     {
+                                        e_anim.anim_WalkSpeed(SpeedWalkAnim);
                                         Attacked = true;
                                         agent.isStopped = true;
                                         damageTrigger.AttackNum = 1;

@@ -2118,8 +2118,10 @@ MonoBehaviour:
     m_Bits: 1024
   _spawnPoint: {fileID: 0}
   _bullet: {fileID: 0}
+  SpeedWalkAnim: 1.5
   DelayDistance: 1.5
   TimeToCharge: 1.5
+  TimeFindWeak: 3
   canSeePlayer: 0
   Attacked: 0
   TimeChardge: 0

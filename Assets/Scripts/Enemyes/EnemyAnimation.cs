@@ -24,4 +24,9 @@ public class EnemyAnimation : MonoBehaviour
     {
         playerAnimator.SetBool("dead", isDead);
     }
+
+    public void anim_WalkSpeed(float speed)
+    {
+        playerAnimator.SetFloat("SpeedWalk", speed);
+    }
 }
