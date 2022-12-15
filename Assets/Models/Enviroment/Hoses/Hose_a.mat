@@ -108,7 +108,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_7608516E: 0.5
-    - Vector1_DDE904DC: 0.02
+    - Vector1_DDE904DC: 1.65
     - Vector1_E43F6953: 0.1
     - _AlphaClip: 0
     - _Blend: 0
