@@ -383,7 +383,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         }
 
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "Level"));
+ .FirstOrDefault(x => x.name == "Level"));
 
         //Укажем ему наш ID match
         TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
