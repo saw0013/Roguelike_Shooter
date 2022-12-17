@@ -2131,7 +2131,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -9360,6 +9360,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3827590655909826849}
     m_Modifications:
+    - target: {fileID: 2126433139255229129, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126433139255229129, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126433139255229129, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -5.8665
+      objectReference: {fileID: 0}
     - target: {fileID: 2138610359659312277, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9444,9 +9456,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4242101501877271746, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242101501877271746, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.59505653
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242101501877271746, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7413391201802210862, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Name
       value: CanvasInfoItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413391201802210862, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Size
+      value: 0.59505653
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Value
+      value: -0.0000053093304
+      objectReference: {fileID: 0}
+    - target: {fileID: 9081571249692439407, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 120.70685
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 223c87fc03a3093418019f327d924333, type: 3}

@@ -52,7 +52,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Button _buttonDone;
 
     [Header("Fade")]
-    [Space(10)] [SerializeField] Animator fadeAnimator;
+    [SerializeField] private Animator fadeAnimator;
 
     [Header("Texts")]
     [Space(10)] [SerializeField] TextMeshProUGUI playText;
@@ -107,6 +107,11 @@ public class MainMenuManager : MonoBehaviour
         homePanel.SetActive(true);
         settingsPanel.SetActive(false);
         connectionPanel.SetActive(false);
+    }
+
+    public void Fade()
+    {
+        fadeAnimator.SetTrigger("FadeOut");
     }
 
     public void UIEditorUpdate()

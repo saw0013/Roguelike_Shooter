@@ -114,7 +114,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
     public void CmdSpawnBullet()
     {
-        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); 
+        var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
+        bullet.GetComponent<BulletPool>().Damage.damageValue = playerData.DamagePlayer;
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
         bullet.GetComponent<BulletPool>().Init(gameObject);

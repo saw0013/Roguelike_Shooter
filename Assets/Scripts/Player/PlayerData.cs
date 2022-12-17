@@ -20,7 +20,7 @@ public class PlayerData : HealthController, ICharacter
     public bool EscapeMenuActive;
     public Transform ItemsGrind;
     public int SpeedPlayer;
-    public float DamagePlayer;
+    public int DamagePlayer;
     public float AmmoReload;
     public int BuletForce;
 
@@ -32,7 +32,7 @@ public class PlayerData : HealthController, ICharacter
     [SerializeField] private int _startForceBulet;
     [SerializeField] private float _guardStart;
     [SerializeField] private int _speedStart;
-    [SerializeField] private float _damageStart;
+    [SerializeField] private int _damageStart;
     [SerializeField] private TMP_Text _textGuard;
     [SerializeField] internal TMP_Text _nameDisplayRpc;
 
@@ -70,6 +70,7 @@ public class PlayerData : HealthController, ICharacter
     protected override void Awake()
     {
         base.Awake();
+        DamagePlayer = _damageStart;
         AmmoReload = _startAmmoReload;
         BuletForce = _startForceBulet;
         guardPlayer = _guardStart;
@@ -190,16 +191,14 @@ public class PlayerData : HealthController, ICharacter
     #region CommonDamage
 
 
-    public void ChangeDamage(float BuffDamage)
-    {
-        if (hasAuthority)
-            DamagePlayer += BuffDamage;
+    public void ChangeDamage(int BuffDamage)
+    {      
+        DamagePlayer += BuffDamage;
     }
 
     public void StopBuffDamage()
     {
-        if (hasAuthority)
-            DamagePlayer = _damageStart;
+       DamagePlayer = _damageStart;
     }
     #endregion
 

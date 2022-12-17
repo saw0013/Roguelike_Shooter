@@ -24,6 +24,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject[] _panelsCanvas;
 
+    private GameObject _mainMenuManager;
+
     //[Header("Camera")]
     //public Camera mainCamera;
     internal Camera mainCamera;
@@ -337,6 +339,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
+        StartFade();
         MatchMaker.instance.BeginGame(matchID);
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
@@ -416,9 +419,20 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     }
 
+    public void StartFade()
+    {
+        TargetBeginFade();
+    }
+
     public void StartGame()
     { //Server
         TargetBeginGame();
+    }
+
+    [TargetRpc]
+    public void TargetBeginFade()
+    {
+        _mainMenuManager.GetComponent<MainMenuManager>().Fade();
     }
 
     [TargetRpc]
@@ -467,6 +481,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     void Awake()
     {
+        _mainMenuManager = GameObject.Find("MainMenuManager");
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
     }
@@ -543,13 +558,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void EscapeMenu(bool active, bool input)
     {
         _panelEscape.SetActive(active);
-        playerData.InputIsActive(input);
+        if (playerData.isDead) input = false;
+        else playerData.InputIsActive(input);
     }
 
     public void InfoItemMenu(bool active, bool input)
     {
         _panelInfoItem.SetActive(active);
-        playerData.InputIsActive(input);
+        if (playerData.isDead) input = false;
+        else playerData.InputIsActive(input);
     }
 
     public void StartMenu()

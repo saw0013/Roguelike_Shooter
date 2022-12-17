@@ -33,6 +33,7 @@ public class EscapeMenu : MonoBehaviour
 
     private void Start()
     {
+        fadeAnimator.SetTrigger("FadeIn");
         SetStartVolumeSound();
         SetStartVolumeMusic();
     }

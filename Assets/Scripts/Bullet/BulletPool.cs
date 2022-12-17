@@ -12,7 +12,7 @@ public class BulletPool : NetworkBehaviour
     [SerializeField] private GameObject _hitPlayerParticles;
     [SerializeField] private GameObject _hitEnemyParticles;
 
-    [SerializeField] private Damage damage;
+    public Damage Damage;
 
     public int ForceShoot = 1000;
 
@@ -49,7 +49,7 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        var _damageToPlayer = new Damage(damage);
+        var _damageToPlayer = new Damage(Damage);
         _damageToPlayer.sender = transform;
         _damageToPlayer.receiver = collision.transform;
 
