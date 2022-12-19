@@ -345,8 +345,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
         //Найдём наш триггер спавн
-        GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-            .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
+        //GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //    .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
 
         GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
     .FirstOrDefault(x => x.name == "DefaultItemHP"));
@@ -389,7 +389,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
  .FirstOrDefault(x => x.name == "Level"));
 
         //Укажем ему наш ID match
-        TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         DefaultItemHP.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
@@ -398,7 +398,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Level.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         RareItemBullet.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
 
-        NetworkServer.Spawn(TriggerSpawnMob);
+        //NetworkServer.Spawn(TriggerSpawnMob);
         NetworkServer.Spawn(DefaultItemDamage);
         NetworkServer.Spawn(DefaultItemMove);
         NetworkServer.Spawn(DefaultItemHP);
@@ -463,7 +463,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         base.OnStartLocalPlayer();
 
         //Спавним виртаульную камеру на сцену локально
-        var vCam = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/VirtualFollowCamera").asset as GameObject);
+        var vCam = Instantiate(Resources.LoadAsync("Prefabs/VirtualFollowCamera").asset as GameObject);
         //NetworkServer.Spawn(vCam);
 
         mainCamera = vCam.GetComponentInChildren<Camera>();

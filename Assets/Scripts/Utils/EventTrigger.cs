@@ -11,6 +11,7 @@ using UnityEngine.Networking.Types;
 using UnityEngine.SceneManagement;
 using Utils;
 using Random = UnityEngine.Random;
+using MirrorBasics;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
@@ -32,6 +33,7 @@ public class EventTrigger : NetworkBehaviour
     [SerializeField] private bool ShowWire = false;
     [SerializeField] private Color color;
 
+    [SerializeField] private bool _destroy = false;
     public float delayDestroy = .1f;
 
     //[SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
@@ -81,14 +83,13 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
-    [ServerCallback]
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isTriggered)
         {
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
-            ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().networkMatch.matchId);
+            ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
         }
     }
 
@@ -133,6 +134,7 @@ public class EventTrigger : NetworkBehaviour
 
     }
 
+    [ServerCallback]
     private void ServerSpawn(Guid matchID)
     {
         switch (spawningWho)
@@ -147,7 +149,9 @@ public class EventTrigger : NetworkBehaviour
     {
         yield return new WaitForSeconds(.1f);
         OnEnterTrigger.Invoke();
-        Destroy(this, delayDestroy);
+
+        if(_destroy)
+            Destroy(this, delayDestroy);
     }
 
     #region Enums
