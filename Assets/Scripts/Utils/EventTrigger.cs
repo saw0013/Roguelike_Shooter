@@ -98,6 +98,7 @@ public class EventTrigger : NetworkBehaviour
         if (other.CompareTag("Player"))
         {
             //DO
+            isTriggered = false;
             OnExitTrigger?.Invoke();
         }
     }

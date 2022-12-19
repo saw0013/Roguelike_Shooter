@@ -421,7 +421,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     public void StartFade()
     {
-        TargetBeginFade();
+        RpcBeginFade();
     }
 
     public void StartGame()
@@ -429,8 +429,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         TargetBeginGame();
     }
 
-    [TargetRpc]
-    public void TargetBeginFade()
+    [ClientRpc]
+    public void RpcBeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
     }
@@ -499,7 +499,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true)
         {
-            if (playerData.GetInputActive())
+            if (/*playerData.GetInputActive()*/ _panelEscape.activeSelf != true)
             {
                 StartMenu();
                 EscapeMenu(true, false);
@@ -509,7 +509,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true)
         {
-            if (playerData.GetInputActive()) InfoItemMenu(true, false);
+            if (/*playerData.GetInputActive()*/ _panelInfoItem.activeSelf != true) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
         }
     }

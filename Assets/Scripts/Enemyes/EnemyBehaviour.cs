@@ -229,12 +229,12 @@ public class EnemyBehaviour : HealthController
                         }
                         else
                         {
-                            LookTarget(target);
                             if (typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
                                 canAttack = true;
                                 if (!Attacked)
                                 {
+                                    LookTarget(target);
                                     Attacked = true;
                                     agent.isStopped = true;
                                     damageTrigger.AttackNum = 1;
@@ -248,6 +248,7 @@ public class EnemyBehaviour : HealthController
                                 {
                                     if (!Attacked)
                                     {
+                                        LookTarget(target);
                                         e_anim.anim_WalkSpeed(SpeedWalkAnim);
                                         Attacked = true;
                                         agent.isStopped = true;
@@ -261,6 +262,7 @@ public class EnemyBehaviour : HealthController
                             {
                                 if (!Attacked)
                                 {
+                                    LookTarget(target);
                                     Attacked = true;
                                     agent.isStopped = true;
                                 }
