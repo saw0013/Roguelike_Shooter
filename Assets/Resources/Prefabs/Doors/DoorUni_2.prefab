@@ -98236,8 +98236,8 @@ MonoBehaviour:
   _destroy: 0
   delayDestroy: 0.1
   isTriggered: 0
-  spawningWho: 1
-  CountSpawn: 1
+  spawningWho: 0
+  CountSpawn: 3
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:

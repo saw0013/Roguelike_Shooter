@@ -6,7 +6,7 @@ using Mono.CSharp;
 using System;
 using System.Linq;
 using TMPro;
-using UnityEngine;
+using UnityEngine;                  
 using UnityEngine.SceneManagement;
 using Utils;
 using Event = UnityEngine.Event;
@@ -30,7 +30,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     //public Camera mainCamera;
     internal Camera mainCamera;
 
-
     [Header("Movement")]
     public Rigidbody playerRigidbody;
     private Vector3 inputDirection;
@@ -44,8 +43,14 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private Vector3 playerToMouse;
 
+    [SyncVar(hook = nameof(OnChangeMaterial))]
+    private int materialChange;
+
     [SerializeField] private PlayerData playerData;
 
+    [SerializeField] private Renderer gunRenderer;
+
+    [SerializeField] private Material[] _gunMaterials;
 
     [Header("Animation")]
     public Animator playerAnimator;
@@ -58,6 +63,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [Header("Tool")]
     [SerializeField] private GameObject _healthBarRpcLookAt;
+
+    [SerializeField] private Texture2D _newTexture;
 
 
     #region Delegate event
@@ -376,6 +383,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             }
         });
 
+        ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
+        {
+            if (x.tag == "BeginEnemy")
+            {
+                var obj = Instantiate(x);
+                obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+                NetworkServer.Spawn(obj);
+            }
+        });
+
         GameObject[] Doors = ((ShooterNetworkManager.singleton).spawnPrefabs.FindAll(x => x.tag == "Door").ToArray());
 
         for (int i = 0; i < 2; i++)
@@ -484,6 +501,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         _mainMenuManager = GameObject.Find("MainMenuManager");
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
+
     }
 
     private void Start()
@@ -493,7 +511,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
                 pan.SetActive(true);
     }
 
-
+    private void OnChangeMaterial(int _Old, int _New)
+    {
+        gunRenderer.material = _gunMaterials[_New - 1];
+    }
 
     private void Update()
     {
@@ -512,8 +533,18 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             if (/*playerData.GetInputActive()*/ _panelInfoItem.activeSelf != true) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
         }
+
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.I))
+        {
+            CmdSetupPlayer();
+        } 
     }
 
+    [Command]
+    public void CmdSetupPlayer()
+    {
+        materialChange = 1;
+    }
 
     private void FixedUpdate()
     {

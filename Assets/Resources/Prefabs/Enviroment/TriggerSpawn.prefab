@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8262974643397862385}
   m_Layer: 0
   m_Name: TriggerSpawn
-  m_TagString: Untagged
+  m_TagString: BeginEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6335466546457690866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.53, y: 1.37, z: 6.89}
+  m_LocalPosition: {x: 12.53, y: 1.37, z: 36.26}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133,11 +133,11 @@ MonoBehaviour:
   syncInterval: 0.1
   ShowWire: 0
   color: {r: 0.745283, g: 0.33397114, b: 0.33397114, a: 1}
+  _destroy: 0
   delayDestroy: 0.1
-  NpcPatroolNameFind: PatroolPoints
   isTriggered: 0
   spawningWho: 1
-  spawnMob: {fileID: 0}
+  CountSpawn: 5
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls: []

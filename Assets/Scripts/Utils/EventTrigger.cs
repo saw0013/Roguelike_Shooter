@@ -46,6 +46,7 @@ public class EventTrigger : NetworkBehaviour
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
 
+    private int countSpawnded;
     #endregion
 
     public override void OnStartServer()
@@ -98,8 +99,9 @@ public class EventTrigger : NetworkBehaviour
         if (other.CompareTag("Player"))
         {
             //DO
+            StartCoroutine(OnTrigerExit());
             isTriggered = false;
-            OnExitTrigger?.Invoke();
+            //OnExitTrigger?.Invoke();
         }
     }
 
@@ -110,49 +112,91 @@ public class EventTrigger : NetworkBehaviour
     /// </summary>
     /// <param name="matchID"></param>
     /// <returns></returns>
-    public IEnumerator SpawnBigSpiderRandomPoints(Guid matchID)
+    public IEnumerator SpawnBigSpiderRandomPoints(Guid matchID, string who)
     {
         var rp = GetPointPatrool.Instance.RandomPoints; //ѕолучим все точки спавна
 
-        for (int i = 0; i < CountSpawn; i++) //—павнить будем в цикле
-        {
-            var StartPointNpc = rp[Random.Range(0, rp.Count)]; //“очка спавна рандомна€ из списка
+        //for (int i = 0; i < CountSpawn; i++) //—павнить будем в цикле
+        //{
+        //    var StartPointNpc = rp[Random.Range(0, rp.Count)]; //“очка спавна рандомна€ из списка
 
-            var PreSpawn = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                x.name == "ParticleSpawnNpc"), StartPointNpc, Quaternion.Euler(-90,0,0));
-            PreSpawn.GetComponent<NetworkMatch>().matchId = matchID;
-            NetworkServer.Spawn(PreSpawn); 
+        //    var PreSpawn = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+        //        x.name == "ParticleSpawnNpc"), StartPointNpc, Quaternion.Euler(-90, 0, 0));
+        //    PreSpawn.GetComponent<NetworkMatch>().matchId = matchID;
+        //    NetworkServer.Spawn(PreSpawn);
 
-            yield return new WaitForSeconds(1.2f);
-            var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-                x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
-            npc.GetComponent<NetworkMatch>().matchId = matchID;
-            NetworkServer.Spawn(npc); //—павним паука в рандомной точке
+        //    yield return new WaitForSeconds(1.2f);
+        //    var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+        //        x.name == "SpiderNpc"), StartPointNpc, Quaternion.identity);
+        //    npc.GetComponent<NetworkMatch>().matchId = matchID;
+        //    NetworkServer.Spawn(npc); //—павним паука в рандомной точке
 
-            rp.Remove(StartPointNpc); //”далим эту точку, чтобы следующий паук не заспавнилс€ там же
-            yield return new WaitForSeconds(2.0f);
-        }
+        //    rp.Remove(StartPointNpc); //”далим эту точку, чтобы следующий паук не заспавнилс€ там же
+        //    yield return new WaitForSeconds(2.0f);
+        //}
 
+        var StartPointNpc = rp[Random.Range(0, rp.Count)]; //“очка спавна рандомна€ из списка
+
+        var PreSpawn = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+            x.name == "ParticleSpawnNpc"), StartPointNpc, Quaternion.Euler(-90, 0, 0));
+        PreSpawn.GetComponent<NetworkMatch>().matchId = matchID;
+        NetworkServer.Spawn(PreSpawn);
+
+        yield return new WaitForSeconds(1.2f);
+        var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
+            x.name == who), StartPointNpc, Quaternion.identity);
+        npc.GetComponent<NetworkMatch>().matchId = matchID;
+        NetworkServer.Spawn(npc); //—павним паука в рандомной точке
+
+        rp.Remove(StartPointNpc); //”далим эту точку, чтобы следующий паук не заспавнилс€ там же
+        yield return new WaitForSeconds(2.0f);
+        ServerSpawn(matchID);
     }
 
     [ServerCallback]
     private void ServerSpawn(Guid matchID)
     {
-        switch (spawningWho)
+        if(spawningWho != SpawningNPC.None)
         {
-            case SpawningNPC.BigSpider:
-                StartCoroutine(SpawnBigSpiderRandomPoints(matchID));
-                break;
+            if (countSpawnded < CountSpawn)
+            {
+                SpawningNPC randomNPC = (SpawningNPC)Random.Range(1, 3);
+
+                switch (randomNPC)
+                {
+                    case SpawningNPC.BigSpider:
+                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "SpiderNpc"));
+                        break;
+                    case SpawningNPC.LowSpider:
+                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "SmalSpiderNpc"));
+                        break;
+                    case SpawningNPC.Solder:
+                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "RangerNpc"));
+                        break;
+                }
+                countSpawnded++;
+            }
         }
     }
 
     private IEnumerator OnTrigEnter()
     {
-        yield return new WaitForSeconds(.1f);
+        //yield return new WaitForSeconds(.1f);
         OnEnterTrigger.Invoke();
 
         if(_destroy)
             Destroy(this, delayDestroy);
+        yield return null;
+    }
+
+    private IEnumerator OnTrigerExit()
+    {
+        //yield return new WaitForSeconds(.1f);
+        OnExitTrigger?.Invoke();
+
+        if (_destroy)
+            Destroy(this, delayDestroy);
+        yield return null;
     }
 
     #region Enums

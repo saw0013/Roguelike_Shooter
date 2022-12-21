@@ -1592,9 +1592,13 @@ MonoBehaviour:
   - {fileID: 7266520760870401687}
   playerRigidbody: {fileID: 3827590655909793030}
   playerData: {fileID: 3827590655909793146}
+  gunRenderer: {fileID: 3827590655911728029}
+  _gunMaterials:
+  - {fileID: 2100000, guid: 8f11719fea7c610439eedff6ee41856d, type: 2}
   playerAnimator: {fileID: 3827590655917096605}
   _runPlayer: {fileID: 7776673961458087687}
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
+  _newTexture: {fileID: 2800000, guid: d1360f0661f4f424593458188ce4bb5e, type: 3}
   matchID: 
   playerIndex: 0
   UserName: 
