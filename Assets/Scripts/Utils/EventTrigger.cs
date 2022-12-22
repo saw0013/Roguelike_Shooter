@@ -40,13 +40,16 @@ public class EventTrigger : NetworkBehaviour
     [HideInInspector,]
     public bool isTriggered = false;
 
+    [HideInInspector,]
+    public bool hasAthorityTrigger = true;
+
     [SerializeField] SpawningNPC spawningWho;
-    [SerializeField] int CountSpawn = 5;
+    //[SerializeField] int CountSpawn = 5;
+    [SerializeField] private ManagerWave _managerWave;
 
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
 
-    private int countSpawnded;
     #endregion
 
     public override void OnStartServer()
@@ -86,7 +89,7 @@ public class EventTrigger : NetworkBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isTriggered)
+        if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
@@ -96,7 +99,7 @@ public class EventTrigger : NetworkBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && hasAthorityTrigger)
         {
             //DO
             StartCoroutine(OnTrigerExit());
@@ -154,11 +157,15 @@ public class EventTrigger : NetworkBehaviour
     }
 
     [ServerCallback]
-    private void ServerSpawn(Guid matchID)
+    public void ServerSpawn(Guid matchID)
     {
         if(spawningWho != SpawningNPC.None)
         {
-            if (countSpawnded < CountSpawn)
+            if (_managerWave == null) return;
+
+            if(_managerWave.matchId == null) _managerWave.matchId = matchID;
+
+            if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             {
                 SpawningNPC randomNPC = (SpawningNPC)Random.Range(1, 3);
 
@@ -174,7 +181,7 @@ public class EventTrigger : NetworkBehaviour
                         StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "RangerNpc"));
                         break;
                 }
-                countSpawnded++;
+                _managerWave.SetEnemySpawned();
             }
         }
     }
