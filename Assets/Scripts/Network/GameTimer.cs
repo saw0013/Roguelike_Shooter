@@ -6,14 +6,14 @@ using UnityEngine.Events;
 public class GameTimer : NetworkBehaviour
 {
     [SyncVar]
-    public float timer = 15 * 60;  // 15 минут до окончания
+    public float timer = 1 * 60;  // 15 минут до окончания
 
     private int minutes;
     private int seconds;
     public string showTime;         // Фактический обратный отсчет таймера отображается в формате 09:37.
     private bool running = true;    // Таймер все еще работает?
 
-    private TMP_Text clockText;     // Текст таймера, отображаемый в UI
+    [SerializeField]private TMP_Text clockText;     // Текст таймера, отображаемый в UI
 
     public UnityEvent ClockReady;   // Событие, которое вызывается, когда таймер достигает нуля
 

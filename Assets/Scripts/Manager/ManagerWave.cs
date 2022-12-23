@@ -28,7 +28,7 @@ public class ManagerWave : NetworkBehaviour
     {
         for (int i = 0; i < _allWawe; i++)
         {
-            EnemyToCurrentWave.Add(i, EnemyToWave[i]);    
+            EnemyToCurrentWave.Add(i, EnemyToWave[i]);
         }
     }
 
@@ -47,6 +47,9 @@ public class ManagerWave : NetworkBehaviour
         GetComponent<EventTrigger>().ServerSpawn(matchId);
     }
 
+    /// <summary>
+    /// Следующая волна
+    /// </summary>
     private void NextWave()
     {
         if(currentTimeDalay >= TimeDelayToWave)
@@ -58,8 +61,16 @@ public class ManagerWave : NetworkBehaviour
         else currentTimeDalay += Time.deltaTime;
     }
 
+    /// <summary>
+    /// Полчуает количество НПЦ в текущей волне
+    /// </summary>
+    /// <returns></returns>
     public int GetEnemySpawn() => EnemyToCurrentWave[currentWave];
 
+    /// <summary>
+    /// Сколько всего заспавнено НПЦ
+    /// </summary>
+    /// <returns></returns>
     public int GetEnemySpawned() => countSpawned;
 
     public int SetEnemySpawned() => countSpawned++;
