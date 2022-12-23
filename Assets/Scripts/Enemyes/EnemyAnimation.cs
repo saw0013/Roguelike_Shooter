@@ -27,6 +27,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public void anim_WalkSpeed(float speed)
     {
-        playerAnimator.SetFloat("SpeedWalk", speed);
+        if(playerAnimator)
+            playerAnimator.SetFloat("SpeedWalk", speed);
     }
 }

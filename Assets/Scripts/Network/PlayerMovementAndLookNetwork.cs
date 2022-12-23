@@ -64,7 +64,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Header("Tool")]
     [SerializeField] private GameObject _healthBarRpcLookAt;
 
-    [SerializeField] private Texture2D _newTexture;
+    [SerializeField] private Texture2D _GunTexture;
+
+    [SerializeField] private Camera LobbyCamera;
 
 
     #region Delegate event
@@ -101,6 +103,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] GameObject playerLobbyUI;
 
     Guid netIDGuid;
+
+    [SyncVar] public int ZoneModule_ = 0;
 
     #endregion
 
@@ -467,6 +471,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputIsActive(true);
+
+        LobbyCamera.gameObject.SetActive(false);//Выключаем камеру лобби. 
     }
 
     #endregion
@@ -491,6 +497,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //TODO : Включить слушатель только на том клиенте на котором играем
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
     }
+
+    /// <summary>
+    /// Будем следить где игрок
+    /// </summary>
+    /// <param name="zone"></param>
+    public void ZoneModuleChange(int zone) => ZoneModule_ = zone;
 
     #endregion
 

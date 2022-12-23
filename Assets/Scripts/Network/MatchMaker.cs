@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using Mirror;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 
@@ -39,9 +40,10 @@ namespace MirrorBasics
     public class MatchMaker : NetworkBehaviour
     {
 
-        #region Resycle object by matchID
+        #region Managers
 
         [SerializeField] public List<ResycleObjectsByMatch> resycles = new List<ResycleObjectsByMatch>();
+        [SerializeField] public List<GameManagerLogic> GameManagersLogic = new List<GameManagerLogic>();
 
         #endregion
 
@@ -80,6 +82,8 @@ namespace MirrorBasics
                 playerIndex = 1;
 
                 AddToListResycleObjects(_matchID);
+                AddToListGameManagers(_matchID);
+                ManagerLogic(_matchID.ToGuid()).AddPlayerInGameManager(_player);
 
                 return true;
             }
@@ -115,6 +119,8 @@ namespace MirrorBasics
                             playerIndex = matches[i].players.Count; //Внешнюю ссылку индекса увеличим на число в комнате
 
                             matches[i].players[0].PlayerCountUpdated(matches[i].players.Count); //через главного игрока в комнате увеличим число в комнате
+
+                            ManagerLogic(_matchID.ToGuid()).AddPlayerInGameManager(_player);
 
                             if (matches[i].players.Count == maxMatchPlayers)
                             { //Если количество игроков в комнате максимальное
@@ -228,6 +234,8 @@ namespace MirrorBasics
                     //TODO : Дальнейшее обновление. Получить доступ к Player и вывести это уведомление в Canvas
                     Debug.Log($"Player disconnected from match {_matchID} | {matches[i].players.Count} players remaining");
 
+                    ManagerLogic(_matchID.ToGuid()).RemovePlayerInGameManager(player);
+
                     //когда последний пользователь уходит из матча, мы просто удаляем из списка доступных комнат
                     if (matches[i].players.Count == 0)
                     {
@@ -246,6 +254,7 @@ namespace MirrorBasics
 
                         //RemoveResycleObjectsInList(_matchID.ToGuid());
 
+                        instance.GameManagersLogic.Remove(ManagerLogic(_matchID.ToGuid()));
                     }
                     else
                     {
@@ -255,6 +264,16 @@ namespace MirrorBasics
                 }
             }
         }
+
+        public static void AddToListGameManagers(string matchId)
+        {
+            GameManagerLogic gml = new GameManagerLogic();
+            gml.MatchID = matchId.ToGuid();
+            instance.GameManagersLogic.Add(gml);
+        }
+
+        public static GameManagerLogic ManagerLogic(Guid matchID) => instance.GameManagersLogic.FirstOrDefault(gml => gml.MatchID == matchID);
+       
 
         /// <summary>
         /// Сохраняем сессию в матчмейкинге, чтобы можно было найти заспавненные объекты

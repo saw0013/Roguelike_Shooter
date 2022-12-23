@@ -146,8 +146,11 @@ public class EventTrigger : NetworkBehaviour
         NetworkServer.Spawn(PreSpawn);
 
         yield return new WaitForSeconds(1.2f);
+
+        Destroy(PreSpawn); //Удалим партиклы спавна
+
         var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-            x.name == who), StartPointNpc, Quaternion.identity);
+            x.name == who), StartPointNpc, Quaternion.Euler(0, Random.Range(0,360), 0)); //Паучок будет рандомно повёртнут
         npc.GetComponent<NetworkMatch>().matchId = matchID;
         NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
 
@@ -193,7 +196,24 @@ public class EventTrigger : NetworkBehaviour
 
         if(_destroy)
             Destroy(this, delayDestroy);
+
+        #region
+       // GameObject timer = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "GameTimer"));
+       //
+       // // Add a callback when the timer reaches 0
+       // GameTimer gameTimer = timer.GetComponent<GameTimer>();
+       // if (gameTimer)
+       //     gameTimer.ClockReady.AddListener(EndOfTimer);
+        #endregion
+
         yield return null;
+    }
+
+    public void EndOfTimer()
+    {
+        Debug.Log("timer ready.");
+
+        // End of match code here
     }
 
     private IEnumerator OnTrigerExit()

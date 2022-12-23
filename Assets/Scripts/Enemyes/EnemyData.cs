@@ -19,8 +19,8 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     protected override void Start()
     {
         StartCoroutine(FOVRoutine());
-        OnStart();
         base.Start();
+        OnStart();
     }
 
     public override void Update()

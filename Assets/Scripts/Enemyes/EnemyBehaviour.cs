@@ -304,8 +304,7 @@ public class EnemyBehaviour : HealthController
     //[ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
-        if(isDead) return;
-        if (agent == null) return;
+        if(isDead | agent == null) return;
 
         e_anim.anim_Walk(agent.hasPath);
         e_anim.anim_Attack(Attacked, Random.Range(1, 2));
