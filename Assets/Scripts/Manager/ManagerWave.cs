@@ -17,8 +17,6 @@ public class ManagerWave : NetworkBehaviour
     private int countSpawned;
     private float currentTimeDalay;
 
-    public Guid matchId;
-
     public bool isActive;
 
     [SyncVar(hook = nameof(OnChangeWave))]
@@ -47,7 +45,7 @@ public class ManagerWave : NetworkBehaviour
     {
         countSpawned = 0;
         killedEnemy = 0;
-        GetComponent<EventTrigger>().ServerSpawn(matchId);
+        GetComponent<EventTrigger>().ServerSpawn(GetComponent<NetworkMatch>().matchId);
     }
 
     /// <summary>
@@ -72,7 +70,12 @@ public class ManagerWave : NetworkBehaviour
         {
             currentWave++;
             currentTimeDalay = 0;
-            NextSpawnEnemy();
+            if (currentWave >= _allWawe)
+            {
+                isActive = false;
+                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
+            }
+            else NextSpawnEnemy();
         }
         else currentTimeDalay += Time.deltaTime;
     }
@@ -88,7 +91,7 @@ public class ManagerWave : NetworkBehaviour
     /// Полчуает количество НПЦ в текущей волне
     /// </summary>
     /// <returns></returns>
-    public int GetEnemySpawn() => EnemyToCurrentWave[currentWave];
+    public int GetEnemySpawn() => EnemyToCurrentWave[currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
 
     /// <summary>
     /// Сколько всего заспавнено НПЦ

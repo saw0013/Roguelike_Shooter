@@ -9,6 +9,7 @@ public class GameManagerLogic
 {
     public List<PlayerMovementAndLookNetwork> players;
     public List<ManagerWave> Waves;
+    public List<EventTrigger> Door;
 
     /// <summary>
     /// Активный менеджер волн
@@ -39,6 +40,13 @@ public class GameManagerLogic
         if (players == null) players = new List<PlayerMovementAndLookNetwork>();
         
         players.Add(player);
+    }
+
+    public void ActiveNextManagerWave()
+    {
+        var LastActiveindex = Waves.FindIndex(w => w.isActive); 
+
+        Waves[LastActiveindex++].isActive = true;
     }
 
     public void AddWaveInGameManager(ManagerWave Wave)

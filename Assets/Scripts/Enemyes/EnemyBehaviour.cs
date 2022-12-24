@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,6 +7,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Cosmo;
 using Mirror;
+using MirrorBasics;
 using Mono.CSharp;
 using UnityEngine;
 using UnityEngine.AI;
@@ -68,6 +70,8 @@ public class EnemyBehaviour : HealthController
 
     private float currentTimeAttack;
 
+    private bool enabel = true;
+
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
@@ -116,31 +120,40 @@ public class EnemyBehaviour : HealthController
         //}
 
         Animation();
-        if (Attacked & !isDead)
+        if (!isDead && enabel)
         {
-            if(typeEnemy != TypeEnemy.RangerBot)
+            if (Attacked)
             {
-                currentTimeAttack += Time.deltaTime;
-                if (currentTimeAttack >= _timeAttack)
+                if (typeEnemy != TypeEnemy.RangerBot)
                 {
-                    currentTimeAttack = 0;
-                    damageTrigger.AttackNum = 0;
-                    Attacked = false;
-                    agent.isStopped = false;
-                    chardge = false;
+                    currentTimeAttack += Time.deltaTime;
+                    if (currentTimeAttack >= _timeAttack)
+                    {
+                        currentTimeAttack = 0;
+                        damageTrigger.AttackNum = 0;
+                        Attacked = false;
+                        agent.isStopped = false;
+                        chardge = false;
+                    }
+                }
+                else
+                {
+                    currentTimeAttack += Time.deltaTime;
+                    if (currentTimeAttack >= _timeAttack)
+                    {
+                        currentTimeAttack = 0;
+                        Attacked = false;
+                        agent.isStopped = false;
+                        CmdSpawnBullet();
+                    }
                 }
             }
-            else
-            {
-                currentTimeAttack += Time.deltaTime;
-                if(currentTimeAttack >= _timeAttack)
-                {
-                    currentTimeAttack = 0;
-                    Attacked = false;
-                    agent.isStopped = false;
-                    CmdSpawnBullet();
-                }
-            }
+        }
+        else
+        {
+            agent.isStopped = true;
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+            enabel = false;
         }
 
         if (beginCharge && !chardge)
@@ -309,7 +322,7 @@ public class EnemyBehaviour : HealthController
         if(isDead || agent == null) return;
 
         e_anim.anim_Walk(agent.hasPath);
-        e_anim.anim_Attack(Attacked, Random.Range(1, 2));
+        e_anim.anim_Attack(Attacked, UnityEngine.Random.Range(1, 2));
 
     }
 

@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Range: 23
+  Range: 15
   color: {r: 0, g: 0.4847312, b: 1, a: 1}
-  points: []
+  RandomPoints: []
 --- !u!114 &559890927321279964
 MonoBehaviour:
   m_ObjectHideFlags: 0

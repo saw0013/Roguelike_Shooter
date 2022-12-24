@@ -98,8 +98,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 9.899452, y: 1, z: 1.1674232}
+  m_Center: {x: -2.081154, y: 0, z: -0.083711624}
 --- !u!114 &6335466546457690860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   delayDestroy: 0.1
   isTriggered: 0
   hasAthorityTrigger: 1
+  _maxDistanceToPlayer: 5
   spawningWho: 1
   _managerWave: {fileID: 4096355483860449015}
   OnEnterTrigger:
@@ -157,9 +158,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804da769128315043aa380fcac11b5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allWawe: 2
-  EnemyToWave: 0300000008000000
+  syncMode: 0
+  syncInterval: 0.1
+  _allWawe: 4
+  EnemyToWave: 03000000050000000600000005000000
+  TimeDelayToWave: 5
   currentWave: 0
+  isActive: 1
 --- !u!114 &8262974643397862385
 MonoBehaviour:
   m_ObjectHideFlags: 0

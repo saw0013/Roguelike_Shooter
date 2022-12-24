@@ -43,6 +43,9 @@ public class EventTrigger : NetworkBehaviour
     [HideInInspector,]
     public bool hasAthorityTrigger = true;
 
+    [Tooltip("Дистанция которая, при условии, что находится в растоянии меньше значения, переместит игрока к другому игроку")]
+    [SerializeField] private float _maxDistanceToPlayer;
+
     [SerializeField] SpawningNPC spawningWho;
     //[SerializeField] int CountSpawn = 5;
     [SerializeField] private ManagerWave _managerWave;
@@ -93,7 +96,15 @@ public class EventTrigger : NetworkBehaviour
         {
             StartCoroutine(OnTrigEnter());
             isTriggered = true;
-            ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
+            if(spawningWho != SpawningNPC.None)
+            {
+                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+                {
+                    var _distance = Vector3.Distance(other.transform.position, p.transform.position);
+                    if (_distance > _maxDistanceToPlayer) p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                });
+                ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
+            }
         }
     }
 
@@ -157,7 +168,7 @@ public class EventTrigger : NetworkBehaviour
 
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
-        //ServerSpawn(matchID); //Нет смысла циклить спавн
+        ServerSpawn(matchID); //Нет смысла циклить спавн
     }
 
     [ServerCallback]
@@ -167,7 +178,7 @@ public class EventTrigger : NetworkBehaviour
         {
             if (_managerWave == null) return;
 
-            if(_managerWave.matchId == null) _managerWave.matchId = matchID;
+            //if(_managerWave.matchId == null) _managerWave.matchId = matchID;
 
             if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             {
