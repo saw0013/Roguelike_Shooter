@@ -91,13 +91,13 @@ public class PlayerData : HealthController, ICharacter
 
     void Update()
     {
-        if (hasAuthority)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                StartCoroutine(ChangeCameraToLiveParty());
-            }
-        }
+        //if (hasAuthority)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.E))
+        //    {
+        //        StartCoroutine(ChangeCameraToLiveParty());
+        //    }
+        //}
     }
 
     private void OnTriggerEnter(Collider other)

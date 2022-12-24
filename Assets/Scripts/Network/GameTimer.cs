@@ -23,7 +23,7 @@ public class GameTimer : NetworkBehaviour
         Debug.Log("GameTimer.Awake(): start");
 
         //Будем искать таймер????
-        GameObject texttimer = GameObject.Find("textTimer");
+        GameObject texttimer = GameObject.Find("GameTimer");
         if (texttimer)
         {
             clockText = texttimer.GetComponent<TMP_Text>();

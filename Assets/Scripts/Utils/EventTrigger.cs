@@ -110,6 +110,7 @@ public class EventTrigger : NetworkBehaviour
 
     #endregion
 
+
     /// <summary>
     /// Сам спавн пауков
     /// </summary>
@@ -156,7 +157,7 @@ public class EventTrigger : NetworkBehaviour
 
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
-        ServerSpawn(matchID);
+        //ServerSpawn(matchID); //Нет смысла циклить спавн
     }
 
     [ServerCallback]
@@ -197,24 +198,11 @@ public class EventTrigger : NetworkBehaviour
         if(_destroy)
             Destroy(this, delayDestroy);
 
-        #region
-       // GameObject timer = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "GameTimer"));
-       //
-       // // Add a callback when the timer reaches 0
-       // GameTimer gameTimer = timer.GetComponent<GameTimer>();
-       // if (gameTimer)
-       //     gameTimer.ClockReady.AddListener(EndOfTimer);
-        #endregion
+       
 
         yield return null;
     }
 
-    public void EndOfTimer()
-    {
-        Debug.Log("timer ready.");
-
-        // End of match code here
-    }
 
     private IEnumerator OnTrigerExit()
     {

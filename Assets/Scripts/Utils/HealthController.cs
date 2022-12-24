@@ -37,6 +37,10 @@ public class HealthController : NetworkBehaviour, IHealthController
     [HideInInspector]
     protected float _currentHealthRecoveryDelay;
 
+    [SerializeField] private bool _destroyAfterDie = false;
+
+    [SerializeField, Range(0.1f, 10)] private float _delayDestroly = 3.0f;
+
     #region Properties
     public virtual int MaxHealth
     {
@@ -68,6 +72,8 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
+
+                if (_destroyAfterDie) StartCoroutine(nameof(DestroyAfterDie));
             }
             else if (isDead && _currentHealth > 0)
             {
@@ -84,6 +90,8 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
+
+                if (_destroyAfterDie) StartCoroutine(nameof(DestroyAfterDie));
             }
             return _isDead;
         }
@@ -344,6 +352,14 @@ public class HealthController : NetworkBehaviour, IHealthController
                 onReceiveDamage.Invoke(damage);
             HandleCheckHealthEvents();
         }
+    }
+
+    private IEnumerator DestroyAfterDie()
+    {
+        yield return new WaitForSeconds(_delayDestroly);
+        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
+        //NetworkClient.DestroyAllClientObjects();//???
     }
 
     protected virtual void HandleCheckHealthEvents()

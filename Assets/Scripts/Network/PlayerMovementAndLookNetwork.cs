@@ -4,9 +4,10 @@ using Mirror;
 using MirrorBasics;
 using Mono.CSharp;
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
-using UnityEngine;                  
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 using Event = UnityEngine.Event;
@@ -60,6 +61,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private AudioSource _runPlayer;
 
     internal CinemachineVirtualCamera vCamera;
+    private float vCamAngele = 0;
 
     [Header("Tool")]
     [SerializeField] private GameObject _healthBarRpcLookAt;
@@ -394,6 +396,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
                 NetworkServer.Spawn(obj);
+
+                MatchMaker.ManagerLogic(matchID.ToGuid()).AddWaveInGameManager(obj.GetComponent<ManagerWave>());
             }
         });
 
@@ -549,7 +553,15 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.I))
         {
             CmdSetupPlayer();
-        } 
+        }
+
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.E))
+            StartCoroutine(_changeCameraAngle(-90));
+
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.Q))
+            StartCoroutine(_changeCameraAngle(90));
+
+
     }
 
     [Command]
@@ -665,6 +677,35 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         return PlaneRayIntersection(plane, ray);
     }
 
+    private IEnumerator _changeCameraAngle(float _angle)
+    {
+        //≈сли угол превышает больше или меньше 180 градусов, мы мен€ем на положительное или отрицательное число чтобы не уйти за 180 градусов
+        if (vCamAngele >= 180 & _angle == 90 || vCamAngele <= -180 & _angle == -90)
+            _angle = _angle * -1;
+
+        vCamAngele += _angle;
+
+        var angles = vCamera.transform.rotation.eulerAngles;
+
+        angles.y = vCamAngele;
+
+        #region –аботает не правильно но плавно
+        //while (angles.y >= vCamAngele)
+        //{
+        //    if (positive) angles.y += Time.deltaTime * 100;
+        //    else angles.y -= Time.deltaTime * 100;
+
+        //    vCamera.transform.rotation = Quaternion.Euler(angles);
+        //    yield return new WaitForSeconds(0.01f);
+        //}
+        #endregion
+
+        vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 5);
+        yield return null;
+
+
+    }
+
     #endregion
 
     #region јнимаци€ персонажа
@@ -696,7 +737,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     }
 
-   
+
 
     public void DeadPlayer() => playerAnimator.SetBool("dead", true);
     #endregion

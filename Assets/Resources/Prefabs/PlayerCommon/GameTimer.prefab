@@ -152,7 +152,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: b162f12f902fd2041bacd8e82961167c
+  m_AssetId: 654a11cda9f5bbf4bbd26491c94c68c8
   hasSpawned: 0
 --- !u!114 &904157053011650890
 MonoBehaviour:
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  timer: 900
+  timer: 120
   showTime: 
   clockText: {fileID: 4881712843068440552}
   ClockReady:

@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mirror; 
+using Mirror;
+using MirrorBasics;
 using UnityEngine;
 
 public class ManagerWave : NetworkBehaviour
@@ -17,6 +18,8 @@ public class ManagerWave : NetworkBehaviour
     private float currentTimeDalay;
 
     public Guid matchId;
+
+    public bool isActive;
 
     [SyncVar(hook = nameof(OnChangeWave))]
     private int killedEnemy;
@@ -52,13 +55,33 @@ public class ManagerWave : NetworkBehaviour
     /// </summary>
     private void NextWave()
     {
-        if(currentTimeDalay >= TimeDelayToWave)
+        #region
+        foreach(var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
+        {
+            var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
+            GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
+
+            GameTimer gameTimer = timer.GetComponent<GameTimer>();
+            if (gameTimer)
+                gameTimer.ClockReady.AddListener(EndOfTimer);
+        }
+        
+        #endregion
+
+        if (currentTimeDalay >= TimeDelayToWave)
         {
             currentWave++;
             currentTimeDalay = 0;
             NextSpawnEnemy();
         }
         else currentTimeDalay += Time.deltaTime;
+    }
+
+    public void EndOfTimer()
+    {
+        Debug.Log("timer ready.");
+
+        // End of match code here
     }
 
     /// <summary>

@@ -98236,8 +98236,11 @@ MonoBehaviour:
   _destroy: 0
   delayDestroy: 0.1
   isTriggered: 0
+  hasAthorityTrigger: 1
   spawningWho: 0
-  CountSpawn: 3
+  _managerWave: {fileID: 0}
+  _changeCamAngle: 1
+  _angleCam: -90
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:

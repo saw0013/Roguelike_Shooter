@@ -82,7 +82,7 @@ public class EnemyBehaviour : HealthController
         base.Start();
     }
 
-    public override bool isDead { get; set; }
+    public override bool isDead { get => base.isDead; }
 
     public virtual void OnStart()
     {
@@ -203,10 +203,12 @@ public class EnemyBehaviour : HealthController
 
     public virtual void FieldOfViewCheck()
     {
+        if (isDead) return;
+
         var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer.Length != 0 && !isDead)
+        if (checkPlayer.Length != 0)
         {
 
             foreach (var collider in checkPlayer)
@@ -304,7 +306,7 @@ public class EnemyBehaviour : HealthController
     //[ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
-        if(isDead | agent == null) return;
+        if(isDead || agent == null) return;
 
         e_anim.anim_Walk(agent.hasPath);
         e_anim.anim_Attack(Attacked, Random.Range(1, 2));

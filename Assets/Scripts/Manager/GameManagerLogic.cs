@@ -1,13 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
 public class GameManagerLogic
 {
     public List<PlayerMovementAndLookNetwork> players;
+    public List<ManagerWave> Waves;
 
+    /// <summary>
+    /// Активный менеджер волн
+    /// </summary>
+    public ManagerWave ActiveWave
+    {
+        get => Waves.FirstOrDefault(w => w.isActive);
+    }
     /// <summary>
     /// Сложность уровня
     /// </summary>
@@ -30,6 +39,13 @@ public class GameManagerLogic
         if (players == null) players = new List<PlayerMovementAndLookNetwork>();
         
         players.Add(player);
+    }
+
+    public void AddWaveInGameManager(ManagerWave Wave)
+    {
+        if (Waves == null) Waves = new List<ManagerWave>();
+
+        Waves.Add(Wave);
     }
 
     /// <summary>
