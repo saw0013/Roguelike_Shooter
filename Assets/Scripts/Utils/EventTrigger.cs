@@ -37,10 +37,10 @@ public class EventTrigger : NetworkBehaviour
     public float delayDestroy = .1f;
 
     //[SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
-    [HideInInspector,]
+    [HideInInspector]
     public bool isTriggered = false;
 
-    [HideInInspector,]
+    //[HideInInspector]
     public bool hasAthorityTrigger = true;
 
     [Tooltip("Дистанция которая, при условии, что находится в растоянии меньше значения, переместит игрока к другому игроку")]
@@ -100,10 +100,17 @@ public class EventTrigger : NetworkBehaviour
             {
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
+                    Debug.LogWarning($" игрок {p.name}");
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
-                    if (_distance > _maxDistanceToPlayer) p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                    if (_distance > _maxDistanceToPlayer)
+                    {
+                        p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                        Debug.LogWarning($"игрок {p.name} Далеко от игрока {other.name}");
+                    }
+                    else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
                 });
                 ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
+                _managerWave.DeactiveAhtorityDoors();
             }
         }
     }

@@ -163,6 +163,7 @@ MonoBehaviour:
   _allWawe: 4
   EnemyToWave: 03000000050000000600000005000000
   TimeDelayToWave: 5
+  _firstIndexDoorClose: 1
   currentWave: 0
   isActive: 1
 --- !u!114 &8262974643397862385

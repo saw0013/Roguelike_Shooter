@@ -2037,7 +2037,7 @@ MonoBehaviour:
   _currentHealth: 0
   isImmortal: 0
   fillHealthOnStart: 1
-  maxHealth: 100
+  maxHealth: 200
   _SyncHealth: 1
   _healthRecovery: 0
   healthRecoveryDelay: 0
@@ -2116,7 +2116,7 @@ MonoBehaviour:
   TimeChardge: 0
   isShowGizmos: 1
   damage:
-    damageValue: 15
+    damageValue: 30
     ignoreDefense: 0
     activeRagdoll: 0
     senselessTime: 0

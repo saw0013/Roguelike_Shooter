@@ -353,6 +353,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void CmdBeginGame()
     {
         StartFade();
+        playerData.EscapeMenuActive = true;
         MatchMaker.instance.BeginGame(matchID);
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
@@ -386,6 +387,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
                 NetworkServer.Spawn(obj);
+
+                MatchMaker.ManagerLogic(matchID.ToGuid()).AddDoorInGameManager(obj.GetComponent<EventTrigger>());
             }
         });
 
@@ -401,14 +404,14 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             }
         });
 
-        GameObject[] Doors = ((ShooterNetworkManager.singleton).spawnPrefabs.FindAll(x => x.tag == "Door").ToArray());
+        //GameObject[] Doors = ((ShooterNetworkManager.singleton).spawnPrefabs.FindAll(x => x.tag == "Door").ToArray());
 
-        for (int i = 0; i < 2; i++)
-        {
-            var Door = Instantiate(Doors[i]);
-            Door.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-            NetworkServer.Spawn(Door);
-        }
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    var Door = Instantiate(Doors[i]);
+        //    Door.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+        //    NetworkServer.Spawn(Door);
+        //}
 
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
  .FirstOrDefault(x => x.name == "Level"));
@@ -458,6 +461,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void RpcBeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
+        playerData.EscapeMenuActive = true;
     }
 
     [TargetRpc]
@@ -517,7 +521,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         _mainMenuManager = GameObject.Find("MainMenuManager");
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
-
     }
 
     private void Start()
@@ -534,7 +537,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true)
+        if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true && playerData.EscapeMenuActive)
         {
             if (/*playerData.GetInputActive()*/ _panelEscape.activeSelf != true)
             {
@@ -544,7 +547,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else EscapeMenu(false, true);
         }
 
-        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true)
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true && playerData.EscapeMenuActive)
         {
             if (/*playerData.GetInputActive()*/ _panelInfoItem.activeSelf != true) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);
@@ -700,7 +703,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //}
         #endregion
 
-        vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 5);
+        vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 10);
         yield return null;
 
 

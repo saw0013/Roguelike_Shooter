@@ -13,6 +13,9 @@ public class ManagerWave : NetworkBehaviour
 
     [SerializeField] private float TimeDelayToWave;
 
+    [Tooltip("Первый индекс, который будет закрты первый")]
+    [SerializeField] private int _firstIndexDoorClose;
+
     public int currentWave;
     private int countSpawned;
     private float currentTimeDalay;
@@ -74,6 +77,7 @@ public class ManagerWave : NetworkBehaviour
             {
                 isActive = false;
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
+                ActiveAhtorityDoors();
             }
             else NextSpawnEnemy();
         }
@@ -85,6 +89,22 @@ public class ManagerWave : NetworkBehaviour
         Debug.Log("timer ready.");
 
         // End of match code here
+    }
+
+    public void DeactiveAhtorityDoors()
+    { 
+        for(int i = 0; i < 2; i++)
+        {
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = false;
+        }
+    }
+
+    public void ActiveAhtorityDoors()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = true;
+        }
     }
 
     /// <summary>

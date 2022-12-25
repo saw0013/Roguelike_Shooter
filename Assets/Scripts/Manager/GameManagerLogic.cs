@@ -56,6 +56,13 @@ public class GameManagerLogic
         Waves.Add(Wave);
     }
 
+    public void AddDoorInGameManager(EventTrigger door)
+    {
+        if (Door == null) Door = new List<EventTrigger>();
+
+        Door.Add(door);
+    }
+
     /// <summary>
     /// Удалим игрока из спика игровой логики
     /// </summary>
