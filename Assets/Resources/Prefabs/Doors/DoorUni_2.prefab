@@ -98237,10 +98237,9 @@ MonoBehaviour:
   delayDestroy: 0.1
   isTriggered: 0
   hasAthorityTrigger: 1
+  _maxDistanceToPlayer: 0
   spawningWho: 0
   _managerWave: {fileID: 0}
-  _changeCamAngle: 1
-  _angleCam: -90
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -98297,7 +98296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 3816359970892477927}
 --- !u!114 &3816359970892477926
 MonoBehaviour:

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Cosmo;
+using MirrorBasics;
 
 public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -57,6 +58,25 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
+        if(isDead)
+        {
+            Debug.LogWarning("Паучок сдох");
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+            RpcDestroySpider();
+        }
+    }
+
+    //TODO : Не удаляются ПАУКИ пробовал атрибут[Server]. Нужно попробовать Command
+    [ClientRpc]
+    void RpcDestroySpider() => StartCoroutine(DestroyAfterDie());
+
+    private IEnumerator DestroyAfterDie()
+    {
+        Debug.LogWarning("Процедура умертвления");
+        yield return new WaitForSeconds(2.0f);
+        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
+        //NetworkClient.DestroyAllClientObjects();//???
     }
 
     #endregion

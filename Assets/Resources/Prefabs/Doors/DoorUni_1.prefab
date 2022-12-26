@@ -96133,8 +96133,10 @@ MonoBehaviour:
   _destroy: 0
   delayDestroy: 0.1
   isTriggered: 0
+  hasAthorityTrigger: 1
+  _maxDistanceToPlayer: 0
   spawningWho: 0
-  CountSpawn: 5
+  _managerWave: {fileID: 0}
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -96191,7 +96193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 8272340505684420419}
 --- !u!114 &4543301905324980223
 MonoBehaviour:

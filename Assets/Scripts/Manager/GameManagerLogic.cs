@@ -63,6 +63,11 @@ public class GameManagerLogic
         Door.Add(door);
     }
 
+    public void TestCmd()
+    {
+        Debug.LogWarning("Тестовое сообщение");
+    }
+
     /// <summary>
     /// Удалим игрока из спика игровой логики
     /// </summary>

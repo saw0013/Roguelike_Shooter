@@ -90,25 +90,44 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
+    [ClientRpc]
+    void RpcTrigger()
+    {
+        StartCoroutine(OnTrigEnter());
+    }
+
+    [ClientRpc]
+    public void RpcTeleport(Transform _transform, Vector3 newPosition)
+    {
+        _transform.position = newPosition;
+    }
+
+    [ServerCallback]
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
-            StartCoroutine(OnTrigEnter());
+            //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).TestCmd();
+            //StartCoroutine(OnTrigEnter());
+            RpcTrigger();
             isTriggered = true;
-            if(spawningWho != SpawningNPC.None)
+            if (spawningWho != SpawningNPC.None)
             {
+
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
                     Debug.LogWarning($" игрок {p.name}");
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
                     if (_distance > _maxDistanceToPlayer)
                     {
-                        p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                        var rndRadius = Random.Range(-3, 3);
+                        //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                        RpcTeleport(p.transform, new Vector3(other.transform.position.x + rndRadius, other.transform.position.y, other.transform.position.z + rndRadius));
                         Debug.LogWarning($"игрок {p.name} Далеко от игрока {other.name}");
                     }
                     else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
                 });
+
                 ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
                 _managerWave.DeactiveAhtorityDoors();
             }
@@ -138,6 +157,7 @@ public class EventTrigger : NetworkBehaviour
     {
         var rp = GetPointPatrool.Instance.RandomPoints; //Получим все точки спавна
 
+        #region старый впавн ???
         //for (int i = 0; i < CountSpawn; i++) //Спавнить будем в цикле
         //{
         //    var StartPointNpc = rp[Random.Range(0, rp.Count)]; //Точка спавна рандомная из списка
@@ -156,6 +176,7 @@ public class EventTrigger : NetworkBehaviour
         //    rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         //    yield return new WaitForSeconds(2.0f);
         //}
+        #endregion
 
         var StartPointNpc = rp[Random.Range(0, rp.Count)]; //Точка спавна рандомная из списка
 
@@ -166,22 +187,21 @@ public class EventTrigger : NetworkBehaviour
 
         yield return new WaitForSeconds(1.2f);
 
-        Destroy(PreSpawn); //Удалим партиклы спавна
-
         var npc = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.FirstOrDefault(x =>
-            x.name == who), StartPointNpc, Quaternion.Euler(0, Random.Range(0,360), 0)); //Паучок будет рандомно повёртнут
+            x.name == who), StartPointNpc, Quaternion.Euler(0, Random.Range(0, 360), 0)); //Паучок будет рандомно повёртнут
         npc.GetComponent<NetworkMatch>().matchId = matchID;
         NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
 
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
-        ServerSpawn(matchID); //Нет смысла циклить спавн
+        Destroy(PreSpawn); //Удалим партиклы спавна
+        //ServerSpawn(matchID); //Нет смысла циклить спавн
     }
 
     [ServerCallback]
     public void ServerSpawn(Guid matchID)
     {
-        if(spawningWho != SpawningNPC.None)
+        if (spawningWho != SpawningNPC.None)
         {
             if (_managerWave == null) return;
 
@@ -213,10 +233,10 @@ public class EventTrigger : NetworkBehaviour
         //yield return new WaitForSeconds(.1f);
         OnEnterTrigger.Invoke();
 
-        if(_destroy)
+        if (_destroy)
             Destroy(this, delayDestroy);
 
-       
+
 
         yield return null;
     }

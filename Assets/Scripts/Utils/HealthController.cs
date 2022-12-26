@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Cosmo;
+using MirrorBasics;
 
 public class HealthController : NetworkBehaviour, IHealthController
 {
@@ -72,8 +73,6 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
-
-                if (_destroyAfterDie) StartCoroutine(nameof(DestroyAfterDie));
             }
             else if (isDead && _currentHealth > 0)
             {
@@ -90,8 +89,6 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
-
-                if (_destroyAfterDie) StartCoroutine(nameof(DestroyAfterDie));
             }
             return _isDead;
         }
@@ -354,13 +351,7 @@ public class HealthController : NetworkBehaviour, IHealthController
         }
     }
 
-    private IEnumerator DestroyAfterDie()
-    {
-        yield return new WaitForSeconds(_delayDestroly);
-        Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
-        //NetworkClient.DestroyAllClientObjects();//???
-    }
+   
 
     protected virtual void HandleCheckHealthEvents()
     {

@@ -178,6 +178,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             Debug.Log($"<color=red>Game hosted failed</color>");
             TargetHostGame(false, _matchID, playerIndex);
         }
+
     }
 
     [TargetRpc]
@@ -404,14 +405,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             }
         });
 
-        //GameObject[] Doors = ((ShooterNetworkManager.singleton).spawnPrefabs.FindAll(x => x.tag == "Door").ToArray());
-
-        //for (int i = 0; i < 2; i++)
-        //{
-        //    var Door = Instantiate(Doors[i]);
-        //    Door.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-        //    NetworkServer.Spawn(Door);
-        //}
 
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
  .FirstOrDefault(x => x.name == "Level"));
@@ -563,7 +556,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.Q))
             StartCoroutine(_changeCameraAngle(90));
-
 
     }
 

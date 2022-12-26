@@ -70,7 +70,7 @@ public class EnemyBehaviour : HealthController
 
     private float currentTimeAttack;
 
-    private bool enabel = true;
+    private bool enable = true;
 
     #endregion
 
@@ -118,9 +118,7 @@ public class EnemyBehaviour : HealthController
         //        }
         //    }
         //}
-
-        Animation();
-        if (!isDead && enabel)
+        if (!isDead && enable)
         {
             if (Attacked)
             {
@@ -152,8 +150,7 @@ public class EnemyBehaviour : HealthController
         else
         {
             agent.isStopped = true;
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-            enabel = false;
+            enable = false;
         }
 
         if (beginCharge && !chardge)
@@ -172,6 +169,8 @@ public class EnemyBehaviour : HealthController
                 TimeChardge = 1.5f;
             }
         }
+
+        Animation();
     }
 
 #if UNITY_EDITOR || UNITY_EDITOR_64 || UNITY_EDITOR_WIN

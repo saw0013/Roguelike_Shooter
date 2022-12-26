@@ -17,23 +17,6 @@ public class GameTimer : NetworkBehaviour
 
     public UnityEvent ClockReady;   // Событие, которое вызывается, когда таймер достигает нуля
 
-
-    void Awake()
-    {
-        Debug.Log("GameTimer.Awake(): start");
-
-        //Будем искать таймер????
-        GameObject texttimer = GameObject.Find("GameTimer");
-        if (texttimer)
-        {
-            clockText = texttimer.GetComponent<TMP_Text>();
-
-            if (clockText == null)
-                Debug.LogError("GameTimer.Awake(): Cannot find TMP_Text.");
-        }
-        else Debug.LogError("GameTimer.Awake(): Cannot find textTimer.");
-    }
-
     void Update()
     {
         if (!running)
