@@ -55,20 +55,18 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     public override void OnStart() => base.OnStart();
+
     public override void TakeDamage(Damage damage)
     {
-        base.TakeDamage(damage);
         if(isDead)
         {
             Debug.LogWarning("Паучок сдох");
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-            RpcDestroySpider();
+            StartCoroutine(DestroyAfterDie());
         }
+        //base.TakeDamage(damage);
     }
 
-    //TODO : Не удаляются ПАУКИ пробовал атрибут[Server]. Нужно попробовать Command
-    [ClientRpc]
-    void RpcDestroySpider() => StartCoroutine(DestroyAfterDie());
 
     private IEnumerator DestroyAfterDie()
     {
@@ -76,7 +74,6 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
         yield return new WaitForSeconds(2.0f);
         Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
-        //NetworkClient.DestroyAllClientObjects();//???
     }
 
     #endregion

@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  timer: 120
+  timer: 30
   showTime: 
   clockText: {fileID: 4881712843068440552}
   ClockReady:

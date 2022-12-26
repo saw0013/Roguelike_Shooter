@@ -73,6 +73,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
+                Debug.LogWarning("Цикл смерти паука curHealthProp");
             }
             else if (isDead && _currentHealth > 0)
             {

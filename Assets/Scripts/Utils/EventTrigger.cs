@@ -236,8 +236,6 @@ public class EventTrigger : NetworkBehaviour
         if (_destroy)
             Destroy(this, delayDestroy);
 
-
-
         yield return null;
     }
 

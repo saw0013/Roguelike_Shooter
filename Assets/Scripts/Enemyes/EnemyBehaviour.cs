@@ -86,8 +86,6 @@ public class EnemyBehaviour : HealthController
         base.Start();
     }
 
-    public override bool isDead { get => base.isDead; }
-
     public virtual void OnStart()
     {
         agent = GetComponent<NavMeshAgent>();
