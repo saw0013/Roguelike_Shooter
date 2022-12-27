@@ -363,23 +363,26 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
         //    .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
 
-        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-    .FirstOrDefault(x => x.name == "DefaultItemHP"));
+//        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//    .FirstOrDefault(x => x.name == "DefaultItemHP"));
 
-        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "DefaultItemDamage"));
+//        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//.FirstOrDefault(x => x.name == "DefaultItemDamage"));
 
-        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "DefaultItemMove"));
+//        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//.FirstOrDefault(x => x.name == "DefaultItemMove"));
 
-        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
+//        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
 
-        GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "DefaultItemGuard"));
+//        GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//.FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
-        GameObject RareItemBullet = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-.FirstOrDefault(x => x.name == "RareItemRed"));
+//        GameObject RareItemBullet = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+//.FirstOrDefault(x => x.name == "RareItemRed"));
+
+        GameObject BoxGiveBuff = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "ResourceBox"));
 
         ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
         {
@@ -411,22 +414,22 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         //Укажем ему наш ID match
         //TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        DefaultItemHP.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        DefaultItemGuard.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        BoxGiveBuff.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //DefaultItemGuard.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         Level.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        RareItemBullet.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        //RareItemBullet.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
 
         //NetworkServer.Spawn(TriggerSpawnMob);
-        NetworkServer.Spawn(DefaultItemDamage);
-        NetworkServer.Spawn(DefaultItemMove);
-        NetworkServer.Spawn(DefaultItemHP);
-        NetworkServer.Spawn(DefaultItemAmmo);
-        NetworkServer.Spawn(DefaultItemGuard);
+        NetworkServer.Spawn(BoxGiveBuff);
+        //NetworkServer.Spawn(DefaultItemMove);
+        //NetworkServer.Spawn(DefaultItemHP);
+        //NetworkServer.Spawn(DefaultItemAmmo);
+       // NetworkServer.Spawn(DefaultItemGuard);
         NetworkServer.Spawn(Level);
-        NetworkServer.Spawn(RareItemBullet);
+        //NetworkServer.Spawn(RareItemBullet);
 
         #region Пример добавления в менеджер объектов
 

@@ -98243,19 +98243,19 @@ MonoBehaviour:
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7012705442096331224}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Door
+          m_StringArgument: Open
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 6616957153988527712}
+      - m_Target: {fileID: 9100212592757482367, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -98269,7 +98269,19 @@ MonoBehaviour:
         m_CallState: 2
   OnExitTrigger:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Close
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7012705442096331228
 MonoBehaviour:
   m_ObjectHideFlags: 0
