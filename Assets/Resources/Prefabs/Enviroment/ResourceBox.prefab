@@ -105,11 +105,11 @@ GameObject:
   - component: {fileID: 6748707016900357187}
   - component: {fileID: 8812645136717109385}
   - component: {fileID: 4344531146310385659}
+  - component: {fileID: 2034767688003945393}
   - component: {fileID: 4199920226262700166}
   - component: {fileID: 8717861098222531641}
   - component: {fileID: 4184433966640936609}
   - component: {fileID: 8298738622877774708}
-  - component: {fileID: 2034767688003945393}
   m_Layer: 0
   m_Name: ResourceBox
   m_TagString: Untagged
@@ -207,6 +207,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &2034767688003945393
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7011034242280290652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.019999998, y: 0.020000001, z: 0.020000001}
+  m_Center: {x: 0, y: 0, z: 0.010000001}
 --- !u!114 &4199920226262700166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,19 +301,6 @@ MonoBehaviour:
   - {fileID: 573001717117047956}
   - {fileID: 9217707084399440732}
   - {fileID: 3123355534772065643}
---- !u!65 &2034767688003945393
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7011034242280290652}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.019999998, y: 0.020000001, z: 0.020000001}
-  m_Center: {x: 0, y: 0, z: 0.010000001}
 --- !u!1 &8167797744360741144
 GameObject:
   m_ObjectHideFlags: 0

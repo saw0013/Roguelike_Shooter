@@ -73,13 +73,26 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
-                Debug.LogWarning("Цикл смерти паука curHealthProp");
+                if(_destroyAfterDie)
+                {
+                    Debug.LogWarning("Паучок сдох");
+                    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+                    StartCoroutine(DestroyAfterDie());
+                }
             }
             else if (isDead && _currentHealth > 0)
             {
                 _isDead = false;
             }
         }
+    }
+
+    private IEnumerator DestroyAfterDie()
+    {
+        Debug.LogWarning("Процедура умертвления");
+        yield return new WaitForSeconds(2.0f);
+        Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 
     public virtual bool isDead

@@ -39,6 +39,8 @@ public class ManagerGiveBuff : NetworkBehaviour
         GiveBuff();
     }
 
+
+    [Server]
     private void GiveBuff()
     {
         Debug.LogWarning(" зашел GiveBuff");
@@ -66,7 +68,6 @@ public class ManagerGiveBuff : NetworkBehaviour
                     {
                         //SpawnBuff(EpicBuff, i);
                         SpawnBuff(RareBuff, i);
-                        Debug.LogWarning("Epic");
                     }
                     else
                     {
@@ -74,13 +75,16 @@ public class ManagerGiveBuff : NetworkBehaviour
                         {
                             //SpawnBuff(LegenderyBuff, i);
                             SpawnBuff(RareBuff, i);
-                            Debug.LogWarning("Legendery");
+                            
                         }
                     }
                 }
             }
         }
     }
+
+
+    
     private void SpawnBuff(List<GameObject> Buffs, int index)
     {
         //CmdSpawnBuff(Buffs, index);

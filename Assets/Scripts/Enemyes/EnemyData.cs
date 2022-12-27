@@ -56,25 +56,15 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public override void OnStart() => base.OnStart();
 
+    public override bool isDead { get => base.isDead; set => base.isDead = value; }
+
     public override void TakeDamage(Damage damage)
     {
-        if(isDead)
-        {
-            Debug.LogWarning("Паучок сдох");
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-            StartCoroutine(DestroyAfterDie());
-        }
-        //base.TakeDamage(damage);
+        base.TakeDamage(damage);
     }
 
 
-    private IEnumerator DestroyAfterDie()
-    {
-        Debug.LogWarning("Процедура умертвления");
-        yield return new WaitForSeconds(2.0f);
-        Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
-    }
+   
 
     #endregion
 
