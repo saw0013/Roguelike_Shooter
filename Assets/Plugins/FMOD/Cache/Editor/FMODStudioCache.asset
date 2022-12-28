@@ -16,10 +16,10 @@ MonoBehaviour:
     Studio/Cosmoground/Build/Desktop/Master.bank"
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638078555905196227
+  lastModified: 638078612608098693
   FileSizes:
   - Name: Desktop
-    Value: 621088
+    Value: 620864
   Exists: 1
 --- !u!114 &-6803015596854061463
 MonoBehaviour:
@@ -275,7 +275,7 @@ MonoBehaviour:
   - {fileID: -9194274521032221731}
   StringsBanks:
   - {fileID: 1308068034830179784}
-  cacheTime: 638078555905226162
+  cacheTime: 638078612608118638
   cacheVersion: 131593
 --- !u!114 &1177966735991015545
 MonoBehaviour:
@@ -320,7 +320,7 @@ MonoBehaviour:
     Studio/Cosmoground/Build/Desktop/Master.strings.bank"
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638078555905226162
+  lastModified: 638078612608118638
   FileSizes:
   - Name: Desktop
     Value: 1546
@@ -374,7 +374,7 @@ MonoBehaviour:
   - {fileID: -9194274521032221731}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20

@@ -83,8 +83,6 @@ public class ManagerGiveBuff : NetworkBehaviour
         }
     }
 
-
-    
     private void SpawnBuff(List<GameObject> Buffs, int index)
     {
         //CmdSpawnBuff(Buffs, index);

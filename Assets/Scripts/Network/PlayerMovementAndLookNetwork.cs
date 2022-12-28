@@ -7,6 +7,8 @@ using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
+using FMODUnity;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -58,7 +60,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
 
     [Header("Audio VFX")]
-    [SerializeField] private AudioSource _runPlayer;
+    //[SerializeField] private AudioSource _runPlayer;
+
+    [SerializeField] private StudioEventEmitter playerEventEmitter;
 
     internal CinemachineVirtualCamera vCamera;
     private float vCamAngele = 0;
@@ -593,8 +597,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
             if (inputDirection.z > 0 || inputDirection.z < 0 || inputDirection.x > 0 || inputDirection.x < 0)
             {
-                if (!_runPlayer.isPlaying)
-                    _runPlayer.Play();
+                if (!playerEventEmitter.IsPlaying())
+                    playerEventEmitter.Play();
             }
 
             MoveThePlayer(desiredDirection);

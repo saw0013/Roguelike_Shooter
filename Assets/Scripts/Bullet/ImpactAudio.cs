@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMODUnity;
+using FMOD.Studio;
 using UnityEngine;
 
 public class ImpactAudio : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] _audioClipImpactRandom;
+    [SerializeField] private StudioEventEmitter[] _audioClipImpactRandom;
     [SerializeField] EImpactAudio impact;
 
-    private AudioSource _audioSource;
-    void Awake() => _audioSource = GetComponent<AudioSource>();
+    private StudioEventEmitter _audioSource;
+    void Awake() => _audioSource = GetComponent<StudioEventEmitter>();
 
     private void Start()
     {
@@ -25,7 +27,7 @@ public class ImpactAudio : MonoBehaviour
                 break;
 
             case EImpactAudio.@default:
-                _audioSource.clip = _audioClipImpactRandom[Random.Range(1, _audioClipImpactRandom.Length)];
+                _audioSource = _audioClipImpactRandom[Random.Range(1, _audioClipImpactRandom.Length)];
                 _audioSource.Play();
                 break;
         }

@@ -4509,7 +4509,7 @@ MonoBehaviour:
   _currentHealth: 0
   isImmortal: 0
   fillHealthOnStart: 1
-  maxHealth: 100
+  maxHealth: 250
   _SyncHealth: 1
   _healthRecovery: 0
   healthRecoveryDelay: 0

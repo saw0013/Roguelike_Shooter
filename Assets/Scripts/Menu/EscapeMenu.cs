@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using FMODUnity;
+using FMOD.Studio;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,12 +21,12 @@ public class EscapeMenu : MonoBehaviour
     [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
     [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
 
-    [SerializeField] AudioClip uiClick;
-    [SerializeField] AudioClip uiHover;
-    [SerializeField] AudioClip uiSpecial;
+    [SerializeField, EventRef] private string _uiClick;
+    [SerializeField, EventRef] private string _uiHover;
+    [SerializeField, EventRef] private string _uiSpecial;
 
-    [SerializeField] private AudioSource[] AudioSourceSound;
-    [SerializeField] private AudioSource AudioSourceMusic;
+    private VCA vcaSound;
+    private VCA vcaMusic;
 
     [SerializeField] private PlayerMovementAndLookNetwork player;
 
@@ -33,6 +35,10 @@ public class EscapeMenu : MonoBehaviour
 
     private void Start()
     {
+        vcaSound = RuntimeManager.GetVCA("vca:/Sound");
+
+        vcaMusic = RuntimeManager.GetVCA("vca:/Music");
+
         fadeAnimator.SetTrigger("FadeIn");
         SetStartVolumeSound();
         SetStartVolumeMusic();
@@ -76,14 +82,8 @@ public class EscapeMenu : MonoBehaviour
     #region Sound
     public void SetVolumeSound(float _volume)
     {
-        if (AudioSourceSound.Length <= 0)
-            return;
 
-        foreach(AudioSource audioSource in AudioSourceSound)
-        {
-            if(audioSource != null)
-                audioSource.volume = _volume;
-        }
+        vcaSound.setVolume(_volume);
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeSound", _volume);
@@ -112,7 +112,7 @@ public class EscapeMenu : MonoBehaviour
     public void SetVolumeMusic(float _volume)
     {
         // Adjust volume
-        AudioSourceMusic.volume = _volume;
+        vcaMusic.setVolume(_volume);
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeMusic", _volume);
@@ -139,17 +139,17 @@ public class EscapeMenu : MonoBehaviour
 
     public void UIClick()
     {
-        AudioSourceSound[0].PlayOneShot(uiClick);
+        RuntimeManager.PlayOneShot(_uiClick);
     }
 
     public void UIHover()
     {
-        AudioSourceSound[0].PlayOneShot(uiHover);
+        RuntimeManager.PlayOneShot(_uiHover);
     }
 
     public void UISpecial()
     {
-        AudioSourceSound[0].PlayOneShot(uiSpecial);
+        RuntimeManager.PlayOneShot(_uiSpecial);
     }
 
     #endregion

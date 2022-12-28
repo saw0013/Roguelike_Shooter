@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
-using Mirror.Experimental;
+using FMODUnity;
+using FMOD.Studio;
 using MirrorBasics;
 using TMPro;
 using static UnityEngine.UI.GridLayoutGroup;
@@ -38,9 +39,9 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     public ParticleSystem spawnParticles;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource _shootAudio;
-    [SerializeField] private AudioSource _reloadAudio;
-    [SerializeField] private AudioSource _nullShootAudio;
+    [SerializeField] private StudioEventEmitter _shootAudio;
+    [SerializeField] private StudioEventEmitter _reloadAudio;
+    [SerializeField] private StudioEventEmitter _nullShootAudio;
 
     [SerializeField] private PlayerData playerData;
 
