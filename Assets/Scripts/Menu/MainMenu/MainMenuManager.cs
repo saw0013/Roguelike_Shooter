@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using FMODUnity;
+using FMOD.Studio;
 using MirrorBasics;
 
 public class MainMenuManager : MonoBehaviour
@@ -35,9 +37,13 @@ public class MainMenuManager : MonoBehaviour
     [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
     [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
 
-    [SerializeField] AudioClip uiClick;
-    [SerializeField] AudioClip uiHover;
-    [SerializeField] AudioClip uiSpecial;
+    //[SerializeField] AudioClip uiClick;
+    //[SerializeField] AudioClip uiHover;
+    //[SerializeField] AudioClip uiSpecial;
+
+    [SerializeField, EventRef] private string _uiClick;
+    [SerializeField, EventRef] private string _uiHover;
+    [SerializeField, EventRef] private string _uiSpecial;
 
     // Components
     [Header("Components")]
@@ -67,9 +73,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] TMP_Dropdown resolutionDropdown;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource _audioSourceSound;
+    //[SerializeField] private AudioSource _audioSourceSound;
 
-    [SerializeField] private AudioSource[] _audioSourceMusic;
+    //[SerializeField] private AudioSource[] _audioSourceMusic;
+
+    private VCA vcaSound;
+
+    private VCA vcaMusic;
 
     Resolution[] resolutions;
 
@@ -77,6 +87,10 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
+        vcaSound = RuntimeManager.GetVCA("vca:/Sound");
+
+        vcaMusic = RuntimeManager.GetVCA("vca:/Music");
+
         if (!PlayerPrefs.HasKey("PlayerName")) WelcomePlayer(); 
 
 
@@ -158,7 +172,9 @@ public class MainMenuManager : MonoBehaviour
     #region Sound
     public void SetVolumeSound(float _volume)
     {
-        _audioSourceSound.volume = _volume;
+        //_audioSourceSound.volume = _volume;
+
+        vcaSound.setVolume(_volume);
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeSound", _volume);
@@ -186,10 +202,7 @@ public class MainMenuManager : MonoBehaviour
     #region Music
     public void SetVolumeMusic(float _volume)
     {
-        foreach(AudioSource audioSource in _audioSourceMusic)
-        {
-            audioSource.volume = _volume;
-        }
+        vcaMusic.setVolume(_volume);
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeMusic", _volume);
@@ -216,17 +229,17 @@ public class MainMenuManager : MonoBehaviour
 
     public void UIClick()
     {
-        _audioSourceSound.PlayOneShot(uiClick);
+        RuntimeManager.PlayOneShot(_uiClick);
     }
 
     public void UIHover()
     {
-        _audioSourceSound.PlayOneShot(uiHover);
+        RuntimeManager.PlayOneShot(_uiHover);
     }
 
     public void UISpecial()
     {
-        _audioSourceSound.PlayOneShot(uiSpecial);
+        RuntimeManager.PlayOneShot(_uiSpecial);
     }
 
     #endregion
