@@ -13,7 +13,11 @@ public class PlayAudio : NetworkBehaviour
 
     private void Start() => sound = GetComponent<StudioEventEmitter>();
 
-    public void PlayAudioOnPlayer() => CmdPlayAudio();
+    public void PlayAudioOnPlayer()
+    {
+        if (hasAuthority) CmdPlayAudio();
+        else Debug.LogWarning("Dont HasAuthority");
+    } 
 
     [Command]
     private void CmdPlayAudio() => RpcPlayAudio();

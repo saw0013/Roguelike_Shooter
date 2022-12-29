@@ -96,6 +96,7 @@ namespace MirrorBasics {
 
         public void BeginGame () {
             PlayerMovementAndLookNetwork.localPlayer.BeginGame ();
+            GetComponent<MainMenuManager>().Fade();
         }
 
         public void SearchGame () {

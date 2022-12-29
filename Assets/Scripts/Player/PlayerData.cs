@@ -17,7 +17,7 @@ public class PlayerData : HealthController, ICharacter
 
     [Space(10), Header("===PlayerData===")]
     private bool InputActive/* = true*/;
-    public bool EscapeMenuActive;
+    private bool EscapeMenuActive;
     public Transform ItemsGrind;
     public int SpeedPlayer;
     public int DamagePlayer;
@@ -253,11 +253,24 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <param name="input"></param>
     public void InputIsActive(bool input) => InputActive = input;
+
     /// <summary>
     /// Проверяет, можно ли управлять персонажем
     /// </summary>
     /// <returns></returns>
     internal bool GetInputActive() => InputActive;
+
+    /// <summary>
+    /// Устанавливаем, можно ли открывать элементы UI игрока
+    /// </summary>
+    /// <param name="input"></param>
+    public void MenuInputIsActive(bool input) => EscapeMenuActive = input;
+
+    /// <summary>
+    /// Проверяет, можно ли открывать элементы UI игрока
+    /// </summary>
+    /// <returns></returns>
+    internal bool GetMenuInputActive() => EscapeMenuActive;
 
     #endregion
 

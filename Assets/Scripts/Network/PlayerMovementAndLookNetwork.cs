@@ -352,13 +352,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void BeginGame()
     {
         CmdBeginGame();
+        StartFade();
     }
 
     [Command]
     void CmdBeginGame()
     {
-        StartFade();
-        playerData.EscapeMenuActive = true;
         MatchMaker.instance.BeginGame(matchID);
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
@@ -461,7 +460,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void RpcBeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
-        playerData.EscapeMenuActive = true;
     }
 
     [TargetRpc]
@@ -479,6 +477,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"Мой индекс " + playerIndex);
         Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputIsActive(true);
+        playerData.MenuInputIsActive(true);
 
         LobbyCamera.gameObject.SetActive(false);//Выключаем камеру лобби. 
     }
@@ -537,7 +536,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true && playerData.EscapeMenuActive)
+        if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true && playerData.GetMenuInputActive())
         {
             if (/*playerData.GetInputActive()*/ _panelEscape.activeSelf != true)
             {
@@ -547,7 +546,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             else EscapeMenu(false, true);
         }
 
-        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true && playerData.EscapeMenuActive)
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F1) && _panelEscape.activeSelf != true && playerData.GetMenuInputActive())
         {
             if (/*playerData.GetInputActive()*/ _panelInfoItem.activeSelf != true) InfoItemMenu(true, false);
             else InfoItemMenu(false, true);

@@ -55,7 +55,7 @@ public class PlayerMovementAndLook : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel") && playerData.EscapeMenuActive)
+        if (Input.GetButtonDown("Cancel") /*&& playerData.EscapeMenuActive*/)
         {
             if (playerData.GetInputActive())
             {
