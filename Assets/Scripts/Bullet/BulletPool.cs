@@ -12,7 +12,8 @@ public class BulletPool : NetworkBehaviour
     [SerializeField] private GameObject _hitPlayerParticles;
     [SerializeField] private GameObject _hitEnemyParticles;
 
-    public Damage Damage;
+    public Damage DamageToPlayer;
+    public Damage DamageToEnemy;
 
     public int ForceShoot = 1000;
 
@@ -35,8 +36,6 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-
-
     private void Update()
     {
         //Куда летит пуля и скорость
@@ -49,9 +48,13 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        var _damageToPlayer = new Damage(Damage);
+        var _damageToPlayer = new Damage(DamageToPlayer);
         _damageToPlayer.sender = transform;
         _damageToPlayer.receiver = collision.transform;
+
+        var _damageToEnemy = new Damage(DamageToEnemy);
+        _damageToEnemy.sender = transform;
+        _damageToEnemy.receiver = collision.transform;
 
         switch (collision.gameObject.tag)
         {

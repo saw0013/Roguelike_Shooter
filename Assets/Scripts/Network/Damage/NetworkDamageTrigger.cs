@@ -16,6 +16,7 @@ public class NetworkDamageTrigger : MonoBehaviour
             var _damage = new Damage(damage);
             _damage.sender = transform;
             _damage.receiver = collider.transform;
+            _damage.damageValue -= collider.GetComponent<PlayerData>().guardPlayer;
             collider.gameObject.ApplyDamage(_damage);
             AttackNum--;
         }

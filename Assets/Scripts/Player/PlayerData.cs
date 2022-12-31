@@ -26,11 +26,11 @@ public class PlayerData : HealthController, ICharacter
 
     public float SizeBullet;
 
-    private float guardPlayer;
+    public int guardPlayer;
 
     [SerializeField] private float _startAmmoReload;
     [SerializeField] private int _startForceBulet;
-    [SerializeField] private float _guardStart;
+    [SerializeField] private int _guardStart;
     [SerializeField] private int _speedStart;
     [SerializeField] private int _damageStart;
     [SerializeField] private TMP_Text _textGuard;
@@ -154,7 +154,7 @@ public class PlayerData : HealthController, ICharacter
 
     #region CommonGuard
 
-    public void ChangeGuard(float BuffGuard)
+    public void ChangeGuard(int BuffGuard)
     {
         if (hasAuthority)
         {

@@ -17,7 +17,11 @@ public class HealthController : NetworkBehaviour, IHealthController
 
     [Header("===UI===")]
     [SerializeField] protected Slider _healthSlider;
+    [SerializeField] protected Slider _healthDamageSlider;
+
     [SerializeField] protected Slider _healthSliderRpc;
+    [SerializeField] protected Slider _healthDamageSliderRpc;
+
     [SerializeField] protected TMP_Text _textHealth;
 
     [Space(5), Header("===HealthController===")]
@@ -146,7 +150,8 @@ public class HealthController : NetworkBehaviour, IHealthController
         currentHealth = newValue; //обязательно делаем два значения - старое и новое. 
 
         //RpcМетод
-        _healthSliderRpc.DOValue(newValue / 100, Time.deltaTime * 20);
+        var _tweenOn = _healthSliderRpc.DOValue(newValue / 100, Time.deltaTime * 20);
+        _tweenOn.onComplete = () => _healthDamageSliderRpc.DOValue(_healthSliderRpc.value, Time.deltaTime * 25);
 
         //ХП синхронизируем в хуке только для врагов
         if (typeController == TypeController.Enemy) _textHealth.text = $"{newValue}/{MaxHealth}";
@@ -191,7 +196,13 @@ public class HealthController : NetworkBehaviour, IHealthController
         if (isLocalPlayer) //Если мы локальный игрок
         {
             if (_healthSlider != null)
-                _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
+            {
+                var _tweenOn = _healthSlider.DOValue(PlayerHp / 100, Time.deltaTime * 20);
+                _tweenOn.onComplete = () => _healthDamageSlider.DOValue(_healthSlider.value, Time.deltaTime * 25);
+
+                var _tweenColorChange = _textHealth.DOColor(Color.red, Time.deltaTime * 15);
+                _tweenColorChange.onComplete = () => _textHealth.DOColor(Color.white, Time.deltaTime * 15);
+            }
 
             _textHealth.text = $"{PlayerHp}/{MaxHealth}";
         }
@@ -207,8 +218,15 @@ public class HealthController : NetworkBehaviour, IHealthController
         if (_healthSlider != null)
             _healthSlider.maxValue = MaxHealth / 100;
 
+        if (_healthDamageSlider != null)
+            _healthDamageSlider.maxValue = MaxHealth / 100;
+
         _healthSliderRpc.maxValue = MaxHealth / 100;
         _healthSliderRpc.value = MaxHealth / 100;
+
+        _healthDamageSliderRpc.maxValue = MaxHealth / 100;
+        _healthDamageSliderRpc.value = MaxHealth / 100;
+
         _textHealth.text = $"{MaxHealth}/{MaxHealth}";
     }
 
