@@ -1,16 +1,13 @@
 using Cinemachine;
-using DG.Tweening.Core.Easing;
 using Mirror;
 using MirrorBasics;
 using Mono.CSharp;
 using System;
-using System.Collections;
 using System.Linq;
-using TMPro;
 using FMODUnity;
-using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 using Utils;
 using Event = UnityEngine.Event;
 using Random = System.Random;
@@ -558,10 +555,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         }
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.E))
-            StartCoroutine(_changeCameraAngle(-90));
+            _changeCameraAngle(-90);
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.Q))
-            StartCoroutine(_changeCameraAngle(90));
+            _changeCameraAngle(90);
 
     }
 
@@ -678,7 +675,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         return PlaneRayIntersection(plane, ray);
     }
 
-    private IEnumerator _changeCameraAngle(float _angle)
+    private void _changeCameraAngle(float _angle)
     {
         //Если угол превышает больше или меньше 180 градусов, мы меняем на положительное или отрицательное число чтобы не уйти за 180 градусов
         if (vCamAngele >= 180 & _angle == 90 || vCamAngele <= -180 & _angle == -90)
@@ -690,6 +687,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         angles.y = vCamAngele;
 
+        vCamera.transform.DORotate(angles, 3);
+
         #region Работает не правильно но плавно
         //while (angles.y >= vCamAngele)
         //{
@@ -699,12 +698,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //    vCamera.transform.rotation = Quaternion.Euler(angles);
         //    yield return new WaitForSeconds(0.01f);
         //}
+
+        // vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 10);
         #endregion
-
-        vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 10);
-        yield return null;
-
-
     }
 
     #endregion

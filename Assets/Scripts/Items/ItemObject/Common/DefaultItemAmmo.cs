@@ -13,10 +13,12 @@ public class DefaultItemAmmo : NetworkBehaviour
             Buff(other.gameObject);
     }
 
+    [TargetRpc]
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeAmmo(1f, 10);
+        _owner.ChangeAmmo(1f, 1000);
+        _owner.BuffGive++;
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(_owner);
         Destroy(gameObject);

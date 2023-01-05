@@ -9,8 +9,14 @@ using MirrorBasics;
 public class PlayerData : HealthController, ICharacter
 {
     #region Variables
+    [Header("===Stat PlayerData===")]
+
     [SyncVar(hook = nameof(UpdateLocalScore))]
     public int ScorePlayer;
+
+    [SyncVar] public int EnemyKilled;
+    [SyncVar] public int BuffGive;
+    [SyncVar] public int AmmoWasted;
 
     [Header("===UI PlayerData===")]
     [SerializeField] private TMP_Text TextScorePlayer;
@@ -156,20 +162,14 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeGuard(int BuffGuard)
     {
-        if (hasAuthority)
-        {
-            guardPlayer += BuffGuard;
-            _textGuard.text = $"ўит: {guardPlayer}";
-        }
+        guardPlayer += BuffGuard;
+        _textGuard.text = $"ўит: {guardPlayer}";
     }
 
     public void StopBuffGuard()
     {
-        if (hasAuthority)
-        {
-            guardPlayer = _guardStart;
-            _textGuard.text = $"ўит: {guardPlayer}";
-        }
+        guardPlayer = _guardStart;
+        _textGuard.text = $"ўит: {guardPlayer}";        
     }
     #endregion
 
@@ -190,7 +190,6 @@ public class PlayerData : HealthController, ICharacter
 
     #region CommonDamage
 
-
     public void ChangeDamage(int BuffDamage)
     {      
         DamagePlayer += BuffDamage;
@@ -205,20 +204,14 @@ public class PlayerData : HealthController, ICharacter
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce)
     {
-        if (hasAuthority)
-        {
-            AmmoReload -= BuffAmmoReload;
-            BuletForce += BuffAmmoForce;
-        }
+        AmmoReload -= BuffAmmoReload;
+        BuletForce += BuffAmmoForce;
     }
 
     public void StopBuffAmmo()
     {
-        if (hasAuthority)
-        {
-            AmmoReload = _startAmmoReload;
-            BuletForce = _startForceBulet;
-        }
+        AmmoReload = _startAmmoReload;
+        BuletForce = _startForceBulet;       
     }
     #endregion
 
@@ -392,8 +385,6 @@ public class PlayerData : HealthController, ICharacter
     {
         TextScorePlayer.text = newScore.ToString();
     }
-
- 
 
     #endregion
 }

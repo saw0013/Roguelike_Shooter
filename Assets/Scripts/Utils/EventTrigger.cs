@@ -118,7 +118,8 @@ public class EventTrigger : NetworkBehaviour
                 {
                     Debug.LogWarning($" игрок {p.name}");
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
-                    if (_distance > _maxDistanceToPlayer)
+                    var playerData = p.GetComponent<PlayerData>();
+                    if (_distance > _maxDistanceToPlayer && !playerData.isDead)
                     {
                         var rndRadius = Random.Range(-3, 3);
                         //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);

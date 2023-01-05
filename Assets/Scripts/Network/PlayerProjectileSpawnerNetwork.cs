@@ -120,6 +120,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
         bullet.GetComponent<BulletPool>().Init(gameObject);
+        playerData.AmmoWasted++;
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
 
         RpcSpawnBullet();
@@ -137,7 +138,4 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         if (_shootAudio)
             _shootAudio.Play();
     }
-
-  
-
 }

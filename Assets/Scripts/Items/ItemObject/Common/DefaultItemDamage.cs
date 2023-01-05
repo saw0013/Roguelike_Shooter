@@ -13,10 +13,12 @@ public class DefaultItemDamage : NetworkBehaviour
             Buff(other.gameObject);
     }
 
+    [TargetRpc]
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
         _owner.ChangeDamage(50);
+        _owner.BuffGive++;
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemDamageUI>().RegisterOwner(_owner);
         Destroy(gameObject);

@@ -13,10 +13,12 @@ public class RareItemBullet : NetworkBehaviour
             Buff(other.gameObject);
     }
 
+    [TargetRpc]
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
         _owner.ChangeBullet(0.05f);
+        _owner.BuffGive++;
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<RareItemBulletUI>().RegisterOwner(_owner);
         Destroy(gameObject);

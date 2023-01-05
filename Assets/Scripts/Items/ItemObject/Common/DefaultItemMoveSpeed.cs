@@ -18,12 +18,15 @@ public class DefaultItemMoveSpeed : NetworkBehaviour
             Buff(other.gameObject);
     }
 
+    [TargetRpc]
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
         _owner.ChangeMoveSpeed(5);
+        _owner.BuffGive++;
         var item = Instantiate(_imageItem, _owner.ItemsGrind);
         item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(_owner);
+        NetworkServer.Destroy(gameObject);
         Destroy(gameObject);
     }
 }
