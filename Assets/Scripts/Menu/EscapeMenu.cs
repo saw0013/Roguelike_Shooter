@@ -21,10 +21,6 @@ public class EscapeMenu : MonoBehaviour
     [Space(10)][SerializeField] float defaultVolumeSound = 0.1f;
     [Space(10)][SerializeField] float defaultVolumeMusic = 0.8f;
 
-    [SerializeField, EventRef] private string _uiClick;
-    [SerializeField, EventRef] private string _uiHover;
-    [SerializeField, EventRef] private string _uiSpecial;
-
     private VCA vcaSound;
     private VCA vcaMusic;
 
@@ -136,21 +132,6 @@ public class EscapeMenu : MonoBehaviour
         volumeSliderMusic.value = PlayerPrefs.GetFloat("VolumeMusic");
     }
     #endregion
-
-    public void UIClick()
-    {
-        RuntimeManager.PlayOneShot(_uiClick);
-    }
-
-    public void UIHover()
-    {
-        RuntimeManager.PlayOneShot(_uiHover);
-    }
-
-    public void UISpecial()
-    {
-        RuntimeManager.PlayOneShot(_uiSpecial);
-    }
 
     #endregion
 }

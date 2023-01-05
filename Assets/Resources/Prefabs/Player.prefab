@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.023529412, g: 0.3882353, b: 0.25882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1177,10 +1177,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.56078434, g: 1, b: 0.29803923, a: 1}
+    m_HighlightedColor: {r: 0.37254903, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.26666668, g: 0.7176471, b: 0, a: 1}
+    m_SelectedColor: {r: 0.26666668, g: 0.7176471, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1391,7 +1391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 1}
+  m_Color: {r: 0.02745098, g: 0.14117648, b: 0.03137255, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2295,6 +2295,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ScorePlayer: 0
+  EnemyKilled: 0
+  BuffGive: 0
+  AmmoWasted: 0
   TextScorePlayer: {fileID: 4997396028519895410}
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0
@@ -2302,6 +2305,7 @@ MonoBehaviour:
   AmmoReload: 0
   BuletForce: 0
   SizeBullet: 0.05
+  guardPlayer: 0
   _startAmmoReload: 3
   _startForceBulet: 2
   _guardStart: 10
@@ -2641,7 +2645,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -4903,6 +4907,7 @@ GameObject:
   - component: {fileID: 4786157573706090349}
   - component: {fileID: 4786157573706090348}
   - component: {fileID: 4786157573706090355}
+  - component: {fileID: 6811030073605848226}
   m_Layer: 5
   m_Name: ButtonResume
   m_TagString: Untagged
@@ -4919,7 +4924,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157573706090350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6189845, y: 0.6189845, z: 0.6189845}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157573965008074}
@@ -4928,8 +4933,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -85.5, y: 34.3}
-  m_SizeDelta: {x: 203.0625, y: 30}
+  m_AnchoredPosition: {x: -81.1, y: 37}
+  m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786157573706090354
 CanvasRenderer:
@@ -5042,8 +5047,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 6811030073605848226}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -5058,8 +5063,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 6811030073605848226}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -5070,6 +5075,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6811030073605848226}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &6811030073605848226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157573706090350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157573743623351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5450,6 +5486,7 @@ GameObject:
   - component: {fileID: 4786157573918013715}
   - component: {fileID: 4786157573918013714}
   - component: {fileID: 4786157573918013713}
+  - component: {fileID: 664739405664907430}
   m_Layer: 5
   m_Name: ButtonBack
   m_TagString: Untagged
@@ -5466,7 +5503,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157573918013708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.50503, y: 0.50503, z: 0.50503}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157574513281540}
@@ -5556,7 +5593,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4786157574069898557}
+  m_TargetGraphic: {fileID: 4786157573918013715}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5613,8 +5650,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 664739405664907430}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -5629,8 +5666,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 664739405664907430}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -5641,6 +5678,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 664739405664907430}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &664739405664907430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157573918013708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157573965008069
 GameObject:
   m_ObjectHideFlags: 0
@@ -5734,8 +5802,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.97
-  m_fontSizeBase: 27.97
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5789,6 +5857,7 @@ GameObject:
   - component: {fileID: 4786157574069898557}
   - component: {fileID: 4786157574069898556}
   - component: {fileID: 4786157574069898947}
+  - component: {fileID: 3875544091322072037}
   m_Layer: 5
   m_Name: ButtonSetting
   m_TagString: Untagged
@@ -5805,7 +5874,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157574069898558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6189845, y: 0.6189845, z: 0.6189845}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157573743623348}
@@ -5814,8 +5883,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -85.5, y: 4.300003}
-  m_SizeDelta: {x: 203.0625, y: 30}
+  m_AnchoredPosition: {x: -81.09999, y: 5}
+  m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786157574069898946
 CanvasRenderer:
@@ -5952,8 +6021,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 3875544091322072037}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -5968,8 +6037,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 3875544091322072037}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -5980,6 +6049,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3875544091322072037}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &3875544091322072037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157574069898558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157574296197941
 GameObject:
   m_ObjectHideFlags: 0
@@ -6140,9 +6240,6 @@ MonoBehaviour:
   fadeAnimator: {fileID: 4786157573886954774}
   defaultVolumeSound: 0.1
   defaultVolumeMusic: 0.8
-  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
-  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
-  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
   player: {fileID: 6104845788952485230}
   volumeSliderSound: {fileID: 1536911138732714416}
   volumeSliderMusic: {fileID: 4786157574500704113}
@@ -6208,10 +6305,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.56078434, g: 1, b: 0.29803923, a: 1}
+    m_HighlightedColor: {r: 0.37254903, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.26666668, g: 0.7176471, b: 0, a: 1}
+    m_SelectedColor: {r: 0.26666668, g: 0.7176471, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6398,6 +6495,7 @@ GameObject:
   - component: {fileID: 4786157574518333736}
   - component: {fileID: 4786157574518333739}
   - component: {fileID: 4786157574518333738}
+  - component: {fileID: 4299499832904746529}
   m_Layer: 5
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -6414,7 +6512,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157574518333732}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.68465376, y: 0.68465376, z: 0.68465376}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157574583402376}
@@ -6424,7 +6522,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -90.8, y: -33.9}
-  m_SizeDelta: {x: 203.0625, y: 30}
+  m_SizeDelta: {x: 220, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786157574518333737
 CanvasRenderer:
@@ -6537,8 +6635,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4299499832904746529}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -6553,8 +6651,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4299499832904746529}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -6565,6 +6663,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4299499832904746529}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4299499832904746529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157574518333732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157574583402379
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,8 +6769,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6775,8 +6904,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6848,6 +6977,7 @@ GameObject:
   - component: {fileID: 4786157574707114540}
   - component: {fileID: 4786157574707114543}
   - component: {fileID: 4786157574707114546}
+  - component: {fileID: 4176405644948523838}
   m_Layer: 5
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -6864,7 +6994,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157574707114537}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6189845, y: 0.6189845, z: 0.6189845}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157573775614067}
@@ -6873,8 +7003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -85.5, y: -25.699997}
-  m_SizeDelta: {x: 203.0625, y: 30}
+  m_AnchoredPosition: {x: -81.09999, y: -27}
+  m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786157574707114541
 CanvasRenderer:
@@ -7011,8 +7141,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4176405644948523838}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -7027,8 +7157,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4176405644948523838}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -7039,6 +7169,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4176405644948523838}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4176405644948523838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157574707114537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157574923197536
 GameObject:
   m_ObjectHideFlags: 0
@@ -7177,7 +7338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 1}
+  m_Color: {r: 0.02745098, g: 0.14117648, b: 0.03137255, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7253,7 +7414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.023529412, g: 0.3882353, b: 0.25882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7802,6 +7963,7 @@ GameObject:
   - component: {fileID: 4786157575422711960}
   - component: {fileID: 4786157575422711963}
   - component: {fileID: 4786157575422711962}
+  - component: {fileID: 4096498072556511671}
   m_Layer: 5
   m_Name: ButtonStay
   m_TagString: Untagged
@@ -7818,7 +7980,7 @@ RectTransform:
   m_GameObject: {fileID: 4786157575422711956}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.68465376, y: 0.68465376, z: 0.68465376}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4786157574687119472}
@@ -7827,8 +7989,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 89.8, y: -33.9}
-  m_SizeDelta: {x: 203.0625, y: 30}
+  m_AnchoredPosition: {x: 88.40716, y: -31.67148}
+  m_SizeDelta: {x: 220, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4786157575422711961
 CanvasRenderer:
@@ -7965,8 +8127,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4096498072556511671}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIHover
           m_Mode: 1
           m_Arguments:
@@ -7981,8 +8143,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4786157574483153571}
-          m_TargetAssemblyTypeName: EscapeMenu, Assembly-CSharp
+        - m_Target: {fileID: 4096498072556511671}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
           m_MethodName: UIClick
           m_Mode: 1
           m_Arguments:
@@ -7993,6 +8155,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4096498072556511671}
+          m_TargetAssemblyTypeName: ButtonAnims, Assembly-CSharp
+          m_MethodName: UIUnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4096498072556511671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786157575422711956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc5ba94084cf8049b008173e98a7f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
+  _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
+  _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
 --- !u!1 &4786157575619357067
 GameObject:
   m_ObjectHideFlags: 0
@@ -9943,6 +10136,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2420879613674836607, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6650944
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420879613674836607, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420879613674836607, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7313047
+      objectReference: {fileID: 0}
     - target: {fileID: 4242101501877271746, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -9954,6 +10159,18 @@ PrefabInstance:
     - target: {fileID: 4242101501877271746, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603612845773823784, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603612845773823784, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603612845773823784, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2096379
       objectReference: {fileID: 0}
     - target: {fileID: 7413391201802210862, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Name
@@ -9969,7 +10186,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Value
-      value: -0.0000053093304
+      value: -0.000005435743
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.654902
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0.19607845
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.006274463
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.4433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 0.13556401
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.4431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.5566038
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.16664782
       objectReference: {fileID: 0}
     - target: {fileID: 9081571249692439407, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_AnchoredPosition.y
