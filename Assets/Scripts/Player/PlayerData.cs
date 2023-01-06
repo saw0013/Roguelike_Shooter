@@ -29,7 +29,7 @@ public class PlayerData : HealthController, ICharacter
     public int DamagePlayer;
     public float AmmoReload;
     public int BuletForce;
-
+    public int MaxCartridges;
     public float SizeBullet;
 
     public int guardPlayer;
@@ -128,9 +128,9 @@ public class PlayerData : HealthController, ICharacter
     {
         if (hasAuthority) //Если мы имеем право на изменение
         {
-            MaxHealth = (int)maxHealth;
-            _healthSlider.maxValue = maxHealth / 100;
-            _healthSliderRpc.maxValue = maxHealth / 100;
+            MaxHealth += (int)maxHealth;
+            _healthSlider.maxValue += maxHealth / 100;
+            _healthSliderRpc.maxValue += maxHealth / 100;
             ClientServerChangeHp(maxHealth);
             LocalShowHP(maxHealth);
         }
@@ -384,6 +384,21 @@ public class PlayerData : HealthController, ICharacter
     void UpdateLocalScore(int oldScore, int newScore)
     {
         TextScorePlayer.text = newScore.ToString();
+    }
+
+    public void UpdateStat(int Health ,int Damage, int Catriges, int Speed, float Reload)
+    {
+        MaxHealth = Health;
+        _healthSlider.maxValue = Health / 100;
+        _healthSliderRpc.maxValue = Health / 100;
+        ClientServerChangeHp(Health);
+        LocalShowHP(Health);
+
+        DamagePlayer = Damage;
+        MaxCartridges = Catriges;
+        SpeedPlayer = Speed;
+        AmmoReload = Reload;
+        GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
     }
 
     #endregion

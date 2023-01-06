@@ -26,7 +26,6 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     public float SpawnRate;
     // public float ReloadTime;
-    public int MaxCartridges;
 
     private float timer;
     private float timerReload;
@@ -49,12 +48,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     #endregion
 
-    private void Start()
-    {
-        playerNetwork = GetComponent<PlayerMovementAndLookNetwork>();
-        ñartridges = MaxCartridges;
-        _textCartridges.text = $"AMMO: {ñartridges}";
-    }
+    private void Start() => playerNetwork = GetComponent<PlayerMovementAndLookNetwork>();
 
     void Update()
     {
@@ -64,7 +58,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
             if (playerData.GetInputActive())
             {
-                if (Input.GetKey(reloadKey) && !reloading && ñartridges != MaxCartridges)
+                if (Input.GetKey(reloadKey) && !reloading && ñartridges != playerData.MaxCartridges)
                 {
                     reloading = true;
 
@@ -88,7 +82,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                     timerReload += Time.deltaTime;
                     if (timerReload >= playerData.AmmoReload)
                     {
-                        ñartridges = MaxCartridges;
+                        ñartridges = playerData.MaxCartridges;
                         timerReload = 0;
                         reloading = false;
                         ReloadText();
@@ -101,7 +95,11 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     public void ReloadText() => _textCartridges.text = $"AMMO: {ñartridges}";
 
-
+    public void GetCatridges() 
+    {
+        ñartridges = playerData.MaxCartridges;
+        _textCartridges.text = $"AMMO: {ñartridges}";
+    } 
 
     void SpawnProjectile()
     {

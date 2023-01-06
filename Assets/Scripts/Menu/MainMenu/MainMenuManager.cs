@@ -56,7 +56,10 @@ public class MainMenuManager : MonoBehaviour
     [Space(10)] [SerializeField] TextMeshProUGUI playText;
     [SerializeField] TextMeshProUGUI settingsText;
     [SerializeField] TextMeshProUGUI quitText;
-    [SerializeField] TextMeshProUGUI versionText;   
+    [SerializeField] TextMeshProUGUI versionText;
+
+    [SerializeField] TextMeshProUGUI StatText;
+    [SerializeField] TextMeshProUGUI PilotNameText;
 
     [Header("Settings")]
     [SerializeField] private Slider volumeSliderSound;
@@ -75,6 +78,9 @@ public class MainMenuManager : MonoBehaviour
 
     Resolution[] resolutions;
 
+    private TypePlayer typePlayer;
+    public PlayerData playerData;
+
     #endregion
 
     void Start()
@@ -83,8 +89,12 @@ public class MainMenuManager : MonoBehaviour
 
         vcaMusic = RuntimeManager.GetVCA("vca:/Music");
 
-        if (!PlayerPrefs.HasKey("PlayerName")) WelcomePlayer(); 
+        if (!PlayerPrefs.HasKey("PlayerName")) WelcomePlayer();
 
+        if (!PlayerPrefs.HasKey("PlayerType")) PlayerPrefs.SetInt("PlayerType", (int)typePlayer);
+        else typePlayer = (TypePlayer)PlayerPrefs.GetInt("PlayerType");
+
+        UploadStatPlayer();
 
         SetStartUI();
         SetStartVolumeSound();
@@ -145,6 +155,48 @@ public class MainMenuManager : MonoBehaviour
             versionText.text = version;
 
         #endregion
+    }
+
+    public void ArrowSelectPlayerType(bool left)
+    {
+        if (left)
+        {           
+            typePlayer--;
+            if ((int)typePlayer < 0) typePlayer = TypePlayer.Pilot3;
+        }
+        else
+        {
+            typePlayer++;
+            if ((int)typePlayer > 2) typePlayer = TypePlayer.Pilot1;
+        }
+
+        UploadStatPlayer();
+
+        PlayerPrefs.SetInt("PlayerType", (int)typePlayer);
+    }
+
+    private void UploadStatPlayer()
+    {
+        switch (typePlayer)
+        {
+            case TypePlayer.Pilot1:
+                StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
+                PilotNameText.text = "Пилот 1";
+                playerData.UpdateStat(150, 15, 36, 3, 3);
+                break;
+
+            case TypePlayer.Pilot2:
+                StatText.text = $" Здоровье 100 \n Урон: 5 \n Патроны: 56 \n Скорость: 3 \n Перезарядка: 4с";
+                PilotNameText.text = "Пилот 2";
+                playerData.UpdateStat(100, 5, 56, 3, 4);
+                break;
+
+            case TypePlayer.Pilot3:
+                StatText.text = $" Здоровье 125 \n Урон: 30 \n Патроны: 26 \n Скорость: 4 \n Перезарядка: 5с";
+                PilotNameText.text = "Пилот 3";
+                playerData.UpdateStat(125, 30, 26, 4, 5);
+                break;
+        }
     }
 
     #region Levels
@@ -276,4 +328,11 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey("PlayerName");
     }
     #endregion
+
+
+    enum TypePlayer
+    {
+        Pilot1, Pilot2, Pilot3
+    }
+
 }

@@ -515,6 +515,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void Awake()
     {
         _mainMenuManager = GameObject.Find("MainMenuManager");
+        _mainMenuManager.GetComponent<MainMenuManager>().playerData = playerData;
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
     }
