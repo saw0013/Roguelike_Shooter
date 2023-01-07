@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{958666da-6499-496a-b382-4eb3d64aee67}">
+		<property name="assetPath">
+			<value>Sound/Impact/bullet_hit_metal_2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.16938775510204082</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{db38a8e9-b72b-488a-9c00-a7ec90c58940}</destination>
+		</relationship>
+	</object>
+</objects>
