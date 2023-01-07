@@ -104,6 +104,12 @@ public class PlayerData : HealthController, ICharacter
         //        StartCoroutine(ChangeCameraToLiveParty());
         //    }
         //}
+        //TODO : только для тестов. В релизе убрать
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                InputIsActive(true);
+                Debug.LogWarning(GetInputActive());
+            }
     }
 
     private void OnTriggerEnter(Collider other)

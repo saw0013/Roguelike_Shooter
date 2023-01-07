@@ -39077,7 +39077,6 @@ Transform:
   - {fileID: 1814844452}
   - {fileID: 202441031}
   - {fileID: 260930904}
-  - {fileID: 1547623562}
   - {fileID: 1217430820}
   m_Father: {fileID: 324851529}
   m_RootOrder: 3
@@ -68781,7 +68780,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 3d19250bdd4e0df4c8da855e85a8d70b, type: 3}
 --- !u!4 &1547623562 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4556081271880350, guid: 24b82347924701148a13c746edfb6b22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9223372036854775806, guid: 24b82347924701148a13c746edfb6b22, type: 3}
   m_PrefabInstance: {fileID: 2076487032}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1548296077 stripped
@@ -82860,6 +82859,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1182811354758914, guid: 6fcc382533eeddd4cb59b9e20acca545, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4797980565575716, guid: 6fcc382533eeddd4cb59b9e20acca545, type: 3}
       propertyPath: m_RootOrder
       value: 1
