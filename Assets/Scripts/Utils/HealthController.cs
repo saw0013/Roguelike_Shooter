@@ -75,14 +75,16 @@ public class HealthController : NetworkBehaviour, IHealthController
 
             if (!_isDead && _currentHealth <= 0)
             {
-                _isDead = true;
-                onDead.Invoke(gameObject);
-                if(_destroyAfterDie)
+                if(_destroyAfterDie) 
                 {
                     Debug.LogWarning("Паучок сдох");
-                    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
                     StartCoroutine(DestroyAfterDie());
+                    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
                 }
+
+                _isDead = true;
+
+                onDead.Invoke(gameObject);
             }
             else if (isDead && _currentHealth > 0)
             {
@@ -90,6 +92,8 @@ public class HealthController : NetworkBehaviour, IHealthController
             }
         }
     }
+
+    
 
     private IEnumerator DestroyAfterDie()
     {
@@ -238,6 +242,7 @@ public class HealthController : NetworkBehaviour, IHealthController
 
         _SyncHealth = MaxHealth;
     }
+
 
     protected virtual bool canRecoverHealth
     {

@@ -426,10 +426,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: "C:/Users/vadim/OneDrive/\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B/FMOD
-    Studio/Cosmoground/Cosmoground.fspro"
-  sourceBankPath: "C:/Users/vadim/OneDrive/\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B/FMOD
-    Studio/Cosmoground/Build"
+  sourceProjectPath: Assets/FMODProject/Cosmoground/Cosmoground.fspro
+  sourceBankPath: Assets/FMODProject/Cosmoground/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1

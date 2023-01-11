@@ -56,11 +56,16 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public override void OnStart() => base.OnStart();
 
-    public override bool isDead { get => base.isDead; set => base.isDead = value; }
+
+    
 
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
+        if (currentHealth <= 0)
+        {
+            Debug.LogWarning("Умертвляем павука");
+        }
     }
 
 

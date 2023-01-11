@@ -38,6 +38,7 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
+        Debug.LogWarning("ß ÂÎËÍÀ ÏÎ ÅÁÀËÓ ÍÀ!");
         Debug.LogWarning($"killedEnemy {killedEnemy} >= EnemyToWave[currentWave] {EnemyToWave[currentWave]}");
         if (killedEnemy >= EnemyToWave[currentWave])
         {

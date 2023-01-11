@@ -124,9 +124,9 @@ public class EventTrigger : NetworkBehaviour
                         var rndRadius = Random.Range(-3, 3);
                         //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
                         RpcTeleport(p.transform, new Vector3(other.transform.position.x + rndRadius, other.transform.position.y, other.transform.position.z + rndRadius));
-                        Debug.LogWarning($"игрок {p.name} ƒалеко от игрока {other.name}");
+                        //Debug.LogWarning($"игрок {p.name} ƒалеко от игрока {other.name}");
                     }
-                    else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
+                    //else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
                 });
 
                 ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());

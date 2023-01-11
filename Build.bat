@@ -1,0 +1,1 @@
+"C:\Program Files\Unity\Hub\Editor\2021.3.12f1\Editor\Unity.exe" -projectPath "C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter" -buildTarget Win
