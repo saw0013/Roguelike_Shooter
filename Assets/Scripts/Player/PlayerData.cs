@@ -394,6 +394,8 @@ public class PlayerData : HealthController, ICharacter
 
     public void UpdateStat(int Health ,int Damage, int Catriges, int Speed, float Reload)
     {
+        if (!isLocalPlayer) return;
+
         MaxHealth = Health;
         _healthSlider.maxValue = Health / 100;
         _healthSliderRpc.maxValue = Health / 100;

@@ -81,6 +81,9 @@ public class MainMenuManager : MonoBehaviour
     private TypePlayer typePlayer;
     public PlayerData playerData;
 
+    [Header("Scripts")]
+    [SerializeField] UIPlayer player;
+
     #endregion
 
     void Start()
@@ -207,6 +210,8 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", _nameField.text);
         var _tweenOn = welcomePanel.DOScale(new Vector3(0.001039826f, 0.001039826f, 0.001039826f), 2);
         _tweenOn.onComplete = () => welcomePanel.gameObject.SetActive(false);
+
+        player.UserName = _nameField.text;
     }
 
     #endregion

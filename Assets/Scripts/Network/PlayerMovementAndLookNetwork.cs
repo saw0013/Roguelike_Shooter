@@ -134,7 +134,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             playerLobbyUI = UILobby.instance.SpawnPlayerUIPrefab(this);
         }
 
-        if (hasAuthority)
+        if (isLocalPlayer)
         {
             UserName = !string.IsNullOrWhiteSpace(PlayerPrefs.GetString("PlayerName")) ?
                 PlayerPrefs.GetString("PlayerName") : $"Player{UnityEngine.Random.Range(1, 999999)}";
@@ -363,23 +363,23 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
         //    .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
 
-//        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//    .FirstOrDefault(x => x.name == "DefaultItemHP"));
+        //        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //    .FirstOrDefault(x => x.name == "DefaultItemHP"));
 
-//        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "DefaultItemDamage"));
+        //        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //.FirstOrDefault(x => x.name == "DefaultItemDamage"));
 
-//        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "DefaultItemMove"));
+        //        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //.FirstOrDefault(x => x.name == "DefaultItemMove"));
 
-//        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
+        //        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
 
-//        GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "DefaultItemGuard"));
+        //        GameObject DefaultItemGuard = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //.FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
-//        GameObject RareItemBullet = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "RareItemRed"));
+        //        GameObject RareItemBullet = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        //.FirstOrDefault(x => x.name == "RareItemRed"));
 
         GameObject BoxGiveBuff = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "ResourceBox"));
@@ -427,7 +427,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //NetworkServer.Spawn(DefaultItemMove);
         //NetworkServer.Spawn(DefaultItemHP);
         //NetworkServer.Spawn(DefaultItemAmmo);
-       // NetworkServer.Spawn(DefaultItemGuard);
+        // NetworkServer.Spawn(DefaultItemGuard);
         NetworkServer.Spawn(Level);
         //NetworkServer.Spawn(RareItemBullet);
 

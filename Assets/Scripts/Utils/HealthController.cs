@@ -75,11 +75,14 @@ public class HealthController : NetworkBehaviour, IHealthController
 
             if (!_isDead && _currentHealth <= 0)
             {
-                if(_destroyAfterDie) 
+                if(_destroyAfterDie)
                 {
-                    Debug.LogWarning("Паучок сдох");
-                    StartCoroutine(DestroyAfterDie());
-                    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+                    if (isServer)
+                    {
+                        StartCoroutine(DestroyAfterDie());
+                        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+                    }
+                    else CmdDestroy();
                 }
 
                 _isDead = true;
@@ -93,7 +96,13 @@ public class HealthController : NetworkBehaviour, IHealthController
         }
     }
 
-    
+    [Command]
+    private void CmdDestroy()
+    {
+        Debug.LogWarning("Паучок сдох");
+        StartCoroutine(DestroyAfterDie());
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+    }
 
     private IEnumerator DestroyAfterDie()
     {
