@@ -42,8 +42,6 @@ public class HealthController : NetworkBehaviour, IHealthController
     [HideInInspector]
     protected float _currentHealthRecoveryDelay;
 
-    [SerializeField] private bool _destroyAfterDie = false;
-
     [SerializeField, Range(0.1f, 10)] private float _delayDestroly = 3.0f;
 
     #region Properties
@@ -75,16 +73,6 @@ public class HealthController : NetworkBehaviour, IHealthController
 
             if (!_isDead && _currentHealth <= 0)
             {
-                if(_destroyAfterDie)
-                {
-                    if (isServer)
-                    {
-                        StartCoroutine(DestroyAfterDie());
-                        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-                    }
-                    else CmdDestroy();
-                }
-
                 _isDead = true;
 
                 onDead.Invoke(gameObject);
@@ -95,22 +83,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             }
         }
     }
-
-    [Command]
-    private void CmdDestroy()
-    {
-        Debug.LogWarning("Паучок сдох");
-        StartCoroutine(DestroyAfterDie());
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-    }
-
-    private IEnumerator DestroyAfterDie()
-    {
-        Debug.LogWarning("Процедура умертвления");
-        yield return new WaitForSeconds(2.0f);
-        Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
-    }
+   
 
     public virtual bool isDead
     {

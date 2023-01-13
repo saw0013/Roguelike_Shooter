@@ -20,6 +20,7 @@ public class EnemyBehaviour : HealthController
 {
     #region  Variables
 
+    [SerializeField] private bool _destroyAfterDie = false;
     [SerializeField] private TypeEnemy typeEnemy;
 
     [Header("Draw Eye")]
@@ -196,8 +197,33 @@ public class EnemyBehaviour : HealthController
 
     #endregion
 
+
+    public override float currentHealth
+    {
+        get => base.currentHealth;
+        protected set
+        {
+            Debug.LogWarning("Переопределённое свойство");
+            if (_destroyAfterDie & !base._isDead && base._currentHealth <= 0)
+            {
+                Debug.LogWarning("Зашли в IF");
+                StartCoroutine(DestroyAfterDie());
+                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+            }
+            base.currentHealth = value;
+        }
+    }
+
+    private IEnumerator DestroyAfterDie()
+    {
+        Debug.LogWarning("Процедура умертвления");
+        yield return new WaitForSeconds(2.0f);
+        //Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
+    }
+
     #region Поведение Врага
-    
+
     public Collider[] CheckAround()
     {
         if (isDead) return null;

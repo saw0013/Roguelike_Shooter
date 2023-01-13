@@ -87,6 +87,7 @@ namespace MirrorBasics {
         }
 
         public GameObject SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork player) {
+            player.UserName = player.GetComponent<PlayerData>()._nameDisplay;
             GameObject newUIPlayer = Instantiate (UIPlayerPrefab, UIPlayerParent);
             newUIPlayer.GetComponent<UIPlayer> ().SetPlayerName(player.UserName);
             newUIPlayer.transform.SetSiblingIndex (player.playerIndex - 1);

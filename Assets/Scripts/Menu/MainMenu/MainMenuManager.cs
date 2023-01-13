@@ -81,8 +81,9 @@ public class MainMenuManager : MonoBehaviour
     private TypePlayer typePlayer;
     public PlayerData playerData;
 
+    //FIX : Исправлено имя 
     [Header("Scripts")]
-    [SerializeField] UIPlayer player;
+    [SerializeField] PlayerMovementAndLookNetwork player;
 
     #endregion
 
@@ -180,6 +181,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void UploadStatPlayer()
     {
+        //TODO : Проверить не на сервере ли мы?
         switch (typePlayer)
         {
             case TypePlayer.Pilot1:

@@ -11,23 +11,21 @@ namespace MirrorBasics {
 
         [SerializeField] Text text;
 
-        [SyncVar]
-        public string UserName;
+       
         PlayerMovementAndLookNetwork player;
 
         [Obsolete("Использовать SetPlayerName")]
         public void SetPlayer (PlayerMovementAndLookNetwork player) {
             this.player = player;
-            UserName = player.GetComponent<PlayerData>()._nameDisplay;
-            text.text = /*player.UserName*/UserName + " " + player.playerIndex.ToString();
+           
+            text.text = player.UserName + " " + player.playerIndex.ToString();
             Debug.LogWarning(player.GetComponent<PlayerData>()._nameDisplay + " _в UIPLAYER");
         }
 
-        //TODO : Изменить имя
+        //FIX : Изменить имя
         public void SetPlayerName(string name)
         {
             text.text = name;
-            Debug.LogWarning("ВАШ ИМЯ " + name);
         }
     }
 }
