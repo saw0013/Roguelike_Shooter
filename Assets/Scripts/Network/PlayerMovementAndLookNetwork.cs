@@ -471,8 +471,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
 
         UILobby.instance.gameObject.SetActive(false);
-        Debug.Log($"Мой индекс " + playerIndex);
-        Debug.Log($"Состояние сервер " + NetworkServer.active);
         GetComponent<PlayerData>().InputIsActive(true);
         playerData.MenuInputIsActive(true);
 

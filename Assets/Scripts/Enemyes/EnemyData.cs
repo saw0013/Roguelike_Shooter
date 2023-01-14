@@ -64,7 +64,7 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
         base.TakeDamage(damage);
         if (currentHealth <= 0)
         {
-            Debug.LogWarning("Умертвляем павука");
+            //Debug.LogWarning("Умертвляем павука"); //Выполняется только на стороне клиента
         }
     }
 

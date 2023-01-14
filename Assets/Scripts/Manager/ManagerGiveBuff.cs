@@ -43,12 +43,12 @@ public class ManagerGiveBuff : NetworkBehaviour
     [Server]
     private void GiveBuff()
     {
-        Debug.LogWarning(" зашел GiveBuff");
+        //Выполняется!
         for(int i = 0; i < MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.Count; i++)
         {
             var Chance = UnityEngine.Random.Range(1, 101);
 
-            Debug.LogWarning(Chance);
+            //Debug.LogWarning(Chance);
 
             animator.SetInteger("BuffDrop", i + 1);
 
@@ -87,7 +87,7 @@ public class ManagerGiveBuff : NetworkBehaviour
     {
         //CmdSpawnBuff(Buffs, index);
         int indexBuffs = UnityEngine.Random.Range(0, Buffs.Count);
-        Debug.LogWarning("Индекс" + indexBuffs);
+        //Debug.LogWarning("Индекс" + indexBuffs);
         var buff = Instantiate(Buffs[indexBuffs], _spawnPosition[index]);
         buff.GetComponent<NetworkMatch>().matchId = GetComponent<NetworkMatch>().matchId;
         NetworkServer.Spawn(buff);

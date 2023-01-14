@@ -38,8 +38,6 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
-        Debug.LogWarning("Я ВОЛНА ПО ЕБАЛУ НА!");
-        Debug.LogWarning($"killedEnemy {killedEnemy} >= EnemyToWave[currentWave] {EnemyToWave[currentWave]}");
         if (killedEnemy >= EnemyToWave[currentWave])
         {
             NextWave();
@@ -59,7 +57,7 @@ public class ManagerWave : NetworkBehaviour
     private void NextWave()
     {
         #region AddTimer
-        Debug.LogWarning("Заходим в поиск MatchMaker");
+        Debug.LogWarning("Заходим в поиск MatchMaker и запустим таймер");
         foreach(var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
         {
             var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");

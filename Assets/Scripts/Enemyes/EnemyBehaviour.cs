@@ -92,7 +92,7 @@ public class EnemyBehaviour : HealthController
         agent = GetComponent<NavMeshAgent>();
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
-        e_anim.anim_WalkSpeed(SpeedWalkAnim);  
+        e_anim.anim_WalkSpeed(SpeedWalkAnim);
     }
 
     public virtual void Update()
@@ -203,23 +203,31 @@ public class EnemyBehaviour : HealthController
         get => base.currentHealth;
         protected set
         {
-            Debug.LogWarning("Переопределённое свойство");
-            if (_destroyAfterDie & !base._isDead && base._currentHealth <= 0)
-            {
-                Debug.LogWarning("Зашли в IF");
-                StartCoroutine(DestroyAfterDie());
-                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-            }
             base.currentHealth = value;
+
+            if (base._isDead && _destroyAfterDie)
+                CmdDestroyAfterDie();
+            
         }
     }
 
-    private IEnumerator DestroyAfterDie()
+    [Command(requiresAuthority = false)]
+    private void CmdDestroyAfterDie() => StartCoroutine(IEDestroyAfterDie());
+
+    //TODO : плавное исчезновние за 2 секунды
+    private IEnumerator IEDestroyAfterDie()
     {
-        Debug.LogWarning("Процедура умертвления");
+        var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
+        DieParticle.GetComponent<NetworkMatch>().matchId = gameObject.GetComponent<NetworkMatch>().matchId;
+        NetworkServer.Spawn(DieParticle);
+
+        Destroy(DieParticle, 5.0f);
+
         yield return new WaitForSeconds(2.0f);
-        //Destroy(gameObject);
+        
         NetworkServer.Destroy(gameObject);
+
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
     }
 
     #region Поведение Врага
@@ -342,7 +350,7 @@ public class EnemyBehaviour : HealthController
     //[ClientCallback] //Незачем выполнять это на сервере 
     private void Animation()
     {
-        if(isDead || agent == null) return;
+        if (isDead || agent == null) return;
 
         e_anim.anim_Walk(agent.hasPath);
         e_anim.anim_Attack(Attacked, UnityEngine.Random.Range(1, 2));

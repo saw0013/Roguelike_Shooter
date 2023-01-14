@@ -116,7 +116,6 @@ public class EventTrigger : NetworkBehaviour
 
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
-                    Debug.LogWarning($" игрок {p.name}");
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
                     var playerData = p.GetComponent<PlayerData>();
                     if (_distance > _maxDistanceToPlayer && !playerData.isDead)

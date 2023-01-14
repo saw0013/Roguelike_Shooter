@@ -98,7 +98,8 @@ public class MainMenuManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("PlayerType")) PlayerPrefs.SetInt("PlayerType", (int)typePlayer);
         else typePlayer = (TypePlayer)PlayerPrefs.GetInt("PlayerType");
 
-        UploadStatPlayer();
+        if(playerData != null)
+            UploadStatPlayer();
 
         SetStartUI();
         SetStartVolumeSound();
@@ -181,8 +182,9 @@ public class MainMenuManager : MonoBehaviour
 
     private void UploadStatPlayer()
     {
-        //TODO : Проверить не на сервере ли мы?
-        switch (typePlayer)
+        if (playerData == null) return; // Проверим есть ли игрок, если нет, значит мы сервер и просто прекратим метод
+
+            switch (typePlayer)
         {
             case TypePlayer.Pilot1:
                 StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
