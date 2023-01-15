@@ -98,9 +98,6 @@ public class MainMenuManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("PlayerType")) PlayerPrefs.SetInt("PlayerType", (int)typePlayer);
         else typePlayer = (TypePlayer)PlayerPrefs.GetInt("PlayerType");
 
-        if(playerData != null)
-            UploadStatPlayer();
-
         SetStartUI();
         SetStartVolumeSound();
         SetStartVolumeMusic();
@@ -180,7 +177,7 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerType", (int)typePlayer);
     }
 
-    private void UploadStatPlayer()
+    public void UploadStatPlayer()
     {
         if (playerData == null) return; // Проверим есть ли игрок, если нет, значит мы сервер и просто прекратим метод
 

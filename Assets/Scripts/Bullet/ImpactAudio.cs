@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class ImpactAudio : MonoBehaviour
 {
-    [SerializeField] private StudioEventEmitter[] _audioClipImpactRandom;
+    [SerializeField, EventRef] private string[] _audioClipImpactRandom;
     [SerializeField] EImpactAudio impact;
 
-    private StudioEventEmitter _audioSource;
-    void Awake() => _audioSource = GetComponent<StudioEventEmitter>();
+    //private StudioEventEmitter _audioSource;
+    //void Awake() => _audioSource = GetComponent<StudioEventEmitter>();
 
     private void Start()
     {
@@ -27,8 +27,9 @@ public class ImpactAudio : MonoBehaviour
                 break;
 
             case EImpactAudio.@default:
-                _audioSource = _audioClipImpactRandom[Random.Range(1, _audioClipImpactRandom.Length)];
-                _audioSource.Play();
+                RuntimeManager.PlayOneShot(_audioClipImpactRandom[Random.Range(1, _audioClipImpactRandom.Length)]);
+                //_audioSource = _audioClipImpactRandom[Random.Range(1, _audioClipImpactRandom.Length)];
+                //_audioSource.Play();
                 break;
         }
     }

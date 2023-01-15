@@ -24,7 +24,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject[] _panelsCanvas;
 
-    private GameObject _mainMenuManager;
+    private MainMenuManager _mainMenuManager;
 
     //[Header("Camera")]
     //public Camera mainCamera;
@@ -512,8 +512,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     void Awake()
     {
-        _mainMenuManager = GameObject.Find("MainMenuManager");
-        _mainMenuManager.GetComponent<MainMenuManager>().playerData = playerData;
+        _mainMenuManager = FindObjectOfType<MainMenuManager>();
+        _mainMenuManager.playerData = playerData;
+        _mainMenuManager.UploadStatPlayer();
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
     }

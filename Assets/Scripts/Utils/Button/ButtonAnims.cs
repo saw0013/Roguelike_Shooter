@@ -13,23 +13,28 @@ public class ButtonAnims : MonoBehaviour
 
     private RectTransform button;
 
-    private void Start() => button = GetComponent<RectTransform>();
+    private Vector3 startScale;
 
+    private void Start()
+    {
+        button = GetComponent<RectTransform>();
+        startScale = transform.localScale;
+    }
     public void UIClick()
     {
         RuntimeManager.PlayOneShot(_uiClick);
-        button.DOScale(new Vector3(0.5f, 0.5f, 0.5f), Time.deltaTime * 10);
+        button.DOScale(new Vector3(startScale.x, startScale.y, startScale.z), Time.deltaTime * 10);
     }
 
     public void UIHover()
     {
         RuntimeManager.PlayOneShot(_uiHover);
-        button.DOScale(new Vector3(0.6f, 0.6f, 0.6f), Time.deltaTime * 10);
+        button.DOScale(new Vector3(startScale.x + 0.1f, startScale.y + 0.1f, startScale.z + 0.1f), Time.deltaTime * 10);
     }
 
     public void UIUnHover()
     {
-        button.DOScale(new Vector3(0.5f, 0.5f, 0.5f), Time.deltaTime * 10);
+        button.DOScale(new Vector3(startScale.x, startScale.y, startScale.z), Time.deltaTime * 10);
     }
 
     public void UISpecial()
