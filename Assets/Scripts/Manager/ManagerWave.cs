@@ -57,9 +57,10 @@ public class ManagerWave : NetworkBehaviour
     private void NextWave()
     {
         #region AddTimer
-        Debug.LogWarning("Заходим в поиск MatchMaker и запустим таймер");
+       
         foreach(var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
         {
+            Debug.LogWarning("мы в таймере");
             var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
             GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
 
