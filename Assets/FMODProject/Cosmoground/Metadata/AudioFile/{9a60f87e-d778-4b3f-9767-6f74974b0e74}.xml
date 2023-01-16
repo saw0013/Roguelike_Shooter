@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{9a60f87e-d778-4b3f-9767-6f74974b0e74}">
+		<property name="assetPath">
+			<value>Music/Art Vonnde Ambient — Deep Space Ambient 3 (www.lightaudio.ru).mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1264.0653061224489</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{db38a8e9-b72b-488a-9c00-a7ec90c58940}</destination>
+		</relationship>
+	</object>
+</objects>

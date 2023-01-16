@@ -2002,6 +2002,7 @@ GameObject:
   - component: {fileID: 5563368740021920185}
   - component: {fileID: 1748852254419779168}
   - component: {fileID: 7641303072317318492}
+  - component: {fileID: 2900191943063302331}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2088,6 +2089,22 @@ MonoBehaviour:
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
   _GunTexture: {fileID: 2800000, guid: 8ab2b399cab864920a192e34dadbdf01, type: 3}
   LobbyCamera: {fileID: 9065933856266601758}
+  OnStartGame:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2900191943063302331}
+        m_TargetAssemblyTypeName: ChangeTheme, Assembly-CSharp
+        m_MethodName: ChangeAmbientTheme
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "event:/Music/Art Vonnde Ambient \u2014 Deep Space Ambient
+            3 (www.lightaudio.ru)"
+          m_BoolArgument: 0
+        m_CallState: 2
   matchID: 
   playerIndex: 0
   UserName: 
@@ -2122,7 +2139,6 @@ MonoBehaviour:
   _bullet: {fileID: 3607918559644205627, guid: 21c6f231d02d70d428a6da12152aab15, type: 3}
   _spawnPoint: {fileID: 7776673961621920768}
   SpawnRate: 0.25
-  MaxCartridges: 45
   spawnParticles: {fileID: 4253011153332654913}
   _shootAudio: {fileID: 4651716581096857188}
   _reloadAudio: {fileID: 7289743988296457463}
@@ -2156,7 +2172,6 @@ MonoBehaviour:
   _SyncHealth: 0
   _healthRecovery: 0
   healthRecoveryDelay: 0
-  _destroyAfterDie: 0
   _delayDestroly: 3
   checkHealthEvents: []
   _onStartReceiveDamage:
@@ -2304,6 +2319,7 @@ MonoBehaviour:
   DamagePlayer: 0
   AmmoReload: 0
   BuletForce: 0
+  MaxCartridges: 0
   SizeBullet: 0.05
   guardPlayer: 0
   _startAmmoReload: 3
@@ -2499,6 +2515,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &2900191943063302331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ed1e3f186649f41a4525fca6b114f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3827590655909793031
 GameObject:
   m_ObjectHideFlags: 0

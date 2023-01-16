@@ -11,6 +11,7 @@ using DG.Tweening;
 using Utils;
 using Event = UnityEngine.Event;
 using Random = System.Random;
+using UnityEngine.Events;
 
 [Serializable]
 public class PlayerMovementAndLookNetwork : NetworkBehaviour
@@ -70,6 +71,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private Texture2D _GunTexture;
 
     [SerializeField] private Camera LobbyCamera;
+
+    [SerializeField] private UnityEvent OnStartGame;
 
 
     #region Delegate event
@@ -356,6 +359,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void CmdBeginGame()
     {
         MatchMaker.instance.BeginGame(matchID);
+        OnStartGame.Invoke();
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
@@ -457,6 +461,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void RpcBeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
+        OnStartGame.Invoke();
     }
 
     [TargetRpc]
@@ -473,6 +478,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         UILobby.instance.gameObject.SetActive(false);
         GetComponent<PlayerData>().InputIsActive(true);
         playerData.MenuInputIsActive(true);
+        OnStartGame.Invoke();
 
         LobbyCamera.gameObject.SetActive(false);//Выключаем камеру лобби. 
     }
