@@ -73,6 +73,9 @@ public class EnemyBehaviour : HealthController
 
     private bool enable = true;
 
+    private Renderer renderer;
+    private float alphaRenderer = 0.2f;
+
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
@@ -93,6 +96,7 @@ public class EnemyBehaviour : HealthController
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
         e_anim.anim_WalkSpeed(SpeedWalkAnim);
+        renderer = GetComponent<Renderer>();
     }
 
     public virtual void Update()
@@ -214,7 +218,7 @@ public class EnemyBehaviour : HealthController
     [Command(requiresAuthority = false)]
     private void CmdDestroyAfterDie() => StartCoroutine(IEDestroyAfterDie());
 
-    //TODO : плавное исчезновние за 2 секунды
+    //FIX : плавное исчезновние за 2 секунды
     private IEnumerator IEDestroyAfterDie()
     {
         var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
@@ -224,7 +228,17 @@ public class EnemyBehaviour : HealthController
         Destroy(DieParticle, 5.0f);
 
         yield return new WaitForSeconds(2.0f);
-        
+
+        UnityEngine.Color color;
+        color = renderer.material.color;
+        while (color.a > 0)
+        {
+            color = renderer.material.color;
+            color.a -= alphaRenderer * Time.deltaTime;
+            renderer.material.color = color;
+            yield return new WaitForEndOfFrame();
+        }
+
         NetworkServer.Destroy(gameObject);
 
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
