@@ -56,6 +56,8 @@ public class BulletPool : NetworkBehaviour
         _damageToEnemy.sender = transform;
         _damageToEnemy.receiver = collision.transform;
 
+        if (collision.gameObject == _owner) return;
+
         switch (collision.gameObject.tag)
         {
             case "Player":

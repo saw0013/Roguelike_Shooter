@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8857623580576673850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/Music/OST Alien Shooter 2 \u2014 Action Theme 3 (www.lightaudio.ru)"
+  m_EditorClassIdentifier: 
+  Path: "event:/Music/OST Alien Shooter 2 \u2014 Action Theme 3 (www.lightaudio.ru)"
+  Guid:
+    Data1: 1771885311
+    Data2: 1116481318
+    Data3: -517798490
+    Data4: 1670246749
+  Banks:
+  - {fileID: -3203992506653461030}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6803015596854061463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,10 +96,10 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638088540440000000
+  lastModified: 638095014864123116
   FileSizes:
   - Name: Desktop
-    Value: 1546
+    Value: 1758
   Exists: 1
 --- !u!114 &-5904416078293493992
 MonoBehaviour:
@@ -197,10 +224,10 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638088540440000000
+  lastModified: 638095014864093197
   FileSizes:
   - Name: Desktop
-    Value: 620864
+    Value: 19673184
   Exists: 1
 --- !u!114 &-1373015255152328584
 MonoBehaviour:
@@ -289,12 +316,14 @@ MonoBehaviour:
   - {fileID: 7337234959952419860}
   - {fileID: 1915623754629906241}
   - {fileID: -3981086176751435406}
+  - {fileID: 1582638665558912047}
+  - {fileID: -8857623580576673850}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3203992506653461030}
   StringsBanks:
   - {fileID: -6560684659413333050}
-  cacheTime: 638088540440000000
+  cacheTime: 638095014864123116
   cacheVersion: 131593
 --- !u!114 &1177966735991015545
 MonoBehaviour:
@@ -318,6 +347,33 @@ MonoBehaviour:
   - {fileID: -3203992506653461030}
   IsStream: 0
   Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &1582638665558912047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: "event:/Music/Art Vonnde Ambient \u2014 Deep Space Ambient 3 (www.lightaudio.ru)"
+  m_EditorClassIdentifier: 
+  Path: "event:/Music/Art Vonnde Ambient \u2014 Deep Space Ambient 3 (www.lightaudio.ru)"
+  Guid:
+    Data1: -1305265959
+    Data2: 1287168028
+    Data3: -1212934780
+    Data4: 1279668026
+  Banks:
+  - {fileID: -3203992506653461030}
+  IsStream: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
