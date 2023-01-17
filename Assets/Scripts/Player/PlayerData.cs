@@ -407,7 +407,6 @@ public class PlayerData : HealthController, ICharacter
         MaxCartridges = Catriges;
         SpeedPlayer = Speed;
         AmmoReload = Reload;
-        Debug.LogWarning("Зашли в PlayerData");
         GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
     }
 

@@ -178,31 +178,28 @@ public class MainMenuManager : MonoBehaviour
 
     public void UploadStatPlayer()
     {
-        Debug.LogWarning("Проверяем на null");
+        
         if (playerData == null) return; // Проверим есть ли игрок, если нет, значит мы сервер и просто прекратим метод
 
-        Debug.LogWarning("PLayerData те Null");
+        
         switch (typePlayer)
         {
             case TypePlayer.Pilot1:
                 StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
                 PilotNameText.text = "Пилот 1";
                 playerData.UpdateStat(150, 15, 36, 3, 3);
-                Debug.LogWarning("1");
                 break;
 
             case TypePlayer.Pilot2:
                 StatText.text = $" Здоровье 100 \n Урон: 5 \n Патроны: 56 \n Скорость: 3 \n Перезарядка: 4с";
                 PilotNameText.text = "Пилот 2";
                 playerData.UpdateStat(100, 5, 56, 3, 4);
-                Debug.LogWarning("2");
                 break;
 
             case TypePlayer.Pilot3:
                 StatText.text = $" Здоровье 125 \n Урон: 30 \n Патроны: 26 \n Скорость: 4 \n Перезарядка: 5с";
                 PilotNameText.text = "Пилот 3";
                 playerData.UpdateStat(125, 30, 26, 4, 5);
-                Debug.LogWarning("3");
                 break;
         }
     }

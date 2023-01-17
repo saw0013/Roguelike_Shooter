@@ -20,7 +20,7 @@ public class EnemyBehaviour : HealthController
 {
     #region  Variables
 
-    [SerializeField] private bool _destroyAfterDie = false;
+   
     [SerializeField] private TypeEnemy typeEnemy;
 
     [Header("Draw Eye")]
@@ -200,49 +200,6 @@ public class EnemyBehaviour : HealthController
     }
 
     #endregion
-
-
-    public override float currentHealth
-    {
-        get => base.currentHealth;
-        protected set
-        {
-            base.currentHealth = value;
-
-            if (base._isDead && _destroyAfterDie)
-                CmdDestroyAfterDie();
-            
-        }
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdDestroyAfterDie() => StartCoroutine(IEDestroyAfterDie());
-
-    //FIX : плавное исчезновние за 2 секунды
-    private IEnumerator IEDestroyAfterDie()
-    {
-        var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
-        DieParticle.GetComponent<NetworkMatch>().matchId = gameObject.GetComponent<NetworkMatch>().matchId;
-        NetworkServer.Spawn(DieParticle);
-
-        Destroy(DieParticle, 5.0f);
-
-        yield return new WaitForSeconds(2.0f);
-
-        UnityEngine.Color color;
-        color = renderer.material.color;
-        while (color.a > 0)
-        {
-            color = renderer.material.color;
-            color.a -= alphaRenderer * Time.deltaTime;
-            renderer.material.color = color;
-            yield return new WaitForEndOfFrame();
-        }
-
-        NetworkServer.Destroy(gameObject);
-
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-    }
 
     #region Поведение Врага
 

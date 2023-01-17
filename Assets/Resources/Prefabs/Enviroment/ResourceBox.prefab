@@ -221,10 +221,10 @@ GameObject:
   - component: {fileID: 8812645136717109385}
   - component: {fileID: 4344531146310385659}
   - component: {fileID: 2034767688003945393}
+  - component: {fileID: 8298738622877774708}
   - component: {fileID: 4199920226262700166}
   - component: {fileID: 8717861098222531641}
   - component: {fileID: 4184433966640936609}
-  - component: {fileID: 8298738622877774708}
   m_Layer: 0
   m_Name: ResourceBox
   m_TagString: Untagged
@@ -336,6 +336,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019999998, y: 0.020000001, z: 0.020000001}
   m_Center: {x: 0, y: 0, z: 0.010000001}
+--- !u!114 &8298738622877774708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7011034242280290652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CommonBuff:
+  - {fileID: 944771753427955605, guid: 8af49137b5cda0f4bb62c0231a2a4872, type: 3}
+  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
+  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
+  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
+  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
+  RareBuff:
+  - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
+  EpicBuff: []
+  LegenderyBuff: []
+  CommonChance: 55
+  RareChance: 40
+  EpicChance: 20
+  LegenderyChance: 5
+  TimeAnimOpen: 1.5
+  _spawnPosition:
+  - {fileID: 358624862242291973}
+  - {fileID: 573001717117047956}
+  - {fileID: 9217707084399440732}
+  - {fileID: 3123355534772065643}
 --- !u!114 &4199920226262700166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,40 +417,6 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 0
   animator: {fileID: 4344531146310385659}
---- !u!114 &8298738622877774708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7011034242280290652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  CommonBuff:
-  - {fileID: 944771753427955605, guid: 8af49137b5cda0f4bb62c0231a2a4872, type: 3}
-  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
-  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
-  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
-  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
-  RareBuff:
-  - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
-  EpicBuff: []
-  LegenderyBuff: []
-  CommonChance: 55
-  RareChance: 40
-  EpicChance: 20
-  LegenderyChance: 5
-  TimeAnimOpen: 1.5
-  _spawnPosition:
-  - {fileID: 358624862242291973}
-  - {fileID: 573001717117047956}
-  - {fileID: 9217707084399440732}
-  - {fileID: 3123355534772065643}
 --- !u!1 &8167797744360741144
 GameObject:
   m_ObjectHideFlags: 0

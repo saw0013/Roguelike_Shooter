@@ -5,6 +5,7 @@ using Mirror;
 using MirrorBasics;
 using UnityEngine;
 
+[Serializable]
 public class ManagerWave : NetworkBehaviour
 {
     [SerializeField] private int _allWawe;
@@ -56,46 +57,52 @@ public class ManagerWave : NetworkBehaviour
     /// </summary>
     private void NextWave()
     {
-        #region AddTimer
-        Debug.LogWarning("Заходим в поиск MatchMaker и запустим таймер");
-        foreach(var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
+
+        //currentWave++;
+        //currentTimeDalay = 0;
+        //if (currentWave >= _allWawe)
+        //{
+        //    isActive = false;
+        //    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
+        //    ActiveAhtorityDoors();
+        //}
+        //else NextSpawnEnemy();
+
+        #region AddTimer чтобы активировать следующую волну
+        Debug.LogWarning($"isServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
+        foreach (var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
         {
             var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
             GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
 
+            Debug.LogWarning("Как зовут таймер " + timer.name);
             GameTimer gameTimer = timer.GetComponent<GameTimer>();
             if (gameTimer)
                 gameTimer.ClockReady.AddListener(EndOfTimer);
-        }
-        
-        #endregion
 
-        if (currentTimeDalay >= TimeDelayToWave)
-        {
-            currentWave++;
-            currentTimeDalay = 0;
-            if (currentWave >= _allWawe)
-            {
-                isActive = false;
-                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
-                ActiveAhtorityDoors();
-            }
-            else NextSpawnEnemy();
         }
-        else currentTimeDalay += Time.deltaTime;
+        #endregion
     }
 
     public void EndOfTimer()
     {
         Debug.Log("timer ready.");
+        currentWave++;
 
+        if (currentWave >= _allWawe)
+        {
+            isActive = false;
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
+            ActiveAhtorityDoors();
+        }
         // End of match code here
     }
 
     public void DeactiveAhtorityDoors()
-    { 
-        for(int i = 0; i < 2; i++)
+    {
+        for (int i = 0; i < 2; i++)
         {
+            Debug.LogWarning("Двери закрываются");
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = false;
         }
     }
@@ -122,5 +129,9 @@ public class ManagerWave : NetworkBehaviour
 
     public int SetEnemySpawned() => countSpawned++;
 
-    public int SetKilledEnemy() => killedEnemy++;
+    public int SetKilledEnemy()
+    {
+        Debug.LogWarning("Убили врага");
+        return killedEnemy++;
+    }
 }
