@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{4a1af8c6-b043-4db8-b18d-59c064f28d87}">
+		<property name="name">
+			<value>Abmience</value>
+		</property>
+		<relationship name="folder">
+			<destination>{8b8f7266-45ec-4ff9-a887-299051220ef6}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{41d8eb1a-2324-44e8-b5a7-597e7697f04a}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{41d8eb1a-2324-44e8-b5a7-597e7697f04a}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>25</value>
+		</property>
+	</object>
+</objects>

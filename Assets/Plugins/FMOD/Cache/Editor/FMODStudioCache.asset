@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: -3203992506653461030}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -54,33 +54,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-6571462885738839460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Sound/Menu/Wind
-  m_EditorClassIdentifier: 
-  Path: event:/Sound/Menu/Wind
-  Guid:
-    Data1: -12698973
-    Data2: 1282510700
-    Data3: 1971710098
-    Data4: -1929922875
-  Banks:
-  - {fileID: -3203992506653461030}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-6560684659413333050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,10 +69,10 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638095014864123116
+  lastModified: 638095930278098514
   FileSizes:
   - Name: Desktop
-    Value: 1758
+    Value: 1976
   Exists: 1
 --- !u!114 &-5904416078293493992
 MonoBehaviour:
@@ -224,10 +197,34 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638095014864093197
+  lastModified: 638095930278068595
   FileSizes:
   - Name: Desktop
-    Value: 19673184
+    Value: 36653376
+  Exists: 1
+--- !u!114 &-3183831052048325688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AllMusic/ToGameMenu
+  m_EditorClassIdentifier: 
+  Name: ToGameMenu
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3330199414
+    data2: 2934689548
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-1373015255152328584
 MonoBehaviour:
@@ -252,6 +249,33 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-1253042018344329634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Space_Music_-_Starlights_61366610
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Space_Music_-_Starlights_61366610
+  Guid:
+    Data1: 1619379244
+    Data2: 1196319896
+    Data3: -1319208550
+    Data4: -1759958590
+  Banks:
+  - {fileID: -3203992506653461030}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -283,6 +307,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-501286174961444296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: snapshot:/New Snapshot
+  m_EditorClassIdentifier: 
+  Path: snapshot:/New Snapshot
+  Guid:
+    Data1: -823080957
+    Data2: 1141392552
+    Data3: -1457721426
+    Data4: 1292991722
+  Banks:
+  - {fileID: -3203992506653461030}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,24 +358,49 @@ MonoBehaviour:
   - {fileID: -4441426998396592788}
   - {fileID: 7082128869366878811}
   - {fileID: 1177966735991015545}
-  - {fileID: -6571462885738839460}
   - {fileID: -1201281064039628646}
   - {fileID: 2212920971490852859}
   - {fileID: -6803015596854061463}
   - {fileID: -5782726647305763665}
   - {fileID: 2859127224139135875}
-  - {fileID: 7337234959952419860}
   - {fileID: 1915623754629906241}
   - {fileID: -3981086176751435406}
   - {fileID: 1582638665558912047}
   - {fileID: -8857623580576673850}
+  - {fileID: -1253042018344329634}
+  - {fileID: -501286174961444296}
+  - {fileID: 4732953678150622771}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3203992506653461030}
   StringsBanks:
   - {fileID: -6560684659413333050}
-  cacheTime: 638095014864123116
+  cacheTime: 638095930278098514
   cacheVersion: 131593
+--- !u!114 &116904398728847446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AllMusic/ToAmbience
+  m_EditorClassIdentifier: 
+  Name: ToAmbience
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2584274407
+    data2: 763358351
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &1177966735991015545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +450,7 @@ MonoBehaviour:
   - {fileID: -3203992506653461030}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -487,6 +563,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &3720702851982993373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/AllMusic/ToButtleTheme
+  m_EditorClassIdentifier: 
+  Name: ToButtleTheme
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 697530824
+    data2: 1107278962
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &4732953678150622771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/AllMusic
+  m_EditorClassIdentifier: 
+  Path: event:/Music/AllMusic
+  Guid:
+    Data1: -272632968
+    Data2: 1150074851
+    Data3: 1322102948
+    Data4: -861160372
+  Banks:
+  - {fileID: -3203992506653461030}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -3183831052048325688}
+  - {fileID: 3720702851982993373}
+  - {fileID: 116904398728847446}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2763631
 --- !u!114 &5490909827842278892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,33 +667,6 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &7337234959952419860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Sound/Menu/TensionSoundtrack
-  m_EditorClassIdentifier: 
-  Path: event:/Sound/Menu/TensionSoundtrack
-  Guid:
-    Data1: 338817406
-    Data2: 1128264317
-    Data3: 408276392
-    Data4: -474407197
-  Banks:
-  - {fileID: -3203992506653461030}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20

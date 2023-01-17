@@ -95,6 +95,14 @@ public class EventTrigger : NetworkBehaviour
     {
         StartCoroutine(OnTrigEnter());
     }
+    
+    [ClientRpc]
+    void RpcChengeMusic()
+    {
+        var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
+
+        musicManager.ChangeMusic("BattleTheme");
+    }
 
     [ClientRpc]
     public void RpcTeleport(Transform _transform, Vector3 newPosition)
@@ -113,6 +121,7 @@ public class EventTrigger : NetworkBehaviour
             isTriggered = true;
             if (spawningWho != SpawningNPC.None)
             {
+                RpcChengeMusic();
 
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {

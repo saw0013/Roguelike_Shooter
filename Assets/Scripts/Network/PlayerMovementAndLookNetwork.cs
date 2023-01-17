@@ -359,7 +359,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void CmdBeginGame()
     {
         MatchMaker.instance.BeginGame(matchID);
-        OnStartGame.Invoke();
+
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
@@ -461,7 +461,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void RpcBeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
-        OnStartGame.Invoke();
     }
 
     [TargetRpc]
@@ -470,6 +469,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"MatchID: {matchID} | Beginning");
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
+        var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
+
+        musicManager.ChangeMusic("Ambience");
 
         //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);

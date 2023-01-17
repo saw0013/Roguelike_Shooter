@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6335466546457690867}
   - component: {fileID: 4096355483860449015}
   - component: {fileID: 8262974643397862385}
-  - component: {fileID: 3254287199487104491}
   m_Layer: 0
   m_Name: TriggerSpawn
   m_TagString: BeginEnemy
@@ -144,9 +143,9 @@ MonoBehaviour:
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3254287199487104491}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChangeTheme, Assembly-CSharp
-        m_MethodName: ChangeBattleTheme
+        m_MethodName: ChangeMusic
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -194,15 +193,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &3254287199487104491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6335466546457690866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6ed1e3f186649f41a4525fca6b114f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{f5b58142-6d43-49cd-baee-449280145ffe}">
+		<property name="name">
+			<value>ToButtleTheme</value>
+		</property>
+		<relationship name="folder">
+			<destination>{8b8f7266-45ec-4ff9-a887-299051220ef6}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{9ed3360d-fb1c-4e09-83aa-6c21d5e7cf1a}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{9ed3360d-fb1c-4e09-83aa-6c21d5e7cf1a}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
