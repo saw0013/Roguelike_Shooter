@@ -20,7 +20,7 @@ public class EnemyBehaviour : HealthController
 {
     #region  Variables
 
-   
+
     [SerializeField] private TypeEnemy typeEnemy;
 
     [Header("Draw Eye")]
@@ -76,10 +76,14 @@ public class EnemyBehaviour : HealthController
     private Renderer renderer;
     private float alphaRenderer = 0.2f;
 
+
+
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
 
+    private void OnEnable() => Action_OnDead += Die;
+    private void OnDisable() => Action_OnDead -= Die;
     protected override void Awake()
     {
         base.Awake();
@@ -98,6 +102,45 @@ public class EnemyBehaviour : HealthController
         e_anim.anim_WalkSpeed(SpeedWalkAnim);
         renderer = GetComponent<Renderer>();
     }
+
+    private void Die()
+    {
+        //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
+        if (isServer)
+            StartCoroutine(IEDestroyAfterDie());
+        else CmdDestroyAfterDie();
+    }
+    [Command(requiresAuthority = false)]
+    private void CmdDestroyAfterDie() => StartCoroutine(IEDestroyAfterDie());
+
+    private IEnumerator IEDestroyAfterDie()
+    {
+        Debug.LogWarning("Пора истребить павука");
+        //var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
+        //DieParticle.GetComponent<NetworkMatch>().matchId = gameObject.GetComponent<NetworkMatch>().matchId;
+        //NetworkServer.Spawn(DieParticle);
+
+        //Destroy(DieParticle, 5.0f);
+
+        yield return new WaitForSeconds(2.0f);
+
+        #region для будущего обновления [Для медленного исчезновления. Нужна подмена material]
+        //UnityEngine.Color color;
+        //color = renderer.material.color;
+        //while (color.a > 0)
+        //{
+        //    color = renderer.material.color;
+        //    color.a -= alphaRenderer * Time.deltaTime;
+        //    renderer.material.color = color;
+        //    yield return new WaitForEndOfFrame();
+        //}
+        #endregion
+
+        NetworkServer.Destroy(gameObject);
+
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+    }
+
 
     public virtual void Update()
     {

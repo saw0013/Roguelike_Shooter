@@ -352,12 +352,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void BeginGame()
     {
         CmdBeginGame();
-        StartFade();
     }
 
     [Command]
     void CmdBeginGame()
     {
+        //FADE OUT через матчмейкер
+        MatchMaker.ManagerLogic(networkMatch.matchId).players.ForEach(p => { p.BeginFade(); });
         MatchMaker.instance.BeginGame(matchID);
 
         Debug.Log($"<color=red>Game Beginning</color>");
@@ -447,18 +448,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     }
 
-    public void StartFade()
-    {
-        RpcBeginFade();
-    }
 
     public void StartGame()
     { //Server
         TargetBeginGame();
     }
 
-    [ClientRpc]
-    public void RpcBeginFade()
+    public void BeginFade()
     {
         _mainMenuManager.GetComponent<MainMenuManager>().Fade();
     }
@@ -466,10 +462,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [TargetRpc]
     void TargetBeginGame()
     {
-        Debug.Log($"MatchID: {matchID} | Beginning");
-        //Additively load game scene
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
-
+        //BeginFade();
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
 
         musicManager.ChangeMusic("Ambience");
@@ -484,6 +477,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         OnStartGame.Invoke();
 
         LobbyCamera.gameObject.SetActive(false);//Выключаем камеру лобби. 
+
+        //Additively load game scene
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
 
     #endregion
@@ -521,9 +517,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     void Awake()
     {
-        _mainMenuManager = FindObjectOfType<MainMenuManager>();
-        _mainMenuManager.playerData = playerData;
-        _mainMenuManager.UploadStatPlayer();
         playerMovementPlane = new Plane(transform.up, transform.position + transform.up);
         networkMatch = GetComponent<NetworkMatch>();
     }
@@ -533,6 +526,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         foreach (var pan in _panelsCanvas)
             if (isLocalPlayer)
                 pan.SetActive(true);
+
+        _mainMenuManager = FindObjectOfType<MainMenuManager>();
+        _mainMenuManager.playerData = playerData;
+        _mainMenuManager.UploadStatPlayer();
     }
 
     private void OnChangeMaterial(int _Old, int _New)

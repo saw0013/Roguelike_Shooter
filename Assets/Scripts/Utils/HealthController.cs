@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Cosmo;
 using MirrorBasics;
+using System;
 
 public class HealthController : NetworkBehaviour, IHealthController
 {
@@ -42,7 +43,10 @@ public class HealthController : NetworkBehaviour, IHealthController
     [HideInInspector]
     protected float _currentHealthRecoveryDelay;
 
-    [SerializeField, Range(0.1f, 10)] private float _delayDestroly = 3.0f;
+    [SerializeField] private bool _destroyAfterDie = false;
+    [SerializeField, Range(0.1f, 10)] private float _delayDestroy = 3.0f;
+
+    public event Action Action_OnDead;
 
     #region Properties
     public virtual int MaxHealth
@@ -76,6 +80,9 @@ public class HealthController : NetworkBehaviour, IHealthController
                 _isDead = true;
 
                 onDead.Invoke(gameObject);
+
+                if(_destroyAfterDie)
+                    Action_OnDead?.Invoke();
             }
             else if (isDead && _currentHealth > 0)
             {
@@ -83,7 +90,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             }
         }
     }
-   
+
 
     public virtual bool isDead
     {
@@ -93,6 +100,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             {
                 _isDead = true;
                 onDead.Invoke(gameObject);
+
             }
             return _isDead;
         }
@@ -356,13 +364,12 @@ public class HealthController : NetworkBehaviour, IHealthController
                 {
                     if (hasAuthority) //Есть ли у нас права изменять объект
                     {
-                        Debug.LogWarning("Есть hasAuthority"); 
+                        Debug.LogWarning("Есть hasAuthority");
                         CmdChangeHealth(currentHealth - damage.damageValue);
                     }
                     else Debug.LogWarning("НЕТУ hasAuthority"); //Нету прав на изменение
                 }
             }
-
 
             if (damage.damageValue > 0)
                 onReceiveDamage.Invoke(damage);
@@ -370,7 +377,8 @@ public class HealthController : NetworkBehaviour, IHealthController
         }
     }
 
-   
+
+  
 
     protected virtual void HandleCheckHealthEvents()
     {

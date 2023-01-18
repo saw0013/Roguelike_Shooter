@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using Mirror;
 using MirrorBasics;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class ManagerWave : NetworkBehaviour
     private float currentTimeDalay;
 
     public bool isActive;
+    bool isStarted = false; //Раз вызывается с клиента, то метод спавна будет вызван столько раз сколько игроков. Это просто заглушка
 
     [SyncVar(hook = nameof(OnChangeWave))]
     private int killedEnemy;
@@ -39,9 +41,9 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
-        if (killedEnemy >= EnemyToWave[currentWave])
+        if (killedEnemy >= EnemyToWave[currentWave] & !isStarted)
         {
-            NextWave();
+            CmdNextWave();
         }
     }
 
@@ -55,9 +57,10 @@ public class ManagerWave : NetworkBehaviour
     /// <summary>
     /// Следующая волна
     /// </summary>
-    private void NextWave()
+    [Command(requiresAuthority = false)]
+    private void CmdNextWave()
     {
-
+        isStarted = true;
         //currentWave++;
         //currentTimeDalay = 0;
         //if (currentWave >= _allWawe)
@@ -69,19 +72,33 @@ public class ManagerWave : NetworkBehaviour
         //else NextSpawnEnemy();
 
         #region AddTimer чтобы активировать следующую волну
-        Debug.LogWarning($"isServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
+
         foreach (var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
-        {
+        { 
             var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
-            GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
+            if (parentCanvasPlayer.Find("GameTimer(Clone)")) return;
+            else
+            {
+                GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
 
-            Debug.LogWarning("Как зовут таймер " + timer.name);
-            GameTimer gameTimer = timer.GetComponent<GameTimer>();
-            if (gameTimer)
-                gameTimer.ClockReady.AddListener(EndOfTimer);
+                GameTimer gameTimer = timer.GetComponent<GameTimer>();
+                if (gameTimer)
+                    gameTimer.ClockReady.AddListener(EndOfTimer);
 
+                RpcAddTimerToClient(parentCanvasPlayer);
+            }
         }
         #endregion
+    }
+
+    //TODO : Затестировать код
+    [ClientRpc]
+    void RpcAddTimerToClient(Transform player)
+    {
+        GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), player);
+        GameTimer gameTimer = timer.GetComponent<GameTimer>();
+        if (gameTimer)
+            gameTimer.ClockReady.AddListener(EndOfTimer);
     }
 
     public void EndOfTimer()
@@ -95,6 +112,8 @@ public class ManagerWave : NetworkBehaviour
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
             ActiveAhtorityDoors();
         }
+
+        isStarted = false;
         // End of match code here
     }
 
@@ -102,7 +121,6 @@ public class ManagerWave : NetworkBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            Debug.LogWarning("Двери закрываются");
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = false;
         }
     }
@@ -111,6 +129,7 @@ public class ManagerWave : NetworkBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
+            Debug.LogWarning("Двери открываются");
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = true;
         }
     }
@@ -129,9 +148,6 @@ public class ManagerWave : NetworkBehaviour
 
     public int SetEnemySpawned() => countSpawned++;
 
-    public int SetKilledEnemy()
-    {
-        Debug.LogWarning("Убили врага");
-        return killedEnemy++;
-    }
+    public int SetKilledEnemy() => killedEnemy++;
+
 }

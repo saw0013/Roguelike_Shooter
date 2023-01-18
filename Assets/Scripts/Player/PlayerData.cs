@@ -394,10 +394,9 @@ public class PlayerData : HealthController, ICharacter
 
     public void UpdateStat(int Health ,int Damage, int Catriges, int Speed, float Reload)
     {
-        ClientServerChangeHp(Health);
-
         if (isServer) return;
 
+        ClientServerChangeHp(Health);
         MaxHealth = Health;
         _healthSlider.maxValue = Health / 100;
         _healthSliderRpc.maxValue = Health / 100;
