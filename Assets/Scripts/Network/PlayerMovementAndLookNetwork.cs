@@ -74,6 +74,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [SerializeField] private UnityEvent OnStartGame;
 
+    [SerializeField] public GameObject gameTimer;
+
 
     #region Delegate event
     //public delegate void ScorePlayerChanged(int score);

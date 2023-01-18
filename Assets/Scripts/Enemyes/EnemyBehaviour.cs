@@ -82,8 +82,8 @@ public class EnemyBehaviour : HealthController
 
     #region Base method. Start, Awake, Enable and too...
 
-    private void OnEnable() => Action_OnDead += Die;
-    private void OnDisable() => Action_OnDead -= Die;
+    private void OnEnable() => Action_OnDead += CmdDie;
+    private void OnDisable() => Action_OnDead -= CmdDie;
     protected override void Awake()
     {
         base.Awake();
@@ -103,26 +103,25 @@ public class EnemyBehaviour : HealthController
         renderer = GetComponent<Renderer>();
     }
 
-    private void Die()
+    [Command(requiresAuthority = false)]
+    private void CmdDie()
     {
         //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
-        if (isServer)
-            StartCoroutine(IEDestroyAfterDie());
-        else CmdDestroyAfterDie();
+        //Мы тут 100% сервер 
+        StartCoroutine(IEDestroyAfterDie());
     }
-    [Command(requiresAuthority = false)]
-    private void CmdDestroyAfterDie() => StartCoroutine(IEDestroyAfterDie());
+
 
     private IEnumerator IEDestroyAfterDie()
     {
-        Debug.LogWarning("Пора истребить павука");
+
         //var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
         //DieParticle.GetComponent<NetworkMatch>().matchId = gameObject.GetComponent<NetworkMatch>().matchId;
         //NetworkServer.Spawn(DieParticle);
 
         //Destroy(DieParticle, 5.0f);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(5.0f);
 
         #region для будущего обновления [Для медленного исчезновления. Нужна подмена material]
         //UnityEngine.Color color;

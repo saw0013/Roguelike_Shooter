@@ -2115,6 +2115,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 120440221822339609}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onChangeHealth:
     m_PersistentCalls:
       m_Calls: []
@@ -6157,6 +6169,11 @@ PrefabInstance:
 --- !u!1 &120440221822339604 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1977417124173949388, guid: 3869cbe9ae4c5f146b24aef89c4aba67, type: 3}
+  m_PrefabInstance: {fileID: 1935089730941772760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &120440221822339609 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1977417124173949377, guid: 3869cbe9ae4c5f146b24aef89c4aba67, type: 3}
   m_PrefabInstance: {fileID: 1935089730941772760}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &120440221822339611 stripped

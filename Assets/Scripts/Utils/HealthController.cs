@@ -81,7 +81,7 @@ public class HealthController : NetworkBehaviour, IHealthController
 
                 onDead.Invoke(gameObject);
 
-                if(_destroyAfterDie)
+                if (_destroyAfterDie)
                     Action_OnDead?.Invoke();
             }
             else if (isDead && _currentHealth > 0)
