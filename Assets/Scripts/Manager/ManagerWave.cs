@@ -43,8 +43,9 @@ public class ManagerWave : NetworkBehaviour
     {
         if (killedEnemy >= EnemyToWave[currentWave] & !isStarted)
         {
-            if (isServer) NextWave();
-            else CmdNextWave();
+            //if (isServer) NextWave();
+            //else CmdNextWave();
+            CmdNextWave();
         }
     }
 
@@ -73,22 +74,25 @@ public class ManagerWave : NetworkBehaviour
         //}
         //else NextSpawnEnemy();
 
-        #region AddTimer чтобы активировать следующую волну
 
-        var _player = player.GetComponent<PlayerMovementAndLookNetwork>();
-        var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
-        if (_player.transform.Find("GameTimer(Clone)")) return;
-        else
-        {
-            //TODO : Проверить только на клиенте [Client]
-            Debug.LogWarning("Мы в цикле и будем спавнить таймеры");
-            //GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
-            var timer = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/GameTimer").asset as GameObject, parentCanvasPlayer);
-            GameTimer gameTimer = timer.GetComponent<GameTimer>();
-            if (gameTimer)
-                gameTimer.ClockReady.AddListener(EndOfTimer);
+        #region Рабочий метод но только для сервера
 
-        }
+        //var _player = player.GetComponent<PlayerMovementAndLookNetwork>();
+        //var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
+        //if (_player.transform.Find("GameTimer(Clone)")) return;
+        //else
+        //{
+        //    //TODO : Проверить только на клиенте [Client]
+        //    Debug.LogWarning("Мы в цикле и будем спавнить таймеры");
+        //    //GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
+        //    var timer = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/GameTimer").asset as GameObject, parentCanvasPlayer);
+        //    GameTimer gameTimer = timer.GetComponent<GameTimer>();
+        //    if (gameTimer)
+        //        gameTimer.ClockReady.AddListener(EndOfTimer);
+
+        //}
+
+        #region Рабочий метод но только для сервера
         //foreach (var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
         //{
         //    var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
@@ -106,6 +110,8 @@ public class ManagerWave : NetworkBehaviour
         //    }
         //}
         #endregion
+
+        #endregion
     }
 
 
@@ -113,7 +119,20 @@ public class ManagerWave : NetworkBehaviour
     public void CmdNextWave(NetworkConnectionToClient sender = null) //NetworkConnectionToClient параметр смотреть тут https://mirror-networking.gitbook.io/docs/guides/communications/remote-actions
     {
         Debug.LogWarning("Наш отправитель " + sender.identity.name);
-        NextWave(sender.identity.gameObject);
+
+        var timer = sender.identity.gameObject.GetComponent<GameTimer>();
+
+        if (!isStarted)
+        {
+            if (timer)
+                timer.ClockReady
+                    .AddListener(EndOfTimer); //Подпишемся на Event. Он будет вызван только на сервере и столько раз сколько игроков в группе
+
+            isStarted = true; //Загрушка чтобы вызывалось 1 раз. НЕ ПРОВЕРЕНО!!!
+        }
+
+        timer.running = true;
+        //NextWave(sender.identity.gameObject);
     }
 
 

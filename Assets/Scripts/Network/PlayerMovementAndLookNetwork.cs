@@ -4,6 +4,7 @@ using MirrorBasics;
 using Mono.CSharp;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -73,8 +74,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private Camera LobbyCamera;
 
     [SerializeField] private UnityEvent OnStartGame;
-
-    [SerializeField] public GameObject gameTimer;
 
 
     #region Delegate event
@@ -356,11 +355,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         CmdBeginGame();
     }
 
+
     [Command]
     void CmdBeginGame()
     {
         //FADE OUT через матчмейкер
-        MatchMaker.ManagerLogic(networkMatch.matchId).players.ForEach(p => { p.BeginFade(); });
+        //MatchMaker.ManagerLogic(networkMatch.matchId).players.ForEach(p => { RpcBeginFade(p); });
         MatchMaker.instance.BeginGame(matchID);
 
         Debug.Log($"<color=red>Game Beginning</color>");
@@ -456,15 +456,17 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         TargetBeginGame();
     }
 
-    public void BeginFade()
+
+    public  void BeginFade()
     {
-        _mainMenuManager.GetComponent<MainMenuManager>().Fade();
+        _mainMenuManager = FindObjectOfType<MainMenuManager>();
+        Debug.LogWarning(_mainMenuManager.name);
+        _mainMenuManager.Fade();
     }
 
     [TargetRpc]
     void TargetBeginGame()
     {
-        //BeginFade();
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
 
         musicManager.ChangeMusic("Ambience");

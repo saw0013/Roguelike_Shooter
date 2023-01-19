@@ -97,7 +97,7 @@ namespace MirrorBasics {
 
         public void BeginGame () {
             PlayerMovementAndLookNetwork.localPlayer.BeginGame ();
-            GetComponent<MainMenuManager>().Fade();
+            GetComponent<MainMenuManager>().Fade(); //Вызывается только у локального игрока лидера группы
         }
 
         public void SearchGame () {
