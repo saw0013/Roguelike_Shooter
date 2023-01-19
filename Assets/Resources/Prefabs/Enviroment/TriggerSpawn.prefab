@@ -134,6 +134,7 @@ MonoBehaviour:
   ShowWire: 0
   color: {r: 0.745283, g: 0.33397114, b: 0.33397114, a: 1}
   _destroy: 0
+  _once: 1
   delayDestroy: 0.1
   isTriggered: 0
   hasAthorityTrigger: 1

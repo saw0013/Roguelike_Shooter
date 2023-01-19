@@ -1,4 +1,5 @@
 using Mirror;
+using MirrorBasics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,8 +40,11 @@ public class GameTimer : NetworkBehaviour
         {
             running = false;
             showTime = "00:00";
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.EndOfTimer(gameObject.GetComponent<GameTimer>());
+            Debug.Log("Время вышло");
             // Callback event когда таймер достигает нуля
             ClockReady.Invoke();
+            timer = 1 * 60;
         }
 
         if (clockText)

@@ -122,14 +122,14 @@ public class ManagerWave : NetworkBehaviour
 
         var timer = sender.identity.gameObject.GetComponent<GameTimer>();
 
-        if (!isStarted)
-        {
-            if (timer)
-                timer.ClockReady
-                    .AddListener(EndOfTimer); //Подпишемся на Event. Он будет вызван только на сервере и столько раз сколько игроков в группе
+        //if (!isStarted)
+        //{
+        //    if (timer)
+        //        timer.ClockReady
+        //            .AddListener(EndOfTimer); //Подпишемся на Event. Он будет вызван только на сервере и столько раз сколько игроков в группе
 
-            isStarted = true; //Загрушка чтобы вызывалось 1 раз. НЕ ПРОВЕРЕНО!!!
-        }
+        //    isStarted = true; //Загрушка чтобы вызывалось 1 раз. НЕ ПРОВЕРЕНО!!!
+        //}
 
         timer.running = true;
         //NextWave(sender.identity.gameObject);
@@ -137,10 +137,14 @@ public class ManagerWave : NetworkBehaviour
 
 
 
-    public void EndOfTimer()
+    public void EndOfTimer(GameTimer timer)
     {
-        Debug.Log("timer ready.");
+        Debug.Log("timer end.");
         currentWave++;
+
+        timer.timer = 1 * 60;
+
+        timer.showTime = "";
 
         Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
         if (currentWave >= _allWawe)
@@ -149,6 +153,8 @@ public class ManagerWave : NetworkBehaviour
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
             ActiveAhtorityDoors();
         }
+
+        NextSpawnEnemy();
 
         isStarted = false;
     }

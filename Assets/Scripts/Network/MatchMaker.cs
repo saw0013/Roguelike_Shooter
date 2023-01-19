@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.Networking.Match;
+using NetworkMatch = Mirror.NetworkMatch;
 
 namespace MirrorBasics
 {

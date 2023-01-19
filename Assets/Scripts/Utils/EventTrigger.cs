@@ -34,6 +34,7 @@ public class EventTrigger : NetworkBehaviour
     [SerializeField] private Color color;
 
     [SerializeField] private bool _destroy = false;
+    [SerializeField] private bool _once;
     public float delayDestroy = .1f;
 
     //[SerializeField] private string NpcPatroolNameFind = "PatroolPoints";
@@ -115,6 +116,7 @@ public class EventTrigger : NetworkBehaviour
     {
         if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
+            if (_once && hasAthorityTrigger) hasAthorityTrigger = false;
             //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).TestCmd();
             //StartCoroutine(OnTrigEnter());
             RpcTrigger();
@@ -127,7 +129,7 @@ public class EventTrigger : NetworkBehaviour
                 {
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
                     var playerData = p.GetComponent<PlayerData>();
-                    if (_distance > _maxDistanceToPlayer && !playerData.isDead)
+                    if (_distance > _maxDistanceToPlayer && playerData._SyncHealth !<= 0)
                     {
                         var rndRadius = Random.Range(-3, 3);
                         //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
