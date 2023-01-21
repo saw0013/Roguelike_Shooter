@@ -41,7 +41,7 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
-        if (killedEnemy >= EnemyToWave[currentWave] & !isStarted)
+        if (killedEnemy >= GetEnemySpawn() & !isStarted)
         {
             //if (isServer) NextWave();
             //else CmdNextWave();
@@ -188,8 +188,10 @@ public class ManagerWave : NetworkBehaviour
     /// <returns></returns>
     public int GetEnemySpawned() => countSpawned;
 
-    public int SetEnemySpawned() => countSpawned++;
-
+    public void SetEnemySpawned()
+    {
+        countSpawned++;
+    }
     [Server]
     public void SetKilledEnemy()
     {

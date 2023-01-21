@@ -19,76 +19,97 @@ public class ManagerGiveBuff : NetworkBehaviour
     [SerializeField] private int EpicChance;
     [SerializeField] private int LegenderyChance;
 
-    [Tooltip("Анимация открытия коробки")]
-    [SerializeField] private float TimeAnimOpen;
+    //[Tooltip("Анимация открытия коробки")]
+    //[SerializeField] private float TimeAnimOpen;
 
-    [SerializeField] private Transform[] _spawnPosition; 
+    public void SpawnBuff() => CmdSpawnBuff();
 
-    private Animator animator;
-
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
-        StartCoroutine(GiveBuffsEnum());
-    }
-
-    private IEnumerator GiveBuffsEnum()
-    {
-        yield return new WaitForSeconds(TimeAnimOpen);
-
-        GiveBuff();
-    }
-
+    [Command(requiresAuthority = false)]
+    private void CmdSpawnBuff() => GiveBuff();
 
     [Server]
     private void GiveBuff()
     {
         //Выполняется!
-        for(int i = 0; i < MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.Count; i++)
+        var Chance = UnityEngine.Random.Range(1, 101);
+
+        //Debug.LogWarning(Chance);
+
+        if (Chance <= (100 - CommonChance))
         {
-            var Chance = UnityEngine.Random.Range(1, 101);
-
-            //Debug.LogWarning(Chance);
-
-            animator.SetInteger("BuffDrop", i + 1);
-
-            if (Chance <= (100 - CommonChance))
+            SpawnBuff(CommonBuff);
+        }
+        else
+        {
+            if (Chance <= (100 - RareChance))
             {
-                SpawnBuff(CommonBuff, i);
+                SpawnBuff(RareBuff);
             }
             else
             {
-                if (Chance <= (100 - RareChance))
+                if (Chance <= (100 - EpicChance))
                 {
-                    SpawnBuff(RareBuff, i);
+                    //SpawnBuff(EpicBuff, i);
+                    SpawnBuff(RareBuff);
                 }
                 else
                 {
-                    if (Chance <= (100 - EpicChance))
+                    if (Chance <= (100 - LegenderyChance))
                     {
-                        //SpawnBuff(EpicBuff, i);
-                        SpawnBuff(RareBuff, i);
-                    }
-                    else
-                    {
-                        if (Chance <= (100 - LegenderyChance))
-                        {
-                            //SpawnBuff(LegenderyBuff, i);
-                            SpawnBuff(RareBuff, i);
-                            
-                        }
+                        //SpawnBuff(LegenderyBuff, i);
+                        SpawnBuff(RareBuff);
+
                     }
                 }
             }
         }
+
+
+        //for(int i = 0; i < MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.Count; i++)
+        //{
+        //    var Chance = UnityEngine.Random.Range(1, 101);
+
+        //    //Debug.LogWarning(Chance);
+
+        //    if (Chance <= (100 - CommonChance))
+        //    {
+        //        SpawnBuff(CommonBuff, i);
+        //    }
+        //    else
+        //    {
+        //        if (Chance <= (100 - RareChance))
+        //        {
+        //            SpawnBuff(RareBuff, i);
+        //        }
+        //        else
+        //        {
+        //            if (Chance <= (100 - EpicChance))
+        //            {
+        //                //SpawnBuff(EpicBuff, i);
+        //                SpawnBuff(RareBuff, i);
+        //            }
+        //            else
+        //            {
+        //                if (Chance <= (100 - LegenderyChance))
+        //                {
+        //                    //SpawnBuff(LegenderyBuff, i);
+        //                    SpawnBuff(RareBuff, i);
+
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 
-    private void SpawnBuff(List<GameObject> Buffs, int index)
+    private void SpawnBuff(List<GameObject> Buffs)
     {
         //CmdSpawnBuff(Buffs, index);
-        int indexBuffs = UnityEngine.Random.Range(0, Buffs.Count);
         //Debug.LogWarning("Индекс" + indexBuffs);
-        var buff = Instantiate(Buffs[indexBuffs], _spawnPosition[index]);
+
+        int indexBuffs = UnityEngine.Random.Range(0, Buffs.Count);
+        var positionSpawn = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        var buff = Instantiate(Buffs[indexBuffs], positionSpawn, Quaternion.identity);
         buff.GetComponent<NetworkMatch>().matchId = GetComponent<NetworkMatch>().matchId;
         NetworkServer.Spawn(buff);
     }

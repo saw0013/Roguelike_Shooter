@@ -1976,6 +1976,7 @@ GameObject:
   - component: {fileID: 8332461211381750969}
   - component: {fileID: 5110423039833376603}
   - component: {fileID: 6321705633310386384}
+  - component: {fileID: 7122402810679167599}
   m_Layer: 0
   m_Name: SmalSpiderNpc
   m_TagString: Enemy
@@ -2118,6 +2119,18 @@ MonoBehaviour:
       - m_Target: {fileID: 120440221822339609}
         m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 7122402810679167599}
+        m_TargetAssemblyTypeName: ManagerGiveBuff, Assembly-CSharp
+        m_MethodName: SpawnBuff
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2291,6 +2304,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &7122402810679167599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3403710682424215642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CommonBuff:
+  - {fileID: 944771753427955605, guid: 8af49137b5cda0f4bb62c0231a2a4872, type: 3}
+  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
+  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
+  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
+  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
+  RareBuff:
+  - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
+  EpicBuff: []
+  LegenderyBuff: []
+  CommonChance: 55
+  RareChance: 40
+  EpicChance: 20
+  LegenderyChance: 5
 --- !u!1 &3436470124257999276
 GameObject:
   m_ObjectHideFlags: 0

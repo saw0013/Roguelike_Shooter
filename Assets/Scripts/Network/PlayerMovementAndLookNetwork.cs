@@ -457,7 +457,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     }
 
 
-    public  void BeginFade()
+    public void BeginFade()
     {
         _mainMenuManager = FindObjectOfType<MainMenuManager>();
         Debug.LogWarning(_mainMenuManager.name);

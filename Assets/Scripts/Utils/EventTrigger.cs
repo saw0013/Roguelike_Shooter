@@ -206,7 +206,7 @@ public class EventTrigger : NetworkBehaviour
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
         Destroy(PreSpawn); //Удалим партиклы спавна
-        //ServerSpawn(matchID); //Нет смысла циклить спавн
+        ServerSpawn(matchID); //Нет смысла циклить спавн
     }
 
     [ServerCallback]
