@@ -14,6 +14,8 @@ public class EscapeMenu : MonoBehaviour
     [SerializeField] private float _moveYEnd;
     [SerializeField] private float _moveYStart;
 
+    private MainMenuManager mainMenuManager;
+
     [Header("Fade")]
     [Space(10)][SerializeField] Animator fadeAnimator;
 
@@ -24,6 +26,8 @@ public class EscapeMenu : MonoBehaviour
     private VCA vcaSound;
     private VCA vcaMusic;
 
+    private MainMenuManager menuManager;
+
     [SerializeField] private PlayerMovementAndLookNetwork player;
 
     [SerializeField] private Slider volumeSliderSound;
@@ -31,6 +35,9 @@ public class EscapeMenu : MonoBehaviour
 
     private void Start()
     {
+        mainMenuManager = FindObjectOfType<MainMenuManager>();
+        mainMenuManager.RegisterEscapeMenu(this);
+
         vcaSound = RuntimeManager.GetVCA("vca:/Sound");
 
         vcaMusic = RuntimeManager.GetVCA("vca:/Music");
@@ -78,30 +85,17 @@ public class EscapeMenu : MonoBehaviour
     #region Sound
     public void SetVolumeSound(float _volume)
     {
-
         vcaSound.setVolume(_volume);
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeSound", _volume);
+
+        mainMenuManager.LoadVolumeSound();
     }
 
-    void SetStartVolumeSound()
-    {
-        if (!PlayerPrefs.HasKey("VolumeSound"))
-        {
-            PlayerPrefs.SetFloat("VolumeSound", defaultVolumeSound);
-            LoadVolumeSound();
-        }
-        else
-        {
-            LoadVolumeSound();
-        }
-    }
+    void SetStartVolumeSound() => LoadVolumeSound();
 
-    public void LoadVolumeSound()
-    {
-        volumeSliderSound.value = PlayerPrefs.GetFloat("VolumeSound");
-    }
+    public void LoadVolumeSound() => volumeSliderSound.value = mainMenuManager.GetSoundVolume();
     #endregion
 
     #region Music
@@ -112,26 +106,17 @@ public class EscapeMenu : MonoBehaviour
 
         // Save volume
         PlayerPrefs.SetFloat("VolumeMusic", _volume);
+
+        mainMenuManager.LoadVolumeMusic();
     }
 
-    void SetStartVolumeMusic()
-    {
-        if (!PlayerPrefs.HasKey("VolumeMusic"))
-        {
-            PlayerPrefs.SetFloat("VolumeMusic", defaultVolumeMusic);
-            LoadVolumeMusic();
-        }
-        else
-        {
-            LoadVolumeMusic();
-        }
-    }
+    void SetStartVolumeMusic() => LoadVolumeMusic();
 
-    public void LoadVolumeMusic()
-    {
-        volumeSliderMusic.value = PlayerPrefs.GetFloat("VolumeMusic");
-    }
+    public void LoadVolumeMusic() => volumeSliderMusic.value = mainMenuManager.GetMusicVolume();
+
     #endregion
+
+    public void RegisterMainMenuManager(MainMenuManager mainMenu) => menuManager = mainMenu;
 
     #endregion
 }

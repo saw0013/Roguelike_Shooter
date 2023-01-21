@@ -98176,7 +98176,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282916886559365358}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2cc954376f9d7fd468b4dc9e73ee38b0, type: 2}
   m_CullingMode: 0
@@ -98235,6 +98235,7 @@ MonoBehaviour:
   ShowWire: 1
   color: {r: 1, g: 0.9263608, b: 0, a: 0.6156863}
   _destroy: 0
+  _once: 0
   delayDestroy: 0.1
   isTriggered: 0
   hasAthorityTrigger: 1
@@ -98244,7 +98245,7 @@ MonoBehaviour:
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+      - m_Target: {fileID: 1282916886559365268}
         m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
         m_MethodName: SetTrigger
         m_Mode: 5
@@ -98256,7 +98257,7 @@ MonoBehaviour:
           m_StringArgument: Open
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 4057348304987815983, guid: 7908e09ad758854429ad9e31601a419c, type: 3}
+      - m_Target: {fileID: -8445272411094095042}
         m_TargetAssemblyTypeName: PlayAudio, Assembly-CSharp
         m_MethodName: PlayAudioOnPlayer
         m_Mode: 1
@@ -98268,7 +98269,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2418399147547388507, guid: 7908e09ad758854429ad9e31601a419c, type: 3}
+      - m_Target: {fileID: -2692139776246695844}
         m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
         m_MethodName: Play
         m_Mode: 1
@@ -98283,7 +98284,7 @@ MonoBehaviour:
   OnExitTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+      - m_Target: {fileID: 1282916886559365268}
         m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
         m_MethodName: SetTrigger
         m_Mode: 5

@@ -76,6 +76,8 @@ public class MainMenuManager : MonoBehaviour
 
     private VCA vcaMusic;
 
+    private EscapeMenu escapeMenu;
+
     Resolution[] resolutions;
 
     private TypePlayer typePlayer;
@@ -223,12 +225,11 @@ public class MainMenuManager : MonoBehaviour
     #region Sound
     public void SetVolumeSound(float _volume)
     {
-        //_audioSourceSound.volume = _volume;
-
         vcaSound.setVolume(_volume);
 
-        // Save volume
         PlayerPrefs.SetFloat("VolumeSound", _volume);
+
+        escapeMenu.LoadVolumeSound();
     }
 
     void SetStartVolumeSound()
@@ -248,6 +249,9 @@ public class MainMenuManager : MonoBehaviour
     {
         volumeSliderSound.value = PlayerPrefs.GetFloat("VolumeSound");
     }
+
+    public float GetSoundVolume() => volumeSliderSound.value;
+
     #endregion
 
     #region Music
@@ -255,8 +259,9 @@ public class MainMenuManager : MonoBehaviour
     {
         vcaMusic.setVolume(_volume);
 
-        // Save volume
         PlayerPrefs.SetFloat("VolumeMusic", _volume);
+
+        escapeMenu.LoadVolumeMusic();
     }
 
     void SetStartVolumeMusic()
@@ -276,7 +281,16 @@ public class MainMenuManager : MonoBehaviour
     {
         volumeSliderMusic.value = PlayerPrefs.GetFloat("VolumeMusic");
     }
+
+    public float GetMusicVolume() => volumeSliderMusic.value;
+
     #endregion
+
+    public void RegisterEscapeMenu(EscapeMenu menu)
+    {
+        escapeMenu = menu;
+        escapeMenu.RegisterMainMenuManager(this);
+    }
 
     #endregion
 

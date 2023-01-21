@@ -50874,7 +50874,7 @@ GameObject:
   - component: {fileID: 4057348304987815983}
   - component: {fileID: 2418399147547388507}
   m_Layer: 0
-  m_Name: DoorUni_10
+  m_Name: DoorUni_9.1
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50907,7 +50907,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7499725462625322410}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 2cc954376f9d7fd468b4dc9e73ee38b0, type: 2}
   m_CullingMode: 0
@@ -50966,6 +50966,7 @@ MonoBehaviour:
   ShowWire: 1
   color: {r: 1, g: 0.9263608, b: 0, a: 0.6156863}
   _destroy: 0
+  _once: 0
   delayDestroy: 0.1
   isTriggered: 0
   hasAthorityTrigger: 1
@@ -50975,7 +50976,7 @@ MonoBehaviour:
   OnEnterTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+      - m_Target: {fileID: 7499725462625322412}
         m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
         m_MethodName: SetTrigger
         m_Mode: 5
@@ -51014,7 +51015,7 @@ MonoBehaviour:
   OnExitTrigger:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8272340505684420419, guid: 831fdec098f44414a861409a35ed26c4, type: 3}
+      - m_Target: {fileID: 7499725462625322412}
         m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
         m_MethodName: SetTrigger
         m_Mode: 5
