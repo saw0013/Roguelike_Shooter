@@ -7,9 +7,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using Mirror;
-using UnityEngine.Networking.Types;
-using UnityEngine.SceneManagement;
-using Utils;
 using Random = UnityEngine.Random;
 using MirrorBasics;
 
@@ -166,7 +163,7 @@ public class EventTrigger : NetworkBehaviour
     /// <returns></returns>
     public IEnumerator SpawnBigSpiderRandomPoints(Guid matchID, string who)
     {
-        var rp = GetPointPatrool.Instance.RandomPoints; //Получим все точки спавна
+        var rp = GetComponentInChildren<GetPointPatrool>().RandomPoints;
 
         #region старый впавн ???
         //for (int i = 0; i < CountSpawn; i++) //Спавнить будем в цикле

@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3676154182460198393}
   - component: {fileID: 3028668973086742943}
-  - component: {fileID: 559890927321279964}
   m_Layer: 0
-  m_Name: PatroolPoints
+  m_Name: SpawnPointsEnemy_0
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -45,25 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb851a3b208de841a5e1e83f67c27e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Range: 14
   color: {r: 0, g: 0.4847312, b: 1, a: 1}
   RandomPoints: []
---- !u!114 &559890927321279964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3676154182460198395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: cb5d32c10e4c23b4c9990a233d0c5da9
-  hasSpawned: 0

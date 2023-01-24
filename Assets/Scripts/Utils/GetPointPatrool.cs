@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GetPointPatrool : NetworkBehaviour
+public class GetPointPatrool : MonoBehaviour
 {
     public static GetPointPatrool Instance;
     public float Range;

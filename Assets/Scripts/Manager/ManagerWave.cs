@@ -25,8 +25,8 @@ public class ManagerWave : NetworkBehaviour
     public bool isActive;
     bool isStarted = false; //Раз вызывается с клиента, то метод спавна будет вызван столько раз сколько игроков. Это просто заглушка
 
-    [SyncVar(hook = nameof(OnChangeWave))]
-    private int killedEnemy;
+    //[SyncVar(hook = nameof(OnChangeWave))]
+    [SyncVar] private float killedEnemy;
 
     [Tooltip("Количество врагов, по значению волны")]
     private Dictionary<int, int> EnemyToCurrentWave = new Dictionary<int, int>();
@@ -39,21 +39,27 @@ public class ManagerWave : NetworkBehaviour
         }
     }
 
-    private void OnChangeWave(int _Old, int _New)
-    {
-        if (killedEnemy >= GetEnemySpawn() & !isStarted)
-        {
-            //if (isServer) NextWave();
-            //else CmdNextWave();
-            CmdNextWave();
-        }
-    }
+    //private void OnChangeWave(float _Old, float _New)
+    //{
+    //    Debug.LogWarning(GetEnemySpawn());
+    //    Debug.LogWarning(_New);
+    //    Debug.LogWarning(killedEnemy);
+
+
+    //    if (killedEnemy >= GetEnemySpawn() & !isStarted)
+    //    {
+    //        Debug.LogWarning("След. волна");
+    //        //if (isServer) NextWave();
+    //        //else CmdNextWave();
+    //        CmdNextWave();
+    //    }
+    //}
 
     private void NextSpawnEnemy()
     {
         countSpawned = 0;
         killedEnemy = 0;
-        GetComponent<EventTrigger>().ServerSpawn(GetComponent<NetworkMatch>().matchId);
+        //GetComponent<EventTrigger>().ServerSpawn(GetComponent<NetworkMatch>().matchId);
     }
 
     /// <summary>
@@ -140,18 +146,21 @@ public class ManagerWave : NetworkBehaviour
     public void EndOfTimer(GameTimer timer)
     {
         Debug.Log("timer end.");
-        currentWave++;
+
+        currentWave += 1 / MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+
+        Debug.Log(currentWave);
 
         timer.timer = 1 * 60;
 
         timer.showTime = "";
 
         Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
-        if (currentWave >= _allWawe)
+        if (currentWave >= _allWawe && isActive)
         {
             isActive = false;
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
             ActiveAhtorityDoors();
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
         }
 
         NextSpawnEnemy();
@@ -180,7 +189,7 @@ public class ManagerWave : NetworkBehaviour
     /// Полчуает количество НПЦ в текущей волне
     /// </summary>
     /// <returns></returns>
-    public int GetEnemySpawn() => EnemyToCurrentWave[currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+    public float GetEnemySpawn() => EnemyToCurrentWave[currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
 
     /// <summary>
     /// Сколько всего заспавнено НПЦ
@@ -192,11 +201,31 @@ public class ManagerWave : NetworkBehaviour
     {
         countSpawned++;
     }
+
     [Server]
     public void SetKilledEnemy()
     {
         Debug.LogWarning("SetKilledEnemy отработал");
-        killedEnemy++;
+
+        Debug.LogWarning(MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult);
+
+        var player = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+
+        float killedAdd = 1 / (float)player;
+
+        Debug.LogWarning(killedAdd);
+
+        killedEnemy += killedAdd;
+
+        Debug.LogWarning(killedEnemy);
+
+        if (killedEnemy >= GetEnemySpawn() & !isStarted)
+        {
+            Debug.LogWarning("След. волна");
+            //if (isServer) NextWave();
+            //else CmdNextWave();
+            CmdNextWave();
+        }
     }
 
 }
