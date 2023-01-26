@@ -100,8 +100,8 @@ public class MainMenuManager : MonoBehaviour
         else typePlayer = (TypePlayer)PlayerPrefs.GetInt("PlayerType");
 
         SetStartUI();
-        SetStartVolumeSound();
         SetStartVolumeMusic();
+        SetStartVolumeSound();
         PrepareResolutions();
     }
 
@@ -229,7 +229,7 @@ public class MainMenuManager : MonoBehaviour
 
         PlayerPrefs.SetFloat("VolumeSound", _volume);
 
-        escapeMenu.LoadVolumeSound();
+        escapeMenu?.LoadVolumeSound();
     }
 
     void SetStartVolumeSound()
@@ -261,7 +261,7 @@ public class MainMenuManager : MonoBehaviour
 
         PlayerPrefs.SetFloat("VolumeMusic", _volume);
 
-        escapeMenu.LoadVolumeMusic();
+        escapeMenu?.LoadVolumeMusic();
     }
 
     void SetStartVolumeMusic()

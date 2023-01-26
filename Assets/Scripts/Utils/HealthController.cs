@@ -26,7 +26,7 @@ public class HealthController : NetworkBehaviour, IHealthController
     [SerializeField] protected TMP_Text _textHealth;
 
     [Space(5), Header("===HealthController===")]
-    [SerializeField] protected bool _isDead;
+    public bool _isDead;
     [SerializeField] protected float _currentHealth;
     public bool isImmortal = false;
 

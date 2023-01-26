@@ -219,7 +219,7 @@ public class ManagerWave : NetworkBehaviour
 
         Debug.LogWarning(killedEnemy);
 
-        if (killedEnemy >= GetEnemySpawn() & !isStarted)
+        if (killedEnemy >= GetEnemySpawned() & !isStarted)
         {
             Debug.LogWarning("След. волна");
             //if (isServer) NextWave();

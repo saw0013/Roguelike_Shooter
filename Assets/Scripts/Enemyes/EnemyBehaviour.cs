@@ -257,7 +257,7 @@ public class EnemyBehaviour : HealthController
 
         for(int i = 0; i < rangeChecks.Length; i++)
         {
-            if (!rangeChecks[i].GetComponent<PlayerData>().isDead)
+            if (!rangeChecks[i].GetComponent<PlayerData>()._isDead)
             {
 
                 var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
