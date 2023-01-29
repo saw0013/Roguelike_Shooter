@@ -76,7 +76,7 @@ public class EnemyBehaviour : HealthController
 
     private bool enable = true;
 
-    private Renderer renderer;
+    private Renderer _renderer;
     private float alphaRenderer = 0.2f;
 
 
@@ -103,7 +103,7 @@ public class EnemyBehaviour : HealthController
         e_anim = GetComponent<EnemyAnimation>();
         StartCoroutine(FOVRoutine());
         e_anim.anim_WalkSpeed(SpeedWalkAnim);
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
     }
 
     [Command(requiresAuthority = false)]
@@ -255,23 +255,29 @@ public class EnemyBehaviour : HealthController
 
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
 
-        for(int i = 0; i < rangeChecks.Length; i++)
+        if(rangeChecks.Length <= 0)
         {
-            if (!rangeChecks[i].GetComponent<PlayerData>()._isDead)
+            for (int i = 0; i < rangeChecks.Length; i++)
             {
+                var player = rangeChecks[i].GetComponent<PlayerData>();
 
-                var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
+                if (player.CheckDead())
+                {
 
-                if (purpose == null) purpose = rangeChecks[i];
+                    var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
-                var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+                    if (purpose == null) purpose = rangeChecks[i];
 
-                if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                    var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+
+                    if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                }
+
             }
 
+            return purpose;
         }
-
-        return purpose;
+        else return null;
     }
 
     private void LookTarget(Transform target)

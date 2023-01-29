@@ -26,7 +26,7 @@ public class HealthController : NetworkBehaviour, IHealthController
     [SerializeField] protected TMP_Text _textHealth;
 
     [Space(5), Header("===HealthController===")]
-    public bool _isDead;
+    private bool _isDead;
     [SerializeField] protected float _currentHealth;
     public bool isImmortal = false;
 
@@ -78,6 +78,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             if (!_isDead && _currentHealth <= 0)
             {
                 _isDead = true;
+                Debug.LogWarning(_isDead + " Умер name_" + gameObject.name);
 
                 onDead.Invoke(gameObject);
 
@@ -86,6 +87,7 @@ public class HealthController : NetworkBehaviour, IHealthController
             }
             else if (isDead && _currentHealth > 0)
             {
+                Debug.LogWarning(_isDead + " Восстал name_" + gameObject.name);
                 _isDead = false;
             }
         }
@@ -138,10 +140,18 @@ public class HealthController : NetworkBehaviour, IHealthController
 
     #region Client\Server Callback
 
+    public bool CheckDead() => _isDead;
+
     //метод ХУКА который будет выставлять Health в соответствии с синхронизированным значением
     void SyncHealth(float oldvalue, float newValue)
     {
         currentHealth = newValue; //обязательно делаем два значения - старое и новое. 
+
+        if (!_isDead && _currentHealth <= 0)
+        {
+            _isDead = true;
+            Debug.LogWarning(_isDead + " Умер name_" + gameObject.name);
+        }
 
         //RpcМетод
         var _tweenOn = _healthSliderRpc.DOValue(newValue / 100, Time.deltaTime * 20);
