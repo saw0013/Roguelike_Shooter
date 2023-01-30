@@ -128,6 +128,8 @@ public class ManagerWave : NetworkBehaviour
 
         Debug.LogWarning("Наш отправитель " + sender.identity.name);
 
+        sender.identity.gameObject.GetComponent<PlayerData>().ChangeWaveNuberText(true, (int)currentWave);
+
         var timer = sender.identity.gameObject.GetComponent<GameTimer>();
 
         timer.timer = 1 * 60;
@@ -148,14 +150,6 @@ public class ManagerWave : NetworkBehaviour
     public void EndOfTimer()
     {
         Debug.Log("timer end.");
-
-        var player = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
-
-        float wave = 1 / (float)player;
-
-        currentWave += wave;
-
-        Debug.Log(currentWave);
 
         Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
         if (currentWave >= _allWawe && isActive)
@@ -215,6 +209,12 @@ public class ManagerWave : NetworkBehaviour
         if (newValue >= GetEnemySpawn())
         {
             Debug.LogWarning("След. волна");
+
+            var player = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+            float wave = 1 / (float)player;
+            currentWave += wave;
+            Debug.Log(currentWave);
+
             //if (isServer) NextWave();
             //else CmdNextWave();
             CmdNextWave();

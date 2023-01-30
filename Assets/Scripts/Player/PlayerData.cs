@@ -9,6 +9,9 @@ using MirrorBasics;
 public class PlayerData : HealthController, ICharacter
 {
     #region Variables
+    [Header("===UI===")]
+    [SerializeField] private TMP_Text WaveText;
+
     [Header("===Stat PlayerData===")]
 
     [SyncVar(hook = nameof(UpdateLocalScore))]
@@ -270,6 +273,13 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <returns></returns>
     internal bool GetMenuInputActive() => EscapeMenuActive;
+
+    public void ChangeWaveNuberText(bool active, int waveNum)
+    {
+        if (WaveText.gameObject.activeSelf == active) WaveText.gameObject.SetActive(active);
+
+        WaveText.text = $"Волна номер: {waveNum}";
+    }
 
     #endregion
 
