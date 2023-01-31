@@ -26,6 +26,10 @@ public class PlayerData : HealthController, ICharacter
 
     [Space(10), Header("===PlayerData===")]
     private bool InputActive/* = true*/;
+
+    //Можно при смерти говорить что InputActive == false и в поведении паука следить за этим показателем
+    public bool LocalDead = false;
+
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
     public int SpeedPlayer;
@@ -85,6 +89,16 @@ public class PlayerData : HealthController, ICharacter
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
     }
+
+    private void OnEnable() => Action_OnDead += CmdDie;
+    private void OnDisable() => Action_OnDead -= CmdDie;
+
+    private void CmdDie()
+    {
+        LocalDead = true;
+    }
+
+    
 
     protected override void Start()
     {

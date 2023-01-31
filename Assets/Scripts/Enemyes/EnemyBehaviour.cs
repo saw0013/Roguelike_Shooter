@@ -141,6 +141,7 @@ public class EnemyBehaviour : HealthController
 
         NetworkServer.Destroy(gameObject);
 
+        Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
     }
 
@@ -261,9 +262,9 @@ public class EnemyBehaviour : HealthController
             {
                 var player = rangeChecks[i].GetComponent<PlayerData>();
 
-                if (player.CheckDead())
+                Debug.Log("!!!player.LocalDead" + player.LocalDead);
+                if (!player.LocalDead)
                 {
-
                     var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
                     if (purpose == null) purpose = rangeChecks[i];
