@@ -234,9 +234,11 @@ public class ManagerWave : NetworkBehaviour
 
         Debug.LogWarning(killedAdd);
 
+        Debug.LogWarning("До " + killedEnemy);
+
         killedEnemy += killedAdd;
 
-        Debug.LogWarning(killedEnemy);
+        Debug.LogWarning("После " + killedEnemy);
     }
 
 }
