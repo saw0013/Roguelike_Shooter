@@ -37,7 +37,7 @@ public class EnemyBehaviour : HealthController
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private GameObject _bullet;
 
-    public bool LocalDead { get; set; }
+    public bool LocalDead = false;
 
     [Tooltip("Скорость анимации ходьбы паука")]
     [SerializeField] private float SpeedWalkAnim;
@@ -85,8 +85,8 @@ public class EnemyBehaviour : HealthController
 
     #region Base method. Start, Awake, Enable and too...
 
-    private void OnEnable() => Action_OnDead += CmdDie;
-    private void OnDisable() => Action_OnDead -= CmdDie;
+   //private void OnEnable() => Action_OnDead += CmdDie;
+   //private void OnDisable() => Action_OnDead -= CmdDie;
     protected override void Awake()
     {
         base.Awake();
@@ -106,48 +106,10 @@ public class EnemyBehaviour : HealthController
         _renderer = GetComponent<Renderer>();
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdDie()
-    {
-        //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
-        //Мы тут 100% сервер 
-        StartCoroutine(IEDestroyAfterDie());
-    }
-
     public void CmdLocalDead()
     {
         LocalDead = true;
         Debug.LogWarning("Враг LocalDead " + LocalDead);
-    }
-
-    private IEnumerator IEDestroyAfterDie()
-    {
-
-        //var DieParticle = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "Flakes"), gameObject.transform.position, Quaternion.identity);
-        //DieParticle.GetComponent<NetworkMatch>().matchId = gameObject.GetComponent<NetworkMatch>().matchId;
-        //NetworkServer.Spawn(DieParticle);
-
-        //Destroy(DieParticle, 5.0f);
-
-        yield return new WaitForSeconds(5.0f);
-
-        #region для будущего обновления [Для медленного исчезновления. Нужна подмена material]
-        //UnityEngine.Color color;
-        //color = renderer.material.color;
-        //while (color.a > 0)
-        //{
-        //    color = renderer.material.color;
-        //    color.a -= alphaRenderer * Time.deltaTime;
-        //    renderer.material.color = color;
-        //    yield return new WaitForEndOfFrame();
-        //}
-        #endregion
-
-        NetworkServer.Destroy(gameObject);
-
-        Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
-        //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
     }
 
 

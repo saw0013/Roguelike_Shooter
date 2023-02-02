@@ -67,9 +67,13 @@ public class BulletPool : NetworkBehaviour
                 break;
 
             case "Enemy":
-                ClaimScore(_owner, 10);
-                RpcParticles(_hitEnemyParticles);
-                collision.gameObject.ApplyDamage(_damageToPlayer);
+                if (!collision.gameObject.GetComponent<EnemyData>().LocalDead)
+                {
+                    ClaimScore(_owner, 10);
+                    RpcParticles(_hitEnemyParticles);
+                    collision.gameObject.ApplyDamage(_damageToPlayer);
+                }
+
                 if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
                 {
                     ClaimScore(_owner, 50);

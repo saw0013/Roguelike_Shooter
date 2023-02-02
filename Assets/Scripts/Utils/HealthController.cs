@@ -83,7 +83,11 @@ public class HealthController : NetworkBehaviour, IHealthController
                 onDead.Invoke(gameObject);
 
                 if (_destroyAfterDie)
+                {
+                    //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
                     Action_OnDead?.Invoke();
+                    CmdDie();
+                }
             }
             else if (isDead && _currentHealth > 0)
             {
@@ -93,6 +97,30 @@ public class HealthController : NetworkBehaviour, IHealthController
         }
     }
 
+    [Command(requiresAuthority = false)]
+    private void CmdDie() => StartCoroutine(IEDestroyAfterDie());
+
+    private IEnumerator IEDestroyAfterDie()
+    {
+
+        yield return new WaitForSeconds(5.0f);
+
+        #region для будущего обновления [Для медленного исчезновления. Нужна подмена material]
+        //UnityEngine.Color color;
+        //color = renderer.material.color;
+        //while (color.a > 0)
+        //{
+        //    color = renderer.material.color;
+        //    color.a -= alphaRenderer * Time.deltaTime;
+        //    renderer.material.color = color;
+        //    yield return new WaitForEndOfFrame();
+        //}
+        #endregion
+
+        NetworkServer.Destroy(gameObject);
+        //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+    }
 
     public virtual bool isDead
     {

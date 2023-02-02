@@ -409,7 +409,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             {
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-                NetworkServer.Spawn(obj);
+                NetworkServer.Spawn(obj, connectionToClient); //Œ¡–¿“» ¬Õ»Ã¿Õ»≈ —ﬁƒ¿
 
                 MatchMaker.ManagerLogic(matchID.ToGuid()).AddWaveInGameManager(obj.GetComponent<ManagerWave>());
             }

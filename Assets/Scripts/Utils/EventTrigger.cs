@@ -46,7 +46,7 @@ public class EventTrigger : NetworkBehaviour
 
     [SerializeField] SpawningNPC spawningWho;
     //[SerializeField] int CountSpawn = 5;
-    [SerializeField] private ManagerWave _managerWave;
+    public ManagerWave _managerWave;
 
     public UnityEvent OnEnterTrigger;
     public UnityEvent OnExitTrigger;
@@ -216,6 +216,7 @@ public class EventTrigger : NetworkBehaviour
 
             //if(_managerWave.matchId == null) _managerWave.matchId = matchID;
 
+            //if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             {
                 SpawningNPC randomNPC = (SpawningNPC)Random.Range(1, 3);

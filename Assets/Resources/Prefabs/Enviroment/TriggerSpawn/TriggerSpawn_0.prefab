@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6335466546457690863}
   - component: {fileID: 6335466546457690862}
   - component: {fileID: 6335466546457690861}
-  - component: {fileID: 6335466546457690860}
   - component: {fileID: 6335466546457690867}
   - component: {fileID: 4096355483860449015}
+  - component: {fileID: 6335466546457690860}
   - component: {fileID: 8262974643397862385}
   m_Layer: 0
   m_Name: TriggerSpawn_0
@@ -101,23 +101,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 9.899452, y: 1, z: 1.1674232}
   m_Center: {x: -2.081154, y: 0, z: -0.083711624}
---- !u!114 &6335466546457690860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6335466546457690866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: a19671d215fad454b8a7100faf2037c1
-  hasSpawned: 0
 --- !u!114 &6335466546457690867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +151,23 @@ MonoBehaviour:
   _firstIndexDoorClose: 1
   currentWave: 0
   isActive: 1
+--- !u!114 &6335466546457690860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335466546457690866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: a19671d215fad454b8a7100faf2037c1
+  hasSpawned: 0
 --- !u!114 &8262974643397862385
 MonoBehaviour:
   m_ObjectHideFlags: 0

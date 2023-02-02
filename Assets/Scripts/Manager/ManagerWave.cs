@@ -17,19 +17,14 @@ public class ManagerWave : NetworkBehaviour
 
     [SerializeField] private int _firstIndexDoorClose;
 
-    public float currentWave;
+    public int currentWave;
     private int countSpawned;
     private float currentTimeDalay;
-
     public bool isActive;
-    bool isStarted = false;//Заглушка
-    private float killedEnemy;
 
-    [SyncVar(hook = nameof(OnChangeWave))]
-    private int localKilled;
+    bool isStarted = false; //Заглушка
 
-    private int localWave;
-
+    [SyncVar(hook = nameof(OnChangeWave))] private int killedEnemy;
 
     private Dictionary<int, int> EnemyToCurrentWave = new Dictionary<int, int>();
 
@@ -43,13 +38,12 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
-        Debug.LogWarning($"LocalKiled={_New} >= EnemyToWave[currentWave]={GetEnemySpawn()}");
-        if (_New >= GetEnemySpawn() & !isStarted)
+        //Выполняется на клиента??? Если выполнится условие с клиента то будет ошибка и код не пойдёт дальше.
+        //GetEnemySpawn заменить попробовать на локальную переменную
+        // Debug.LogWarning($"_New=={_New} ||| GetEnemySpawn {GetEnemySpawn()}");
+        // if (_New == GetEnemySpawn() & !isStarted)
+        if (!isStarted)
         {
-            //if (isServer) NextWave();
-            //else CmdNextWave();
-            //if (isServer) NextWave();
-            //else CmdNextWave();
             CmdNextWave();
         }
     }
@@ -61,82 +55,21 @@ public class ManagerWave : NetworkBehaviour
         GetComponent<EventTrigger>().ServerSpawn(GetComponent<NetworkMatch>().matchId);
     }
 
-    /// <summary>
-    /// ��������� �����
-    /// </summary>
-
     private void NextWave(GameObject player)
     {
         isStarted = true;
-        //Debug.LogWarning($"�� �� ��\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority} | NetworkClient.active={NetworkClient.active}");
-        //currentWave++;
-        //currentTimeDalay = 0;
-        //if (currentWave >= _allWawe)
-        //{
-        //    isActive = false;
-        //    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
-        //    ActiveAhtorityDoors();
-        //}
-        //else NextSpawnEnemy();
-
-        #region  Спавн таймера
-
-        //var _player = player.GetComponent<PlayerMovementAndLookNetwork>();
-        //var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
-        //if (_player.transform.Find("GameTimer(Clone)")) return;
-        //else
-        //{
-            ////TODO :  [Client]
-
-            ////GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
-            //var timer = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/GameTimer").asset as GameObject, parentCanvasPlayer);
-            //GameTimer gameTimer = timer.GetComponent<GameTimer>();
-            //if (gameTimer)
-                //gameTimer.ClockReady.AddListener(EndOfTimer);
-
-            //#region  Разобрать
-
-        //}
-        //var _player = player.GetComponent<PlayerMovementAndLookNetwork>();
-        //var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
-        //if (_player.transform.Find("GameTimer(Clone)")) return;
-        //else
-        //{
-        //    //TODO :  [Client]
-        //    Debug.LogWarning("�� � ����� � ����� �������� �������");
-        //    //GameObject timer = Instantiate(ShooterNetworkManager.singleton.spawnPrefabs.Find(prefab => prefab.name == "GameTimer"), parentCanvasPlayer);
-        //    var timer = Instantiate(Resources.LoadAsync("Prefabs/PlayerCommon/GameTimer").asset as GameObject, parentCanvasPlayer);
-        //    GameTimer gameTimer = timer.GetComponent<GameTimer>();
-        //    if (gameTimer)
-        //        gameTimer.ClockReady.AddListener(EndOfTimer);
-
-        //}
-
-        #region Через MatchMaker
-        //foreach (var _player in MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players)
-        //{
-        //    var parentCanvasPlayer = _player.transform.Find("CanvasPlayer");
-
-        //    }
-        //}
-        #endregion
-
-        #endregion
-
     }
 
-
     [Command(requiresAuthority = false)]
-    public void CmdNextWave(NetworkConnectionToClient sender = null) //NetworkConnectionToClient смотреть https://mirror-networking.gitbook.io/docs/guides/communications/remote-actions
+    public void
+        CmdNextWave(
+            NetworkConnectionToClient sender =
+                null) //NetworkConnectionToClient смотреть https://mirror-networking.gitbook.io/docs/guides/communications/remote-actions
     {
         Debug.LogWarning("Отправлено с  " + sender.identity.name);
         //NextWave(sender.identity.gameObject);
 
-        sender.identity.gameObject.GetComponent<PlayerData>().ChangeWaveNuberText(true, (int)currentWave);
-
         var timer = sender.identity.gameObject.GetComponent<GameTimer>();
-
-        timer.timer = 1 * 60;
 
         if (!isStarted)
         {
@@ -151,16 +84,13 @@ public class ManagerWave : NetworkBehaviour
         //NextWave(sender.identity.gameObject);
     }
 
-
-
     public void EndOfTimer()
     {
         Debug.Log("timer ready.");
-        currentWave += 1 / MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
-
-        if (currentWave > localWave) localWave++;
+        currentWave++;
 
         Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
+
         if (currentWave >= _allWawe)
         {
             isActive = false;
@@ -168,14 +98,14 @@ public class ManagerWave : NetworkBehaviour
             ActiveAhtorityDoors();
         }
 
-        isStarted = false;
     }
 
     public void DeactiveAhtorityDoors()
     {
         for (int i = 0; i < 2; i++)
         {
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = false;
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i]
+                .hasAthorityTrigger = false;
         }
     }
 
@@ -184,42 +114,24 @@ public class ManagerWave : NetworkBehaviour
         for (int i = 0; i < 2; i++)
         {
             Debug.LogWarning("Открываем дверь");
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i].hasAthorityTrigger = true;
+            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[_firstIndexDoorClose + i]
+                .hasAthorityTrigger = true;
         }
     }
 
-    /// <summary>
-    /// �������� ���������� ��� � ������� �����
-    /// </summary>
-    /// <returns></returns>
-    public int GetEnemySpawn() => EnemyToCurrentWave[localWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+    //TODO : Это выполняется на клиенте или выше в хуке
+    public int GetEnemySpawn() => EnemyToCurrentWave[(int)currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
 
-    /// <summary>
-    /// ������� ����� ���������� ���
-    /// </summary>
-    /// <returns></returns>
+
+
     public int GetEnemySpawned() => countSpawned;
-
     public int SetEnemySpawned() => countSpawned++;
 
-    [Command(requiresAuthority = false)]
-    public void CmdSetKilledEnemy() => SetKilledEnemy();
-
     [Server]
-    public void ServerKilledEnemy()
-    {
-        Debug.LogWarning("SetKilledEnemy отработал");
-
-        killedEnemy++;
-
-        if (killedEnemy / MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult > localKilled) localKilled++;
-    }
-
-
     public void SetKilledEnemy()
     {
-        if (isServer) ServerKilledEnemy();
-        else CmdSetKilledEnemy();
+        Debug.LogWarning("Убито"  + killedEnemy);
+        Debug.LogWarning("SetKilledEnemy отработал");
+        killedEnemy++;
     }
-
 }

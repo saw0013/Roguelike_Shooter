@@ -38,13 +38,13 @@ public class GameManagerLogic
     public void AddPlayerInGameManager(PlayerMovementAndLookNetwork player)
     {
         if (players == null) players = new List<PlayerMovementAndLookNetwork>();
-        
+
         players.Add(player);
     }
 
     public void ActiveNextManagerWave()
     {
-        var LastActiveindex = Waves.FindIndex(w => w.isActive); 
+        var LastActiveindex = Waves.FindIndex(w => w.isActive);
 
         Waves[LastActiveindex++].isActive = true;
     }
@@ -73,4 +73,5 @@ public class GameManagerLogic
     /// </summary>
     /// <param name="player"></param>
     public void RemovePlayerInGameManager(PlayerMovementAndLookNetwork player) => players.Remove(player);
+
 }
