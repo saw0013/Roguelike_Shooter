@@ -17,15 +17,18 @@ public class ManagerWave : NetworkBehaviour
 
     [SerializeField] private int _firstIndexDoorClose;
 
-    public int currentWave;
+    public float currentWave;
     private int countSpawned;
     private float currentTimeDalay;
 
     public bool isActive;
     bool isStarted = false;//Заглушка
+    private float killedEnemy;
 
     [SyncVar(hook = nameof(OnChangeWave))]
-    private int killedEnemy;
+    private int localKilled;
+
+    private int localWave;
 
 
     private Dictionary<int, int> EnemyToCurrentWave = new Dictionary<int, int>();
@@ -40,8 +43,8 @@ public class ManagerWave : NetworkBehaviour
 
     private void OnChangeWave(int _Old, int _New)
     {
-        Debug.LogWarning($"killedEnemy={killedEnemy} >= EnemyToWave[currentWave]={EnemyToWave[currentWave]}");
-        if (killedEnemy >= EnemyToWave[currentWave] & !isStarted)
+        Debug.LogWarning($"LocalKiled={_New} >= EnemyToWave[currentWave]={GetEnemySpawn()}");
+        if (_New >= GetEnemySpawn() & !isStarted)
         {
             //if (isServer) NextWave();
             //else CmdNextWave();
@@ -129,7 +132,11 @@ public class ManagerWave : NetworkBehaviour
         Debug.LogWarning("Отправлено с  " + sender.identity.name);
         //NextWave(sender.identity.gameObject);
 
+        sender.identity.gameObject.GetComponent<PlayerData>().ChangeWaveNuberText(true, (int)currentWave);
+
         var timer = sender.identity.gameObject.GetComponent<GameTimer>();
+
+        timer.timer = 1 * 60;
 
         if (!isStarted)
         {
@@ -149,7 +156,9 @@ public class ManagerWave : NetworkBehaviour
     public void EndOfTimer()
     {
         Debug.Log("timer ready.");
-        currentWave++;
+        currentWave += 1 / MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+
+        if (currentWave > localWave) localWave++;
 
         Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
         if (currentWave >= _allWawe)
@@ -183,7 +192,7 @@ public class ManagerWave : NetworkBehaviour
     /// �������� ���������� ��� � ������� �����
     /// </summary>
     /// <returns></returns>
-    public int GetEnemySpawn() => EnemyToCurrentWave[currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+    public int GetEnemySpawn() => EnemyToCurrentWave[localWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
 
     /// <summary>
     /// ������� ����� ���������� ���
@@ -193,11 +202,24 @@ public class ManagerWave : NetworkBehaviour
 
     public int SetEnemySpawned() => countSpawned++;
 
+    [Command(requiresAuthority = false)]
+    public void CmdSetKilledEnemy() => SetKilledEnemy();
+
     [Server]
-    public void SetKilledEnemy()
+    public void ServerKilledEnemy()
     {
         Debug.LogWarning("SetKilledEnemy отработал");
+
         killedEnemy++;
+
+        if (killedEnemy / MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult > localKilled) localKilled++;
+    }
+
+
+    public void SetKilledEnemy()
+    {
+        if (isServer) ServerKilledEnemy();
+        else CmdSetKilledEnemy();
     }
 
 }

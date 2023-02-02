@@ -28,7 +28,7 @@ public class PlayerData : HealthController, ICharacter
     private bool InputActive/* = true*/;
 
     //ћожно при смерти говорить что InputActive == false и в поведении паука следить за этим показателем
-    public bool LocalDead = false;
+    public bool LocalDead { get; set; }
 
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
@@ -93,9 +93,10 @@ public class PlayerData : HealthController, ICharacter
     private void OnEnable() => Action_OnDead += CmdDie;
     private void OnDisable() => Action_OnDead -= CmdDie;
 
-    private void CmdDie()
+    public void CmdDie()
     {
         LocalDead = true;
+        Debug.LogWarning("»грок LocalDead " + LocalDead);
     }
 
     

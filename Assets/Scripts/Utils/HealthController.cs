@@ -151,6 +151,7 @@ public class HealthController : NetworkBehaviour, IHealthController
         {
             _isDead = true;
             Debug.LogWarning(_isDead + " Умер name_" + gameObject.name);
+
         }
 
         //RpcМетод

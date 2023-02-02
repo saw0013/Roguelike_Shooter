@@ -19,8 +19,6 @@ using Zenject;
 public class EnemyBehaviour : HealthController
 {
     #region  Variables
-
-
     [SerializeField] private TypeEnemy typeEnemy;
 
     [Header("Draw Eye")]
@@ -38,6 +36,8 @@ public class EnemyBehaviour : HealthController
 
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private GameObject _bullet;
+
+    public bool LocalDead { get; set; }
 
     [Tooltip("Скорость анимации ходьбы паука")]
     [SerializeField] private float SpeedWalkAnim;
@@ -114,7 +114,11 @@ public class EnemyBehaviour : HealthController
         StartCoroutine(IEDestroyAfterDie());
     }
 
-
+    public void CmdLocalDead()
+    {
+        LocalDead = true;
+        Debug.LogWarning("Враг LocalDead " + LocalDead);
+    }
 
     private IEnumerator IEDestroyAfterDie()
     {
@@ -142,6 +146,7 @@ public class EnemyBehaviour : HealthController
         NetworkServer.Destroy(gameObject);
 
         Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
+        //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
     }
 
@@ -252,7 +257,7 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
-        if (isDead) return null;
+        if (LocalDead) return null;
 
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
 

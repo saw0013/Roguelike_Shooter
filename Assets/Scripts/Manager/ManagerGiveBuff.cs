@@ -22,10 +22,10 @@ public class ManagerGiveBuff : NetworkBehaviour
     //[Tooltip("Анимация открытия коробки")]
     //[SerializeField] private float TimeAnimOpen;
 
-    public void SpawnBuff() => CmdSpawnBuff();
+    public void SpawnBuff() => RpcSpawnBuff();
 
-    [Command(requiresAuthority = false)]
-    private void CmdSpawnBuff()
+    [ClientRpc]
+    private void RpcSpawnBuff()
     {
         var Chance = UnityEngine.Random.Range(1, 101);
 

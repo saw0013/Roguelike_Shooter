@@ -2072,7 +2072,6 @@ MonoBehaviour:
   _healthSliderRpc: {fileID: 3268219630498956738}
   _healthDamageSliderRpc: {fileID: 3665177442743396836}
   _textHealth: {fileID: 3268219630960857658}
-  _isDead: 0
   _currentHealth: 0
   isImmortal: 0
   fillHealthOnStart: 1
@@ -2132,6 +2131,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ManagerGiveBuff, Assembly-CSharp
         m_MethodName: SpawnBuff
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2627771740019315429}
+        m_TargetAssemblyTypeName: EnemyBehaviour, Assembly-CSharp
+        m_MethodName: set_LocalDead
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
