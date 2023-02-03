@@ -22,6 +22,8 @@ public class ManagerWave : NetworkBehaviour
     private float currentTimeDalay;
     public bool isActive;
 
+    [SyncVar] private int needEnemyKiled;
+
     bool isStarted = false; //Заглушка
 
     [SyncVar(hook = nameof(OnChangeWave))] private int killedEnemy;
@@ -42,7 +44,10 @@ public class ManagerWave : NetworkBehaviour
         //GetEnemySpawn заменить попробовать на локальную переменную
         // Debug.LogWarning($"_New=={_New} ||| GetEnemySpawn {GetEnemySpawn()}");
         // if (_New == GetEnemySpawn() & !isStarted)
-        if (!isStarted)
+
+        Debug.LogWarning("_New " + _New + ", needKilledEnemy " + needEnemyKiled);
+
+        if (!isStarted && _New >= needEnemyKiled)
         {
             CmdNextWave();
         }
@@ -61,10 +66,7 @@ public class ManagerWave : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void
-        CmdNextWave(
-            NetworkConnectionToClient sender =
-                null) //NetworkConnectionToClient смотреть https://mirror-networking.gitbook.io/docs/guides/communications/remote-actions
+    public void CmdNextWave(NetworkConnectionToClient sender =null) //NetworkConnectionToClient смотреть https://mirror-networking.gitbook.io/docs/guides/communications/remote-actions                             
     {
         Debug.LogWarning("Отправлено с  " + sender.identity.name);
         //NextWave(sender.identity.gameObject);
@@ -120,7 +122,7 @@ public class ManagerWave : NetworkBehaviour
     }
 
     //TODO : Это выполняется на клиенте или выше в хуке
-    public int GetEnemySpawn() => EnemyToCurrentWave[(int)currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+    public int GetEnemySpawn() => EnemyToCurrentWave[currentWave] * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
 
 
 
@@ -133,5 +135,10 @@ public class ManagerWave : NetworkBehaviour
         Debug.LogWarning("Убито"  + killedEnemy);
         Debug.LogWarning("SetKilledEnemy отработал");
         killedEnemy++;
+
+        if(needEnemyKiled != GetEnemySpawn()) needEnemyKiled = GetEnemySpawn() * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
+
+        Debug.LogWarning(needEnemyKiled);
+
     }
 }

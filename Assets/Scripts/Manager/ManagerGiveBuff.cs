@@ -22,38 +22,41 @@ public class ManagerGiveBuff : NetworkBehaviour
     //[Tooltip("Анимация открытия коробки")]
     //[SerializeField] private float TimeAnimOpen;
 
-    public void SpawnBuff() => RpcSpawnBuff();
+    public void SpawnBuff()
+    {
+        CmdSpawnBuff();
+    }
 
-    [ClientRpc]
-    private void RpcSpawnBuff()
+    [Command(requiresAuthority = false)]
+    private void CmdSpawnBuff()
     {
         var Chance = UnityEngine.Random.Range(1, 101);
 
-        //Debug.LogWarning(Chance);
+        Debug.LogWarning(Chance);
 
         if (Chance <= (100 - CommonChance))
         {
-            SpawnBuff(CommonBuff);
+            CmdSpawnBuff(CommonBuff);
         }
         else
         {
             if (Chance <= (100 - RareChance))
             {
-                SpawnBuff(RareBuff);
+                CmdSpawnBuff(RareBuff);
             }
             else
             {
                 if (Chance <= (100 - EpicChance))
                 {
                     //SpawnBuff(EpicBuff, i);
-                    SpawnBuff(RareBuff);
+                    CmdSpawnBuff(RareBuff);
                 }
                 else
                 {
                     if (Chance <= (100 - LegenderyChance))
                     {
                         //SpawnBuff(LegenderyBuff, i);
-                        SpawnBuff(RareBuff);
+                        CmdSpawnBuff(RareBuff);
 
                     }
                 }
@@ -61,82 +64,8 @@ public class ManagerGiveBuff : NetworkBehaviour
         }
     }
 
-    //[Server]
-    //private void GiveBuff()
-    //{
-    //    //Выполняется!
-    //    var Chance = UnityEngine.Random.Range(1, 101);
-
-    //    //Debug.LogWarning(Chance);
-
-    //    if (Chance <= (100 - CommonChance))
-    //    {
-    //        SpawnBuff(CommonBuff);
-    //    }
-    //    else
-    //    {
-    //        if (Chance <= (100 - RareChance))
-    //        {
-    //            SpawnBuff(RareBuff);
-    //        }
-    //        else
-    //        {
-    //            if (Chance <= (100 - EpicChance))
-    //            {
-    //                //SpawnBuff(EpicBuff, i);
-    //                SpawnBuff(RareBuff);
-    //            }
-    //            else
-    //            {
-    //                if (Chance <= (100 - LegenderyChance))
-    //                {
-    //                    //SpawnBuff(LegenderyBuff, i);
-    //                    SpawnBuff(RareBuff);
-
-    //                }
-    //            }
-    //        }
-    //    }
-
-
-    //    //for(int i = 0; i < MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.Count; i++)
-    //    //{
-    //    //    var Chance = UnityEngine.Random.Range(1, 101);
-
-    //    //    //Debug.LogWarning(Chance);
-
-    //    //    if (Chance <= (100 - CommonChance))
-    //    //    {
-    //    //        SpawnBuff(CommonBuff, i);
-    //    //    }
-    //    //    else
-    //    //    {
-    //    //        if (Chance <= (100 - RareChance))
-    //    //        {
-    //    //            SpawnBuff(RareBuff, i);
-    //    //        }
-    //    //        else
-    //    //        {
-    //    //            if (Chance <= (100 - EpicChance))
-    //    //            {
-    //    //                //SpawnBuff(EpicBuff, i);
-    //    //                SpawnBuff(RareBuff, i);
-    //    //            }
-    //    //            else
-    //    //            {
-    //    //                if (Chance <= (100 - LegenderyChance))
-    //    //                {
-    //    //                    //SpawnBuff(LegenderyBuff, i);
-    //    //                    SpawnBuff(RareBuff, i);
-
-    //    //                }
-    //    //            }
-    //    //        }
-    //    //    }
-    //    //}
-    //}
-
-    private void SpawnBuff(List<GameObject> Buffs)
+    [Command(requiresAuthority = false)]
+    private void CmdSpawnBuff(List<GameObject> Buffs)
     {
         //CmdSpawnBuff(Buffs, index);
         //Debug.LogWarning("Индекс" + indexBuffs);
