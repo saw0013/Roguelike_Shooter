@@ -28,7 +28,7 @@ public class PlayerData : HealthController, ICharacter
     private bool InputActive/* = true*/;
 
     //Можно при смерти говорить что InputActive == false и в поведении паука следить за этим показателем
-    public bool LocalDead { get; set; }
+    [SyncVar] public bool LocalDead;
 
     private bool EscapeMenuActive;
     public Transform ItemsGrind;

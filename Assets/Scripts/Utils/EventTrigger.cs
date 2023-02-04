@@ -200,6 +200,7 @@ public class EventTrigger : NetworkBehaviour
             x.name == who), StartPointNpc, Quaternion.Euler(0, Random.Range(0, 360), 0)); //Паучок будет рандомно повёртнут
         npc.GetComponent<NetworkMatch>().matchId = matchID;
         NetworkServer.Spawn(npc); //Спавним паука в рандомной точке
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.AddInListEnemy(npc);
 
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
