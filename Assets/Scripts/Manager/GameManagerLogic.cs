@@ -44,9 +44,10 @@ public class GameManagerLogic
 
     public void ActiveNextManagerWave()
     {
-        var LastActiveindex = Waves.FindIndex(w => w.isActive);
-
-        Waves[LastActiveindex++].isActive = true;
+        int index = Waves.IndexOf(ActiveWave);
+        //var LastActiveindex = Waves.FindIndex(w => w.isActive);
+        Debug.LogWarning(index);
+        Waves[index + 2].isActive = true;
     }
 
     public void AddWaveInGameManager(ManagerWave Wave)
@@ -54,6 +55,9 @@ public class GameManagerLogic
         if (Waves == null) Waves = new List<ManagerWave>();
 
         Waves.Add(Wave);
+
+        Debug.LogWarning(Wave.name);
+        Debug.LogWarning(Waves.Count);
     }
 
     public void AddDoorInGameManager(EventTrigger door)

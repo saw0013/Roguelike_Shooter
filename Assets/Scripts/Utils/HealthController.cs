@@ -117,9 +117,12 @@ public class HealthController : NetworkBehaviour, IHealthController
         //}
         #endregion
 
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy(gameObject);
+        yield return new WaitForSeconds(0.1f);
         NetworkServer.Destroy(gameObject);
         //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.SetKilledEnemy();
+
+
     }
 
     public virtual bool isDead

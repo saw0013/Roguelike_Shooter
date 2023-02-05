@@ -121,11 +121,14 @@ public class EventTrigger : NetworkBehaviour
             if (spawningWho != SpawningNPC.None)
             {
                 RpcChengeMusic();
-
+                var AllWave = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetAllWave();
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
                     var _distance = Vector3.Distance(other.transform.position, p.transform.position);
                     var playerData = p.GetComponent<PlayerData>();
+
+                    playerData.ChangeWaveNuberText("Волна " + 1 + "/" + AllWave);
+
                     Debug.LogWarning("LocalDead player " + playerData.LocalDead);
                     if (_distance > _maxDistanceToPlayer && !playerData.LocalDead)
                     {
@@ -205,7 +208,7 @@ public class EventTrigger : NetworkBehaviour
         rp.Remove(StartPointNpc); //Удалим эту точку, чтобы следующий паук не заспавнился там же
         yield return new WaitForSeconds(2.0f);
         Destroy(PreSpawn); //Удалим партиклы спавна
-        ServerSpawn(matchID); //Нет смысла циклить спавн
+        ServerSpawn(matchID); 
     }
 
     [ServerCallback]

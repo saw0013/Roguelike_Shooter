@@ -459,9 +459,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     public void BeginFade()
     {
-        _mainMenuManager = FindObjectOfType<MainMenuManager>();
-        Debug.LogWarning(_mainMenuManager.name);
-        _mainMenuManager.Fade();
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+        {
+            Debug.LogWarning("Player " + p.name);
+            var MainMenuManager = p.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager;
+            MainMenuManager.Fade();
+        });
+
+        //_mainMenuManager = FindObjectOfType<MainMenuManager>();
+        //Debug.LogWarning(_mainMenuManager.name);
+        //_mainMenuManager.Fade();
     }
 
     [TargetRpc]

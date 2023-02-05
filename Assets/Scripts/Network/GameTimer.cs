@@ -40,10 +40,10 @@ public class GameTimer : NetworkBehaviour
         {
             running = false;
             showTime = "00:00";
-            MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.EndOfTimer();
+            if (isServer) MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId)?.ActiveWave.EndOfTimer();          
             Debug.Log("Время вышло");
             // Callback event когда таймер достигает нуля
-            ClockReady.Invoke();
+            //ClockReady.Invoke();
         }
 
         if (clockText)
@@ -53,4 +53,6 @@ public class GameTimer : NetworkBehaviour
         else Debug.LogError("GameTimer.Update(): timer = null.");
     }
 }
+
+
 

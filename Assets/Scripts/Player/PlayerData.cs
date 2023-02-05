@@ -10,7 +10,7 @@ public class PlayerData : HealthController, ICharacter
 {
     #region Variables
     [Header("===UI===")]
-    [SerializeField] private TMP_Text WaveText;
+    public TMP_Text WaveText;
 
     [Header("===Stat PlayerData===")]
 
@@ -289,11 +289,10 @@ public class PlayerData : HealthController, ICharacter
     /// <returns></returns>
     internal bool GetMenuInputActive() => EscapeMenuActive;
 
-    public void ChangeWaveNuberText(bool active, int waveNum)
+    [ClientRpc]
+    public void ChangeWaveNuberText(string waveText)
     {
-        if (WaveText.gameObject.activeSelf == active) WaveText.gameObject.SetActive(active);
-
-        WaveText.text = $"Волна номер: {waveNum}";
+        WaveText.text = waveText;
     }
 
     #endregion
