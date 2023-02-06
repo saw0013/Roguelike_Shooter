@@ -12,6 +12,8 @@ public class PlayerData : HealthController, ICharacter
     [Header("===UI===")]
     public TMP_Text WaveText;
 
+    public UIStatPlayer ProgressPlayerStat;
+
     [Header("===Stat PlayerData===")]
 
     [SyncVar(hook = nameof(UpdateLocalScore))]
@@ -265,6 +267,15 @@ public class PlayerData : HealthController, ICharacter
 
     #region Public
 
+    /// <summary>
+    /// ѕоказывает статистику персонажа
+    /// </summary>
+    public void ShowStat()
+    {
+        ProgressPlayerStat.SetStatPlayerText(AmmoWasted, EnemyKilled, BuffGive, ScorePlayer);
+
+        ProgressPlayerStat.gameObject.SetActive(true);
+    }
     /// <summary>
     /// ”станавливаем, можно ли управл€ть персонажем
     /// </summary>

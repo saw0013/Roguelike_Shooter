@@ -11,6 +11,8 @@ public class GameManagerLogic
     public List<ManagerWave> Waves;
     public List<EventTrigger> Door;
 
+    private int compliteWave;
+
     /// <summary>
     /// Активный менеджер волн
     /// </summary>
@@ -44,10 +46,24 @@ public class GameManagerLogic
 
     public void ActiveNextManagerWave()
     {
-        int index = Waves.IndexOf(ActiveWave);
-        //var LastActiveindex = Waves.FindIndex(w => w.isActive);
-        Debug.LogWarning(index);
-        Waves[index + 2].isActive = true;
+        compliteWave++;
+
+        Debug.LogWarning(compliteWave);
+
+        if(Waves.Count <= compliteWave)
+        {
+            players.ForEach(p =>
+            {
+                var player = p.GetComponent<PlayerData>();
+
+                player.ShowStat();
+
+            });
+        }
+        else
+        {
+            Waves[compliteWave].isActive = true;
+        }
     }
 
     public void AddWaveInGameManager(ManagerWave Wave)

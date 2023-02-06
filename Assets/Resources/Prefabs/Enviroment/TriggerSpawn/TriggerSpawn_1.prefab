@@ -163,7 +163,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _allWawe: 6
-  EnemyToWave: 030000000600000009000000090000000300000005000000
+  EnemyToWave: 010000000200000001000000020000000100000002000000
   TimeDelayToWave: 5
   _firstIndexDoorClose: 3
   currentWave: 0

@@ -11,7 +11,7 @@ public class ManagerWave : NetworkBehaviour
 {
     [SerializeField] private int _allWawe;
 
-    /*[SyncVar(hook = nameof(OnChangeWave))]*/ public SyncList<GameObject> _enemyLive = new SyncList<GameObject>();
+    public SyncList<GameObject> _enemyLive = new SyncList<GameObject>();
 
     [SerializeField] private int[] EnemyToWave;
 
@@ -21,18 +21,13 @@ public class ManagerWave : NetworkBehaviour
 
     public int currentWave;
     private int countSpawned;
-    private float currentTimeDalay;
     public bool isActive;
-
-    [SyncVar] private int needEnemyKiled;
 
     bool isStartedSpawn = false; //Заглушка
 
     bool isStartedTimer = false; //Заглушка
 
     bool isStartedAddEnemy = false; //Заглушка
-
-    //[SyncVar(hook = nameof(OnChangeWave))] private int killedEnemy;
 
     private Dictionary<int, int> EnemyToCurrentWave = new Dictionary<int, int>();
 
@@ -98,21 +93,8 @@ public class ManagerWave : NetworkBehaviour
         }
     }
 
-    //private void OnChangeWave(SyncList<GameObject> _Old, SyncList<GameObject> _New)
-    //{
-    //    //Выполняется на клиента??? Если выполнится условие с клиента то будет ошибка и код не пойдёт дальше.
-    //    //GetEnemySpawn заменить попробовать на локальную переменную
-    //    // Debug.LogWarning($"_New=={_New} ||| GetEnemySpawn {GetEnemySpawn()}");
-
-    //    Debug.LogWarning("Прооизошло изменение");
-
-    //    Debug.LogWarning("_oldList " + _Old.Count + ", _newList " + _New.Count);
-
-    //}
-
     private void NextSpawnEnemy()
     {
-        //killedEnemy = 0;
         countSpawned = 1;
         if (isStartedSpawn)
         {
@@ -125,29 +107,8 @@ public class ManagerWave : NetworkBehaviour
     public void EndOfTimer()
     {
         Debug.Log("timer ready.");
-
-        //currentWave = localSetWave;
-
-        //Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
-
-        //if (currentWave >= _allWawe)
-        //{
-        //    isActive = false;
-        //    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
-        //    MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
-        //    {
-        //        var player = p.GetComponent<PlayerData>();
-        //        player.ChangeWaveNuberText("");
-        //    });
-        //    ActiveAhtorityDoors();
-        //}
-        //else
-        //{
-        //    NextSpawnEnemy();
-        //}
-
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p => p.GetComponent<GameTimer>().showTime = "");
         NextSpawnEnemy();
-
         isStartedTimer = false;
     }
 
@@ -194,27 +155,7 @@ public class ManagerWave : NetworkBehaviour
     [Server]
     public void SetKilledEnemy(GameObject enemy)
     {
-        //Debug.LogWarning("Убито" + killedEnemy);
-        //Debug.LogWarning("SetKilledEnemy отработал");
-        //killedEnemy++;
-
-        //if (needEnemyKiled != GetEnemySpawn()) needEnemyKiled = GetEnemySpawn() * MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Difficult;
-
-        //Debug.LogWarning(needEnemyKiled);
-
-        //for(int i = 0; i < _enemyLive.Count; i++)
-        //{
-        //    Debug.LogWarning("Enemy " + i + ", Check 1 " + _enemyLive[i]);
-        //    if (_enemyLive[i] == null) _enemyLive.Remove(_enemyLive[i]);
-        //    Debug.LogWarning("Enemy " + i + ", Check 2 " + _enemyLive[i]);
-        //}
-
-        //Debug.LogWarning(_enemyLive.Count);
-
-        //isStartedSpawn = true;
-
         _enemyLive.Remove(enemy);
         Debug.LogWarning(_enemyLive.Count);
-
     }
 }
