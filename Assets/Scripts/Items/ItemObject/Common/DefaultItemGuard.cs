@@ -7,13 +7,14 @@ public class DefaultItemGuard : NetworkBehaviour
 
     private PlayerData _owner;
 
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
 
-    [TargetRpc]
+    
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();

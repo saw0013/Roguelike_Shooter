@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class GameTimer : NetworkBehaviour
 {
     [SyncVar, HideInInspector]
-    public float timer = 1 * 60;  // 1 минута до окончания
+    public float timer = 1 * 30;  // 1 минута до окончания
 
     private int minutes;
     private int seconds;
@@ -39,7 +39,7 @@ public class GameTimer : NetworkBehaviour
         if (timer < 0)
         {
             running = false;
-            showTime = "00:00";
+            showTime = "";
             if (isServer) MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId)?.ActiveWave.EndOfTimer();          
             Debug.Log("Время вышло");
             // Callback event когда таймер достигает нуля

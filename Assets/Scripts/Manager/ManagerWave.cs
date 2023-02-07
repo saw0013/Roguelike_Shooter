@@ -72,7 +72,7 @@ public class ManagerWave : NetworkBehaviour
                     Wave++;
                     player.ChangeWaveNuberText("волна " + Wave + "/" + _allWawe);
                     var timer = p.gameObject.GetComponent<GameTimer>();
-                    timer.timer = 60;
+                    timer.timer = 30;
                     timer.running = true;
                     isStartedTimer = true;
                 });

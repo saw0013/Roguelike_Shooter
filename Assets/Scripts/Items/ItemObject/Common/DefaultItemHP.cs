@@ -7,15 +7,17 @@ public class DefaultItemHP : NetworkBehaviour
 
     private PlayerData _owner;
 
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null & other.tag == "Player") 
+        if(other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
 
-    [TargetRpc]
+    
     private void Buff(GameObject player)
     {
+        Debug.LogWarning(" “Œ ¬€«€¬¿À Ã≈“Œƒ?:????????????" + player.GetComponent<NetworkIdentity>().connectionToClient);
         _owner = player.GetComponent<PlayerData>();
         _owner.BuffHealth(50f);
         _owner.BuffGive++;

@@ -28,35 +28,35 @@ public class ManagerGiveBuff : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdSpawnBuff()
+    private void CmdSpawnBuff(NetworkConnectionToClient sender = null)
     {
         var Chance = UnityEngine.Random.Range(1, 101);
 
-        Debug.LogWarning(Chance);
+        //Debug.LogWarning(Chance);
 
         if (Chance <= (100 - CommonChance))
         {
-            CmdSpawnBuff(CommonBuff);
+            _spawnBuff_(CommonBuff, sender);
         }
         else
         {
             if (Chance <= (100 - RareChance))
             {
-                CmdSpawnBuff(RareBuff);
+                _spawnBuff_(RareBuff, sender);
             }
             else
             {
                 if (Chance <= (100 - EpicChance))
                 {
                     //SpawnBuff(EpicBuff, i);
-                    CmdSpawnBuff(RareBuff);
+                    _spawnBuff_(RareBuff, sender);
                 }
                 else
                 {
                     if (Chance <= (100 - LegenderyChance))
                     {
                         //SpawnBuff(LegenderyBuff, i);
-                        CmdSpawnBuff(RareBuff);
+                        _spawnBuff_(RareBuff, sender);
 
                     }
                 }
@@ -64,8 +64,7 @@ public class ManagerGiveBuff : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdSpawnBuff(List<GameObject> Buffs)
+    private void _spawnBuff_(List<GameObject> Buffs, NetworkConnectionToClient _connectionToClient)
     {
         //CmdSpawnBuff(Buffs, index);
         //Debug.LogWarning("Индекс" + indexBuffs);
@@ -74,7 +73,7 @@ public class ManagerGiveBuff : NetworkBehaviour
         var positionSpawn = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         var buff = Instantiate(Buffs[indexBuffs], positionSpawn, Quaternion.identity);
         buff.GetComponent<NetworkMatch>().matchId = GetComponent<NetworkMatch>().matchId;
-        NetworkServer.Spawn(buff);
+        NetworkServer.Spawn(buff, _connectionToClient.identity.gameObject);
     }
 
     //[Command]

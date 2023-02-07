@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class RareItemBullet : NetworkBehaviour
 {
@@ -7,13 +8,13 @@ public class RareItemBullet : NetworkBehaviour
 
     private PlayerData _owner;
 
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
-            Buff(other.gameObject);
+          Buff(other.gameObject);
     }
 
-    [TargetRpc]
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
@@ -24,4 +25,6 @@ public class RareItemBullet : NetworkBehaviour
         Destroy(gameObject);
         NetworkServer.Destroy(gameObject);
     }
+
+    
 }

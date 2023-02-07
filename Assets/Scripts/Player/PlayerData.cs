@@ -5,6 +5,7 @@ using Cosmo;
 using Mirror;
 using TMPro;
 using MirrorBasics;
+using FMOD.Studio;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -101,13 +102,13 @@ public class PlayerData : HealthController, ICharacter
         Debug.LogWarning("Игрок LocalDead " + LocalDead);
     }
 
-    
+
 
     protected override void Start()
     {
         _player = GetComponent<PlayerMovementAndLookNetwork>();
         base.Start();
-    } 
+    }
 
     public override void OnStartServer()
     {
@@ -125,11 +126,11 @@ public class PlayerData : HealthController, ICharacter
         //    }
         //}
         //TODO : только для тестов. В релизе убрать
-            if (Input.GetKeyDown(KeyCode.F4))
-            {
-                InputIsActive(true);
-                Debug.LogWarning(GetInputActive());
-            }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            InputIsActive(true);
+            Debug.LogWarning(GetInputActive());
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -188,28 +189,31 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeGuard(int BuffGuard)
     {
+        Debug.LogWarning("Guard Есть права " + hasAuthority);
         guardPlayer += BuffGuard;
         _textGuard.text = $"Щит: {guardPlayer}";
     }
 
+    
+
+
     public void StopBuffGuard()
     {
         guardPlayer = _guardStart;
-        _textGuard.text = $"Щит: {guardPlayer}";        
+        _textGuard.text = $"Щит: {guardPlayer}";
     }
     #endregion
 
     #region CommonMoveSpeed
     public void ChangeMoveSpeed(int BuffSpeed)
     {
-        if (hasAuthority)
-            SpeedPlayer += BuffSpeed;
+        Debug.LogWarning("Move Есть права " + hasAuthority);
+        SpeedPlayer += BuffSpeed;
     }
 
     public void StopBuffMoveSpeed()
     {
-        if (hasAuthority)
-            SpeedPlayer = _speedStart;
+        SpeedPlayer = _speedStart;
     }
 
     #endregion
@@ -217,19 +221,21 @@ public class PlayerData : HealthController, ICharacter
     #region CommonDamage
 
     public void ChangeDamage(int BuffDamage)
-    {      
+    {
+        Debug.LogWarning("Damage Есть права " + hasAuthority);
         DamagePlayer += BuffDamage;
     }
 
     public void StopBuffDamage()
     {
-       DamagePlayer = _damageStart;
+        DamagePlayer = _damageStart;
     }
     #endregion
 
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce)
     {
+        Debug.LogWarning("Ammo Есть права " + hasAuthority);
         AmmoReload -= BuffAmmoReload;
         BuletForce += BuffAmmoForce;
     }
@@ -237,7 +243,7 @@ public class PlayerData : HealthController, ICharacter
     public void StopBuffAmmo()
     {
         AmmoReload = _startAmmoReload;
-        BuletForce = _startForceBulet;       
+        BuletForce = _startForceBulet;
     }
     #endregion
 
@@ -259,6 +265,12 @@ public class PlayerData : HealthController, ICharacter
         SizeBullet += BuffBullet;
     }
 
+    [TargetRpc]
+    void TargetChangeBullet(float b)
+    {
+        SizeBullet += b;
+    }
+
     #endregion
 
     #endregion
@@ -271,6 +283,12 @@ public class PlayerData : HealthController, ICharacter
     /// Показывает статистику персонажа
     /// </summary>
     public void ShowStat()
+    {
+        CmdtStat();
+    }
+
+    [Command]
+    void CmdtStat()
     {
         ProgressPlayerStat.SetStatPlayerText(AmmoWasted, EnemyKilled, BuffGive, ScorePlayer);
 
@@ -427,7 +445,7 @@ public class PlayerData : HealthController, ICharacter
         TextScorePlayer.text = newScore.ToString();
     }
 
-    public void UpdateStat(int Health ,int Damage, int Catriges, int Speed, float Reload)
+    public void UpdateStat(int Health, int Damage, int Catriges, int Speed, float Reload)
     {
         if (isServer) return;
 

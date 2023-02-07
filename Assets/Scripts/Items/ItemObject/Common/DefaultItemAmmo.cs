@@ -7,15 +7,17 @@ public class DefaultItemAmmo : NetworkBehaviour
 
     private PlayerData _owner;
 
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
 
-    [TargetRpc]
+   
     private void Buff(GameObject player)
     {
+        Debug.LogWarning(" “Œ ¬€«€¬¿À Ã≈“Œƒ?:????????????" + player.GetComponent<NetworkIdentity>().connectionToClient);
         _owner = player.GetComponent<PlayerData>();
         _owner.ChangeAmmo(1f, 1000);
         _owner.BuffGive++;

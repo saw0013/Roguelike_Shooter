@@ -4534,13 +4534,13 @@ GameObject:
   - component: {fileID: 5830418239253413369}
   - component: {fileID: 5830418239253413368}
   - component: {fileID: 5830418239253413349}
+  - component: {fileID: -885822764471734934}
   - component: {fileID: 5830418239253413371}
   - component: {fileID: 5202976319297654991}
   - component: {fileID: 2272507921197625355}
   - component: {fileID: 521484440252216228}
   - component: {fileID: 3635997727726020678}
   - component: {fileID: 2532504863419140045}
-  - component: {fileID: -885822764471734934}
   m_Layer: 0
   m_Name: SpiderNpc
   m_TagString: Enemy
@@ -4715,17 +4715,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 5830418239253413368}
-        m_TargetAssemblyTypeName: EnemyBehaviour, Assembly-CSharp
-        m_MethodName: DEADSPIDER
-        m_Mode: 1
+      - m_Target: {fileID: 5830418239253413371}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5202976319297654991}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
   onChangeHealth:
     m_PersistentCalls:
@@ -4745,6 +4757,7 @@ MonoBehaviour:
     m_Bits: 1024
   _spawnPoint: {fileID: 0}
   _bullet: {fileID: 0}
+  LocalDead: 0
   SpeedWalkAnim: 1
   DelayDistance: 0.5
   TimeToCharge: 0
@@ -4780,6 +4793,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995e0aa830f6024b9b2e86063490464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-885822764471734934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602873899293615943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CommonBuff:
+  - {fileID: 944771753427955605, guid: 8af49137b5cda0f4bb62c0231a2a4872, type: 3}
+  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
+  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
+  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
+  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
+  RareBuff:
+  - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
+  EpicBuff: []
+  LegenderyBuff: []
+  CommonChance: 55
+  RareChance: 40
+  EpicChance: 20
+  LegenderyChance: 5
 --- !u!136 &5830418239253413371
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4891,34 +4932,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &-885822764471734934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6602873899293615943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  CommonBuff:
-  - {fileID: 944771753427955605, guid: 8af49137b5cda0f4bb62c0231a2a4872, type: 3}
-  - {fileID: 1734431908024800676, guid: 0e5f2f687f4bb7f4386015b640aa3d8f, type: 3}
-  - {fileID: 1264098187453542646, guid: 76706580c62728d41aa2370aff0d19b0, type: 3}
-  - {fileID: 3368568677631573649, guid: 14851cd58c8b4374e9ab693749fe769f, type: 3}
-  - {fileID: 5394713594333090299, guid: 95e31ef7032d3344a91b66099a1ec323, type: 3}
-  RareBuff:
-  - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
-  EpicBuff: []
-  LegenderyBuff: []
-  CommonChance: 55
-  RareChance: 40
-  EpicChance: 20
-  LegenderyChance: 5
 --- !u!1 &6809272972694824966
 GameObject:
   m_ObjectHideFlags: 0

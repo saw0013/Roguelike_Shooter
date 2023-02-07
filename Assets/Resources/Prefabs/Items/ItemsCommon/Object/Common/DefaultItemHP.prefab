@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 3368568677631573651}
   - component: {fileID: 663799005799272195}
   - component: {fileID: 3368568677631573648}
+  - component: {fileID: -4731665795554517257}
+  - component: {fileID: -1212859852531258416}
+  - component: {fileID: -7303155437556023360}
   - component: {fileID: 6141149033847697368}
   - component: {fileID: 7528328850062258536}
   - component: {fileID: 5662847388789288398}
@@ -32,7 +35,7 @@ Transform:
   m_GameObject: {fileID: 3368568677631573649}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1516142440620493916}
@@ -117,6 +120,47 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-4731665795554517257
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368568677631573649}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &-1212859852531258416
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368568677631573649}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5955528, y: 0.80775136, z: 0.5846707}
+  m_Center: {x: 0.00272049, y: 0.0018136799, z: 0.00090685487}
+--- !u!114 &-7303155437556023360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3368568677631573649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4403226b91a3541a568d3bbbe89c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6141149033847697368
 MonoBehaviour:
   m_ObjectHideFlags: 0
