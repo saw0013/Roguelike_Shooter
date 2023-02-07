@@ -6,6 +6,7 @@ using Mirror;
 using TMPro;
 using MirrorBasics;
 using FMOD.Studio;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -205,11 +206,15 @@ public class PlayerData : HealthController, ICharacter
     #endregion
 
     #region CommonMoveSpeed
-    public void ChangeMoveSpeed(int BuffSpeed)
+    public void ChangeMoveSpeed(int BuffSpeed, GameObject item)
     {
-        Debug.LogWarning("Move Есть права " + hasAuthority);
         SpeedPlayer += BuffSpeed;
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
     }
+
+
+   
 
     public void StopBuffMoveSpeed()
     {

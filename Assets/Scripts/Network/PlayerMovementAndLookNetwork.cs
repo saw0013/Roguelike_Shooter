@@ -366,18 +366,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
-        //Найдём наш триггер спавн
-        //GameObject TriggerSpawnMob = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        //    .FirstOrDefault(x => x.name == "TriggerSpawnMob"));
-
-        //        GameObject DefaultItemHP = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        //    .FirstOrDefault(x => x.name == "DefaultItemHP"));
-
-        //        GameObject DefaultItemDamage = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        //.FirstOrDefault(x => x.name == "DefaultItemDamage"));
-
-        //        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        //.FirstOrDefault(x => x.name == "DefaultItemMove"));
+       
+     
+                GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        .FirstOrDefault(x => x.name == "DefaultItemMoveTest"));
 
         //        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
         //.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
@@ -397,7 +389,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             {
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-                NetworkServer.Spawn(obj);
+                NetworkServer.Spawn(obj, connectionToClient);
 
                 MatchMaker.ManagerLogic(matchID.ToGuid()).AddDoorInGameManager(obj.GetComponent<EventTrigger>());
             }
@@ -419,11 +411,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
  .FirstOrDefault(x => x.name == "Level"));
 
-        //Укажем ему наш ID match
-        //TriggerSpawnMob.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+      
         //BoxGiveBuff.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         //DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        //DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         //DefaultItemAmmo.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         //DefaultItemGuard.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         Level.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
@@ -431,7 +422,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         //NetworkServer.Spawn(TriggerSpawnMob);
         //NetworkServer.Spawn(BoxGiveBuff);
-        //NetworkServer.Spawn(DefaultItemMove);
+        NetworkServer.Spawn(DefaultItemMove, connectionToClient);
         //NetworkServer.Spawn(DefaultItemHP);
         //NetworkServer.Spawn(DefaultItemAmmo);
         // NetworkServer.Spawn(DefaultItemGuard);
