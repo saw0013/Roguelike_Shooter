@@ -261,8 +261,8 @@ public class PlayerData : HealthController, ICharacter
         //    Debug.LogWarning("Есть права");
         //    SizeBullet += BuffBullet;
         //}
-
-        SizeBullet += BuffBullet;
+		TargetChangeBullet(BuffBullet);
+        //SizeBullet += BuffBullet;
     }
 
     [TargetRpc]
