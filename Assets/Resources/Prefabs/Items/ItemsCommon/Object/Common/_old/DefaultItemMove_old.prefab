@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 872483370930822658}
   - component: {fileID: 44421507851954351}
   m_Layer: 0
-  m_Name: DefaultItemMove
+  m_Name: DefaultItemMove_old
   m_TagString: Buffs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

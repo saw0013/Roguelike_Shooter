@@ -369,7 +369,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
        
      
                 GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        .FirstOrDefault(x => x.name == "DefaultItemMoveTest"));
+        .FirstOrDefault(x => x.name == "DefaultItemMove_new"));
 
         //        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
         //.FirstOrDefault(x => x.name == "DefaultItemAmmo"));

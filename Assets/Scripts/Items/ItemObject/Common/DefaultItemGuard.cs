@@ -1,13 +1,17 @@
 using Mirror;
 using UnityEngine;
 
-public class DefaultItemGuard : NetworkBehaviour
+public class DefaultItemGuard : MonoBehaviour
 {
+    [Header("OptionBuff")]
+    [SerializeField] private int _guardAdd;
+
     [SerializeField] private GameObject _imageItem;
 
     private PlayerData _owner;
 
-    [ServerCallback]
+    internal NetworkMatch networkMatch;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
@@ -18,11 +22,9 @@ public class DefaultItemGuard : NetworkBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeGuard(50);
+        _owner.ChangeGuard(_guardAdd, _imageItem);
         _owner.BuffGive++;
-        var item = Instantiate(_imageItem, _owner.ItemsGrind);
-        item.GetComponent<DefaultItemGuardUI>().RegisterOwner(_owner);
+
         Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
     }
 }

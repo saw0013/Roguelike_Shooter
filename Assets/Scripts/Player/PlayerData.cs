@@ -152,16 +152,26 @@ public class PlayerData : HealthController, ICharacter
 
 
 
-    internal void BuffHealth(float maxHealth)
+    internal void BuffHealth(float maxHealth, GameObject item)
     {
-        if (hasAuthority) //Если мы имеем право на изменение
-        {
-            MaxHealth += (int)maxHealth;
-            _healthSlider.maxValue += maxHealth / 100;
-            _healthSliderRpc.maxValue += maxHealth / 100;
-            ClientServerChangeHp(maxHealth);
-            LocalShowHP(maxHealth);
-        }
+        MaxHealth += (int)maxHealth;
+        _healthSlider.maxValue += maxHealth / 100;
+        _healthSliderRpc.maxValue += maxHealth / 100;
+        ClientServerChangeHp(maxHealth);
+        LocalShowHP(maxHealth);
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+
+        //if (hasAuthority) //Если мы имеем право на изменение
+        //{
+        //    MaxHealth += (int)maxHealth;
+        //    _healthSlider.maxValue += maxHealth / 100;
+        //    _healthSliderRpc.maxValue += maxHealth / 100;
+        //    ClientServerChangeHp(maxHealth);
+        //    LocalShowHP(maxHealth);
+        //    var _item = Instantiate(item, ItemsGrind);
+        //    _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+        //}
     }
 
 
@@ -188,11 +198,13 @@ public class PlayerData : HealthController, ICharacter
 
     #region CommonGuard
 
-    public void ChangeGuard(int BuffGuard)
+    public void ChangeGuard(int BuffGuard, GameObject item)
     {
         Debug.LogWarning("Guard Есть права " + hasAuthority);
         guardPlayer += BuffGuard;
         _textGuard.text = $"Щит: {guardPlayer}";
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
     }
 
     
@@ -214,8 +226,7 @@ public class PlayerData : HealthController, ICharacter
     }
 
 
-   
-
+  
     public void StopBuffMoveSpeed()
     {
         SpeedPlayer = _speedStart;
@@ -225,10 +236,12 @@ public class PlayerData : HealthController, ICharacter
 
     #region CommonDamage
 
-    public void ChangeDamage(int BuffDamage)
+    public void ChangeDamage(int BuffDamage, GameObject item)
     {
         Debug.LogWarning("Damage Есть права " + hasAuthority);
         DamagePlayer += BuffDamage;
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<DefaultItemDamageUI>().RegisterOwner(this);
     }
 
     public void StopBuffDamage()
@@ -238,11 +251,13 @@ public class PlayerData : HealthController, ICharacter
     #endregion
 
     #region CommonAmmo
-    public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce)
+    public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce, GameObject item)
     {
         Debug.LogWarning("Ammo Есть права " + hasAuthority);
         AmmoReload -= BuffAmmoReload;
         BuletForce += BuffAmmoForce;
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
     }
 
     public void StopBuffAmmo()
@@ -258,7 +273,7 @@ public class PlayerData : HealthController, ICharacter
 
     #region RareBullet
 
-    public void ChangeBullet(float BuffBullet)
+    public void ChangeBullet(float BuffBullet, GameObject item)
     {
         //Debug.LogWarning("Нету прав");
         //if (hasAuthority)
@@ -266,15 +281,17 @@ public class PlayerData : HealthController, ICharacter
         //    Debug.LogWarning("Есть права");
         //    SizeBullet += BuffBullet;
         //}
-		TargetChangeBullet(BuffBullet);
-        //SizeBullet += BuffBullet;
+        //TargetChangeBullet(BuffBullet);
+        var _item = Instantiate(item, ItemsGrind);
+        _item.GetComponent<RareItemBulletUI>().RegisterOwner(this);
+        SizeBullet += BuffBullet;
     }
 
-    [TargetRpc]
-    void TargetChangeBullet(float b)
-    {
-        SizeBullet += b;
-    }
+    //[TargetRpc]
+    //void TargetChangeBullet(float b)
+    //{
+    //    SizeBullet += b;
+   // }
 
     #endregion
 
@@ -287,18 +304,21 @@ public class PlayerData : HealthController, ICharacter
     /// <summary>
     /// Показывает статистику персонажа
     /// </summary>
+    [Client]
     public void ShowStat()
-    {
-        CmdtStat();
-    }
-
-    [Command]
-    void CmdtStat()
     {
         ProgressPlayerStat.SetStatPlayerText(AmmoWasted, EnemyKilled, BuffGive, ScorePlayer);
 
         ProgressPlayerStat.gameObject.SetActive(true);
     }
+
+    //[Client]
+    //void CmdtStat()
+    //{
+    //    ProgressPlayerStat.SetStatPlayerText(AmmoWasted, EnemyKilled, BuffGive, ScorePlayer);
+
+    //    ProgressPlayerStat.gameObject.SetActive(true);
+    //}
     /// <summary>
     /// Устанавливаем, можно ли управлять персонажем
     /// </summary>

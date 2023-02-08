@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class _DELETE_DefaultItemMoveSpeed : MonoBehaviour
 {
+    [Header("OptionBuff")]
+    [SerializeField] private int _speedAdd;
+
     [SerializeField] private GameObject _imageItem;
 
     private PlayerData _owner;
@@ -21,7 +24,7 @@ public class _DELETE_DefaultItemMoveSpeed : MonoBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeMoveSpeed(5, _imageItem);
+        _owner.ChangeMoveSpeed(_speedAdd, _imageItem);
         _owner.BuffGive++;
 
         //var item = Instantiate(_imageItem, _owner.ItemsGrind);

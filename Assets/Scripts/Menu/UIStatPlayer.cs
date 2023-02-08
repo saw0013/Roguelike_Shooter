@@ -14,9 +14,8 @@ public class UIStatPlayer : MonoBehaviour
     public void SetStatPlayerText(int ammoWasted, int enemyKilled, int buffPick, int allScore)
     {
         _ammoWatedText.text = $"Патронов потрачено : {ammoWasted}";
-        _ammoWatedText.text = $"Убито врагов : {enemyKilled}";
-        _ammoWatedText.text = $"Подобрано бонусов : {buffPick}";
-        _ammoWatedText.text = $"Общий счет: {allScore}";
+        _enemyKilledText.text = $"Убито врагов : {enemyKilled}";
+        _buffPickText.text = $"Подобрано бонусов : {buffPick}";
+        _allScoreText.text = $"Общий счет: {allScore}";
     }
-
 }

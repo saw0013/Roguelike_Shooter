@@ -1,13 +1,19 @@
 using UnityEngine;
 using Mirror;
 
-public class DefaultItemAmmo : NetworkBehaviour
+public class DefaultItemAmmo : MonoBehaviour
 {
+    [Header("OptionBuff")]
+
+    [SerializeField] private float _ammoReload;
+    [SerializeField] private int _ammoForce;
+
     [SerializeField] private GameObject _imageItem;
 
     private PlayerData _owner;
 
-    [ServerCallback]
+    internal NetworkMatch networkMatch;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other != null & other.tag == "Player")
@@ -17,13 +23,10 @@ public class DefaultItemAmmo : NetworkBehaviour
    
     private void Buff(GameObject player)
     {
-        Debug.LogWarning(" “Œ ¬€«€¬¿À Ã≈“Œƒ?:????????????" + player.GetComponent<NetworkIdentity>().connectionToClient);
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeAmmo(1f, 1000);
+        _owner.ChangeAmmo(_ammoReload, _ammoForce, _imageItem);
         _owner.BuffGive++;
-        var item = Instantiate(_imageItem, _owner.ItemsGrind);
-        item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(_owner);
+
         Destroy(gameObject);
-        NetworkServer.Destroy(gameObject);
     }
 }
