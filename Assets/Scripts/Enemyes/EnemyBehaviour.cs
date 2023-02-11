@@ -85,8 +85,8 @@ public class EnemyBehaviour : HealthController
 
     #region Base method. Start, Awake, Enable and too...
 
-   //private void OnEnable() => Action_OnDead += CmdDie;
-   //private void OnDisable() => Action_OnDead -= CmdDie;
+    //private void OnEnable() => Action_OnDead += CmdDie;
+    //private void OnDisable() => Action_OnDead -= CmdDie;
     protected override void Awake()
     {
         base.Awake();
@@ -219,19 +219,16 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
-        if (LocalDead) return null;
 
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
-
-        if(rangeChecks.Length <= 0)
+        if (rangeChecks.Length > 0)
         {
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                var player = rangeChecks[i].GetComponent<PlayerData>();
-
-                Debug.Log("!!!player.LocalDead" + player.LocalDead);
-                if (!player.LocalDead)
+                if (rangeChecks[i].CompareTag("Player")) //Будем знать точно что перед нами игрок
                 {
+                    var player = rangeChecks[i].GetComponent<PlayerData>();
+
                     var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
                     if (purpose == null) purpose = rangeChecks[i];
@@ -239,6 +236,8 @@ public class EnemyBehaviour : HealthController
                     var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
 
                     if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+
+
                 }
 
             }
@@ -255,7 +254,7 @@ public class EnemyBehaviour : HealthController
 
     public virtual void FieldOfViewCheck()
     {
-        if (isDead) return;
+        //if (isDead) return;
 
         var checkPlayer = CheckAround();
 
@@ -264,7 +263,7 @@ public class EnemyBehaviour : HealthController
         {
             //TODO : Проверить ХП каждого и выявить слабого
 
-            Transform target = purpose.transform;
+            Transform target = purpose.transform; //Наверное двигаться лучше к CheckPlayer
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
@@ -280,9 +279,11 @@ public class EnemyBehaviour : HealthController
                     }
                     else
                     {
+                        //if(checkPlayer.GetComponent<PlayerData>().GetInputActive()) //Если игрок может управлять персонажем, значит он жив
                         if (typeEnemy == TypeEnemy.BigMeleeFighter)
                         {
                             canAttack = true;
+                            
                             if (!Attacked)
                             {
                                 LookTarget(target);
