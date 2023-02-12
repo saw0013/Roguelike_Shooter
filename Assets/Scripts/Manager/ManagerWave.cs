@@ -59,7 +59,7 @@ public class ManagerWave : NetworkBehaviour
         if (!isStartedTimer)
         {
             currentWave++;
-            Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
+            //Debug.LogWarning($"currentWave={currentWave} | _allWawe={_allWawe}");
 
             if (currentWave < _allWawe)
             {
@@ -100,14 +100,21 @@ public class ManagerWave : NetworkBehaviour
         {
             isStartedSpawn = false;
             GetComponent<EventTrigger>().ServerSpawn(GetComponent<NetworkMatch>().matchId);
-            Debug.LogWarning("SpawnedBegin");
+           // Debug.LogWarning("SpawnedBegin");
         }
     }
 
     public void EndOfTimer()
     {
-        Debug.Log("timer ready.");
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p => p.GetComponent<GameTimer>().showTime = "");
+        NetworkConnection ownerConnection = null;
+
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p => {
+            p.GetComponent<GameTimer>().showTime = "";
+
+            if(ownerConnection == null)
+                ownerConnection = p.GetComponent<NetworkIdentity>().connectionToClient;
+            });
+
         NextSpawnEnemy();
         isStartedTimer = false;
     }
@@ -126,7 +133,7 @@ public class ManagerWave : NetworkBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            Debug.LogWarning("Открываем дверь");
+           // Debug.LogWarning("Открываем дверь");
             var index = _firstIndexDoorClose + i;
             MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).Door[index]
                 .hasAthorityTrigger = true;
@@ -140,9 +147,9 @@ public class ManagerWave : NetworkBehaviour
 
     public void AddInListEnemy(GameObject Enemy)
     {
-        Debug.LogWarning("Враг " + Enemy);
+        //Debug.LogWarning("Враг " + Enemy);
         _enemyLive.Add(Enemy);
-        Debug.LogWarning("ListEnemyCount " + _enemyLive.Count);
+        //Debug.LogWarning("ListEnemyCount " + _enemyLive.Count);
         isStartedAddEnemy = true;
     }
     public void SetEnemySpawned()
@@ -156,6 +163,6 @@ public class ManagerWave : NetworkBehaviour
     public void SetKilledEnemy(GameObject enemy)
     {
         _enemyLive.Remove(enemy);
-        Debug.LogWarning(_enemyLive.Count);
+       // Debug.LogWarning(_enemyLive.Count);
     }
 }

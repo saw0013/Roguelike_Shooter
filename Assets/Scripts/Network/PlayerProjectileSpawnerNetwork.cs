@@ -114,7 +114,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     public void CmdSpawnBullet()
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
-        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = playerData.DamagePlayer;
+        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 5;
+        bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = playerData.DamagePlayer;
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
         bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
         bullet.GetComponent<BulletPool>().Init(gameObject);

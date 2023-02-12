@@ -31,8 +31,6 @@ public class PlayerData : HealthController, ICharacter
     [Space(10), Header("===PlayerData===")]
     private bool InputActive/* = true*/;
 
-    //Можно при смерти говорить что InputActive == false и в поведении паука следить за этим показателем
-    [SyncVar] public bool LocalDead;
 
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
@@ -63,6 +61,10 @@ public class PlayerData : HealthController, ICharacter
     public bool debugActionListener;
 
     private PlayerMovementAndLookNetwork _player;
+
+    /// <summary>
+    /// Локальное свойство жив игрок или нет
+    /// </summary>
 
     #region ICharacter & Ragdoll
     [SerializeField] protected OnActiveRagdoll _onActiveRagdoll = new OnActiveRagdoll();
@@ -99,8 +101,6 @@ public class PlayerData : HealthController, ICharacter
 
     public void CmdDie()
     {
-        LocalDead = true;
-        Debug.LogWarning("Игрок LocalDead " + LocalDead);
     }
 
 
@@ -336,6 +336,15 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <param name="input"></param>
     public void MenuInputIsActive(bool input) => EscapeMenuActive = input;
+
+    /// <summary>
+    /// Устанавливает свойство мёртв игрок или нет
+    /// </summary>
+    /// <param name="setDead"></param>
+    public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); } 
+
+
+    public bool GetPlayerDead() => _player;
 
     /// <summary>
     /// Проверяет, можно ли открывать элементы UI игрока

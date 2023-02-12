@@ -129,8 +129,7 @@ public class EventTrigger : NetworkBehaviour
 
                     playerData.ChangeWaveNuberText("Волна " + 1 + "/" + AllWave);
 
-                    Debug.LogWarning("LocalDead player " + playerData.LocalDead);
-                    if (_distance > _maxDistanceToPlayer && !playerData.LocalDead)
+                    if (_distance > _maxDistanceToPlayer)
                     {
                         var rndRadius = Random.Range(-3, 3);
                         //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);

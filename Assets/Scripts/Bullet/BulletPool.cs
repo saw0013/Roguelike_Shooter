@@ -67,11 +67,12 @@ public class BulletPool : NetworkBehaviour
                 break;
 
             case "Enemy":
+                //Debug.LogWarning("ХП ПАУКА===" + collision.gameObject.GetComponent<EnemyData>()._SyncHealth); //Отображается
                 if (!collision.gameObject.GetComponent<EnemyData>().LocalDead)
                 {
                     ClaimScore(_owner, 10);
                     RpcParticles(_hitEnemyParticles);
-                    collision.gameObject.ApplyDamage(_damageToPlayer);
+                    collision.gameObject.ApplyDamage(_damageToEnemy);
                 }
 
                 if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
@@ -96,7 +97,7 @@ public class BulletPool : NetworkBehaviour
         transform.localScale = new Vector3(size, size, size);
     }
 
-    [ClientCallback]
+    //[ClientCallback]
     void RpcParticles(GameObject prefabParticle)
     {
         GameObject particle = Instantiate(prefabParticle, transform.position, transform.rotation);

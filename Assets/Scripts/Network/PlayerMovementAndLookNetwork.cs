@@ -389,7 +389,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             {
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-                NetworkServer.Spawn(obj, connectionToClient);
+                NetworkServer.Spawn(obj);
 
                 MatchMaker.ManagerLogic(matchID.ToGuid()).AddDoorInGameManager(obj.GetComponent<EventTrigger>());
             }
@@ -401,7 +401,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
             {
                 var obj = Instantiate(x);
                 obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
-                NetworkServer.Spawn(obj, connectionToClient); //Œ¡–¿“» ¬Õ»Ã¿Õ»≈ —ﬁƒ¿
+                NetworkServer.Spawn(obj); //Œ¡–¿“» ¬Õ»Ã¿Õ»≈ —ﬁƒ¿
 
                 MatchMaker.ManagerLogic(matchID.ToGuid()).AddWaveInGameManager(obj.GetComponent<ManagerWave>());
             }
@@ -422,7 +422,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         //NetworkServer.Spawn(TriggerSpawnMob);
         //NetworkServer.Spawn(BoxGiveBuff);
-        NetworkServer.Spawn(DefaultItemMove, connectionToClient);
+        NetworkServer.Spawn(DefaultItemMove);
         //NetworkServer.Spawn(DefaultItemHP);
         //NetworkServer.Spawn(DefaultItemAmmo);
         // NetworkServer.Spawn(DefaultItemGuard);

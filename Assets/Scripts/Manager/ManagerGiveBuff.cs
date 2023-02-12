@@ -36,27 +36,27 @@ public class ManagerGiveBuff : NetworkBehaviour
 
         if (Chance <= (100 - CommonChance))
         {
-            _spawnBuff_(CommonBuff, sender);
+            _spawnBuff_(CommonBuff);
         }
         else
         {
             if (Chance <= (100 - RareChance))
             {
-                _spawnBuff_(RareBuff, sender);
+                _spawnBuff_(RareBuff);
             }
             else
             {
                 if (Chance <= (100 - EpicChance))
                 {
                     //SpawnBuff(EpicBuff, i);
-                    _spawnBuff_(RareBuff, sender);
+                    _spawnBuff_(RareBuff);
                 }
                 else
                 {
                     if (Chance <= (100 - LegenderyChance))
                     {
                         //SpawnBuff(LegenderyBuff, i);
-                        _spawnBuff_(RareBuff, sender);
+                        _spawnBuff_(RareBuff);
 
                     }
                 }
@@ -64,7 +64,7 @@ public class ManagerGiveBuff : NetworkBehaviour
         }
     }
 
-    private void _spawnBuff_(List<GameObject> Buffs, NetworkConnectionToClient _connectionToClient)
+    private void _spawnBuff_(List<GameObject> Buffs)
     {
         //CmdSpawnBuff(Buffs, index);
         //Debug.LogWarning("Индекс" + indexBuffs);
@@ -73,7 +73,7 @@ public class ManagerGiveBuff : NetworkBehaviour
         var positionSpawn = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         var buff = Instantiate(Buffs[indexBuffs], positionSpawn, Quaternion.identity);
         buff.GetComponent<NetworkMatch>().matchId = GetComponent<NetworkMatch>().matchId;
-        NetworkServer.Spawn(buff, _connectionToClient.identity.gameObject);
+        NetworkServer.Spawn(buff);
     }
 
     //[Command]

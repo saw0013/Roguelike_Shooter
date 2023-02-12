@@ -13,6 +13,6 @@ public class DestroyOnTriggerNetwork : NetworkBehaviour
     private async void Destroy()
     {
         await System.Threading.Tasks.Task.Delay(500);
-        NetworkServer.Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
