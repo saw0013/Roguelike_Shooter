@@ -406,11 +406,12 @@ public class HealthController : NetworkBehaviour, IHealthController
                 {
                     if (hasAuthority) //Есть ли у нас права изменять объект
                     {
-                        Debug.LogWarning($"damage reciver {damage.receiver.name}");
                         CmdChangeHealth(currentHealth - damage.damageValue);
                     }
                     else Debug.LogWarning("НЕТУ hasAuthority"); //Нету прав на изменение
                 }
+
+                //Debug.LogWarning($"damage reciver {damage.receiver.name}");
             }
 
             if (damage.damageValue > 0)

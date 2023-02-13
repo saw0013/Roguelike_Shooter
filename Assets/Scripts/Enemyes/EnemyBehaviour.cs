@@ -225,18 +225,24 @@ public class EnemyBehaviour : HealthController
         {
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if (rangeChecks[i].CompareTag("Player") & rangeChecks[i].GetComponent<PlayerData>().currentHealth > 0) //Будем знать точно что перед нами игрок и Если у игрока больше 0 ХП значит он жив)
+                if (rangeChecks[i].CompareTag("Player") /*& rangeChecks[i].GetComponent<PlayerData>()._SyncHealth > 0*/) //Будем знать точно что перед нами игрок и Если у игрока больше 0 ХП значит он жив)
                 {
+
                     var player = rangeChecks[i].GetComponent<PlayerData>();
 
-                    //Debug.LogWarning($"игрок {player.connectionToClient} currentHealth = {player.currentHealth}\r\n SyncHealth={player._SyncHealth}");
-                    var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
+                    if (player._SyncHealth > 0)
+                    {
 
-                    if (purpose == null) purpose = rangeChecks[i];
+                        //Debug.LogWarning($"игрок {player.connectionToClient} currentHealth = {player.currentHealth}\r\n SyncHealth={player._SyncHealth}");
+                        var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
-                    var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+                        if (purpose == null) purpose = rangeChecks[i];
 
-                    if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                        var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+
+                        if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+
+                    }
 
 
                 }
@@ -260,7 +266,7 @@ public class EnemyBehaviour : HealthController
         var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null) 
+        if (checkPlayer != null)
         {
             //TODO : Проверить ХП каждого и выявить слабого
 
@@ -280,11 +286,11 @@ public class EnemyBehaviour : HealthController
                     }
                     else
                     {
-                       
+
                         if (typeEnemy == TypeEnemy.BigMeleeFighter)
                         {
                             canAttack = true;
-                            
+
                             if (!Attacked)
                             {
                                 LookTarget(target);

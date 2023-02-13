@@ -61,11 +61,7 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public override void TakeDamage(Damage damage)
     {
-        base.TakeDamage(damage);
-        if (currentHealth <= 0)
-        {
-            //Debug.LogWarning("Умертвляем павука"); //Выполняется только на стороне клиента
-        }
+        base.TakeDamage(damage);        
     }
 
 

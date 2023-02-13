@@ -181,7 +181,7 @@ public class MainMenuManager : MonoBehaviour
     public void UploadStatPlayer()
     {
         
-        if (playerData == null) return; // Проверим есть ли игрок, если нет, значит мы сервер и просто прекратим метод
+        //if (playerData == null) return; // Проверим есть ли игрок, если нет, значит мы сервер и просто прекратим метод
 
         
         switch (typePlayer)

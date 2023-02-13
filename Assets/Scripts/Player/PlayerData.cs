@@ -7,6 +7,7 @@ using TMPro;
 using MirrorBasics;
 using FMOD.Studio;
 using static UnityEngine.UI.GridLayoutGroup;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -207,7 +208,7 @@ public class PlayerData : HealthController, ICharacter
         _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
     }
 
-    
+
 
 
     public void StopBuffGuard()
@@ -226,7 +227,7 @@ public class PlayerData : HealthController, ICharacter
     }
 
 
-  
+
     public void StopBuffMoveSpeed()
     {
         SpeedPlayer = _speedStart;
@@ -291,7 +292,7 @@ public class PlayerData : HealthController, ICharacter
     //void TargetChangeBullet(float b)
     //{
     //    SizeBullet += b;
-   // }
+    // }
 
     #endregion
 
@@ -341,7 +342,7 @@ public class PlayerData : HealthController, ICharacter
     /// Устанавливает свойство мёртв игрок или нет
     /// </summary>
     /// <param name="setDead"></param>
-    public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); } 
+    public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); }
 
 
     public bool GetPlayerDead() => _player;
@@ -479,9 +480,10 @@ public class PlayerData : HealthController, ICharacter
         TextScorePlayer.text = newScore.ToString();
     }
 
+   
     public void UpdateStat(int Health, int Damage, int Catriges, int Speed, float Reload)
     {
-        if (isServer) return;
+        //if (isServer) return;
 
         ClientServerChangeHp(Health);
         MaxHealth = Health;
@@ -489,11 +491,20 @@ public class PlayerData : HealthController, ICharacter
         _healthSliderRpc.maxValue = Health / 100;
         LocalShowHP(Health);
 
+        
+        GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
+
+        UpdStat(Health, Damage, Catriges, Speed, Reload);
+    }
+
+    [Server]
+    private void UpdStat(int Health, int Damage, int Catriges, int Speed, float Reload)
+    {
         DamagePlayer = Damage;
         MaxCartridges = Catriges;
         SpeedPlayer = Speed;
         AmmoReload = Reload;
-        GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
+        Debug.LogWarning("Сенили дамаг");
     }
 
     #endregion

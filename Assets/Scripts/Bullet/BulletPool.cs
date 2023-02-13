@@ -12,8 +12,7 @@ public class BulletPool : NetworkBehaviour
     [SerializeField] private GameObject _hitPlayerParticles;
     [SerializeField] private GameObject _hitEnemyParticles;
 
-    public Damage DamageToPlayer;
-    public Damage DamageToEnemy;
+    public Damage Damage;
 
     public int ForceShoot = 1000;
 
@@ -48,32 +47,27 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        var _damageToPlayer = new Damage(DamageToPlayer);
-        _damageToPlayer.sender = transform;
-        _damageToPlayer.receiver = collision.transform;
-
-        var _damageToEnemy = new Damage(DamageToEnemy);
+     
+        var _damageToEnemy = new Damage(Damage);
         _damageToEnemy.sender = transform;
         _damageToEnemy.receiver = collision.transform;
-
-        if (collision.gameObject == _owner) return;
+        _damageToEnemy.damageValue = Damage.damageValue;
 
         switch (collision.gameObject.tag)
         {
             case "Player":
                 RpcParticles(_hitPlayerParticles);
                 ClaimScore(_owner, -5);
-                collision.gameObject.ApplyDamage(_damageToPlayer);
+                collision.gameObject.ApplyDamage(_damageToEnemy);
                 break;
 
             case "Enemy":
                 //Debug.LogWarning("ХП ПАУКА===" + collision.gameObject.GetComponent<EnemyData>()._SyncHealth); //Отображается
-                if (!collision.gameObject.GetComponent<EnemyData>().LocalDead)
-                {
-                    ClaimScore(_owner, 10);
-                    RpcParticles(_hitEnemyParticles);
-                    collision.gameObject.ApplyDamage(_damageToEnemy);
-                }
+
+                ClaimScore(_owner, 10);
+                RpcParticles(_hitEnemyParticles);
+                collision.gameObject.ApplyDamage(_damageToEnemy);
+
 
                 if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
                 {
@@ -106,7 +100,7 @@ public class BulletPool : NetworkBehaviour
 
     public void ClaimScore(GameObject player, int score)
     {
-        if(player != null)
+        if (player != null)
             player.GetComponent<PlayerData>().ScorePlayer += score;
     }
 }
