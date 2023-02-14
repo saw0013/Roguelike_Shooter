@@ -58,6 +58,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Header("Animation")]
     public Animator playerAnimator;
 
+    [SerializeField] private Animator _fadeAnim;
+
 
     [Header("Audio VFX")]
     //[SerializeField] private AudioSource _runPlayer;
@@ -360,6 +362,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
+
+        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+        {
+            var player = p.GetComponent<PlayerMovementAndLookNetwork>();
+
+            Debug.LogWarning($"Player {player}");
+
+            player.FadeOn();
+        });
+
         //FADE OUT через матчмейкер
         //MatchMaker.ManagerLogic(networkMatch.matchId).players.ForEach(p => { RpcBeginFade(p); });
         MatchMaker.instance.BeginGame(matchID);
@@ -367,10 +379,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
-       
-     
-                GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-        .FirstOrDefault(x => x.name == "DefaultItemMove_new"));
+
+
+        GameObject DefaultItemMove = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "DefaultItemMove_new"));
 
         //        GameObject DefaultItemAmmo = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
         //.FirstOrDefault(x => x.name == "DefaultItemAmmo"));
@@ -382,7 +394,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //.FirstOrDefault(x => x.name == "RareItemRed"));
 
         //GameObject BoxGiveBuff = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
-//.FirstOrDefault(x => x.name == "ResourceBox"));
+        //.FirstOrDefault(x => x.name == "ResourceBox"));
 
         ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
         {
@@ -412,7 +424,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         GameObject Level = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
  .FirstOrDefault(x => x.name == "Level"));
 
-      
+
         //BoxGiveBuff.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         //DefaultItemDamage.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
         DefaultItemMove.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
@@ -451,12 +463,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     public void BeginFade()
     {
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
-        {
-            Debug.LogWarning("Player " + p.name);
-            var MainMenuManager = p.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager;
-            MainMenuManager.Fade();
-        });
+        //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+        //{
+        //    Debug.LogWarning("Player " + p.name);
+        //    var MainMenuManager = p.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager;
+        //    //MainMenuManager.Fade();
+        //});
 
         //_mainMenuManager = FindObjectOfType<MainMenuManager>();
         //Debug.LogWarning(_mainMenuManager.name);
@@ -484,7 +496,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         musicManager.ChangeMusic("Ambience");
 
-       
         //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
@@ -730,6 +741,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     #endregion
 
     #region Анимация персонажа
+
+
+    public void FadeOn()
+    {
+        _fadeAnim.SetTrigger("FadeOut");
+    }
+
     void AnimateThePlayer(Vector3 desiredDirection)
     {
         if (!playerAnimator)
