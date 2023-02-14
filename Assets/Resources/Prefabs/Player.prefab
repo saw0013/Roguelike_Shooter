@@ -2718,8 +2718,8 @@ MonoBehaviour:
   fillHealthOnStart: 1
   maxHealth: 100
   _SyncHealth: 0
-  _healthRecovery: 0
-  healthRecoveryDelay: 0
+  _healthRecovery: 1
+  healthRecoveryDelay: 5
   _destroyAfterDie: 0
   _delayDestroy: 3
   checkHealthEvents: []
@@ -2779,30 +2779,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 3827590655909793024}
-        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3225267570092020803}
-        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5929440372853442248}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -2889,7 +2865,6 @@ MonoBehaviour:
   BuffGive: 0
   AmmoWasted: 0
   TextScorePlayer: {fileID: 4997396028519895410}
-  LocalDead: 0
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0
   DamagePlayer: 0
@@ -2906,13 +2881,13 @@ MonoBehaviour:
   _textGuard: {fileID: 2737344952758089390}
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 
-  deathBy: 0
+  deathBy: 2
   removeComponentsAfterDie: 1
   debugActionListener: 0
   _onActiveRagdoll:
     m_PersistentCalls:
       m_Calls: []
-  _ragdolled: 0
+  _ragdolled: 1
 --- !u!114 &559659328833504706
 MonoBehaviour:
   m_ObjectHideFlags: 0

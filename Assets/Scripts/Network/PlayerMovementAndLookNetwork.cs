@@ -13,6 +13,7 @@ using Utils;
 using Event = UnityEngine.Event;
 using Random = System.Random;
 using UnityEngine.Events;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 [Serializable]
 public class PlayerMovementAndLookNetwork : NetworkBehaviour
@@ -462,13 +463,28 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //_mainMenuManager.Fade();
     }
 
+    [Command]
+    void CmdUpdateStat(string[] arr)
+    {
+        //Debug.LogWarning($"MaxCartridges {connectionToClient} == {int.Parse(arr[2])}") ;
+        playerData.DamagePlayer = int.Parse(arr[1]);
+        playerData.MaxCartridges = int.Parse(arr[2]);
+        playerData.SpeedPlayer = int.Parse(arr[3]);
+        playerData.AmmoReload = int.Parse(arr[4]);
+    }
+
     [TargetRpc]
     void TargetBeginGame()
     {
+        var arr = PlayerPrefs.GetString("TypePilotStat").Split(new[] { "," }, StringSplitOptions.None);
+        Debug.LogWarning($"Урон == {int.Parse(arr[1])}");
+        CmdUpdateStat(arr);
+
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
 
         musicManager.ChangeMusic("Ambience");
 
+       
         //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);

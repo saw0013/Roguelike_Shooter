@@ -110,6 +110,7 @@ public class EnemyBehaviour : HealthController
     {
         LocalDead = true;
         Debug.LogWarning("Враг LocalDead " + LocalDead);
+        agent.isStopped = true;
     }
 
 
@@ -225,19 +226,22 @@ public class EnemyBehaviour : HealthController
         {
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if (rangeChecks[i].CompareTag("Player") & rangeChecks[i].GetComponent<PlayerData>().currentHealth > 0) //Будем знать точно что перед нами игрок и Если у игрока больше 0 ХП значит он жив)
+                if (rangeChecks[i].CompareTag("Player")) //Будем знать точно что перед нами игрок и Если у игрока больше 0 ХП значит он жив)
                 {
                     var player = rangeChecks[i].GetComponent<PlayerData>();
 
-                    //Debug.LogWarning($"игрок {player.connectionToClient} currentHealth = {player.currentHealth}\r\n SyncHealth={player._SyncHealth}");
-                    var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
+                    if (player.GetComponent<PlayerData>()._SyncHealth > 0)
+                    {
+                        //Debug.LogWarning($"игрок {player.connectionToClient} currentHealth = {player.currentHealth}\r\n SyncHealth={player._SyncHealth}");
+                        var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
-                    if (purpose == null) purpose = rangeChecks[i];
+                        if (purpose == null) purpose = rangeChecks[i];
 
-                    var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+                        var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
 
-                    if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                        if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
 
+                    }
 
                 }
 

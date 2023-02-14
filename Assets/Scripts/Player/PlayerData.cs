@@ -56,7 +56,7 @@ public class PlayerData : HealthController, ICharacter
 
     [Space(10), Header("===Ragdoll===")]
     public DeathBy deathBy = DeathBy.Animation;
-    public bool removeComponentsAfterDie;
+
     [HideInInspector]
     public bool debugActionListener;
 
@@ -101,6 +101,7 @@ public class PlayerData : HealthController, ICharacter
 
     public void CmdDie()
     {
+       
     }
 
 
@@ -488,13 +489,21 @@ public class PlayerData : HealthController, ICharacter
         _healthSlider.maxValue = Health / 100;
         _healthSliderRpc.maxValue = Health / 100;
         LocalShowHP(Health);
-
         DamagePlayer = Damage;
         MaxCartridges = Catriges;
         SpeedPlayer = Speed;
         AmmoReload = Reload;
+
+        if (PlayerPrefs.HasKey("TypePilotStat")) PlayerPrefs.DeleteKey("TypePilotStat");
+
+        PlayerPrefs.SetString("TypePilotStat", string.Join(",", new string[] { $"{Health}", $"{Damage}", $"{Catriges}", $"{Speed}", $"{Reload}" })) ;
+
         GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
     }
+
+
+    
+    
 
     #endregion
 }

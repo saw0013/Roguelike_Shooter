@@ -29,7 +29,7 @@ public class HealthController : NetworkBehaviour, IHealthController
     private bool _isDead;
     [SerializeField] protected float _currentHealth;
     public bool isImmortal = false;
-
+    public bool removeComponentsAfterDie;
     public bool fillHealthOnStart = true;
     public int maxHealth = 100;
 
@@ -87,6 +87,14 @@ public class HealthController : NetworkBehaviour, IHealthController
                     //Debug.LogWarning($"TEST\r\nisServer={isServer} | isClient={isClient} | isLocalPlayer={isLocalPlayer} | hasAuthority={hasAuthority}");
                     Action_OnDead?.Invoke();
                     CmdDie();
+
+                    if (!removeComponentsAfterDie) return;
+
+                    var comps = GetComponents<MonoBehaviour>();
+                    for (int i = 0; i < comps.Length; i++)
+                    {
+                        Destroy(comps[i]);
+                    }
                 }
             }
             else if (isDead && _currentHealth > 0)
@@ -306,7 +314,13 @@ public class HealthController : NetworkBehaviour, IHealthController
             if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
             if (currentHealth < maxHealth)
+            {
                 currentHealth += healthRecovery * Time.deltaTime;
+
+                //Восстановление ХП
+                ClientServerChangeHp(currentHealth);
+            }
+                
         }
     }
 
