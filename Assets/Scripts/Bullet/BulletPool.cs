@@ -21,8 +21,7 @@ public class BulletPool : NetworkBehaviour
 
     [SerializeField, Tooltip("Life time bullet")] private float _lifeBullet = 5f;
 
-    internal uint owner;
-    private GameObject _owner;
+    [HideInInspector] public GameObject _owner;
 
     //[Server]
     public void Init(/*uint owner*/GameObject owner)
@@ -68,18 +67,19 @@ public class BulletPool : NetworkBehaviour
 
             case "Enemy":
                 //Debug.LogWarning("ХП ПАУКА===" + collision.gameObject.GetComponent<EnemyData>()._SyncHealth); //Отображается
-                if (!collision.gameObject.GetComponent<EnemyData>().LocalDead)
+                if (collision.gameObject.GetComponent<EnemyData>()._SyncHealth > 1)
                 {
                     ClaimScore(_owner, 10);
                     RpcParticles(_hitEnemyParticles);
                     collision.gameObject.ApplyDamage(_damageToEnemy);
                 }
 
-                if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
-                {
-                    ClaimScore(_owner, 50);
-                    _owner.GetComponent<PlayerData>().EnemyKilled++;
-                }
+                //Для отслеживания убийства перенесено в EnemyData смотри TakeDamage
+                //if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
+                //{
+                //    ClaimScore(_owner, 50);
+                //    _owner.GetComponent<PlayerData>().EnemyKilled++;
+                //}
                 break;
 
             default:

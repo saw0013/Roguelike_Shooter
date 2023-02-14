@@ -368,6 +368,7 @@ public class PlayerData : HealthController, ICharacter
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
+        Debug.LogWarning($"Я {connectionToClient} и моё здоровье {_SyncHealth}"); //на сервере отслеживание происходит хорошо, на клиенте нету connectionToClient 
     }
 
     #endregion

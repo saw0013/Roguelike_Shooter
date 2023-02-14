@@ -90,6 +90,7 @@ public class HealthController : NetworkBehaviour, IHealthController
 
                     if (!removeComponentsAfterDie) return;
 
+                    Debug.LogWarning("Удаляем коллайдеры");
                     var comps = GetComponents<MonoBehaviour>();
                     for (int i = 0; i < comps.Length; i++)
                     {
@@ -230,6 +231,7 @@ public class HealthController : NetworkBehaviour, IHealthController
     }
 
 
+
     #region Локальные ХП
     /// <summary>
     /// Отобразим локальные ХП в верхнем левом углу
@@ -248,7 +250,7 @@ public class HealthController : NetworkBehaviour, IHealthController
                 _tweenColorChange.onComplete = () => _textHealth.DOColor(Color.white, Time.deltaTime * 15);
             }
 
-            _textHealth.text = $"{PlayerHp}/{MaxHealth}";
+            _textHealth.text = $"{PlayerHp}/{MaxHealth}"; //Чтобы небыло запятых
         }
     }
     #endregion
@@ -304,6 +306,7 @@ public class HealthController : NetworkBehaviour, IHealthController
         inHealthRecovery = false;
     }
 
+
     protected virtual void HealthRecovery()
     {
         if (!canRecoverHealth || isDead) return;
@@ -315,10 +318,13 @@ public class HealthController : NetworkBehaviour, IHealthController
                 currentHealth = maxHealth;
             if (currentHealth < maxHealth)
             {
-                currentHealth += healthRecovery * Time.deltaTime;
+                currentHealth += healthRecovery * Time.deltaTime; //Восстанавливает 1 ХП в секунду. Количество ХП указываем в редакторе
 
                 //Восстановление ХП
-                ClientServerChangeHp(currentHealth);
+                if (isLocalPlayer) { Debug.LogWarning("я локальный игрок и пора восстановать ХП"); }
+                if (isServer) { Debug.LogWarning("я сервер и пора восстановать ХП"); }
+                if (hasAuthority) { Debug.LogWarning("я локальный игрок у меня есть права на восстановаление ХП"); }
+                //CmdChangeHealth(currentHealth);
             }
                 
         }
@@ -420,7 +426,7 @@ public class HealthController : NetworkBehaviour, IHealthController
                 {
                     if (hasAuthority) //Есть ли у нас права изменять объект
                     {
-                        Debug.LogWarning($"damage reciver {damage.receiver.name}");
+                        //Debug.LogWarning($"damage reciver {damage.receiver.name}");
                         CmdChangeHealth(currentHealth - damage.damageValue);
                     }
                     else Debug.LogWarning("НЕТУ hasAuthority"); //Нету прав на изменение
@@ -435,7 +441,7 @@ public class HealthController : NetworkBehaviour, IHealthController
 
 
   
-
+    //TODO : Проработать восстановление ХП!
     protected virtual void HandleCheckHealthEvents()
     {
         var events = checkHealthEvents.FindAll(e => (e.healthCompare == CheckHealthEvent.HealthCompare.Equals && currentHealth.Equals(e.healthToCheck)) ||
@@ -447,7 +453,15 @@ public class HealthController : NetworkBehaviour, IHealthController
             events[i].OnCheckHealth.Invoke();
         }
         if (currentHealth < maxHealth && this.gameObject.activeInHierarchy && !inHealthRecovery)
+        {
             StartCoroutine(RecoverHealth());
+            //Debug.LogWarning("Пара востановить ХП" + currentHealth);
+        }
+        else
+        {
+           // Debug.LogWarning("ХП в норме " + currentHealth);
+        }
+            
     }
 
     enum TypeController

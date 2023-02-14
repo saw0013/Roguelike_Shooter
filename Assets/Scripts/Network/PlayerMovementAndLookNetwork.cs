@@ -453,7 +453,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
         {
-            Debug.LogWarning("Player " + p.name);
             var MainMenuManager = p.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager;
             MainMenuManager.Fade();
         });

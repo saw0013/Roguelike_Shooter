@@ -2715,11 +2715,12 @@ MonoBehaviour:
   _textHealth: {fileID: 667439118614316443}
   _currentHealth: 0
   isImmortal: 0
+  removeComponentsAfterDie: 1
   fillHealthOnStart: 1
   maxHealth: 100
   _SyncHealth: 0
   _healthRecovery: 1
-  healthRecoveryDelay: 5
+  healthRecoveryDelay: 1
   _destroyAfterDie: 0
   _delayDestroy: 3
   checkHealthEvents: []
@@ -2882,7 +2883,6 @@ MonoBehaviour:
   _nameDisplayRpc: {fileID: 1972920438032672338}
   _nameDisplay: 
   deathBy: 2
-  removeComponentsAfterDie: 1
   debugActionListener: 0
   _onActiveRagdoll:
     m_PersistentCalls:

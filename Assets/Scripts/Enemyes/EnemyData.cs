@@ -62,10 +62,13 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
-        if (currentHealth <= 0)
-        {
-            //Debug.LogWarning("Умертвляем павука"); //Выполняется только на стороне клиента
-        }
+
+        //Рабочий метод отслеживания кто попал по пауку
+        //if(damage.sender.TryGetComponent<BulletPool>(out BulletPool bullet))
+        //{
+        //    Debug.LogWarning("RECIVER у паука " + bullet._owner.name); //Вызывается на сервере отлично. На клиенте ошибка. Попробовать использовать атрибут [ServerCallback]
+        //}
+       
     }
 
 

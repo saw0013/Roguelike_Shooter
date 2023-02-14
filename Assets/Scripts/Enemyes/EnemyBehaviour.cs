@@ -110,7 +110,6 @@ public class EnemyBehaviour : HealthController
     {
         LocalDead = true;
         Debug.LogWarning("Враг LocalDead " + LocalDead);
-        agent.isStopped = true;
     }
 
 
@@ -136,7 +135,8 @@ public class EnemyBehaviour : HealthController
         //        }
         //    }
         //}
-        if (!isDead && enable)
+
+        if (_SyncHealth > 1 && enable)
         {
             if (Attacked)
             {

@@ -2074,6 +2074,7 @@ MonoBehaviour:
   _textHealth: {fileID: 3268219630960857658}
   _currentHealth: 0
   isImmortal: 0
+  removeComponentsAfterDie: 0
   fillHealthOnStart: 1
   maxHealth: 100
   _SyncHealth: 1
