@@ -531,7 +531,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         _mainMenuManager = FindObjectOfType<MainMenuManager>();
         _mainMenuManager.playerData = playerData;
-        _mainMenuManager.UploadStatPlayer(); //бкнр юбрннамнбкемхе ярюрш опх бунде
+        _mainMenuManager.UploadStatPlayer();
     }
 
     private void OnChangeMaterial(int _Old, int _New)
