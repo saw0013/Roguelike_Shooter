@@ -2647,6 +2647,7 @@ MonoBehaviour:
   _gunMaterials:
   - {fileID: 2100000, guid: 8f11719fea7c610439eedff6ee41856d, type: 2}
   playerAnimator: {fileID: 3827590655917096605}
+  _fadeAnim: {fileID: 4786157573886954774}
   playerEventEmitter: {fileID: 1081686685803181698}
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
   _GunTexture: {fileID: 2800000, guid: 8ab2b399cab864920a192e34dadbdf01, type: 3}
@@ -3233,7 +3234,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6726,7 +6727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4786157574483153565
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6768,7 +6769,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!114 &4786157574483153567
 MonoBehaviour:
@@ -11485,7 +11486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Value
-      value: -0.000005435743
+      value: -0.0000053093304
       objectReference: {fileID: 0}
     - target: {fileID: 7610808489676245212, guid: 223c87fc03a3093418019f327d924333, type: 3}
       propertyPath: m_Colors.m_NormalColor.b
