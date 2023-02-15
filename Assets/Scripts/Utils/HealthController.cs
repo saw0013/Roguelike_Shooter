@@ -202,6 +202,8 @@ public class HealthController : NetworkBehaviour, IHealthController
         if (typeController == TypeController.Enemy) _textHealth.text = $"{newValue}/{MaxHealth}";
 
         LocalShowHP(newValue);
+
+        HandleCheckHealthEvents();
     }
 
     protected void ClientServerChangeHp(float hp)
@@ -250,7 +252,7 @@ public class HealthController : NetworkBehaviour, IHealthController
                 _tweenColorChange.onComplete = () => _textHealth.DOColor(Color.white, Time.deltaTime * 15);
             }
 
-            _textHealth.text = $"{PlayerHp}/{MaxHealth}"; //Чтобы небыло запятых
+            _textHealth.text = $"{(int)PlayerHp}/{MaxHealth}"; //Чтобы небыло запятых
         }
     }
     #endregion
@@ -290,7 +292,7 @@ public class HealthController : NetworkBehaviour, IHealthController
     {
         get
         {
-            return (currentHealth >= 0 && healthRecovery > 0 && currentHealth < maxHealth);
+            return (currentHealth >= 0 && healthRecovery > 0 && currentHealth < MaxHealth);
         }
     }
 
@@ -306,7 +308,6 @@ public class HealthController : NetworkBehaviour, IHealthController
         inHealthRecovery = false;
     }
 
-
     protected virtual void HealthRecovery()
     {
         if (!canRecoverHealth || isDead) return;
@@ -318,13 +319,11 @@ public class HealthController : NetworkBehaviour, IHealthController
                 currentHealth = maxHealth;
             if (currentHealth < maxHealth)
             {
-                currentHealth += healthRecovery * Time.deltaTime; //Восстанавливает 1 ХП в секунду. Количество ХП указываем в редакторе
-
-                //Восстановление ХП
-                if (isLocalPlayer) { Debug.LogWarning("я локальный игрок и пора восстановать ХП"); }
-                if (isServer) { Debug.LogWarning("я сервер и пора восстановать ХП"); }
-                if (hasAuthority) { Debug.LogWarning("я локальный игрок у меня есть права на восстановаление ХП"); }
-                //CmdChangeHealth(currentHealth);
+                if (isLocalPlayer)
+                {
+                    currentHealth += healthRecovery * Time.deltaTime; //Восстанавливает 1 ХП в секунду. Количество ХП указываем в редакторе
+                    ClientServerChangeHp(currentHealth);
+                }
             }
                 
         }
@@ -435,13 +434,12 @@ public class HealthController : NetworkBehaviour, IHealthController
 
             if (damage.damageValue > 0)
                 onReceiveDamage.Invoke(damage);
-            HandleCheckHealthEvents();
+            //HandleCheckHealthEvents();
         }
     }
 
 
   
-    //TODO : Проработать восстановление ХП!
     protected virtual void HandleCheckHealthEvents()
     {
         var events = checkHealthEvents.FindAll(e => (e.healthCompare == CheckHealthEvent.HealthCompare.Equals && currentHealth.Equals(e.healthToCheck)) ||
@@ -449,18 +447,11 @@ public class HealthController : NetworkBehaviour, IHealthController
                                                     (e.healthCompare == CheckHealthEvent.HealthCompare.LessThan && currentHealth < (e.healthToCheck)));
 
         for (int i = 0; i < events.Count; i++)
-        {
             events[i].OnCheckHealth.Invoke();
-        }
-        if (currentHealth < maxHealth && this.gameObject.activeInHierarchy && !inHealthRecovery)
-        {
+        
+        if (_SyncHealth < maxHealth /*&& this.gameObject.activeInHierarchy*/ && !inHealthRecovery)
             StartCoroutine(RecoverHealth());
-            //Debug.LogWarning("Пара востановить ХП" + currentHealth);
-        }
-        else
-        {
-           // Debug.LogWarning("ХП в норме " + currentHealth);
-        }
+
             
     }
 

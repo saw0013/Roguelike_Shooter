@@ -155,13 +155,16 @@ public class PlayerData : HealthController, ICharacter
 
     internal void BuffHealth(float maxHealth, GameObject item)
     {
-        MaxHealth += (int)maxHealth;
-        _healthSlider.maxValue += maxHealth / 100;
-        _healthSliderRpc.maxValue += maxHealth / 100;
-        ClientServerChangeHp(maxHealth);
-        LocalShowHP(maxHealth);
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+        if (isLocalPlayer) //Просто проверить Наверное так и надо делать. Нужно проверить если будут подбираться по 2 бафа далее
+        {
+            MaxHealth += (int)maxHealth;
+            _healthSlider.maxValue += maxHealth / 100;
+            _healthSliderRpc.maxValue += maxHealth / 100;
+            ClientServerChangeHp(maxHealth);
+            LocalShowHP(maxHealth);
+            var _item = Instantiate(item, ItemsGrind);
+            _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+        }
 
         //if (hasAuthority) //Если мы имеем право на изменение
         //{
@@ -201,7 +204,6 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeGuard(int BuffGuard, GameObject item)
     {
-        Debug.LogWarning("Guard Есть права " + hasAuthority);
         guardPlayer += BuffGuard;
         _textGuard.text = $"Щит: {guardPlayer}";
         var _item = Instantiate(item, ItemsGrind);
@@ -368,8 +370,10 @@ public class PlayerData : HealthController, ICharacter
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
-        Debug.LogWarning($"Я {connectionToClient} и моё здоровье {_SyncHealth}"); //на сервере отслеживание происходит хорошо, на клиенте нету connectionToClient 
+        //Debug.LogWarning($"Я {connectionToClient} и моё здоровье {_SyncHealth}"); //на сервере отслеживание происходит хорошо, на клиенте нету connectionToClient 
     }
+
+
 
     #endregion
 
@@ -377,7 +381,9 @@ public class PlayerData : HealthController, ICharacter
 
     public void TargetChangeCameraToLivePlayer()
     {
-        StartCoroutine(ChangeCameraToLiveParty());
+        if (isLocalPlayer)
+            StartCoroutine(ChangeCameraToLiveParty());
+        
     }
 
     private List<Transform> RoomPlayers()

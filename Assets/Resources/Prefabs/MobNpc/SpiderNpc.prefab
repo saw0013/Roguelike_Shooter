@@ -4640,7 +4640,7 @@ MonoBehaviour:
   isImmortal: 0
   removeComponentsAfterDie: 0
   fillHealthOnStart: 1
-  maxHealth: 250
+  maxHealth: 350
   _SyncHealth: 1
   _healthRecovery: 0
   healthRecoveryDelay: 0

@@ -12,6 +12,8 @@ public class DefaultItemGuardUI : MonoBehaviour
 
     private PlayerData owner;
 
+    private bool isDestroy = false;
+
     void Start()
     {
         textTime.text = $"Время: {timeBuff}";
@@ -19,17 +21,21 @@ public class DefaultItemGuardUI : MonoBehaviour
 
     void Update()
     {
-        if (timeBuff > 0)
+        if (!isDestroy)
         {
-            timeBuff -= Time.deltaTime;
-            var second = Mathf.RoundToInt(timeBuff);
-            textTime.text = $"Время: {second}";
-        }
-        else
-        {
-            GetComponent<Image>().CrossFadeColor(new Color(0, 0, 1, 0.4f), 2, false, true);
-            Destroy(textTime.gameObject);
-            owner.StopBuffGuard();
+            if (timeBuff > 0)
+            {
+                timeBuff -= Time.deltaTime;
+                var second = Mathf.RoundToInt(timeBuff);
+                if (textTime != null)
+                    textTime.text = $"Время: {second}";
+            }
+            else
+            {
+                GetComponent<Image>().CrossFadeColor(new Color(0, 0, 1, 0.4f), 2, false, true);
+                Destroy(textTime.gameObject);
+                owner.StopBuffGuard();
+            }
         }
     }
 

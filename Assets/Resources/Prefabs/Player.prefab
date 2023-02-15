@@ -2647,7 +2647,6 @@ MonoBehaviour:
   _gunMaterials:
   - {fileID: 2100000, guid: 8f11719fea7c610439eedff6ee41856d, type: 2}
   playerAnimator: {fileID: 3827590655917096605}
-  _fadeAnim: {fileID: 4786157573886954774}
   playerEventEmitter: {fileID: 1081686685803181698}
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
   _GunTexture: {fileID: 2800000, guid: 8ab2b399cab864920a192e34dadbdf01, type: 3}
@@ -2720,8 +2719,8 @@ MonoBehaviour:
   fillHealthOnStart: 1
   maxHealth: 100
   _SyncHealth: 0
-  _healthRecovery: 1
-  healthRecoveryDelay: 1
+  _healthRecovery: 0.5
+  healthRecoveryDelay: 5
   _destroyAfterDie: 0
   _delayDestroy: 3
   checkHealthEvents: []

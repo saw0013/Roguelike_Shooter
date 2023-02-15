@@ -398,6 +398,16 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
         {
+            if (x.tag == "Props")
+            {
+                var obj = Instantiate(x);
+                obj.GetComponent<NetworkMatch>().matchId = networkMatch.matchId;
+                NetworkServer.Spawn(obj);
+            }
+        });
+
+        ((ShooterNetworkManager)NetworkManager.singleton).spawnPrefabs.ForEach(x =>
+        {
             if (x.tag == "BeginEnemy")
             {
                 var obj = Instantiate(x);

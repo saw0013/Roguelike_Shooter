@@ -809,7 +809,15 @@ PrefabInstance:
     - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: spawnPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 6312135668251596548, guid: 4c068e6f5710a474ea99016ba0d69089, type: 3}
+      objectReference: {fileID: 7683013686303515247, guid: 92253aefcf9fde043be34998790899b3, type: 3}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 7683013686303515247, guid: 92253aefcf9fde043be34998790899b3, type: 3}
+    - target: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 7683013686303515247, guid: 92253aefcf9fde043be34998790899b3, type: 3}
     - target: {fileID: 8281951297748787399, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: folderPath.Array.size
       value: 6

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3303458614440897324}
   - component: {fileID: 7136279578775309882}
   - component: {fileID: 186113034719763879}
-  - component: {fileID: 7260331505658376083}
+  - component: {fileID: 2165554715405463499}
   m_Layer: 0
   m_Name: BODY_GAME_OBJECT
   m_TagString: Buffs
@@ -112,7 +112,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6844223, y: 0.72795, z: 0.6880497}
   m_Center: {x: -1.981627e-18, y: 0.0018137097, z: -0.0018136799}
---- !u!114 &7260331505658376083
+--- !u!114 &2165554715405463499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 129234557456381208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1787cfc706a3c54496475c20caa35f2, type: 3}
+  m_Script: {fileID: 11500000, guid: e57c1cc4032f5204fbba23149420a46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speedAdd: 2
