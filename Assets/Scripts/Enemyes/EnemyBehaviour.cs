@@ -220,7 +220,20 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
+        if(purpose != null)
+        {
+            var _purpose = purpose?.GetComponent<PlayerData>();
 
+            Debug.LogWarning("Цель есть");
+
+            if (_purpose._SyncHealth < 0)
+            {
+                Debug.LogWarning("У цели сеньше 0 хп");
+                agent.isStopped = true;
+                canAttack = false;
+            }
+        }
+        
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
         if (rangeChecks.Length > 0)
         {
@@ -235,11 +248,20 @@ public class EnemyBehaviour : HealthController
                         //Debug.LogWarning($"игрок {player.connectionToClient} currentHealth = {player.currentHealth}\r\n SyncHealth={player._SyncHealth}");
                         var distanceCheck = Vector3.Distance(gameObject.transform.position, rangeChecks[i].transform.position);
 
-                        if (purpose == null) purpose = rangeChecks[i];
+                        if (purpose == null && player._SyncHealth > 0) purpose = rangeChecks[i];
 
-                        var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+                        if (purpose != null && player._SyncHealth > 0)
+                        {
+                            Debug.LogWarning("Цели есть и у проверяемого игрока больше 0");
 
-                        if (distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                            var HealthPuproce = purpose.GetComponent<PlayerData>();
+
+                            var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+
+                            Debug.LogWarning($"HP Pupose {HealthPuproce._SyncHealth} , Distance puprose {distancePuproce},(>) Distance Check {distanceCheck}");
+
+                            if (HealthPuproce._SyncHealth < 0 || distancePuproce > distanceCheck) purpose = rangeChecks[i];
+                        }
 
                     }
 
