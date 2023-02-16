@@ -160,22 +160,11 @@ public class PlayerData : HealthController, ICharacter
             MaxHealth += (int)maxHealth;
             _healthSlider.maxValue += maxHealth / 100;
             _healthSliderRpc.maxValue += maxHealth / 100;
-            ClientServerChangeHp(maxHealth);
-            LocalShowHP(maxHealth);
+            ClientServerChangeHp(maxHealth);//?
+            LocalShowHP(maxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
             var _item = Instantiate(item, ItemsGrind);
             _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
         }
-
-        //if (hasAuthority) //Если мы имеем право на изменение
-        //{
-        //    MaxHealth += (int)maxHealth;
-        //    _healthSlider.maxValue += maxHealth / 100;
-        //    _healthSliderRpc.maxValue += maxHealth / 100;
-        //    ClientServerChangeHp(maxHealth);
-        //    LocalShowHP(maxHealth);
-        //    var _item = Instantiate(item, ItemsGrind);
-        //    _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
-        //}
     }
 
 
@@ -256,11 +245,13 @@ public class PlayerData : HealthController, ICharacter
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce, GameObject item)
     {
-        Debug.LogWarning("Ammo Есть права " + hasAuthority);
-        AmmoReload -= BuffAmmoReload;
-        BuletForce += BuffAmmoForce;
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
+        if (isLocalPlayer)
+        {
+            AmmoReload -= BuffAmmoReload;
+            BuletForce += BuffAmmoForce;
+            var _item = Instantiate(item, ItemsGrind);
+            _item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
+        }
     }
 
     public void StopBuffAmmo()

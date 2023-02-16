@@ -479,7 +479,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         playerData.DamagePlayer = int.Parse(arr[1]);
         playerData.MaxCartridges = int.Parse(arr[2]);
         playerData.SpeedPlayer = int.Parse(arr[3]);
-        playerData.AmmoReload = int.Parse(arr[4]);
+        playerData.AmmoReload = int.Parse(arr[4]); //TODO : тут нужно наверно использовать не AmmoReload потому что после бафа будет startAmmoReload
     }
 
     [TargetRpc]

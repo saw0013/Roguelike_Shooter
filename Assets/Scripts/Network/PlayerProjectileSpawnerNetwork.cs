@@ -28,10 +28,20 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     // public float ReloadTime;
 
     private float timer;
+
+    /// <summary>
+    /// Время перезарядки
+    /// </summary>
     private float timerReload;
 
+    /// <summary>
+    /// Патроны
+    /// </summary>
     private int сartridges;
 
+    /// <summary>
+    /// Перезаряжается?
+    /// </summary>
     private bool reloading;
 
     [Header("Particles")]
