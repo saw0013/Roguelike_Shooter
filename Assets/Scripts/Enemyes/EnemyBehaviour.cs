@@ -62,7 +62,7 @@ public class EnemyBehaviour : HealthController
     //private PlayerData weakPlayer;
 
     [Tooltip("Цель")]
-    private Collider purpose;
+    public Collider purpose;
 
     private EnemyAnimation e_anim;
 
@@ -223,12 +223,8 @@ public class EnemyBehaviour : HealthController
         if(purpose != null)
         {
             var _purpose = purpose?.GetComponent<PlayerData>();
-
-            Debug.LogWarning("Цель есть");
-
             if (_purpose._SyncHealth < 0)
             {
-                Debug.LogWarning("У цели сеньше 0 хп");
                 agent.isStopped = true;
                 canAttack = false;
             }
@@ -252,13 +248,9 @@ public class EnemyBehaviour : HealthController
 
                         if (purpose != null && player._SyncHealth > 0)
                         {
-                            Debug.LogWarning("Цели есть и у проверяемого игрока больше 0");
-
                             var HealthPuproce = purpose.GetComponent<PlayerData>();
 
                             var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
-
-                            Debug.LogWarning($"HP Pupose {HealthPuproce._SyncHealth} , Distance puprose {distancePuproce},(>) Distance Check {distanceCheck}");
 
                             if (HealthPuproce._SyncHealth < 0 || distancePuproce > distanceCheck) purpose = rangeChecks[i];
                         }
@@ -286,67 +278,66 @@ public class EnemyBehaviour : HealthController
         var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null) 
+        if (checkPlayer != null || purpose != null) 
         {
             //TODO : Проверить ХП каждого и выявить слабого
 
             Transform target = purpose.transform; //Наверное двигаться лучше к CheckPlayer
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2)
+            if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2 || purpose != null)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask) || purpose != null)
                 {
-                    if (distanceToTarget >= agent.stoppingDistance + DelayDistance)
+                    if(purpose != null)
                     {
-                        //agent.isStopped = false;
-                        agent.SetDestination(purpose.transform.position);
+                        agent.SetDestination(target.position);
                         canAttack = false;
-                    }
-                    else
-                    {
-                       
-                        if (typeEnemy == TypeEnemy.BigMeleeFighter)
+                        if(distanceToTarget < agent.stoppingDistance + DelayDistance)
                         {
-                            canAttack = true;
-                            
-                            if (!Attacked)
+                            if (typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
-                                LookTarget(target);
-                                Attacked = true;
-                                agent.isStopped = true;
-                                damageTrigger.AttackNum = 1;
+                                canAttack = true;
+
+                                if (!Attacked)
+                                {
+                                    LookTarget(target);
+                                    Attacked = true;
+                                    agent.isStopped = true;
+                                    damageTrigger.AttackNum = 1;
+                                }
+                                //StartCoroutine(damagePlayer(collider));
+                                //collider.GetComponent<PlayerData>().TakeDamage(damage);
                             }
-                            //StartCoroutine(damagePlayer(collider));
-                            //collider.GetComponent<PlayerData>().TakeDamage(damage);
-                        }
-                        else if (typeEnemy == TypeEnemy.LittleMeleeFighter)
-                        {
-                            if (chardge)
+                            else if (typeEnemy == TypeEnemy.LittleMeleeFighter)
+                            {
+                                if (chardge)
+                                {
+                                    if (!Attacked)
+                                    {
+                                        LookTarget(target);
+                                        e_anim.anim_WalkSpeed(SpeedWalkAnim);
+                                        Attacked = true;
+                                        agent.isStopped = true;
+                                        damageTrigger.AttackNum = 1;
+                                        DelayDistance = 1.5f;
+                                    }
+                                }
+                                else beginCharge = true;
+                            }
+                            else if (typeEnemy == TypeEnemy.RangerBot)
                             {
                                 if (!Attacked)
                                 {
                                     LookTarget(target);
-                                    e_anim.anim_WalkSpeed(SpeedWalkAnim);
                                     Attacked = true;
                                     agent.isStopped = true;
-                                    damageTrigger.AttackNum = 1;
-                                    DelayDistance = 1.5f;
                                 }
-                            }
-                            else beginCharge = true;
-                        }
-                        else if (typeEnemy == TypeEnemy.RangerBot)
-                        {
-                            if (!Attacked)
-                            {
-                                LookTarget(target);
-                                Attacked = true;
-                                agent.isStopped = true;
                             }
                         }
                     }
+                   
                     canSeePlayer = true;
                 }
                 else

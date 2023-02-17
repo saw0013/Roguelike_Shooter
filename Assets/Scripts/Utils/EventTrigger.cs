@@ -129,7 +129,9 @@ public class EventTrigger : NetworkBehaviour
 
                     playerData.ChangeWaveNuberText("Волна " + 1 + "/" + AllWave);
 
-                    if (_distance > _maxDistanceToPlayer)
+                    Debug.LogWarning("HP Player on trigger " + playerData._SyncHealth);
+
+                    if (_distance > _maxDistanceToPlayer && playerData._SyncHealth > 0)
                     {
                         var rndRadius = Random.Range(-3, 3);
                         //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);

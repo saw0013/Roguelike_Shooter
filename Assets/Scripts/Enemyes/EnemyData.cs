@@ -66,6 +66,11 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
         //Рабочий метод отслеживания кто попал по пауку
         if (damage.sender.TryGetComponent<BulletPool>(out BulletPool bullet))
         {
+
+            if (purpose == null)
+            {
+                purpose = bullet._owner.GetComponent<Collider>();
+            }
             //Debug.LogWarning("RECIVER у паука " + bullet._owner.name + " hp enemy: " + _SyncHealth); //Вызывается на сервере отлично. На клиенте ошибка. Попробовать использовать атрибут [ServerCallback]
             if (_SyncHealth <= 0)
             {
