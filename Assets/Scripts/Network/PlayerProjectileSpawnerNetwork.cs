@@ -101,7 +101,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
                     SliderAction(0);
 
-                    if (timerReload >= playerData.AmmoReload)
+                    if (timerReload >= GetTimeReload())
                     {
                         ñartridges = playerData.MaxCartridges;
                         timerReload = 0;
@@ -125,7 +125,9 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                     startDoTween = true;
                     float cartridges = (float)playerData.MaxCartridges / 100;
                     Debug.LogWarning("Cartridges " + cartridges);
-                    var timeReload = playerData.AmmoReload;
+
+                    var timeReload = GetTimeReload();
+
                     Debug.LogWarning("TimeReload " + timeReload);
 
                     _sliderCatridges.DOValue(cartridges, timeReload);
@@ -140,6 +142,22 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                 break;
         }
 
+    }
+
+    private float GetTimeReload()
+    {
+        float procent = ProcentReloadTime();
+        var ammoReload = playerData.AmmoReload;
+        var TimeReload = ammoReload * procent;       
+        return TimeReload;
+    }
+
+    private float ProcentReloadTime()
+    {
+        var maxCartridges = playerData.MaxCartridges;
+        float procentReload = ñartridges * 100 / maxCartridges;
+        procentReload /= 100;
+        return 1 - procentReload;
     }
 
     public void ReloadText() => _textCartridges.text = $"AMMO: {ñartridges}";
