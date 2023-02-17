@@ -2,12 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using FMODUnity;
-using FMOD.Studio;
+using DG.Tweening;
 using MirrorBasics;
-using TMPro;
-using static UnityEngine.UI.GridLayoutGroup;
-using Zenject.SpaceFighter;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 {
@@ -15,6 +11,10 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     [Header("UI")]
     [SerializeField] private Text _textCartridges;
+    [SerializeField] private Slider _sliderCatridges;
+    [SerializeField] private Image _imageSliderCartridges;
+
+    private Color deffualtColorSlider;
 
     [Header("Input")]
     public KeyCode spawnKey = KeyCode.Mouse0;
@@ -44,6 +44,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     /// </summary>
     private bool reloading;
 
+    private bool startDoTween;
+
     [Header("Particles")]
     public ParticleSystem spawnParticles;
 
@@ -58,8 +60,11 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     #endregion
 
-    private void Start() => playerNetwork = GetComponent<PlayerMovementAndLookNetwork>();
-
+    private void Start()
+    {
+        playerNetwork = GetComponent<PlayerMovementAndLookNetwork>();
+        deffualtColorSlider = _imageSliderCartridges.color;
+    }
     void Update()
     {
         if (hasAuthority)
@@ -90,15 +95,49 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                 if (reloading)
                 {
                     timerReload += Time.deltaTime;
+
+                    var _tweenReload = _imageSliderCartridges.DOColor(Color.black, 0.1f);
+                    _tweenReload.OnComplete(() => _imageSliderCartridges.DOColor(deffualtColorSlider, 0.1f));
+
+                    SliderAction(0);
+
                     if (timerReload >= playerData.AmmoReload)
                     {
                         ñartridges = playerData.MaxCartridges;
                         timerReload = 0;
                         reloading = false;
                         ReloadText();
+                        startDoTween = false;
                     }
                 }
             }
+        }
+
+    }
+
+    private void SliderAction(int action)
+    {
+        switch (action)
+        {
+            case 0:
+                if (!startDoTween)
+                {
+                    startDoTween = true;
+                    float cartridges = (float)playerData.MaxCartridges / 100;
+                    Debug.LogWarning("Cartridges " + cartridges);
+                    var timeReload = playerData.AmmoReload;
+                    Debug.LogWarning("TimeReload " + timeReload);
+
+                    _sliderCatridges.DOValue(cartridges, timeReload);
+                }
+                break;
+
+            case 1:
+
+                var _tweenOn = _imageSliderCartridges.DOColor(Color.red, 0.1f);
+                _tweenOn.OnComplete(() => _imageSliderCartridges.DOColor(deffualtColorSlider, 0.1f));
+
+                break;
         }
 
     }
@@ -108,6 +147,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     public void GetCatridges() 
     {
         ñartridges = playerData.MaxCartridges;
+        _sliderCatridges.maxValue = (float)ñartridges / 100;
+        _sliderCatridges.value = _sliderCatridges.maxValue;
         _textCartridges.text = $"AMMO: {ñartridges}";
     } 
 
@@ -115,6 +156,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     {
         timer = 0f;
         ñartridges--;
+        _sliderCatridges.value -= 0.01f;
+        SliderAction(1);
         ReloadText();
         CmdSpawnBullet();
     }
