@@ -160,8 +160,8 @@ public class PlayerData : HealthController, ICharacter
             MaxHealth += (int)maxHealth;
             _healthSlider.maxValue += maxHealth / 100;
             _healthSliderRpc.maxValue += maxHealth / 100;
-            ClientServerChangeHp(maxHealth);//?
-            LocalShowHP(maxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
+            ClientServerChangeHp(MaxHealth);//?
+            LocalShowHP(MaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
             var _item = Instantiate(item, ItemsGrind);
             _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
         }
@@ -498,10 +498,5 @@ public class PlayerData : HealthController, ICharacter
 
         GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
     }
-
-
-    
-    
-
     #endregion
 }
