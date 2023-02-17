@@ -58,17 +58,23 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
 
 
     
-
+    [ServerCallback]
     public override void TakeDamage(Damage damage)
     {
         base.TakeDamage(damage);
 
         //Рабочий метод отслеживания кто попал по пауку
-        //if(damage.sender.TryGetComponent<BulletPool>(out BulletPool bullet))
-        //{
-        //    Debug.LogWarning("RECIVER у паука " + bullet._owner.name); //Вызывается на сервере отлично. На клиенте ошибка. Попробовать использовать атрибут [ServerCallback]
-        //}
-       
+        if (damage.sender.TryGetComponent<BulletPool>(out BulletPool bullet))
+        {
+            //Debug.LogWarning("RECIVER у паука " + bullet._owner.name + " hp enemy: " + _SyncHealth); //Вызывается на сервере отлично. На клиенте ошибка. Попробовать использовать атрибут [ServerCallback]
+            if (_SyncHealth <= 0)
+            {
+                var player = bullet._owner.GetComponent<PlayerData>();
+                player.ScorePlayer += 20;
+                player.EnemyKilled++;
+            }
+        }
+
     }
 
 
