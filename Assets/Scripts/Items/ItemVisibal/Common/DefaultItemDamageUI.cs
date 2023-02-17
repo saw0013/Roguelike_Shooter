@@ -35,6 +35,7 @@ public class DefaultItemDamageUI : MonoBehaviour
                 GetComponent<Image>().CrossFadeColor(new Color(1, 0, 0, 0.4f), 2, false, true);
                 Destroy(textTime.gameObject);
                 owner.StopBuffMoveSpeed();
+                isDestroy = true;
             }
         }
     }

@@ -12,7 +12,7 @@ public class DefaultItemMoveSpeed : MonoBehaviour
     [SerializeField] private GameObject _imageItem;
 
     private PlayerData _owner;
-
+    
     internal NetworkMatch networkMatch;
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +20,7 @@ public class DefaultItemMoveSpeed : MonoBehaviour
         if (other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
-
+    
     
     private void Buff(GameObject player)
     {       

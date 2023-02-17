@@ -305,6 +305,7 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   ForceShoot: 1
   _lifeBullet: 4
+  _owner: {fileID: 0}
 --- !u!114 &7592554607738225521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,9 +336,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.005
   clientAuthority: 1
-  sendRate: 64
+  sendRate: 128
   bufferTimeMultiplier: 2
   bufferSizeLimit: 64
   catchupNegativeThreshold: -1
