@@ -2757,6 +2757,7 @@ GameObject:
   - component: {fileID: 6104845788952485230}
   - component: {fileID: 3170911305126743654}
   - component: {fileID: 3827590655909793146}
+  - component: {fileID: -8891746178340497927}
   - component: {fileID: 559659328833504706}
   - component: {fileID: 3827590655909793030}
   - component: {fileID: 3225267570092020803}
@@ -3070,6 +3071,7 @@ MonoBehaviour:
   BuffGive: 0
   AmmoWasted: 0
   TextScorePlayer: {fileID: 4997396028519895410}
+  _playerBuffController: {fileID: -8891746178340497927}
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0
   DamagePlayer: 0
@@ -3092,6 +3094,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _ragdolled: 1
+--- !u!114 &-8891746178340497927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab82e9b0064c9e459725764743893d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &559659328833504706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3437,7 +3451,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5

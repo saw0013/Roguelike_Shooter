@@ -25,8 +25,13 @@ public class DefaultItemMoveSpeed : MonoBehaviour
     private void Buff(GameObject player)
     {       
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeMoveSpeed(5, _imageItem);
-        _owner.BuffGive++;
+
+        if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
+        {
+            _owner.ChangeMoveSpeed(5, _imageItem);
+            _owner.BuffGive++;
+        }
+
         Destroy(gameObject);
     }
 

@@ -34,8 +34,9 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
             }
             else
             {
+                textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);
-                Destroy(textTime.gameObject);
+                //Destroy(textTime.gameObject);
                 owner.StopBuffMoveSpeed();
                 isDestroy = true;
             }
@@ -43,4 +44,16 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
     }
 
     public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
+
+    public void UpdateBuff()
+    {
+        //Заново формируем таймер
+        timeBuff = 60;
+        isDestroy = false;
+
+        //Снова включаем таймер
+        textTime.gameObject.SetActive(true);
+        GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);//TODO : Я хз как его сделать снова не полупрозрачным 0.4 на 1 поменять???
+        
+    }
 }

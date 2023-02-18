@@ -10,7 +10,7 @@ public class DefaultItemHP : MonoBehaviour
 
     private PlayerData _owner;
 
-    private bool onceGive;
+ //   private bool onceGive; //я не полн€л зачем это тут...
 
     internal NetworkMatch networkMatch;
 
@@ -25,19 +25,20 @@ public class DefaultItemHP : MonoBehaviour
     private void Buff(GameObject player)
     {
 
-        if (onceGive)
-        {
-            onceGive = true;
+        //if (onceGive)
+        //{
+        //    onceGive = true;
             Debug.LogWarning("»грок подобрал " + player.name);
 
             _owner = player.GetComponent<PlayerData>();
-            _owner.BuffHealth(_healthAdd, _imageItem);
-            _owner.BuffGive++;
 
-            // var item = Instantiate(_imageItem, _owner.ItemsGrind);
-            // item.GetComponent<DefaultItemHPUI>().RegisterOwner(_owner);
+            if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
+            {
+                _owner.BuffHealth(_healthAdd, _imageItem);
+                _owner.BuffGive++;
+            }
+
             Destroy(gameObject);
-            //NetworkServer.Destroy(gameObject);
-        }
+        //}
     }
 }

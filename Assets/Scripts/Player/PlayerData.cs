@@ -31,7 +31,7 @@ public class PlayerData : HealthController, ICharacter
     [Space(10), Header("===PlayerData===")]
     private bool InputActive/* = true*/;
 
-
+    public PlayerBuffController _playerBuffController;
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
     public int SpeedPlayer;
@@ -157,13 +157,18 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer) //Просто проверить Наверное так и надо делать. Нужно проверить если будут подбираться по 2 бафа далее
         {
-            MaxHealth += (int)maxHealth;
-            _healthSlider.maxValue += maxHealth / 100;
-            _healthSliderRpc.maxValue += maxHealth / 100;
-            ClientServerChangeHp(MaxHealth);//?
-            LocalShowHP(MaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
-            var _item = Instantiate(item, ItemsGrind);
-            _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+            var _newMaxHealth = (float)(MaxHealth + (int)maxHealth);
+
+            _healthSlider.maxValue += _newMaxHealth / 100;
+            _healthSliderRpc.maxValue += _newMaxHealth / 100;
+            ClientServerChangeHp(_newMaxHealth);//?
+            LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
+
+            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
+            {
+                var _item = Instantiate(item, ItemsGrind);
+                _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+            }
         }
     }
 
@@ -212,9 +217,21 @@ public class PlayerData : HealthController, ICharacter
     #region CommonMoveSpeed
     public void ChangeMoveSpeed(int BuffSpeed, GameObject item)
     {
-        SpeedPlayer += BuffSpeed;
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
+        if (isLocalPlayer)
+        {
+            SpeedPlayer += BuffSpeed;
+
+            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
+            {
+                var _item = Instantiate(item, ItemsGrind);
+                _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
+            }
+            else
+            {
+                var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
+                _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
+            }
+        }
     }
 
 
