@@ -136,6 +136,18 @@ public class EnemyBehaviour : HealthController
         //    }
         //}
 
+        if(typeEnemy == TypeEnemy.RangerBot && purpose != null)
+        {
+            if(agent.remainingDistance < agent.stoppingDistance - 2.5f)
+            {
+                Debug.LogWarning("Игрок слишком близко");
+                var runPoint = new Vector3(purpose.transform.position.x + 5, transform.position.y, transform.position.z + 5);
+                agent.SetDestination(runPoint);
+            }
+        }
+
+
+
         if (_SyncHealth > 1 && enable)
         {
             if (Attacked)
