@@ -10,6 +10,8 @@ public class DefaultItemHP : MonoBehaviour
 
     private PlayerData _owner;
 
+    private bool onceGive;
+
     internal NetworkMatch networkMatch;
 
 
@@ -22,13 +24,20 @@ public class DefaultItemHP : MonoBehaviour
     
     private void Buff(GameObject player)
     {
-        _owner = player.GetComponent<PlayerData>();
-        _owner.BuffHealth(_healthAdd, _imageItem);
-        _owner.BuffGive++;
 
-       // var item = Instantiate(_imageItem, _owner.ItemsGrind);
-       // item.GetComponent<DefaultItemHPUI>().RegisterOwner(_owner);
-        Destroy(gameObject);
-        //NetworkServer.Destroy(gameObject);
+        if (onceGive)
+        {
+            onceGive = true;
+            Debug.LogWarning("Игрок подобрал " + player.name);
+
+            _owner = player.GetComponent<PlayerData>();
+            _owner.BuffHealth(_healthAdd, _imageItem);
+            _owner.BuffGive++;
+
+            // var item = Instantiate(_imageItem, _owner.ItemsGrind);
+            // item.GetComponent<DefaultItemHPUI>().RegisterOwner(_owner);
+            Destroy(gameObject);
+            //NetworkServer.Destroy(gameObject);
+        }
     }
 }

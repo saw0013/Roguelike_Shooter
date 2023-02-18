@@ -10,6 +10,8 @@ public class DefaultItemDamage : MonoBehaviour
 
     private PlayerData _owner;
 
+    private bool onceGive;
+
     internal NetworkMatch networkMatch;
 
     private void OnTriggerEnter(Collider other)
@@ -21,10 +23,16 @@ public class DefaultItemDamage : MonoBehaviour
     
     private void Buff(GameObject player)
     {
-        _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeDamage(_damageAdd, _imageItem);
-        _owner.BuffGive++;
+        if (onceGive)
+        {
+            onceGive = true;
+            Debug.LogWarning("Игрок подобрал " + player.name);
 
-        Destroy(gameObject);
+            _owner = player.GetComponent<PlayerData>();
+            _owner.ChangeDamage(_damageAdd, _imageItem);
+            _owner.BuffGive++;
+
+            Destroy(gameObject);
+        }
     }
 }

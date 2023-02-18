@@ -123,7 +123,7 @@ MonoBehaviour:
   isTriggered: 0
   hasAthorityTrigger: 1
   _maxDistanceToPlayer: 5
-  spawningWho: 1
+  spawningWho: 3
   _managerWave: {fileID: 4096355483860449015}
   OnEnterTrigger:
     m_PersistentCalls:

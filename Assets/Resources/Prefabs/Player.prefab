@@ -3634,7 +3634,7 @@ GameObject:
   - component: {fileID: 3827590655910629725}
   - component: {fileID: 3827590655911728029}
   - component: {fileID: 3827590655909793032}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10576,7 +10576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7776673959959146266}
   - component: {fileID: 4651716581096857188}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: ShootAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10703,7 +10703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7776673960583660911}
   - component: {fileID: 3129203950111811591}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: NullShootAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10954,7 +10954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7776673961519283466}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: AVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10989,7 +10989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7776673961594626634}
   - component: {fileID: 7289743988296457463}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: ReloadAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11050,7 +11050,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7776673961621920768}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: BulletSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -11927,7 +11927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7576137897887938172, guid: 741efacd44efccc458f7e9b1dd6a988e, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 741efacd44efccc458f7e9b1dd6a988e, type: 3}

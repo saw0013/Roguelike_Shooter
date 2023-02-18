@@ -2085,6 +2085,68 @@ MonoBehaviour:
   _uiClick: '{244909ed-53ef-4bfb-80ed-f027d9860ae1}'
   _uiHover: '{b9fc8936-79d9-4dea-88b0-14f403cdb25b}'
   _uiSpecial: '{5d1da6a5-3bb2-43e7-9c48-7704e8fe3093}'
+--- !u!1 &540753490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 540753492}
+  - component: {fileID: 540753491}
+  m_Layer: 0
+  m_Name: NavMeshSolider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &540753491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540753490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1372625422
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 137
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.26
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: a681ca238a5f8734898f407cff276f22, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!4 &540753492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540753490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 43.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &597777756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2871,7 +2933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8045441159507139947, guid: fe279b05cd3bb964695ab7e3558695d7, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8045441159507139947, guid: fe279b05cd3bb964695ab7e3558695d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4345,7 +4407,7 @@ GameObject:
   - component: {fileID: 1187099441}
   - component: {fileID: 1187099440}
   m_Layer: 0
-  m_Name: NavMesh
+  m_Name: NavMeshSpider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5488,7 +5550,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-20962
+  m_Name: pb_Mesh-304226
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

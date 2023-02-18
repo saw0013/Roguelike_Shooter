@@ -224,9 +224,18 @@ public class EventTrigger : NetworkBehaviour
             //if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             {
-                SpawningNPC randomNPC = (SpawningNPC)Random.Range(1, 3);
+                SpawningNPC NPCSpawn = new SpawningNPC();
 
-                switch (randomNPC)
+                if (spawningWho == SpawningNPC.Random)
+                {
+                    NPCSpawn = (SpawningNPC)Random.Range(1, 4);
+                }
+                else
+                {
+                    NPCSpawn = spawningWho;
+                }
+
+                switch (NPCSpawn)
                 {
                     case SpawningNPC.BigSpider:
                         StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "SpiderNpc"));
@@ -273,6 +282,7 @@ public class EventTrigger : NetworkBehaviour
         BigSpider = 1,
         LowSpider = 2,
         Solder = 3,
+        Random = 4,
         Boss = 10
     }
 

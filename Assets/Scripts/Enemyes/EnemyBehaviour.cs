@@ -157,10 +157,10 @@ public class EnemyBehaviour : HealthController
                     currentTimeAttack += Time.deltaTime;
                     if (currentTimeAttack >= _timeAttack)
                     {
+                        SpawnBullet();
                         currentTimeAttack = 0;
                         Attacked = false;
                         agent.isStopped = false;
-                        CmdSpawnBullet();
                     }
                 }
             }
@@ -380,8 +380,15 @@ public class EnemyBehaviour : HealthController
     {
         if (isDead || agent == null) return;
 
-        e_anim.anim_Walk(agent.hasPath);
-        e_anim.anim_Attack(Attacked, UnityEngine.Random.Range(1, 2));
+        if(typeEnemy != TypeEnemy.RangerBot)
+        {
+            e_anim.anim_WalkSpider(agent.hasPath);
+            e_anim.anim_Attack(Attacked, UnityEngine.Random.Range(1, 2));
+        }
+        else if (typeEnemy == TypeEnemy.RangerBot)
+        {
+            e_anim.anim_WalkSolider(agent.velocity.normalized);
+        }
 
     }
 
@@ -392,10 +399,11 @@ public class EnemyBehaviour : HealthController
         LittleMeleeFighter, BigMeleeFighter, RangerBot
     }
 
-    [Command(requiresAuthority = false)] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
-    public void CmdSpawnBullet()
+    
+    public void SpawnBullet()
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
+        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = damage.damageValue;
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
         //RpcSpawnBullet();
     }
