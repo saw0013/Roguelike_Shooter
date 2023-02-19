@@ -48,12 +48,12 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
     public void UpdateBuff()
     {
         //Заново формируем таймер
-        timeBuff = 60;
+        timeBuff += 60;
         isDestroy = false;
 
         //Снова включаем таймер
         textTime.gameObject.SetActive(true);
-        GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);//TODO : Я хз как его сделать снова не полупрозрачным 0.4 на 1 поменять???
+        GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 1f), 2, false, true);
         
     }
 }

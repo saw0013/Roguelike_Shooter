@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,9 +10,10 @@ public class GetPointPatrool : MonoBehaviour
     public static GetPointPatrool Instance;
     public float Range;
     [SerializeField]
-    private Color color;
+    private UnityEngine.Color color;
 
-    [SerializeField] internal List<Vector3> RandomPoints = new List<Vector3>();
+    [SerializeField] internal List<Vector3> RandomPoints  = new List<Vector3>();
+    [SerializeField] internal List<Vector3> PointToPlayer = new List<Vector3>();
 
     private void Awake()
     {
@@ -36,26 +38,67 @@ public class GetPointPatrool : MonoBehaviour
         }
     }
 
-    public Vector3 GetPointToRunOnPlayer(Vector3 point = new Vector3())
+    public Vector3 GetPointToRunOnPlayer(Transform enemy)
     {
-        bool pointSucsses = false;
-       
-        while (!pointSucsses)
+        if(PointToPlayer.Count > 20) PointToPlayer.Clear();
+
+        for (int i = 0; i < 20;)
         {
-            point = GetRandomPoint();
-
-            if(point != Vector3.zero)
+            var p = GetRandomPoint(enemy, 5f);
+            if (p != Vector3.zero)
             {
-                var sphereDistance = Physics.OverlapSphere(point, 4, LayerMask.NameToLayer("Player"));
-
-                if(sphereDistance.Length == 0)
-                {
-                    pointSucsses = true;
-                }       
+                PointToPlayer.Add(p);
+                i++;
             }
         }
 
-        return point;
+        //Просто оставлю это тут https://www.youtube.com/watch?v=u4m61AWxKmE&ab_channel=GGJNEXT
+
+        List<Collider> findPointWhereStayPlayer;
+        int indexPoint = 0;
+
+        for (int i = 0; i < PointToPlayer.Count; i++)
+        {
+            indexPoint = i; //Будем знать какие координаты мы проверяем
+
+            Debug.LogWarning("Координата=" + PointToPlayer[i] + " мы её проверяем");
+
+            findPointWhereStayPlayer = Physics.OverlapSphere(PointToPlayer[i], 4, LayerMask.NameToLayer("Player")).ToList();
+
+            if (findPointWhereStayPlayer.Count == 0) break; //Прервём цикл если в радиусе нашей точки не найден ниодин игрок
+            //if (sphereDistance.Length == 0)
+            //    @return = sphereDistance[i].transform.position; //Фигня. У нас же НОЛЬ, и мы возвращаем НОЛЬ
+        }
+
+        return PointToPlayer[indexPoint];
+        //foreach (var point in PointToPlayer)
+        //{
+
+        //    if (sphereDistance.Length > 0)
+        //        foreach (var pointToMove in sphereDistance)
+        //        {
+
+        //        }
+        //}
+
+        //bool pointSucsses = false;
+
+        //while (!pointSucsses)
+        //{
+        //    point = GetRandomPoint();
+
+        //    if(point != Vector3.zero)
+        //    {
+        //        var sphereDistance = Physics.OverlapSphere(point, 4, LayerMask.NameToLayer("Player"));
+
+        //        if(sphereDistance.Length == 0)
+        //        {
+        //            pointSucsses = true;
+        //        }       
+        //    }
+        //}
+
+        //return point;
     }
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)

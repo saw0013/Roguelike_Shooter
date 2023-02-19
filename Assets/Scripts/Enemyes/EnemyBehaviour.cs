@@ -115,7 +115,7 @@ public class EnemyBehaviour : HealthController
 
     private void RunOnPlayer()
     {
-        var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer();
+        var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform);
         Debug.LogWarning("Position point run " + point);
         agent.SetDestination(point);
     }
