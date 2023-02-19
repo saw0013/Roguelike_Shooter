@@ -36,6 +36,28 @@ public class GetPointPatrool : MonoBehaviour
         }
     }
 
+    public Vector3 GetPointToRunOnPlayer(Vector3 point = new Vector3())
+    {
+        bool pointSucsses = false;
+       
+        while (!pointSucsses)
+        {
+            point = GetRandomPoint();
+
+            if(point != Vector3.zero)
+            {
+                var sphereDistance = Physics.OverlapSphere(point, 4, LayerMask.NameToLayer("Player"));
+
+                if(sphereDistance.Length == 0)
+                {
+                    pointSucsses = true;
+                }       
+            }
+        }
+
+        return point;
+    }
+
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
 

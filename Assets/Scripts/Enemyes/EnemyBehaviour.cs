@@ -55,6 +55,7 @@ public class EnemyBehaviour : HealthController
 
     private bool chardge;
     private bool beginCharge;
+    private bool enemyRun;
     private float currentTimeFindeWeak;
     public float TimeChardge;
 
@@ -112,6 +113,12 @@ public class EnemyBehaviour : HealthController
         Debug.LogWarning("Враг LocalDead " + LocalDead);
     }
 
+    private void RunOnPlayer()
+    {
+        var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer();
+        Debug.LogWarning("Position point run " + point);
+        agent.SetDestination(point);
+    }
 
     public virtual void Update()
     {
@@ -135,18 +142,6 @@ public class EnemyBehaviour : HealthController
         //        }
         //    }
         //}
-
-        if(typeEnemy == TypeEnemy.RangerBot && purpose != null)
-        {
-            if(agent.remainingDistance < agent.stoppingDistance - 2.5f)
-            {
-                Debug.LogWarning("Игрок слишком близко");
-                var runPoint = new Vector3(purpose.transform.position.x + 5, transform.position.y, transform.position.z + 5);
-                agent.SetDestination(runPoint);
-            }
-        }
-
-
 
         if (_SyncHealth > 1 && enable)
         {
@@ -232,7 +227,23 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
-        if(purpose != null)
+        if (typeEnemy == TypeEnemy.RangerBot && purpose != null)
+        {
+            if (enemyRun && agent.remainingDistance < agent.stoppingDistance - 2.5f)
+            {
+                enemyRun = false;
+                Debug.LogWarning("Врга дошел до точки побега");
+            }
+
+            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun)
+            {
+                Debug.LogWarning("Игрок слишком близко");
+                enemyRun = true;
+                RunOnPlayer();
+            }
+        }
+
+        if (purpose != null)
         {
             var _purpose = purpose?.GetComponent<PlayerData>();
             if (_purpose._SyncHealth < 0)
@@ -298,7 +309,7 @@ public class EnemyBehaviour : HealthController
         var checkPlayer = CheckAround();
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null || purpose != null) 
+        if (checkPlayer != null || purpose != null && !enemyRun) 
         {
             //TODO : Проверить ХП каждого и выявить слабого
 
