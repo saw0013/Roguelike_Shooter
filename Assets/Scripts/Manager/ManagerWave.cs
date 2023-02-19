@@ -81,6 +81,8 @@ public class ManagerWave : NetworkBehaviour
             }
             else
             {
+                GetComponent<EventTrigger>().RpcChangeMusic("Ambience");
+
                 ActiveAhtorityDoors();
                 isActive = false;
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();

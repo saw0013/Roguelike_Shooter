@@ -280,7 +280,15 @@ public class EnemyBehaviour : HealthController
 
     private void LookTarget(Transform target)
     {
-        transform.LookAt(target);
+        if(typeEnemy != TypeEnemy.RangerBot)
+        {
+            transform.LookAt(target);
+        }
+        else
+        {
+            Vector3 delayDistance = new Vector3(target.position.x + 0.5f, target.position.y, target.position.z + 0.5f);
+            transform.LookAt(delayDistance);
+        }
     }
 
     public virtual void FieldOfViewCheck()

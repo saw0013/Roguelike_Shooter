@@ -95,11 +95,11 @@ public class EventTrigger : NetworkBehaviour
     }
     
     [ClientRpc]
-    void RpcChengeMusic()
+    public void RpcChangeMusic(string Music)
     {
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
 
-        musicManager.ChangeMusic("BattleTheme");
+        musicManager.ChangeMusic(Music);
     }
 
     [ClientRpc]
@@ -120,7 +120,7 @@ public class EventTrigger : NetworkBehaviour
             isTriggered = true;
             if (spawningWho != SpawningNPC.None)
             {
-                RpcChengeMusic();
+                RpcChangeMusic("BattleTheme");
                 var AllWave = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetAllWave();
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
