@@ -113,13 +113,6 @@ public class EnemyBehaviour : HealthController
         Debug.LogWarning("Враг LocalDead " + LocalDead);
     }
 
-    private void RunOnPlayer()
-    {
-        var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform);
-        Debug.LogWarning("Position point run " + point);
-        agent.SetDestination(point);
-    }
-
     public virtual void Update()
     {
         //currentTimeFindeWeak += Time.deltaTime;
@@ -227,22 +220,6 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
-        if (typeEnemy == TypeEnemy.RangerBot && purpose != null) 
-        {
-            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && enemyRun)
-            {
-                enemyRun = false;
-                Debug.LogWarning("Врга дошел до точки побега");
-            }
-
-            //Наверное поставить лучше else if???
-            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun) //
-            {
-                Debug.LogWarning("Игрок слишком близко");
-                enemyRun = true;
-                RunOnPlayer();
-            }
-        }
 
         //Мне кажИтся что немного дублируется код?
         if (purpose != null)
@@ -275,7 +252,7 @@ public class EnemyBehaviour : HealthController
                         {
                             var HealthPuproce = purpose.GetComponent<PlayerData>();
 
-                            var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position); //Puproce - польский. Ты ФАШИСТ???
+                            var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position); //Puproce - польский. Ты ФАШИСТ??? xD
 
                             if (HealthPuproce._SyncHealth < 0 || distancePuproce > distanceCheck) purpose = rangeChecks[i];
                         }
@@ -310,10 +287,30 @@ public class EnemyBehaviour : HealthController
 
         var checkPlayer = CheckAround();
 
+        if (typeEnemy == TypeEnemy.RangerBot)
+        {
+            //if (agent.remainingDistance < agent.stoppingDistance - 2.5f && enemyRun)
+            //{
+            //    enemyRun = false;
+            //    Debug.LogWarning("Врга дошел до точки побега");
+            //} 
+            //Наверное поставить лучше else if???
+            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun)
+            {
+                Debug.LogWarning("Игрок слишком близко");
+                enemyRun = true;
+                var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform);
+                Debug.LogWarning("Position point run " + point);
+                agent.SetDestination(point);
+            }
+        }
+
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null || purpose != null && !enemyRun) 
+        if (checkPlayer != null && !enemyRun) 
         {
             //TODO : Проверить ХП каждого и выявить слабого
+
+            Debug.LogWarning("Мы зашли в условие, enemyRun = " + enemyRun);
 
             Transform target = purpose.transform; //Наверное двигаться лучше к CheckPlayer
             Vector3 directionToTarget = (target.position - transform.position).normalized;
