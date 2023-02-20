@@ -228,8 +228,9 @@ public class PlayerData : HealthController, ICharacter
             }
             else
             {
-                var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
-                _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
+                //var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
+                var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemMoveSpeedUI>(); //Не проверено
+                if(_findedItem != null) _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
             }
         }
     }

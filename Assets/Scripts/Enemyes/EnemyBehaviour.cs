@@ -63,7 +63,7 @@ public class EnemyBehaviour : HealthController
     //private PlayerData weakPlayer;
 
     [Tooltip("Цель")]
-    public Collider purpose;
+    public Collider purpose; //Ну почему pupose а не Target?
 
     private EnemyAnimation e_anim;
 
@@ -227,15 +227,16 @@ public class EnemyBehaviour : HealthController
 
     public Collider CheckAround()
     {
-        if (typeEnemy == TypeEnemy.RangerBot && purpose != null)
+        if (typeEnemy == TypeEnemy.RangerBot && purpose != null) 
         {
-            if (enemyRun && agent.remainingDistance < agent.stoppingDistance - 2.5f)
+            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && enemyRun)
             {
                 enemyRun = false;
                 Debug.LogWarning("Врга дошел до точки побега");
             }
 
-            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun)
+            //Наверное поставить лучше else if???
+            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun) //
             {
                 Debug.LogWarning("Игрок слишком близко");
                 enemyRun = true;
@@ -243,6 +244,7 @@ public class EnemyBehaviour : HealthController
             }
         }
 
+        //Мне кажИтся что немного дублируется код?
         if (purpose != null)
         {
             var _purpose = purpose?.GetComponent<PlayerData>();
@@ -273,7 +275,7 @@ public class EnemyBehaviour : HealthController
                         {
                             var HealthPuproce = purpose.GetComponent<PlayerData>();
 
-                            var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position);
+                            var distancePuproce = Vector3.Distance(gameObject.transform.position, purpose.transform.position); //Puproce - польский. Ты ФАШИСТ???
 
                             if (HealthPuproce._SyncHealth < 0 || distancePuproce > distanceCheck) purpose = rangeChecks[i];
                         }

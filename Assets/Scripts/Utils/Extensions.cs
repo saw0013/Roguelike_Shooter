@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mono.CSharp;
 using UnityEditor;
 using UnityEngine;
 
@@ -92,6 +93,31 @@ public static class Extensions
     #endregion
 
     #region Transform
+
+    /// <summary>
+    /// Метод расширения который будет искать в дочерних объектах нужный компонент
+    /// <para>Если дочерних компонентов нет, будет уведомление ошибки и возврат NULL</para>
+    /// </summary>
+    /// <typeparam name="T">class</typeparam>
+    /// <param name="t">Transform</param>
+    /// <returns>class</returns>
+    public static T FindChildObjectByType<T>(this Transform t) where T : class
+    {
+        if (t.childCount <= 0)
+        {
+            Debug.LogError(t + " не имеет дочерних объектов");
+            return null;
+        }
+
+        for (int i = 0; i < t.childCount; i++)
+        {
+            if (t.GetChild(i).TryGetComponent<T>(out T _component))
+                return _component;
+            break;
+        }
+
+        return null;
+    }
 
     private const float GIZMO_DISK_THICKNESS = 0.02f;
 
