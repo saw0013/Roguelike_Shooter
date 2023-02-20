@@ -2768,6 +2768,7 @@ GameObject:
   - component: {fileID: 5563368740021920185}
   - component: {fileID: 1748852254419779168}
   - component: {fileID: 7641303072317318492}
+  - component: {fileID: -4807983342706225084}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2832,6 +2833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157440f8e30f4c34287451c0e50534d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   _panelEscape: {fileID: 4786157574923197536}
@@ -2883,6 +2885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e854f3327ca9f5c4ea496538b271278b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   _textCartridges: {fileID: 4728338001037284856}
@@ -2910,6 +2913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8df67b2b6fae14d93a74fa3f594563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   typeController: 0
@@ -3118,6 +3122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c0c911d0be651448ca10b7370084c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   timer: 60
@@ -3183,9 +3188,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 4155026482
   serverOnly: 0
   visible: 0
-  m_AssetId: b162f12f902fd2041bacd8e82961167c
   hasSpawned: 0
 --- !u!114 &4230446274181604814
 MonoBehaviour:
@@ -3199,31 +3204,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  target: {fileID: 3827590655909826849}
   clientAuthority: 1
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!114 &1250614549435587910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3236,32 +3232,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
+  target: {fileID: 3827590655909826859}
   clientAuthority: 1
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  target: {fileID: 3827590655909826859}
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!114 &5563368740021920185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3274,6 +3260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 1
@@ -3290,6 +3277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &7641303072317318492
@@ -3305,6 +3293,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &-4807983342706225084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba360e4ff6b44fc6898f56322b90c6c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 1
+  syncInterval: 0.1
+  sendInterval: 1
+  showGui: 1
+  hotKey: 292
+  passwordFile: remote_statistics.txt
 --- !u!1 &3827590655909793031
 GameObject:
   m_ObjectHideFlags: 0
