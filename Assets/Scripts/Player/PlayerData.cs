@@ -145,9 +145,9 @@ public class PlayerData : HealthController, ICharacter
             Debug.LogWarning(GetInputActive());
         }
 
-        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F5) && ChatUI.activeSelf != true)
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F5))
         {
-            if (ChatUI.activeSelf != true) ChatUI.SetActive(true);
+            if (!ChatUI.activeSelf) ChatUI.SetActive(true);
             else ChatUI.SetActive(false);
         }
 
