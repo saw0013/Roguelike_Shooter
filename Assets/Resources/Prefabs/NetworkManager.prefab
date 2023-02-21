@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2038813130493656009}
   - component: {fileID: 7053969124967997395}
   - component: {fileID: 8281951297748787399}
+  - component: {fileID: 4430609401962809908}
   - component: {fileID: 5396412973184279213}
   - component: {fileID: 2038813130493656011}
   - component: {fileID: 2038813130493656004}
@@ -53,17 +54,19 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 64
+  autoConnectClientBuild: 0
+  sendRate: 64
   offlineScene: Assets/Scenes/Offline.unity
   onlineScene: Assets/Scenes/Lobby.unity
   transport: {fileID: 2038813130493656011}
   networkAddress: localhost
   maxConnections: 100
-  authenticator: {fileID: 0}
+  authenticator: {fileID: 4430609401962809908}
   playerPrefab: {fileID: 3827590655909793025, guid: b162f12f902fd2041bacd8e82961167c, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs: []
+  timeInterpolationGui: 0
   instances: 1
   gameScene: Assets/Scenes/Game.unity
   subScenes: []
@@ -86,6 +89,25 @@ MonoBehaviour:
   - Prefabs\Enviroment
   - Prefabs\PlayerCommon
   - Prefabs\MobNpc
+--- !u!114 &4430609401962809908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038813130493656005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19763652bc28214fad1650717f5db2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnServerAuthenticated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientAuthenticated:
+    m_PersistentCalls:
+      m_Calls: []
+  playerName: 
 --- !u!114 &5396412973184279213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,12 +140,10 @@ MonoBehaviour:
   Interval: 10
   Timeout: 10000
   FastResend: 2
-  CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
   MaxRetransmit: 40
-  NonAlloc: 1
-  MaximizeSendReceiveBuffersToOSLimit: 1
+  MaximizeSocketBuffers: 1
   ReliableMaxMessageSize: 298449
   UnreliableMaxMessageSize: 1199
   debugLog: 0
@@ -165,3 +185,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7da4e566d24ea7b0e12178d934b648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientIntervalReceivedPackets: 0
+  clientIntervalReceivedBytes: 0
+  clientIntervalSentPackets: 0
+  clientIntervalSentBytes: 0
+  clientReceivedPacketsPerSecond: 0
+  clientReceivedBytesPerSecond: 0
+  clientSentPacketsPerSecond: 0
+  clientSentBytesPerSecond: 0
+  serverIntervalReceivedPackets: 0
+  serverIntervalReceivedBytes: 0
+  serverIntervalSentPackets: 0
+  serverIntervalSentBytes: 0
+  serverReceivedPacketsPerSecond: 0
+  serverReceivedBytesPerSecond: 0
+  serverSentPacketsPerSecond: 0
+  serverSentBytesPerSecond: 0

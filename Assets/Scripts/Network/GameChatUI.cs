@@ -1,11 +1,12 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mirror.Examples.Chat
+namespace Cosmoground
 {
-    public class ChatUI : NetworkBehaviour
+    public class GameChatUI : NetworkBehaviour
     {
         [Header("UI Elements")]
         [SerializeField] Text chatHistory;
@@ -33,7 +34,7 @@ namespace Mirror.Examples.Chat
         void CmdSend(string message, NetworkConnectionToClient sender = null)
         {
             if (!connNames.ContainsKey(sender))
-                connNames.Add(sender, sender.identity.GetComponent<Player>().playerName);
+                connNames.Add(sender, sender.identity.GetComponent<PlayerData>()._nameDisplay);
 
             if (!string.IsNullOrWhiteSpace(message))
                 RpcReceive(connNames[sender], message.Trim());

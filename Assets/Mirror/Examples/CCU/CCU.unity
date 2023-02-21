@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 88936776}
   - component: {fileID: 88936774}
   - component: {fileID: 88936778}
+  - component: {fileID: 88936779}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -229,6 +230,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showGUI: 1
   showLog: 0
+--- !u!114 &88936779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88936773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &535739935
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +321,7 @@ GameObject:
   - component: {fileID: 1282001521}
   - component: {fileID: 1282001522}
   - component: {fileID: 1282001523}
+  - component: {fileID: 1282001524}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -339,24 +374,22 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   autoConnectClientBuild: 0
-  sendRate: 30
+  sendRate: 128
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1282001521}
   networkAddress: localhost
-  maxConnections: 1000
+  maxConnections: 500
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 449802645721213856, guid: 614e28b6213c14195b8661c153bf4ee4,
-    type: 3}
+  playerPrefab: {fileID: 449802645721213856, guid: 614e28b6213c14195b8661c153bf4ee4, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 449802645721213856, guid: d0f3b049f6bef4cc6930c57a2146ca52, type: 3}
   timeInterpolationGui: 0
-  spawnAmount: 10000
+  spawnAmount: 3000
   interleave: 10
-  spawnPrefab: {fileID: 449802645721213856, guid: d0f3b049f6bef4cc6930c57a2146ca52,
-    type: 3}
+  spawnPrefab: {fileID: 449802645721213856, guid: d0f3b049f6bef4cc6930c57a2146ca52, type: 3}
   spawnPositionRatio: 0.01
 --- !u!114 &1282001521
 MonoBehaviour:
@@ -376,12 +409,10 @@ MonoBehaviour:
   Interval: 10
   Timeout: 10000
   FastResend: 2
-  CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
   MaxRetransmit: 40
-  NonAlloc: 1
-  MaximizeSendReceiveBuffersToOSLimit: 1
+  MaximizeSocketBuffers: 1
   ReliableMaxMessageSize: 298449
   UnreliableMaxMessageSize: 1199
   debugLog: 0
@@ -431,6 +462,18 @@ MonoBehaviour:
   serverReceivedBytesPerSecond: 0
   serverSentPacketsPerSecond: 0
   serverSentBytesPerSecond: 0
+--- !u!114 &1282001524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282001517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8aea0e7e97cb8345883cb2051d27fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2054208274
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2054208276}
   - component: {fileID: 2054208275}
+  - component: {fileID: 2054208277}
   m_Layer: 0
   m_Name: Directional light
   m_TagString: Untagged
@@ -525,3 +569,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &2054208277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054208274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}

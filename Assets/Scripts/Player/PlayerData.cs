@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cosmo;
+using Cosmoground;
 using Mirror;
 using TMPro;
 using MirrorBasics;
@@ -15,6 +16,8 @@ public class PlayerData : HealthController, ICharacter
     public TMP_Text WaveText;
 
     public UIStatPlayer ProgressPlayerStat;
+
+    [SerializeField] private GameObject ChatUI;
 
     [Header("===Stat PlayerData===")]
 
@@ -53,6 +56,8 @@ public class PlayerData : HealthController, ICharacter
 
     [SyncVar(hook = nameof(NameDisplay))]
     public string _nameDisplay;
+
+    internal static readonly HashSet<string> playerNames = new HashSet<string>();
 
     [Space(10), Header("===Ragdoll===")]
     public DeathBy deathBy = DeathBy.Animation;
@@ -101,7 +106,7 @@ public class PlayerData : HealthController, ICharacter
 
     public void CmdDie()
     {
-       
+
     }
 
 
@@ -115,7 +120,13 @@ public class PlayerData : HealthController, ICharacter
     public override void OnStartServer()
     {
         base.OnStartServer();
+        _nameDisplay = (string)connectionToClient.authenticationData;
         //playerHealth = _maxHealth;
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        GameChatUI.localPlayerName = _nameDisplay;
     }
 
     void Update()
@@ -133,6 +144,13 @@ public class PlayerData : HealthController, ICharacter
             InputIsActive(true);
             Debug.LogWarning(GetInputActive());
         }
+
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F5) && ChatUI.activeSelf != true)
+        {
+            if (ChatUI.activeSelf != true) ChatUI.SetActive(true);
+            else ChatUI.SetActive(false);
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -146,6 +164,13 @@ public class PlayerData : HealthController, ICharacter
     }
 
     void OnCollisionEnter(Collision collision) { }
+
+    // RuntimeInitializeOnLoadMethod -> fast playmode without domain reload
+    [RuntimeInitializeOnLoadMethod]
+    static void ResetStatics()
+    {
+        playerNames.Clear();
+    }
 
     #endregion
 
@@ -204,7 +229,7 @@ public class PlayerData : HealthController, ICharacter
         _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
     }
 
-    
+
 
 
     public void StopBuffGuard()
@@ -219,7 +244,7 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer)
         {
-            SpeedPlayer += BuffSpeed;
+            SpeedPlayer = SpeedPlayer >= 5 ? 6 : +BuffSpeed; //Логика такова. Если скорость игрока в настроящий момент >= 5 то просто пооставим 6 если нет то прибавим баф. Таким образом мы не будем разгоняться до бесконечности
 
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
             {
@@ -230,13 +255,13 @@ public class PlayerData : HealthController, ICharacter
             {
                 //var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
                 var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemMoveSpeedUI>(); //Не проверено
-                if(_findedItem != null) _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
+                if (_findedItem != null) _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
             }
         }
     }
 
 
-  
+
     public void StopBuffMoveSpeed()
     {
         SpeedPlayer = _speedStart;
@@ -303,7 +328,7 @@ public class PlayerData : HealthController, ICharacter
     //void TargetChangeBullet(float b)
     //{
     //    SizeBullet += b;
-   // }
+    // }
 
     #endregion
 
@@ -353,7 +378,7 @@ public class PlayerData : HealthController, ICharacter
     /// Устанавливает свойство мёртв игрок или нет
     /// </summary>
     /// <param name="setDead"></param>
-    public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); } 
+    public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); }
 
 
     public bool GetPlayerDead() => _player;
@@ -392,7 +417,7 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer)
             StartCoroutine(ChangeCameraToLiveParty());
-        
+
     }
 
     private List<Transform> RoomPlayers()
@@ -512,7 +537,7 @@ public class PlayerData : HealthController, ICharacter
 
         if (PlayerPrefs.HasKey("TypePilotStat")) PlayerPrefs.DeleteKey("TypePilotStat");
 
-        PlayerPrefs.SetString("TypePilotStat", string.Join(",", new string[] { $"{Health}", $"{Damage}", $"{Catriges}", $"{Speed}", $"{Reload}" })) ;
+        PlayerPrefs.SetString("TypePilotStat", string.Join(",", new string[] { $"{Health}", $"{Damage}", $"{Catriges}", $"{Speed}", $"{Reload}" }));
 
         GetComponent<PlayerProjectileSpawnerNetwork>().GetCatridges();
     }
