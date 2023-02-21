@@ -230,7 +230,7 @@ public class EnemyBehaviour : HealthController
                 canAttack = false;
             }
         }
-        
+
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, AttackLayer);
         if (rangeChecks.Length > 0)
         {
@@ -269,7 +269,7 @@ public class EnemyBehaviour : HealthController
 
     private void LookTarget(Transform target)
     {
-        if(typeEnemy != TypeEnemy.RangerBot)
+        if (typeEnemy != TypeEnemy.RangerBot)
         {
             transform.LookAt(target);
         }
@@ -288,35 +288,29 @@ public class EnemyBehaviour : HealthController
 
         if (typeEnemy == TypeEnemy.RangerBot)
         {
-            //Наверное поставить лучше else if???
-            Debug.LogWarning(agent.remainingDistance + " oсталось идти до цели, stoppedDistance = " + agent.stoppingDistance);
-
-            if (agent.remainingDistance < agent.stoppingDistance - 3 && !enemyRun)
+            if (Vector3.Distance(transform.position, purpose.transform.position) < agent.stoppingDistance - 3 && !enemyRun) //Если дистанции до игрока меньше 2м и бот не бежит
             {
-                Debug.LogWarning("Игрок слишком близко");
-                enemyRun = true;
-                var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform);
-                Debug.LogWarning("Position point run " + point);
-                agent.SetDestination(point);
+                enemyRun = true; //Беги
+                var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform); //Спавним рандомную точку 
                 agent.stoppingDistance = 0.1f;
+                agent.SetDestination(point);  //Направляем бота в точку подальше от игрока
             }
-            else if (agent.remainingDistance <= agent.stoppingDistance && enemyRun)
+            else if (agent.remainingDistance <= agent.stoppingDistance && enemyRun) //
             {
                 agent.stoppingDistance = 5f;
                 enemyRun = false;
-                if(purpose != null) agent.SetDestination(purpose.transform.position);
-                Debug.LogWarning("Врга дошел до точки побега");
+                //if (purpose != null) agent.SetDestination(purpose.transform.position);
             }
         }
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null && !enemyRun) 
+        if (checkPlayer != null && !enemyRun)
         {
             //TODO : Проверить ХП каждого и выявить слабого
 
             Debug.LogWarning("Мы зашли в условие, enemyRun = " + enemyRun);
 
-            Transform target = purpose.transform; //Наверное двигаться лучше к CheckPlayer
+            Transform target = purpose.transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector3.Angle(Eyes.transform.forward, directionToTarget) < angle / 2 || purpose != null)
@@ -324,12 +318,13 @@ public class EnemyBehaviour : HealthController
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
                 if (!Physics.Raycast(Eyes.transform.position, directionToTarget, distanceToTarget, obstructionMask) || purpose != null)
                 {
-                    if(purpose != null)
+                    if (purpose != null)
                     {
                         agent.SetDestination(target.position);
                         canAttack = false;
-                        if(distanceToTarget < agent.stoppingDistance + DelayDistance)
+                        if (distanceToTarget < agent.stoppingDistance + DelayDistance)
                         {
+                            #region Условие атаки большого паука
                             if (typeEnemy == TypeEnemy.BigMeleeFighter)
                             {
                                 canAttack = true;
@@ -344,6 +339,9 @@ public class EnemyBehaviour : HealthController
                                 //StartCoroutine(damagePlayer(collider));
                                 //collider.GetComponent<PlayerData>().TakeDamage(damage);
                             }
+                            #endregion
+
+                            #region Условие атаки Маленького паука
                             else if (typeEnemy == TypeEnemy.LittleMeleeFighter)
                             {
                                 if (chardge)
@@ -360,8 +358,14 @@ public class EnemyBehaviour : HealthController
                                 }
                                 else beginCharge = true;
                             }
+
+                            #endregion
+
+                            #region Условие атаки стреляющего 
+
                             else if (typeEnemy == TypeEnemy.RangerBot)
                             {
+                                Debug.Log("Зашли в условие атаки Бота");
                                 if (!Attacked)
                                 {
                                     LookTarget(target);
@@ -369,9 +373,11 @@ public class EnemyBehaviour : HealthController
                                     agent.isStopped = true;
                                 }
                             }
+
+                            #endregion
                         }
                     }
-                   
+
                     canSeePlayer = true;
                 }
                 else
@@ -414,7 +420,7 @@ public class EnemyBehaviour : HealthController
     {
         if (isDead || agent == null) return;
 
-        if(typeEnemy != TypeEnemy.RangerBot)
+        if (typeEnemy != TypeEnemy.RangerBot)
         {
             e_anim.anim_WalkSpider(agent.hasPath);
             e_anim.anim_Attack(Attacked, UnityEngine.Random.Range(1, 2));
@@ -433,12 +439,12 @@ public class EnemyBehaviour : HealthController
         LittleMeleeFighter, BigMeleeFighter, RangerBot
     }
 
-    
+
     public void SpawnBullet()
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = damage.damageValue;
+        bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
-        //RpcSpawnBullet();
     }
 }

@@ -145,7 +145,7 @@ public class PlayerData : HealthController, ICharacter
             Debug.LogWarning(GetInputActive());
         }
 
-        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F5))
+        if (isClient & Input.GetKeyDown(KeyCode.F5))
         {
             if (!ChatUI.activeSelf) ChatUI.SetActive(true);
             else ChatUI.SetActive(false);
@@ -244,7 +244,7 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer)
         {
-            SpeedPlayer = SpeedPlayer >= 5 ? 6 : +BuffSpeed; //Ћогика такова. ≈сли скорость игрока в настро€щий момент >= 5 то просто пооставим 6 если нет то прибавим баф. “аким образом мы не будем разгон€тьс€ до бесконечности
+            SpeedPlayer += SpeedPlayer == 5 ? 1 : SpeedPlayer  == 6 ? 0 : BuffSpeed; //Ћогика такова. ≈сли скорость игрока в настро€щий момент >= 5 то просто пооставим 6 если нет то прибавим баф. “аким образом мы не будем разгон€тьс€ до бесконечности
 
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
             {
