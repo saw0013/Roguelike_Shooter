@@ -44,7 +44,7 @@ public class GetPointPatrool : MonoBehaviour
 
         for (int i = 0; i < 20;)
         {
-            var p = GetRandomPoint(enemy, 5f);
+            var p = GetRandomPoint(enemy, 15f);
             if (p != Vector3.zero)
             {
                 PointToPlayer.Add(p);
@@ -63,7 +63,7 @@ public class GetPointPatrool : MonoBehaviour
 
             Debug.LogWarning("Координата=" + PointToPlayer[i] + " мы её проверяем");
 
-            findPointWhereStayPlayer = Physics.OverlapSphere(PointToPlayer[i], 4, LayerMask.NameToLayer("Player")).ToList();
+            findPointWhereStayPlayer = Physics.OverlapSphere(PointToPlayer[i], 10, LayerMask.NameToLayer("Player")).ToList();
 
             if (findPointWhereStayPlayer.Count == 0) break; //Прервём цикл если в радиусе нашей точки не найден ниодин игрок
             //if (sphereDistance.Length == 0)

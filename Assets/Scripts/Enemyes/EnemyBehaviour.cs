@@ -55,8 +55,7 @@ public class EnemyBehaviour : HealthController
 
     private bool chardge;
     private bool beginCharge;
-    private bool enemyRun;
-    private float currentTimeFindeWeak;
+    public bool enemyRun;
     public float TimeChardge;
 
     private bool canAttack = false;
@@ -289,19 +288,24 @@ public class EnemyBehaviour : HealthController
 
         if (typeEnemy == TypeEnemy.RangerBot)
         {
-            //if (agent.remainingDistance < agent.stoppingDistance - 2.5f && enemyRun)
-            //{
-            //    enemyRun = false;
-            //    Debug.LogWarning("Врга дошел до точки побега");
-            //} 
             //Наверное поставить лучше else if???
-            if (agent.remainingDistance < agent.stoppingDistance - 2.5f && !enemyRun)
+            Debug.LogWarning(agent.remainingDistance + " oсталось идти до цели, stoppedDistance = " + agent.stoppingDistance);
+
+            if (agent.remainingDistance < agent.stoppingDistance - 3 && !enemyRun)
             {
                 Debug.LogWarning("Игрок слишком близко");
                 enemyRun = true;
                 var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform);
                 Debug.LogWarning("Position point run " + point);
                 agent.SetDestination(point);
+                agent.stoppingDistance = 0.1f;
+            }
+            else if (agent.remainingDistance <= agent.stoppingDistance && enemyRun)
+            {
+                agent.stoppingDistance = 5f;
+                enemyRun = false;
+                if(purpose != null) agent.SetDestination(purpose.transform.position);
+                Debug.LogWarning("Врга дошел до точки побега");
             }
         }
 
