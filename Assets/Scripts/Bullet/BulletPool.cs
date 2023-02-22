@@ -74,6 +74,7 @@ public class BulletPool : NetworkBehaviour
                     collision.gameObject.ApplyDamage(_damageToEnemy);
                 }
 
+                //TODO : Перевести попадания в Command
                 //Для отслеживания убийства перенесено в EnemyData смотри TakeDamage
                 //if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
                 //{

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BulletMat
+  m_Name: BulletMatEnemy
   m_Shader: {fileID: -6465566751694194690, guid: 58262a19d076f7842bae8ca2ca7edd2b, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -100,7 +100,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _InvFade: 3
-    - _Itensity: 6
+    - _Itensity: 3
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -119,7 +119,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 0.095608525, b: 0, a: 1}
+    - _EmissionColor: {r: 0.47058824, g: 0, b: 0.15800992, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _TintColor: {r: 1, g: 0.98529404, b: 0.98529404, a: 1}

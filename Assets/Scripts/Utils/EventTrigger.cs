@@ -163,11 +163,11 @@ public class EventTrigger : NetworkBehaviour
 
 
     /// <summary>
-    /// Сам спавн пауков
+    /// Сам спавн NPC (None Player Character)
     /// </summary>
     /// <param name="matchID"></param>
     /// <returns></returns>
-    public IEnumerator SpawnBigSpiderRandomPoints(Guid matchID, string who)
+    public IEnumerator SpawnNpcRandomPoints(Guid matchID, string who)
     {
         var rp = GetComponentInChildren<GetPointPatrool>().RandomPoints;
 
@@ -239,13 +239,13 @@ public class EventTrigger : NetworkBehaviour
                 switch (NPCSpawn)
                 {
                     case SpawningNPC.BigSpider:
-                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "SpiderNpc"));
+                        StartCoroutine(SpawnNpcRandomPoints(matchID, "SpiderNpc"));
                         break;
                     case SpawningNPC.LowSpider:
-                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "SmalSpiderNpc"));
+                        StartCoroutine(SpawnNpcRandomPoints(matchID, "SmalSpiderNpc"));
                         break;
                     case SpawningNPC.Solder:
-                        StartCoroutine(SpawnBigSpiderRandomPoints(matchID, "RangerNpc"));
+                        StartCoroutine(SpawnNpcRandomPoints(matchID, "RangerNpc"));
                         break;
                 }
                 _managerWave.SetEnemySpawned();

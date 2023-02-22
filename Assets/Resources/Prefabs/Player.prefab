@@ -3482,7 +3482,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -9850,7 +9850,7 @@ Camera:
   m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2056
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 81dfe71bc2de83547b7658b6665722c8, type: 2}
   m_TargetDisplay: 0

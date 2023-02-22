@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ca9bab2fa13ad4a9b4590a35de2c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   ShowWire: 0
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804da769128315043aa380fcac11b5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   _allWawe: 4
@@ -164,9 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3152405311
   serverOnly: 0
   visible: 0
-  m_AssetId: a19671d215fad454b8a7100faf2037c1
   hasSpawned: 0
 --- !u!114 &8262974643397862385
 MonoBehaviour:
@@ -180,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!1001 &1852142206897974778
