@@ -23,16 +23,14 @@ public class DefaultItemGuard : MonoBehaviour
     
     private void Buff(GameObject player)
     {
-        if (onceGive)
+        _owner = player.GetComponent<PlayerData>();
+
+        if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
         {
-            onceGive = true;
-            Debug.LogWarning("Игрок подобрал " + player.name);
-
-            _owner = player.GetComponent<PlayerData>();
-            _owner.ChangeGuard(_guardAdd, _imageItem);
+            _owner.BuffChangeGuard(_guardAdd, _imageItem);
             _owner.BuffGive++;
-
-            Destroy(gameObject);
         }
+
+        Destroy(gameObject);
     }
 }

@@ -66,39 +66,10 @@ public class GetPointPatrool : MonoBehaviour
             findPointWhereStayPlayer = Physics.OverlapSphere(PointToPlayer[i], 10, LayerMask.NameToLayer("Player")).ToList();
 
             if (findPointWhereStayPlayer.Count == 0) break; //Прервём цикл если в радиусе нашей точки не найден ниодин игрок
-            //if (sphereDistance.Length == 0)
-            //    @return = sphereDistance[i].transform.position; //Фигня. У нас же НОЛЬ, и мы возвращаем НОЛЬ
         }
 
         return PointToPlayer[indexPoint];
-        //foreach (var point in PointToPlayer)
-        //{
 
-        //    if (sphereDistance.Length > 0)
-        //        foreach (var pointToMove in sphereDistance)
-        //        {
-
-        //        }
-        //}
-
-        //bool pointSucsses = false;
-
-        //while (!pointSucsses)
-        //{
-        //    point = GetRandomPoint();
-
-        //    if(point != Vector3.zero)
-        //    {
-        //        var sphereDistance = Physics.OverlapSphere(point, 4, LayerMask.NameToLayer("Player"));
-
-        //        if(sphereDistance.Length == 0)
-        //        {
-        //            pointSucsses = true;
-        //        }       
-        //    }
-        //}
-
-        //return point;
     }
 
     bool RandomPoint(Vector3 center, float range, out Vector3 result)

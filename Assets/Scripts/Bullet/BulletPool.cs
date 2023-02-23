@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using Mirror;
 using Cosmo;
@@ -19,7 +20,6 @@ public class BulletPool : NetworkBehaviour
 
     [HideInInspector] public GameObject _owner;
 
-    private Damage _damageToEnemy, _damageToPlayer;
 
     //[Server]
     public void Init(/*uint owner*/GameObject owner)
@@ -33,12 +33,6 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Start()
-    {
-        _damageToEnemy = new Damage(DamageToEnemy);
-        _damageToPlayer = new Damage(DamageToPlayer);
-
-    }
 
     private void Update()
     {
@@ -52,31 +46,43 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        _damageToPlayer.sender = transform;
-        _damageToPlayer.receiver = collision.transform;
-
-        _damageToEnemy.sender = transform;
-        _damageToEnemy.receiver = collision.transform;
-
         if (collision.gameObject == _owner) return;
 
         switch (collision.gameObject.tag)
         {
             case "Player":
-                RpcParticles(_hitPlayerParticles);
+                if (isClient)
+                {
+                    RpcParticles(_hitPlayerParticles);
+                    break;
+                }
+
+                var _damageToPlayer = new Damage(DamageToPlayer);
+                _damageToPlayer.sender = transform;
+                _damageToPlayer.receiver = collision.transform;
+
                 if (!_owner) ClaimScore(_owner, -5);
-                if (isServer) collision.gameObject.ApplyDamage(_damageToPlayer); //Будет работать только на ботах
-                else CmdDamage(collision.gameObject, true);
+                collision.gameObject.ApplyDamage(_damageToPlayer);
+
                 break;
 
             case "Enemy":
-                //Debug.LogWarning("ХП ПАУКА===" + collision.gameObject.GetComponent<EnemyData>()._SyncHealth); //Отображается
+
+                if (isClient)
+                {
+                    RpcParticles(_hitEnemyParticles);
+                    return;
+                }
+               
+                var _damageToEnemy = new Damage(DamageToEnemy);
+                _damageToEnemy.sender = transform;
+                _damageToEnemy.receiver = collision.transform;
+
                 if (collision.gameObject.GetComponent<EnemyData>()._SyncHealth > 1)
                 {
                     if(!_owner) ClaimScore(_owner, 10);
-                    RpcParticles(_hitEnemyParticles);
-                    if (isServer) collision.gameObject.ApplyDamage(_damageToEnemy);
-                    else CmdDamage(collision.gameObject, false);
+                    collision.gameObject.ApplyDamage(_damageToEnemy);
+                    
                 }
 
                 break;
@@ -86,17 +92,9 @@ public class BulletPool : NetworkBehaviour
                 break;
         }
 
-        //Destroy(gameObject);
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdDamage(GameObject go, bool _isPlayer)
-    {
-        if (_isPlayer) go.ApplyDamage(_damageToPlayer);
-        else go.ApplyDamage(_damageToEnemy);
         Destroy(gameObject);
     }
-
+    
 
     public void OnSpawnBullet(int force, float size)
     {
@@ -104,7 +102,7 @@ public class BulletPool : NetworkBehaviour
         transform.localScale = new Vector3(size, size, size);
     }
 
-    //[ClientCallback]
+   
     void RpcParticles(GameObject prefabParticle)
     {
         GameObject particle = Instantiate(prefabParticle, transform.position, transform.rotation);

@@ -142,8 +142,8 @@ GameObject:
   - component: {fileID: 4475778506049232920}
   - component: {fileID: 5171812490533523497}
   - component: {fileID: 8083061840641732660}
-  - component: {fileID: -480676562437252825}
-  - component: {fileID: 5578988359055289988}
+  - component: {fileID: 7928258420999076018}
+  - component: {fileID: 6275030806948847115}
   - component: {fileID: 3042401567535204542}
   m_Layer: 0
   m_Name: DefaultItemMove_new
@@ -231,6 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9838fe0878c9a8f4397268cec2fead2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &520006994152553411
@@ -287,11 +288,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 3651199014
   serverOnly: 0
   visible: 0
-  m_AssetId: 32f8b065229bc144b8ef9055609d8c7f
   hasSpawned: 0
---- !u!114 &-480676562437252825
+--- !u!114 &7928258420999076018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,35 +301,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 840761581673521533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 840761581673521529}
   clientAuthority: 0
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!114 &5578988359055289988
+  onlySyncOnChange: 1
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  compressRotation: 0
+  positionPrecision: 0.01
+  scalePrecision: 0.01
+--- !u!114 &6275030806948847115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,35 +330,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 840761581673521533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  syncInterval: 0
   target: {fileID: 3467517644517315504}
+  clientAuthority: 0
+  syncPosition: 0
+  syncRotation: 1
+  syncScale: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  compressRotation: 0
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!114 &3042401567535204542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!1 &8475378703934263553

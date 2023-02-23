@@ -16,7 +16,7 @@ public class PlayerBuffController : MonoBehaviour
 
     /// <summary>
     ///  Проверяет есть ли на игроке баф
-    /// <para>Если есть то не будем дублировать UI а просто обновим</para>
+    /// <para>Если есть то не будем дублировать UI а просто обновим время</para>
     /// </summary>
     /// <param name="NameBuff">Указать через nameof(Class)</param>
     /// <returns>TRUE если баф есть</returns>

@@ -254,6 +254,7 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 0}
   _timeAttack: 1
+  netAnim: {fileID: 0}
 --- !u!114 &7683033327842568160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995e0aa830f6024b9b2e86063490464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!136 &689469528132914348
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -338,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 1899948830833766}

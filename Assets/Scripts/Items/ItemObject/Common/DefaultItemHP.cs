@@ -10,35 +10,29 @@ public class DefaultItemHP : MonoBehaviour
 
     private PlayerData _owner;
 
- //   private bool onceGive; //Я не полнял зачем это тут...
+    //   private bool onceGive; //Я не полнял зачем это тут...
 
     internal NetworkMatch networkMatch;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null & other.tag == "Player")
+        if (other != null & other.tag == "Player")
             Buff(other.gameObject);
     }
 
-    
+
     private void Buff(GameObject player)
     {
+        _owner = player.GetComponent<PlayerData>();
 
-        //if (onceGive)
-        //{
-        //    onceGive = true;
-            Debug.LogWarning("Игрок подобрал " + player.name);
+        if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
+        {
+            _owner.BuffHealth(_healthAdd, _imageItem);
+            _owner.BuffGive++;
+        }
 
-            _owner = player.GetComponent<PlayerData>();
+        Destroy(gameObject);
 
-            if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
-            {
-                _owner.BuffHealth(_healthAdd, _imageItem);
-                _owner.BuffGive++;
-            }
-
-            Destroy(gameObject);
-        //}
     }
 }

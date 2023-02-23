@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class EnemyAnimation : MonoBehaviour
+public class EnemyAnimation : NetworkBehaviour
 {
     private Animator playerAnimator;
     void Start()
@@ -17,12 +18,15 @@ public class EnemyAnimation : MonoBehaviour
 
     public void anim_WalkSolider(Vector3 desiredDirection)
     {
-        Vector3 movement = new Vector3(desiredDirection.x, 0f, desiredDirection.z);
-        float forw = Vector3.Dot(movement, transform.forward);
-        float stra = Vector3.Dot(movement, transform.right);
+        if (isClient)
+        {
+            Vector3 movement = new Vector3(desiredDirection.x, 0f, desiredDirection.z);
+            float forw = Vector3.Dot(movement, transform.forward);
+            float stra = Vector3.Dot(movement, transform.right);
 
-        playerAnimator.SetFloat("Forward", forw);
-        playerAnimator.SetFloat("Strafe", stra);
+            playerAnimator.SetFloat("Forward", forw);
+            playerAnimator.SetFloat("Strafe", stra);
+        }
 
         //if(desiredDirection.magnitude > 0.05)
         //{

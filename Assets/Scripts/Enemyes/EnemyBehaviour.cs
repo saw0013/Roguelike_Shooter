@@ -79,6 +79,8 @@ public class EnemyBehaviour : HealthController
     private Renderer _renderer;
     private float alphaRenderer = 0.2f;
 
+    [SerializeField] private NetworkAnimator netAnim;
+
 
 
     #endregion
@@ -291,15 +293,23 @@ public class EnemyBehaviour : HealthController
             if (Vector3.Distance(transform.position, purpose.transform.position) < agent.stoppingDistance - 3 && !enemyRun) //Если дистанции до игрока меньше 2м и бот не бежит
             {
                 enemyRun = true; //Беги
-                var point = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetComponentInChildren<GetPointPatrool>().GetPointToRunOnPlayer(transform); //Спавним рандомную точку 
+
+                Vector3 directionToTarget = (transform.position - purpose.transform.position);
                 agent.stoppingDistance = 0.1f;
-                agent.SetDestination(point);  //Направляем бота в точку подальше от игрока
+
+                NavMeshHit hit;
+                // проверяем, можно ли пройти в этом направлении
+                if (NavMesh.SamplePosition(transform.position + directionToTarget, out hit, 15.0f, NavMesh.AllAreas))
+                {
+                    // устанавливаем новую позицию для агента
+                    agent.SetDestination(hit.position);
+                }
+
             }
             else if (agent.remainingDistance <= agent.stoppingDistance && enemyRun) //
             {
                 agent.stoppingDistance = 5f;
                 enemyRun = false;
-                //if (purpose != null) agent.SetDestination(purpose.transform.position);
             }
         }
 
@@ -307,9 +317,7 @@ public class EnemyBehaviour : HealthController
         if (checkPlayer != null && !enemyRun)
         {
             //TODO : Проверить ХП каждого и выявить слабого
-
-            Debug.LogWarning("Мы зашли в условие, enemyRun = " + enemyRun);
-
+            
             Transform target = purpose.transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
 
@@ -365,7 +373,7 @@ public class EnemyBehaviour : HealthController
 
                             else if (typeEnemy == TypeEnemy.RangerBot)
                             {
-                                Debug.Log("Зашли в условие атаки Бота");
+                                Debug.LogWarning("Зашли в условие атаки Бота");
                                 if (!Attacked)
                                 {
                                     LookTarget(target);
@@ -427,7 +435,7 @@ public class EnemyBehaviour : HealthController
         }
         else if (typeEnemy == TypeEnemy.RangerBot)
         {
-            e_anim.anim_WalkSolider(agent.velocity.normalized);
+            e_anim.anim_WalkSolider(agent.velocity);
         }
 
     }
@@ -442,9 +450,20 @@ public class EnemyBehaviour : HealthController
 
     public void SpawnBullet()
     {
+        //var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
+        //bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = damage.damageValue;
+        //bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
+        //bullet.GetComponent<BulletPool>().Init(gameObject);
+        //NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
+        RpcSpawnBullet();
+    }
+
+    [ClientRpc]
+    void RpcSpawnBullet()
+    {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = damage.damageValue;
-        bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
-        NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
+        //bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
+        //bullet.GetComponent<BulletPool>().Init(gameObject);
     }
 }

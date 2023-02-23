@@ -2064,6 +2064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecdb8d9b22e4b74c97eb189766d0f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   typeController: 1
@@ -2213,7 +2214,9 @@ MonoBehaviour:
   TimeFindWeak: 3
   canSeePlayer: 0
   Attacked: 0
+  enemyRun: 0
   TimeChardge: 0
+  purpose: {fileID: 0}
   isShowGizmos: 1
   damage:
     damageValue: 20
@@ -2230,6 +2233,7 @@ MonoBehaviour:
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 5955171132329576345}
   _timeAttack: 2.37
+  netAnim: {fileID: 0}
 --- !u!114 &2627771740019315448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2242,6 +2246,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5995e0aa830f6024b9b2e86063490464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  playerAnimator: {fileID: 5110423039833376603}
 --- !u!136 &2627771740019315430
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2282,9 +2290,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1152713255
   serverOnly: 0
   visible: 0
-  m_AssetId: fdf570634d5dc5a4baf17025a3ce9459
   hasSpawned: 0
 --- !u!114 &8332461211381750969
 MonoBehaviour:
@@ -2298,31 +2306,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  target: {fileID: 2627771740019315424}
   clientAuthority: 0
-  sendRate: 30
-  bufferTimeMultiplier: 2
-  bufferSizeLimit: 64
-  catchupNegativeThreshold: -1
-  catchupPositiveThreshold: 1
-  catchupSpeed: 0.009999999776482582
-  slowdownSpeed: 0.009999999776482582
-  driftEmaDuration: 1
-  dynamicAdjustment: 1
-  dynamicAdjustmentTolerance: 1
-  deliveryTimeEmaDuration: 2
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!114 &5110423039833376603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2335,6 +2334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -2351,6 +2351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
 --- !u!114 &7122402810679167599
@@ -2365,6 +2366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c37f7fbff76a22478cfb445fc78ed61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   CommonBuff:
@@ -6249,6 +6251,10 @@ PrefabInstance:
     - target: {fileID: 1977417124173949388, guid: 3869cbe9ae4c5f146b24aef89c4aba67, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788578222943346077, guid: 3869cbe9ae4c5f146b24aef89c4aba67, type: 3}
+      propertyPath: _assetId
+      value: 1152713255
       objectReference: {fileID: 0}
     - target: {fileID: 8788578222943346077, guid: 3869cbe9ae4c5f146b24aef89c4aba67, type: 3}
       propertyPath: m_AssetId

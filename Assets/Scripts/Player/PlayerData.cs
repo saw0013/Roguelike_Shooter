@@ -145,25 +145,13 @@ public class PlayerData : HealthController, ICharacter
             Debug.LogWarning(GetInputActive());
         }
 
-        if (isClient & Input.GetKeyDown(KeyCode.F5))
+        if (isClientOnly & Input.GetKeyDown(KeyCode.F5))
         {
             if (!ChatUI.activeSelf) ChatUI.SetActive(true);
             else ChatUI.SetActive(false);
         }
 
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bullet"))
-        {
-            //TODO : Сделать счётчик и вести счётчик в BulletPool OnCollisionEnter
-            //Debug.LogWarning($"Тимдамаг от {other.GetComponent<BulletPool>().owner}");
-        }
-
-    }
-
-    void OnCollisionEnter(Collision collision) { }
 
     // RuntimeInitializeOnLoadMethod -> fast playmode without domain reload
     [RuntimeInitializeOnLoadMethod]
@@ -174,33 +162,6 @@ public class PlayerData : HealthController, ICharacter
 
     #endregion
 
-    #region Server Client Call ChangeHealth
-
-
-
-    internal void BuffHealth(float maxHealth, GameObject item)
-    {
-        if (isLocalPlayer) //Просто проверить Наверное так и надо делать. Нужно проверить если будут подбираться по 2 бафа далее
-        {
-            var _newMaxHealth = (float)(MaxHealth + (int)maxHealth);
-
-            _healthSlider.maxValue += _newMaxHealth / 100;
-            _healthSliderRpc.maxValue += _newMaxHealth / 100;
-            ClientServerChangeHp(_newMaxHealth);//?
-            LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
-
-            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
-            {
-                var _item = Instantiate(item, ItemsGrind);
-                _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
-            }
-        }
-    }
-
-
-
-
-    #endregion
 
     #region Server Client Call DisplayName
 
@@ -219,14 +180,56 @@ public class PlayerData : HealthController, ICharacter
 
     #region Common
 
+    #region  CommonHP
+
+    internal void BuffHealth(float maxHealth, GameObject item)
+    {
+        if (isLocalPlayer) //Просто проверить Наверное так и надо делать. Нужно проверить если будут подбираться по 2 бафа далее
+        {
+            var _newMaxHealth = (int)base.maxHealth + (int)maxHealth;
+
+            MaxHealth = _newMaxHealth;
+            _healthSlider.maxValue += _newMaxHealth / 100;
+            _healthSliderRpc.maxValue += _newMaxHealth / 100;
+            ClientServerChangeHp(_newMaxHealth);//?
+            LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
+
+            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
+            {
+                var _item = Instantiate(item, ItemsGrind);
+                _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+            }
+        }
+    }
+
+    #endregion
+
+
     #region CommonGuard
 
-    public void ChangeGuard(int BuffGuard, GameObject item)
+    /// <summary>
+    /// Баф защиты
+    /// </summary>
+    /// <param name="BuffGuard"></param>
+    /// <param name="item"></param>
+    public void BuffChangeGuard(int BuffGuard, GameObject item)
     {
-        guardPlayer += BuffGuard;
-        _textGuard.text = $"Щит: {guardPlayer}";
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
+        if (isLocalPlayer) //Попробовать убрать
+        {
+            guardPlayer += BuffGuard;
+            _textGuard.text = $"Щит: {guardPlayer}";
+
+            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemGuardUI)))
+            {
+                var _item = Instantiate(item, ItemsGrind);
+                _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
+            }
+            else
+            {
+                var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemGuardUI>();
+                if (_findedItem != null) _findedItem.GetComponent<DefaultItemGuardUI>().UpdateBuff();
+            }
+        }
     }
 
 
@@ -240,7 +243,13 @@ public class PlayerData : HealthController, ICharacter
     #endregion
 
     #region CommonMoveSpeed
-    public void ChangeMoveSpeed(int BuffSpeed, GameObject item)
+
+    /// <summary>
+    /// Баф скорости
+    /// </summary>
+    /// <param name="BuffSpeed"></param>
+    /// <param name="item"></param>
+    public void BuffChangeMoveSpeed(int BuffSpeed, GameObject item)
     {
         if (isLocalPlayer)
         {
@@ -324,11 +333,6 @@ public class PlayerData : HealthController, ICharacter
         SizeBullet += BuffBullet;
     }
 
-    //[TargetRpc]
-    //void TargetChangeBullet(float b)
-    //{
-    //    SizeBullet += b;
-    // }
 
     #endregion
 
@@ -349,13 +353,6 @@ public class PlayerData : HealthController, ICharacter
         ProgressPlayerStat.gameObject.SetActive(true);
     }
 
-    //[Client]
-    //void CmdtStat()
-    //{
-    //    ProgressPlayerStat.SetStatPlayerText(AmmoWasted, EnemyKilled, BuffGive, ScorePlayer);
-
-    //    ProgressPlayerStat.gameObject.SetActive(true);
-    //}
     /// <summary>
     /// Устанавливаем, можно ли управлять персонажем
     /// </summary>

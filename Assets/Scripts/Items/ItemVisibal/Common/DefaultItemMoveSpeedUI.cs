@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DefaultItemMoveSpeedUI : MonoBehaviour
@@ -18,7 +15,6 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
     void Start()
     {
         textTime.text = $"Время: {timeBuff}";
-        
     }
 
     void Update()
@@ -36,7 +32,6 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
             {
                 textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);
-                //Destroy(textTime.gameObject);
                 owner.StopBuffMoveSpeed();
                 isDestroy = true;
             }

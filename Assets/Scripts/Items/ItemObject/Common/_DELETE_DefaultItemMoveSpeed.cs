@@ -30,7 +30,7 @@ public class _DELETE_DefaultItemMoveSpeed : MonoBehaviour
             onceGive = true;
             Debug.LogWarning("Игрок подобрал " + player.name);
             _owner = player.GetComponent<PlayerData>();
-            _owner.ChangeMoveSpeed(_speedAdd, _imageItem);
+            _owner.BuffChangeMoveSpeed(_speedAdd, _imageItem);
             _owner.BuffGive++;
 
             //var item = Instantiate(_imageItem, _owner.ItemsGrind);
