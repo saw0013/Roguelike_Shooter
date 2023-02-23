@@ -1,10 +1,6 @@
-using System.Linq;
 using UnityEngine;
 using Mirror;
 using Cosmo;
-using Mirror.Experimental;
-using MirrorBasics;
-using static UnityEngine.ParticleSystem;
 
 public class BulletPool : NetworkBehaviour
 {
@@ -23,6 +19,8 @@ public class BulletPool : NetworkBehaviour
 
     [HideInInspector] public GameObject _owner;
 
+    private Damage _damageToEnemy, _damageToPlayer;
+
     //[Server]
     public void Init(/*uint owner*/GameObject owner)
     {
@@ -33,6 +31,13 @@ public class BulletPool : NetworkBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        _damageToEnemy = new Damage(DamageToEnemy);
+        _damageToPlayer = new Damage(DamageToPlayer);
+
     }
 
     private void Update()
@@ -47,11 +52,9 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        var _damageToPlayer = new Damage(DamageToPlayer);
         _damageToPlayer.sender = transform;
         _damageToPlayer.receiver = collision.transform;
 
-        var _damageToEnemy = new Damage(DamageToEnemy);
         _damageToEnemy.sender = transform;
         _damageToEnemy.receiver = collision.transform;
 
@@ -61,26 +64,21 @@ public class BulletPool : NetworkBehaviour
         {
             case "Player":
                 RpcParticles(_hitPlayerParticles);
-                ClaimScore(_owner, -5);
-                collision.gameObject.ApplyDamage(_damageToPlayer);
+                if (!_owner) ClaimScore(_owner, -5);
+                if (isServer) collision.gameObject.ApplyDamage(_damageToPlayer); //Будет работать только на ботах
+                else CmdDamage(collision.gameObject, true);
                 break;
 
             case "Enemy":
                 //Debug.LogWarning("ХП ПАУКА===" + collision.gameObject.GetComponent<EnemyData>()._SyncHealth); //Отображается
                 if (collision.gameObject.GetComponent<EnemyData>()._SyncHealth > 1)
                 {
-                    ClaimScore(_owner, 10);
+                    if(!_owner) ClaimScore(_owner, 10);
                     RpcParticles(_hitEnemyParticles);
-                    collision.gameObject.ApplyDamage(_damageToEnemy);
+                    if (isServer) collision.gameObject.ApplyDamage(_damageToEnemy);
+                    else CmdDamage(collision.gameObject, false);
                 }
 
-                //TODO : Перевести попадания в Command
-                //Для отслеживания убийства перенесено в EnemyData смотри TakeDamage
-                //if (collision.gameObject.GetComponent<EnemyData>().LocalDead)
-                //{
-                //    ClaimScore(_owner, 50);
-                //    _owner.GetComponent<PlayerData>().EnemyKilled++;
-                //}
                 break;
 
             default:
@@ -88,6 +86,14 @@ public class BulletPool : NetworkBehaviour
                 break;
         }
 
+        //Destroy(gameObject);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdDamage(GameObject go, bool _isPlayer)
+    {
+        if (_isPlayer) go.ApplyDamage(_damageToPlayer);
+        else go.ApplyDamage(_damageToEnemy);
         Destroy(gameObject);
     }
 
@@ -107,7 +113,7 @@ public class BulletPool : NetworkBehaviour
 
     public void ClaimScore(GameObject player, int score)
     {
-        if(player != null)
+        if (player != null)
             player.GetComponent<PlayerData>().ScorePlayer += score;
     }
 }

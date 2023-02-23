@@ -423,7 +423,7 @@ public class HealthController : NetworkBehaviour, IHealthController
 
                 else if (isClient) //Если проверяем получение дамага на клиенте
                 {
-                    if (hasAuthority) //Есть ли у нас права изменять объект
+                    if (/*hasAuthority*/isOwned) //Есть ли у нас права изменять объект
                     {
                         //Debug.LogWarning($"damage reciver {damage.receiver.name}");
                         CmdChangeHealth(currentHealth - damage.damageValue);

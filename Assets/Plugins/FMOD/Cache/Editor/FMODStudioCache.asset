@@ -69,7 +69,7 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638096275120000000
+  lastModified: 638095952572010886
   FileSizes:
   - Name: Desktop
     Value: 1976
@@ -197,7 +197,7 @@ MonoBehaviour:
   Path: Assets/FMODProject/Cosmoground/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638108406560000000
+  lastModified: 638103144524606248
   FileSizes:
   - Name: Desktop
     Value: 50874048
@@ -375,7 +375,7 @@ MonoBehaviour:
   - {fileID: -3203992506653461030}
   StringsBanks:
   - {fileID: -6560684659413333050}
-  cacheTime: 638108406560000000
+  cacheTime: 638103144524606248
   cacheVersion: 131593
 --- !u!114 &116904398728847446
 MonoBehaviour:
