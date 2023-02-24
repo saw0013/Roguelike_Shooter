@@ -414,12 +414,33 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         #region TEST BUFF
 
-        GameObject TestItemBuff = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+        GameObject TestItemBuffD = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+    .FirstOrDefault(x => x.name == "DefaultItemDamage"));
+
+        TestItemBuffD.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+
+        NetworkServer.Spawn(TestItemBuffD);
+
+        GameObject TestItemBuffA = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+    .FirstOrDefault(x => x.name == "DefaultItemAmmo"));
+
+        TestItemBuffA.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+
+        NetworkServer.Spawn(TestItemBuffA);
+
+        GameObject TestItemBuffH = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+    .FirstOrDefault(x => x.name == "DefaultItemHP"));
+
+        TestItemBuffH.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+
+        NetworkServer.Spawn(TestItemBuffH);
+
+        GameObject TestItemBuffG = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
             .FirstOrDefault(x => x.name == "DefaultItemGuard"));
 
-        TestItemBuff.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+        TestItemBuffG.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
 
-        NetworkServer.Spawn(TestItemBuff);
+        NetworkServer.Spawn(TestItemBuffG);
 
         #endregion
 
@@ -435,7 +456,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         #endregion
 
     }
-
 
     public void StartGame()
     { //Server

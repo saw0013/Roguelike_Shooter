@@ -6,7 +6,7 @@ public class DefaultItemAmmo : MonoBehaviour
     [Header("OptionBuff")]
 
     [SerializeField] private float _ammoReload;
-    [SerializeField] private int _ammoForce;
+    [SerializeField] private float _ammoRate;
 
     [SerializeField] private GameObject _imageItem;
 
@@ -25,15 +25,14 @@ public class DefaultItemAmmo : MonoBehaviour
    
     private void Buff(GameObject player)
     {
-        if (!onceGive)
-        {
-            onceGive = true;
-            Debug.LogWarning("Игрок подобрал " + player.name);
-            _owner = player.GetComponent<PlayerData>();
-            _owner.ChangeAmmo(_ammoReload, _ammoForce, _imageItem);
-            _owner.BuffGive++;
+        _owner = player.GetComponent<PlayerData>();
 
-            Destroy(gameObject);
+        if (_owner._playerBuffController.PickOrDestroy())
+        {
+            _owner.ChangeAmmo(_ammoReload, _ammoRate, _imageItem);
+            _owner.BuffGive++;
         }
+
+        Destroy(gameObject);
     }
 }

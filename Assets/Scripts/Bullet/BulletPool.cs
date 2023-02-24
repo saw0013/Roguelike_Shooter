@@ -61,6 +61,8 @@ public class BulletPool : NetworkBehaviour
                 _damageToPlayer.sender = transform;
                 _damageToPlayer.receiver = collision.transform;
 
+                if(_owner?.GetComponent<PlayerData>() == null) _damageToPlayer.damageValue -= collision.gameObject.GetComponent<PlayerData>().guardPlayer;
+
                 if (!_owner) ClaimScore(_owner, -5);
                 collision.gameObject.ApplyDamage(_damageToPlayer);
 

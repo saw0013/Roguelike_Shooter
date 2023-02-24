@@ -10,8 +10,6 @@ public class DefaultItemGuard : MonoBehaviour
 
     private PlayerData _owner;
 
-    private bool onceGive;
-
     internal NetworkMatch networkMatch;
 
     private void OnTriggerEnter(Collider other)

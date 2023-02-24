@@ -3082,13 +3082,13 @@ MonoBehaviour:
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0
   DamagePlayer: 0
-  AmmoReload: 0
-  BuletForce: 0
+  BuletRate: 0
   MaxCartridges: 0
+  AmmoReload: 0
   SizeBullet: 0.05
   guardPlayer: 0
   _startAmmoReload: 3
-  _startForceBulet: 2
+  _startRateBulet: 0.25
   _guardStart: 10
   _speedStart: 5
   _damageStart: 10

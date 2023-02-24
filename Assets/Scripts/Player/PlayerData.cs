@@ -37,17 +37,19 @@ public class PlayerData : HealthController, ICharacter
     public PlayerBuffController _playerBuffController;
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
+
     public int SpeedPlayer;
     public int DamagePlayer;
-    public float AmmoReload;
-    public int BuletForce;
+    public float BuletRate;
     public int MaxCartridges;
+
+    public float AmmoReload;
     public float SizeBullet;
 
     public int guardPlayer;
 
     [SerializeField] private float _startAmmoReload;
-    [SerializeField] private int _startForceBulet;
+    [SerializeField] private float _startRateBulet;
     [SerializeField] private int _guardStart;
     [SerializeField] private int _speedStart;
     [SerializeField] private int _damageStart;
@@ -96,7 +98,7 @@ public class PlayerData : HealthController, ICharacter
         base.Awake();
         DamagePlayer = _damageStart;
         AmmoReload = _startAmmoReload;
-        BuletForce = _startForceBulet;
+        BuletRate = _startRateBulet;
         guardPlayer = _guardStart;
         SpeedPlayer = _speedStart;
     }
@@ -162,7 +164,6 @@ public class PlayerData : HealthController, ICharacter
 
     #endregion
 
-
     #region Server Client Call DisplayName
 
     //метод не выполнится, если старое значение равно новому
@@ -192,8 +193,7 @@ public class PlayerData : HealthController, ICharacter
             _healthSlider.maxValue += _newMaxHealth / 100;
             _healthSliderRpc.maxValue += _newMaxHealth / 100;
             ClientServerChangeHp(_newMaxHealth);//?
-            LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!
-
+            LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!           
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
             {
                 var _item = Instantiate(item, ItemsGrind);
@@ -232,14 +232,12 @@ public class PlayerData : HealthController, ICharacter
         }
     }
 
-
-
-
-    public void StopBuffGuard()
+    public void StopBuffGuard(int guardBuff)
     {
-        guardPlayer = _guardStart;
+        guardPlayer -= _guardStart;
         _textGuard.text = $"Щит: {guardPlayer}";
     }
+
     #endregion
 
     #region CommonMoveSpeed
@@ -271,9 +269,9 @@ public class PlayerData : HealthController, ICharacter
 
 
 
-    public void StopBuffMoveSpeed()
+    public void StopBuffMoveSpeed(int speed)
     {
-        SpeedPlayer = _speedStart;
+        SpeedPlayer -= speed;
     }
 
     #endregion
@@ -282,35 +280,52 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeDamage(int BuffDamage, GameObject item)
     {
-        Debug.LogWarning("Damage Есть права " + hasAuthority);
-        DamagePlayer += BuffDamage;
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<DefaultItemDamageUI>().RegisterOwner(this);
+        //Debug.LogWarning("Damage Есть права " + hasAuthority);
+
+        DamagePlayer += DamagePlayer == 45 ? 5 : DamagePlayer == 50 ? 0 : BuffDamage;
+
+        if (!_playerBuffController.BuffIsExist(nameof(DefaultItemDamageUI)))
+        {
+            var _item = Instantiate(item, ItemsGrind);
+            _item.GetComponent<DefaultItemDamageUI>().RegisterOwner(this);
+        }
+        else
+        {
+            var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemDamageUI>();
+            if (_findedItem != null) _findedItem.GetComponent<DefaultItemDamageUI>().UpdateBuff();
+        }
     }
 
-    public void StopBuffDamage()
+    public void StopBuffDamage(int damageBuff)
     {
-        DamagePlayer = _damageStart;
+        DamagePlayer -= damageBuff;
     }
     #endregion
 
     #region CommonAmmo
-    public void ChangeAmmo(float BuffAmmoReload, int BuffAmmoForce, GameObject item)
+    public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
-        if (isLocalPlayer)
+        AmmoReload -= AmmoReload == 0 ? 0 : BuffAmmoReload; 
+        BuletRate -= BuletRate == 0 ? 0 : BuffAmmoRate;
+
+        if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
         {
-            AmmoReload -= BuffAmmoReload;
-            BuletForce += BuffAmmoForce;
             var _item = Instantiate(item, ItemsGrind);
             _item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
         }
+        else
+        {
+            var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemAmmoUI>();
+            if (_findedItem != null) _findedItem.GetComponent<DefaultItemAmmoUI>().UpdateBuff();
+        }
     }
 
-    public void StopBuffAmmo()
+    public void StopBuffAmmo(float ammoReload, float ammoRate)
     {
-        AmmoReload = _startAmmoReload;
-        BuletForce = _startForceBulet;
+        AmmoReload -= ammoReload;
+        BuletRate -= ammoRate;
     }
+
     #endregion
 
     #endregion

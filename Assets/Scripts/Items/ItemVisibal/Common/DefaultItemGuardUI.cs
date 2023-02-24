@@ -32,8 +32,7 @@ public class DefaultItemGuardUI : MonoBehaviour
             {
                 textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(0, 0, 1, 0.4f), 2, false, true);
-                Destroy(textTime.gameObject);
-                owner.StopBuffGuard();
+                owner.StopBuffGuard(10);
                 isDestroy = true;
             }
         }

@@ -80,7 +80,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                     if (_reloadAudio) _reloadAudio.Play();
                 }
 
-                if (Input.GetKey(spawnKey) && timer >= SpawnRate && !reloading)
+                if (Input.GetKey(spawnKey) && timer >= playerData.BuletRate && !reloading)
                 {
                     if (сartridges > 0)
                     {
@@ -188,7 +188,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 5;
         bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = playerData.DamagePlayer;
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
-        bullet.GetComponent<BulletPool>().OnSpawnBullet(playerData.BuletForce, playerData.SizeBullet);
+        bullet.GetComponent<BulletPool>().OnSpawnBullet(2, playerData.SizeBullet);
         bullet.GetComponent<BulletPool>().Init(gameObject);
         playerData.AmmoWasted++;
         NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.

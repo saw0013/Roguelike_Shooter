@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,13 +30,25 @@ public class DefaultItemDamageUI : MonoBehaviour
             }
             else
             {
+                textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(1, 0, 0, 0.4f), 2, false, true);
-                Destroy(textTime.gameObject);
-                owner.StopBuffMoveSpeed();
+                owner.StopBuffDamage(25);
                 isDestroy = true;
             }
         }
     }
 
     public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
+
+    public void UpdateBuff()
+    {
+        //Заново формируем таймер
+        timeBuff += 60;
+        isDestroy = false;
+
+        //Снова включаем таймер
+        textTime.gameObject.SetActive(true);
+        GetComponent<Image>().CrossFadeColor(new Color(1, 0, 0, 1f), 2, false, true);
+
+    }
 }
