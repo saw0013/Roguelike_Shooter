@@ -61,9 +61,10 @@ public class BulletPool : NetworkBehaviour
                 _damageToPlayer.sender = transform;
                 _damageToPlayer.receiver = collision.transform;
 
-                if(_owner?.GetComponent<PlayerData>() == null) _damageToPlayer.damageValue -= collision.gameObject.GetComponent<PlayerData>().guardPlayer;
+                if (!_owner) _damageToPlayer.damageValue -= collision.gameObject.GetComponent<PlayerData>().guardPlayer;
+                else _damageToPlayer.damageValue = 5;
 
-                if (!_owner) ClaimScore(_owner, -5);
+                if (_owner) ClaimScore(_owner, -5);
                 collision.gameObject.ApplyDamage(_damageToPlayer);
 
                 break;
@@ -82,7 +83,7 @@ public class BulletPool : NetworkBehaviour
 
                 if (collision.gameObject.GetComponent<EnemyData>()._SyncHealth > 1)
                 {
-                    if(!_owner) ClaimScore(_owner, 10);
+                    if(_owner) ClaimScore(_owner, 10);
                     collision.gameObject.ApplyDamage(_damageToEnemy);
                     
                 }

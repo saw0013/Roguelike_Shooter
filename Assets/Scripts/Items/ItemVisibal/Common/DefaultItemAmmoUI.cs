@@ -34,7 +34,7 @@ public class DefaultItemAmmoUI : MonoBehaviour
             {
                 textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(0.5f, 0, 1, 0.4f), 2, false, true);
-                owner.StopBuffAmmo(1, 0.05f);
+                owner.StopBuffAmmo();
                 isDestroy = true;
             }
         }

@@ -7,12 +7,13 @@ public class DestroyOnTriggerNetwork : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null & other.tag == "Player") Destroy();
+        if (other != null & other.tag == "Player") DestroyAsync();
     }
 
-    private async void Destroy()
+    private async void DestroyAsync()
     {
         await System.Threading.Tasks.Task.Delay(500);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

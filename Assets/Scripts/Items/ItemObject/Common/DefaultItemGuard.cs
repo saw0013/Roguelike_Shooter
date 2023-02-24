@@ -25,7 +25,7 @@ public class DefaultItemGuard : MonoBehaviour
 
         if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
         {
-            _owner.BuffChangeGuard(_guardAdd, _imageItem);
+            _owner.ChangeGuard(_guardAdd, _imageItem);
             _owner.BuffGive++;
         }
 

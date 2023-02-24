@@ -25,14 +25,13 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
             {
                 timeBuff -= Time.deltaTime;
                 var second = Mathf.RoundToInt(timeBuff);
-                if (textTime != null)
-                    textTime.text = $"Время: {second}";
+                textTime.text = $"Время: {second}";
             }
             else
             {
-                textTime.gameObject.SetActive(false);
+                //textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);
-                owner.StopBuffMoveSpeed(2);
+                owner.CmdStopBuffMoveSpeed();
                 isDestroy = true;
             }
         }
@@ -45,9 +44,9 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
         //Заново формируем таймер
         timeBuff += 60;
         isDestroy = false;
-
+        textTime.text = "";
         //Снова включаем таймер
-        textTime.gameObject.SetActive(true);
+        //textTime.gameObject.SetActive(true);
         GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 1f), 2, false, true);
         
     }

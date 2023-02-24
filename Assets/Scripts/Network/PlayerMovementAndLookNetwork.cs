@@ -602,11 +602,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.F5))
         {
-
-            if (isServer) Debug.LogWarning("Мы сервер");
             if (isClient) Debug.LogWarning("Мы клиент");
             if (isOwned) Debug.LogWarning("Мы isOwned");
-
 
             if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
             else _gameObjectChatUI.SetActive(false);

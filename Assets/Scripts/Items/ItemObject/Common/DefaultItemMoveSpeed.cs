@@ -28,7 +28,7 @@ public class DefaultItemMoveSpeed : MonoBehaviour
 
         if (_owner._playerBuffController.PickOrDestroy()) //PickOrDestroy помечен как Summary
         {
-            _owner.BuffChangeMoveSpeed(_speedAdd, _imageItem);
+            _owner.ChangeMoveSpeed(_speedAdd, _imageItem);
             _owner.BuffGive++;
         }
 

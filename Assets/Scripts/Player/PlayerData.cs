@@ -19,8 +19,6 @@ public class PlayerData : HealthController, ICharacter
 
     public UIStatPlayer ProgressPlayerStat;
 
-
-
     [Header("===Stat PlayerData===")]
 
     [SyncVar(hook = nameof(UpdateLocalScore))]
@@ -110,9 +108,9 @@ public class PlayerData : HealthController, ICharacter
 
     public void CmdDie()
     {
-       
+
     }
-    
+
 
     protected override void Start()
     {
@@ -186,6 +184,9 @@ public class PlayerData : HealthController, ICharacter
             MaxHealth = _newMaxHealth;
             _healthSlider.maxValue += _newMaxHealth / 100;
             _healthSliderRpc.maxValue += _newMaxHealth / 100;
+            _healthDamageSlider.maxValue += _newMaxHealth / 100;
+            _healthDamageSliderRpc.maxValue += _newMaxHealth / 100;
+
             ClientServerChangeHp(_newMaxHealth);//?
             LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!           
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
@@ -206,29 +207,29 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <param name="BuffGuard"></param>
     /// <param name="item"></param>
-    public void BuffChangeGuard(int BuffGuard, GameObject item)
+    public void ChangeGuard(int BuffGuard, GameObject item)
     {
-        if (isLocalPlayer) //Попробовать убрать
-        {
-            guardPlayer += BuffGuard;
-            _textGuard.text = $"Щит: {guardPlayer}";
 
-            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemGuardUI)))
-            {
-                var _item = Instantiate(item, ItemsGrind);
-                _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
-            }
-            else
-            {
-                var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemGuardUI>();
-                if (_findedItem != null) _findedItem.GetComponent<DefaultItemGuardUI>().UpdateBuff();
-            }
+        guardPlayer += BuffGuard;
+        _textGuard.text = $"Щит: {guardPlayer}";
+
+        if (!_playerBuffController.BuffIsExist(nameof(DefaultItemGuardUI)))
+        {
+            var _item = Instantiate(item, ItemsGrind);
+            _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
         }
+        else
+        {
+            var _findedItem = ItemsGrind.FindChildObjectByType<DefaultItemGuardUI>();
+            if (_findedItem) _findedItem.GetComponent<DefaultItemGuardUI>().UpdateBuff();
+        }
+
+
     }
 
-    public void StopBuffGuard(int guardBuff)
+    public void StopBuffGuard()
     {
-        guardPlayer -= _guardStart;
+        guardPlayer = _guardStart;
         _textGuard.text = $"Щит: {guardPlayer}";
     }
 
@@ -241,31 +242,30 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <param name="BuffSpeed"></param>
     /// <param name="item"></param>
-    public void BuffChangeMoveSpeed(int BuffSpeed, GameObject item)
+    public void ChangeMoveSpeed(int BuffSpeed, GameObject item)
     {
-        if (isLocalPlayer)
-        {
-            SpeedPlayer += SpeedPlayer == 5 ? 1 : SpeedPlayer == 6 ? 0 : BuffSpeed; //Логика такова. Если скорость игрока в настроящий момент >= 5 то просто пооставим 6 если нет то прибавим баф. Таким образом мы не будем разгоняться до бесконечности
 
-            if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
-            {
-                var _item = Instantiate(item, ItemsGrind);
-                _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
-            }
-            else
-            {
-                //var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
-                var _findedItem = ItemsGrind?.FindChildObjectByType<DefaultItemMoveSpeedUI>(); //Не проверено
-                if (_findedItem != null) _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
-            }
+        SpeedPlayer += SpeedPlayer == 5 ? 1 : SpeedPlayer == 6 ? 0 : BuffSpeed; //Логика такова. Если скорость игрока в настроящий момент >= 5 то просто пооставим 6 если нет то прибавим баф. Таким образом мы не будем разгоняться до бесконечности
+
+        if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
+        {
+            var _item = Instantiate(item, ItemsGrind);
+            _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
         }
+        else
+        {
+            //var _findedItem = GameObject.FindObjectOfType<DefaultItemMoveSpeedUI>(); //Не проверено
+            var _findedItem = ItemsGrind.FindChildObjectByType<DefaultItemMoveSpeedUI>(); //Не проверено
+            if (_findedItem) _findedItem.GetComponent<DefaultItemMoveSpeedUI>().UpdateBuff();
+        }
+
     }
 
 
-
-    public void StopBuffMoveSpeed(int speed)
+    [Command]
+    public void CmdStopBuffMoveSpeed()
     {
-        SpeedPlayer -= speed;
+        SpeedPlayer = _speedStart;
     }
 
     #endregion
@@ -290,9 +290,9 @@ public class PlayerData : HealthController, ICharacter
         }
     }
 
-    public void StopBuffDamage(int damageBuff)
+    public void StopBuffDamage()
     {
-        DamagePlayer -= damageBuff;
+        DamagePlayer = _damageStart;
     }
     #endregion
 
@@ -314,10 +314,10 @@ public class PlayerData : HealthController, ICharacter
         }
     }
 
-    public void StopBuffAmmo(float ammoReload, float ammoRate)
+    public void StopBuffAmmo()
     {
-        AmmoReload -= ammoReload;
-        BuletRate -= ammoRate;
+        AmmoReload = _startAmmoReload;
+        BuletRate = _startRateBulet;
     }
 
     #endregion
@@ -540,6 +540,10 @@ public class PlayerData : HealthController, ICharacter
         MaxCartridges = Catriges;
         SpeedPlayer = Speed;
         AmmoReload = Reload;
+
+        _speedStart = Speed;
+        _damageStart = Damage;
+        _startAmmoReload = Reload;
 
         if (PlayerPrefs.HasKey("TypePilotStat")) PlayerPrefs.DeleteKey("TypePilotStat");
 

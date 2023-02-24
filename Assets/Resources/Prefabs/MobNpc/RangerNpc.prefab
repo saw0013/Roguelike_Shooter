@@ -309,10 +309,10 @@ MonoBehaviour:
   - {fileID: 8544215558247172901, guid: 066e6c5cbd845d1469e003d885663c21, type: 3}
   EpicBuff: []
   LegenderyBuff: []
-  CommonChance: 55
+  CommonChance: 20
   RareChance: 40
-  EpicChance: 20
-  LegenderyChance: 5
+  EpicChance: 80
+  LegenderyChance: 95
 --- !u!114 &2253439945928924193
 MonoBehaviour:
   m_ObjectHideFlags: 0

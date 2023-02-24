@@ -80,9 +80,6 @@ public class EnemyBehaviour : HealthController
     private float alphaRenderer = 0.2f;
 
     [SerializeField] private NetworkAnimator netAnim;
-
-
-
     #endregion
 
     #region Base method. Start, Awake, Enable and too...
@@ -116,27 +113,6 @@ public class EnemyBehaviour : HealthController
 
     public virtual void Update()
     {
-        //currentTimeFindeWeak += Time.deltaTime;
-
-        //if(currentTimeFindeWeak >= TimeFindWeak)
-        //{
-        //    var checkPlayer = CheckAround();
-        //    currentTimeFindeWeak = 0;
-        //    if(checkPlayer != null)
-        //    {
-        //        for (int i = 0; i < checkPlayer.Length; i++)
-        //        {
-        //            if (weakPlayer == null)
-        //                weakPlayer = checkPlayer[i].GetComponent<PlayerData>();
-        //            else
-        //            {
-        //                if (weakPlayer.currentHealth > checkPlayer[i].GetComponent<PlayerData>().currentHealth)
-        //                    weakPlayer = checkPlayer[i].GetComponent<PlayerData>();
-        //            }
-        //        }
-        //    }
-        //}
-
         if (_SyncHealth > 1 && enable)
         {
             if (Attacked)
@@ -211,6 +187,7 @@ public class EnemyBehaviour : HealthController
         while (true)
         {
             yield return wait;
+            CheckAround();
             FieldOfViewCheck();
         }
     }
@@ -219,9 +196,8 @@ public class EnemyBehaviour : HealthController
 
     #region Поведение Врага
 
-    public Collider CheckAround()
+    public void CheckAround()
     {
-
         //Мне кажИтся что немного дублируется код?
         if (purpose != null)
         {
@@ -264,9 +240,9 @@ public class EnemyBehaviour : HealthController
 
             }
 
-            return purpose;
+            //return purpose;
         }
-        else return null;
+        //else return null;
     }
 
     private void LookTarget(Transform target)
@@ -286,9 +262,9 @@ public class EnemyBehaviour : HealthController
     {
         //if (isDead) return;
 
-        var checkPlayer = CheckAround();
+        //var checkPlayer = CheckAround();
 
-        if (typeEnemy == TypeEnemy.RangerBot)
+        if (typeEnemy == TypeEnemy.RangerBot && purpose != null)
         {
             if (Vector3.Distance(transform.position, purpose.transform.position) < agent.stoppingDistance - 3 && !enemyRun) //Если дистанции до игрока меньше 2м и бот не бежит
             {
@@ -314,7 +290,7 @@ public class EnemyBehaviour : HealthController
         }
 
         //Мы постоянно смотрим по радиусу. Если в нашем обзоре есть коллайдеры с именем игрок идём по условию
-        if (checkPlayer != null && !enemyRun)
+        if (purpose != null && !enemyRun)
         {
             //TODO : Проверить ХП каждого и выявить слабого
             
