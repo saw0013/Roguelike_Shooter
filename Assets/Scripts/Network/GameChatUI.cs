@@ -90,6 +90,7 @@ namespace Cosmoground
         // Called by OnEndEdit above and UI element SendButton.OnClick
         public void SendMessage()
         {
+            //Debug.LogWarning($"Cxbnft");
             if (!string.IsNullOrWhiteSpace(chatMessage.text))
             {
                 CmdSend(chatMessage.text.Trim());

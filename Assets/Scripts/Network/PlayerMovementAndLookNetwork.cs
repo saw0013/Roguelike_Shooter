@@ -27,6 +27,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject _panelMain;
     [SerializeField] private GameObject _panelInfoItem;
     [SerializeField] private GameObject[] _panelsCanvas;
+    [SerializeField] private GameObject _gameObjectChatUI;
 
     private MainMenuManager _mainMenuManager;
 
@@ -412,6 +413,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         NetworkServer.Spawn(Level);
 
 
+
         #region TEST BUFF
 
         GameObject TestItemBuffD = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
@@ -534,6 +536,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         //TODO : Включить слушатель только на том клиенте на котором играем
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
+
     }
 
     /// <summary>
@@ -597,6 +600,19 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.Q))
             _changeCameraAngle(90);
 
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+
+            if (isServer) Debug.LogWarning("Мы сервер");
+            if (isClient) Debug.LogWarning("Мы клиент");
+            if (isOwned) Debug.LogWarning("Мы isOwned");
+
+
+            if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
+            else _gameObjectChatUI.SetActive(false);
+
+        }
+
     }
 
     [Command]
@@ -607,7 +623,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (hasAuthority)
+        if (isOwned)
         {
             //Arrow Key Input
             float h = Input.GetAxis("Horizontal");

@@ -8,6 +8,8 @@ using TMPro;
 using MirrorBasics;
 using FMOD.Studio;
 using static UnityEngine.UI.GridLayoutGroup;
+using Mirror.Examples.Chat;
+using Cinemachine;
 
 public class PlayerData : HealthController, ICharacter
 {
@@ -17,7 +19,7 @@ public class PlayerData : HealthController, ICharacter
 
     public UIStatPlayer ProgressPlayerStat;
 
-    [SerializeField] private GameObject ChatUI;
+
 
     [Header("===Stat PlayerData===")]
 
@@ -108,10 +110,9 @@ public class PlayerData : HealthController, ICharacter
 
     public void CmdDie()
     {
-
+       
     }
-
-
+    
 
     protected override void Start()
     {
@@ -146,13 +147,6 @@ public class PlayerData : HealthController, ICharacter
             InputIsActive(true);
             Debug.LogWarning(GetInputActive());
         }
-
-        if (isClientOnly & Input.GetKeyDown(KeyCode.F5))
-        {
-            if (!ChatUI.activeSelf) ChatUI.SetActive(true);
-            else ChatUI.SetActive(false);
-        }
-
     }
 
     // RuntimeInitializeOnLoadMethod -> fast playmode without domain reload
@@ -251,7 +245,7 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer)
         {
-            SpeedPlayer += SpeedPlayer == 5 ? 1 : SpeedPlayer  == 6 ? 0 : BuffSpeed; //Ћогика такова. ≈сли скорость игрока в настро€щий момент >= 5 то просто пооставим 6 если нет то прибавим баф. “аким образом мы не будем разгон€тьс€ до бесконечности
+            SpeedPlayer += SpeedPlayer == 5 ? 1 : SpeedPlayer == 6 ? 0 : BuffSpeed; //Ћогика такова. ≈сли скорость игрока в настро€щий момент >= 5 то просто пооставим 6 если нет то прибавим баф. “аким образом мы не будем разгон€тьс€ до бесконечности
 
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
             {
@@ -305,7 +299,7 @@ public class PlayerData : HealthController, ICharacter
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
-        AmmoReload -= AmmoReload == 0 ? 0 : BuffAmmoReload; 
+        AmmoReload -= AmmoReload == 0 ? 0 : BuffAmmoReload;
         BuletRate -= BuletRate == 0 ? 0 : BuffAmmoRate;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
