@@ -111,9 +111,10 @@ public static class Extensions
 
         for (int i = 0; i < t.childCount; i++)
         {
-            if (t.GetChild(i).TryGetComponent<T>(out T _component))
+            if (t.GetChild(i).TryGetComponent<T>(out T _component) && _component != null)
+            {
                 return _component;
-            break;
+            }
         }
 
         return null;
