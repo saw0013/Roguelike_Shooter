@@ -270,7 +270,7 @@ public class PlayerData : HealthController, ICharacter
     {
         //Debug.LogWarning("Damage Есть права " + hasAuthority);
 
-        DamagePlayer += DamagePlayer >= 45 ? 5 : DamagePlayer >= 50 ? 0 : BuffDamage;
+        DamagePlayer += DamagePlayer >= 45 ? 0 : BuffDamage;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemDamageUI)))
         {
