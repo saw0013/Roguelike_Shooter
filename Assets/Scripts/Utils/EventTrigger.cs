@@ -10,6 +10,8 @@ using UnityEngine.Playables;
 using Mirror;
 using Random = UnityEngine.Random;
 using MirrorBasics;
+using UnityEngine.Networking.Types;
+using UnityEngine.UIElements;
 
 //[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider))]
@@ -89,6 +91,7 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
+    //TODO : переделать на TargetRpc как телепорт и двери будут открываться как нужно
     [ClientRpc]
     void RpcTrigger()
     {
@@ -109,9 +112,23 @@ public class EventTrigger : NetworkBehaviour
         _transform.position = newPosition;
     }
 
+   
+    [TargetRpc]
+    public void TargetTeleport(NetworkConnection conn, Transform _transform, Vector3 newPosition) //NetworkConnection - кому передаём команду
+    {
+        // код, который должен быть выполнен только на клиенте с объектом NetworkConnection conn
+        _transform.position = newPosition;
+    }
+
+
     [ServerCallback]
     public void OnTriggerEnter(Collider other)
     {
+        // Проверяем, является ли игрок объектом сети.
+        if (!other.gameObject.GetComponent<NetworkIdentity>()) return;
+
+        var rndRadius = Random.Range(-3, 3);
+
         if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
             if (_once && hasAthorityTrigger) hasAthorityTrigger = false;
@@ -123,24 +140,40 @@ public class EventTrigger : NetworkBehaviour
             {
                 RpcChangeMusic("BattleTheme");
                 var AllWave = MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.GetAllWave();
-                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+                
+                //Ищем матч в котором есть игрок с ConnectionToClient совпадающим с нашим, а затем пройдёмся по игрокам и выполним условие
+                MatchMaker.instance.matches.FirstOrDefault(m => m.players.Any(pm => pm.connectionToClient == other.GetComponent<NetworkMatch>().connectionToClient)).players.ForEach(_player =>
                 {
-                    var _distance = Vector3.Distance(other.transform.position, p.transform.position);
-                    var playerData = p.GetComponent<PlayerData>();
+                    var _distance = Vector3.Distance(other.transform.position, _player.transform.position);
+                    var playerData = _player.GetComponent<PlayerData>();
 
                     playerData.ChangeWaveNuberText("Волна " + 1 + "/" + AllWave);
 
-                    Debug.LogWarning("HP Player on trigger " + playerData._SyncHealth);
-
                     if (_distance > _maxDistanceToPlayer && playerData._SyncHealth > 0)
-                    {
-                        var rndRadius = Random.Range(-3, 3);
-                        //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
-                        RpcTeleport(p.transform, new Vector3(other.transform.position.x + rndRadius, other.transform.position.y, other.transform.position.z + rndRadius));
-                        //Debug.LogWarning($"игрок {p.name} Далеко от игрока {other.name}");
-                    }
-                    //else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
+                        TargetTeleport( _player.GetComponent<NetworkIdentity>().connectionToClient, //Можно использовать _player.gameObject.ObjectNetworkConnection()
+                            _player.transform, 
+                            newPosition: new Vector3(other.transform.position.x + rndRadius, other.transform.position.y, other.transform.position.z + rndRadius));
+                    
                 });
+
+                //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
+                //{
+                //    var _distance = Vector3.Distance(other.transform.position, p.transform.position);
+                //    var playerData = p.GetComponent<PlayerData>();
+
+                //    playerData.ChangeWaveNuberText("Волна " + 1 + "/" + AllWave);
+
+                //    Debug.LogWarning("HP Player on trigger " + playerData._SyncHealth);
+
+                //    if (_distance > _maxDistanceToPlayer && playerData._SyncHealth > 0)
+                //    {
+                //        var rndRadius = Random.Range(-3, 3);
+                //        //p.transform.position = new Vector3(other.transform.position.x + 5, other.transform.position.z + 5);
+                //        RpcTeleport(p.transform, new Vector3(other.transform.position.x + rndRadius, other.transform.position.y, other.transform.position.z + rndRadius));
+                //        //Debug.LogWarning($"игрок {p.name} Далеко от игрока {other.name}");
+                //    }
+                //    //else Debug.LogWarning($"игрок {p.name} близко к игроку {other.name}");
+                //});
 
                 ServerSpawn(other.GetComponent<PlayerMovementAndLookNetwork>().matchID.ToGuid());
                 _managerWave.DeactiveAhtorityDoors();

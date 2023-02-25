@@ -272,8 +272,8 @@ namespace MirrorBasics
 
         public static void AddToListGameManagers(string matchId)
         {
-            GameManagerLogic gml = new GameManagerLogic();
-            gml.MatchID = matchId.ToGuid();
+            GameManagerLogic gml = new GameManagerLogic(matchId.ToGuid());
+            //gml.MatchID = matchId.ToGuid();
             instance.GameManagersLogic.Add(gml);
         }
 

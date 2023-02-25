@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Mono.CSharp;
 using UnityEditor;
 using UnityEngine;
@@ -118,6 +119,27 @@ public static class Extensions
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Получит <see cref="NetworkConnection"/> у игрового объекта
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static NetworkConnection ObjectNetworkConnection(this GameObject obj)
+    {
+        NetworkIdentity netId;
+        if (obj.TryGetComponent<NetworkIdentity>(out netId))
+            return netId.connectionToClient;
+        else return null;
+
+    }
+
+    public static T GetComponentOrDefault<T>(this GameObject obj) where T : Component
+    {
+
+        T component = obj.GetComponent<T>();
+        return component != null ? component : default(T);
     }
 
     private const float GIZMO_DISK_THICKNESS = 0.02f;

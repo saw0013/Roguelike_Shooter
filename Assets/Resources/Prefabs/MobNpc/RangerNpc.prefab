@@ -255,6 +255,9 @@ MonoBehaviour:
   damageTrigger: {fileID: 0}
   _timeAttack: 1
   netAnim: {fileID: 0}
+  hotSpot: {x: 0, y: 0}
+  AttaTexture2D: {fileID: 2800000, guid: aa530a078c6690d46a8a531edd0dd73a, type: 3}
+  NormalTexture2D: {fileID: 2800000, guid: 8e424408ff05c1847bb2b8ffd7d3f93e, type: 3}
 --- !u!114 &7683033327842568160
 MonoBehaviour:
   m_ObjectHideFlags: 0

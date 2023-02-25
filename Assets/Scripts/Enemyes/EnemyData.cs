@@ -9,8 +9,26 @@ using UnityEngine.UI;
 using Cosmo;
 using MirrorBasics;
 
-public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EnemyData : EnemyBehaviour/*, IPointerEnterHandler, IPointerExitHandler*/
 {
+    public Vector2 hotSpot = Vector2.zero; // точка привязки курсора
+ 
+
+    public Texture2D AttaTexture2D;
+    public Texture2D NormalTexture2D;
+
+    private void OnMouseEnter()
+    {
+        if (gameObject.CompareTag("Enemy"))
+        {
+            Cursor.SetCursor(AttaTexture2D, hotSpot, CursorMode.Auto); // смена курсора при наведении на врага
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        Cursor.SetCursor(NormalTexture2D, Vector2.zero, CursorMode.Auto); // возврат стандартного курсора при уходе с объекта
+    }
 
     protected override void Awake()
     {
@@ -30,17 +48,19 @@ public class EnemyData : EnemyBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
-        cursorManager.cursor = cursorManager.cursorAttack;
-    }
+    //public void OnPointerEnter(PointerEventData eventData)
+    //{
+    //    var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+    //    cursorManager.cursor = cursorManager.cursorAttack;
+    //}
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
-        cursorManager.cursor = cursorManager.cursorNormal;
-    }
+    //public void OnPointerExit(PointerEventData eventData)
+    //{
+    //    var cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+    //    cursorManager.cursor = cursorManager.cursorNormal;
+    //}
+
+    
 
     #region BASE class
 

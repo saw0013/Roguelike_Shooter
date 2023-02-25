@@ -349,7 +349,6 @@ public class EnemyBehaviour : HealthController
 
                             else if (typeEnemy == TypeEnemy.RangerBot)
                             {
-                                Debug.LogWarning("Зашли в условие атаки Бота");
                                 if (!Attacked)
                                 {
                                     LookTarget(target);
@@ -411,7 +410,6 @@ public class EnemyBehaviour : HealthController
         }
         else if (typeEnemy == TypeEnemy.RangerBot)
         {
-            Debug.LogWarning("WalkSolider anim agentVelocity = " + agent.desiredVelocity);
             e_anim.anim_WalkSolider(agent.desiredVelocity);
         }
 

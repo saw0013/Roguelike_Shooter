@@ -11,6 +11,8 @@ public class GameManagerLogic
     public List<ManagerWave> Waves;
     public List<EventTrigger> Door;
 
+    public string MatchGuid { get => MatchID.ToString(); }
+
     private int compliteWave;
 
     /// <summary>
@@ -28,10 +30,18 @@ public class GameManagerLogic
     public Guid MatchID
     {
         get => _matchid;
-        set { _matchid = value; }
+        private set { _matchid = value; }
     }
 
     private Guid _matchid;
+
+    public GameManagerLogic(Guid matchID)
+    {
+        MatchID = matchID;
+        players = new List<PlayerMovementAndLookNetwork>();
+        Waves = new List<ManagerWave>();
+        Door = new List<EventTrigger>();
+    }
 
     /// <summary>
     /// ƒобавим игрока в список игровой логики

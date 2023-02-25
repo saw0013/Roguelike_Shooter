@@ -412,8 +412,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         
         NetworkServer.Spawn(Level);
 
-
-
         #region TEST BUFF
         GameObject TestItemBuffS = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
 .FirstOrDefault(x => x.name == "RareItemRed"));
@@ -570,6 +568,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         _mainMenuManager = FindObjectOfType<MainMenuManager>();
         _mainMenuManager.playerData = playerData;
         _mainMenuManager.UploadStatPlayer();
+
     }
 
     private void OnChangeMaterial(int _Old, int _New)
@@ -616,6 +615,18 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         }
 
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F10))
+        {
+            CmdFind();
+        }
+
+    }
+
+    [Command]
+    void CmdFind()
+    {
+        var mat = MatchMaker.instance.matches.FirstOrDefault(p => p.players.Any(pl => pl.connectionToClient == connectionToClient));
+        mat.players.ForEach(p => Debug.LogWarning($"{mat.matchID} Игрок матча {p.connectionToClient}"));
     }
 
     [Command]

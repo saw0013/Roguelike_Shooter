@@ -190,6 +190,7 @@ namespace Cosmoground
             base.OnServerAddPlayer(conn);
             //GameObject player = Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
             //player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+            //player.GetComponent<PlayerMovementAndLookNetwork>().connId = conn.connectionId;
             //NetworkServer.AddPlayerForConnection(conn, player);
         }
 
