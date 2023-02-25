@@ -22,8 +22,12 @@ public class RareItemBullet : MonoBehaviour
     private void Buff(GameObject player)
     {
         _owner = player.GetComponent<PlayerData>();
-        _owner.ChangeBullet(_sizeAdd, _imageItem);
-        _owner.BuffGive++;
+
+        if (_owner._playerBuffController.PickOrDestroy())
+        {
+            _owner.ChangeBullet(_sizeAdd, _imageItem);
+            _owner.BuffGive++;
+        }
 
         Destroy(gameObject);
     }

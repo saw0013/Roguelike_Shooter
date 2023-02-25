@@ -415,6 +415,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
 
         #region TEST BUFF
+        GameObject TestItemBuffS = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
+.FirstOrDefault(x => x.name == "RareItemRed"));
+
+        TestItemBuffS.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
+
+        NetworkServer.Spawn(TestItemBuffS);
 
         GameObject TestItemBuffD = Instantiate((ShooterNetworkManager.singleton).spawnPrefabs
     .FirstOrDefault(x => x.name == "DefaultItemDamage"));

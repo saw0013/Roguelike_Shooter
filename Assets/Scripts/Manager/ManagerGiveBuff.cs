@@ -70,7 +70,7 @@ public class ManagerGiveBuff : NetworkBehaviour
         //Debug.LogWarning("Индекс" + indexBuffs);
 
         int indexBuffs = UnityEngine.Random.Range(0, Buffs.Count);
-        var positionSpawn = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        var positionSpawn = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
         var buff = Instantiate(Buffs[indexBuffs], positionSpawn, Quaternion.identity);
         buff.GetComponent<NetworkMatch>().matchId = GetComponent<NetworkMatch>().matchId;
         NetworkServer.Spawn(buff);

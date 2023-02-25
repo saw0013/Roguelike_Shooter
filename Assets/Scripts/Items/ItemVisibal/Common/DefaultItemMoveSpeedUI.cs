@@ -8,7 +8,7 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
 
     private float timeBuff = 60;
 
-    private PlayerData owner;
+    //private PlayerData owner;
 
     private bool isDestroy = false;
 
@@ -29,24 +29,25 @@ public class DefaultItemMoveSpeedUI : MonoBehaviour
             }
             else
             {
-                //textTime.gameObject.SetActive(false);
+                textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 0.4f), 2, false, true);
-                owner.CmdStopBuffMoveSpeed();
+                var owner = GetComponentInParent<PlayerData>();
+                owner.StopBuffMoveSpeed();
                 isDestroy = true;
             }
         }
     }
 
-    public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
+    //public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
 
     public void UpdateBuff()
     {
         //Заново формируем таймер
         timeBuff += 60;
         isDestroy = false;
-        textTime.text = "";
         //Снова включаем таймер
-        //textTime.gameObject.SetActive(true);
+        textTime.gameObject.SetActive(true);
+
         GetComponent<Image>().CrossFadeColor(new Color(1, 1, 0, 1f), 2, false, true);
         
     }

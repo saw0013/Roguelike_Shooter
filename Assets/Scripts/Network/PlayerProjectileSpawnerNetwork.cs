@@ -177,18 +177,31 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
         _sliderCatridges.value -= 0.01f;
         SliderAction(1);
         ReloadText();
-        CmdSpawnBullet();
+
+        var sizeBulletLocal = GetComponentInParent<PlayerData>().SizeBullet;
+
+        var damagePlayerLocal = GetComponentInParent<PlayerData>().DamagePlayer;
+        CmdSpawnBullet(damagePlayerLocal, sizeBulletLocal);
     }
 
 
     [Command] //позволяет локальному проигрывателю удаленно вызывать эту функцию на серверной копии объекта
-    public void CmdSpawnBullet()
+    public void CmdSpawnBullet(int damage, float size)
     {
+        Debug.LogWarning("Size bullet = " + size);
+
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
-        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 5;
-        bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = playerData.DamagePlayer;
         bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
-        bullet.GetComponent<BulletPool>().OnSpawnBullet(2, playerData.SizeBullet);
+
+        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 5;
+
+        Debug.LogWarning("DamageToPlayer value = " + bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue);
+
+        bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = damage;
+
+        Debug.LogWarning("DamageToEnemy value = " + bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue);
+
+        bullet.GetComponent<BulletPool>().OnSpawnBullet(2, size);
         bullet.GetComponent<BulletPool>().Init(gameObject);
         playerData.AmmoWasted++;
         //NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.

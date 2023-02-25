@@ -179,26 +179,25 @@ public class PlayerData : HealthController, ICharacter
     {
         if (isLocalPlayer) //Просто проверить Наверное так и надо делать. Нужно проверить если будут подбираться по 2 бафа далее
         {
-            var _newMaxHealth = (int)base.maxHealth + (int)maxHealth;
+            var _newMaxHealth = MaxHealth + (int)maxHealth;
 
             MaxHealth = _newMaxHealth;
-            _healthSlider.maxValue += _newMaxHealth / 100;
-            _healthSliderRpc.maxValue += _newMaxHealth / 100;
-            _healthDamageSlider.maxValue += _newMaxHealth / 100;
-            _healthDamageSliderRpc.maxValue += _newMaxHealth / 100;
+            _healthSlider.maxValue = _newMaxHealth / 100;
+            _healthSliderRpc.maxValue = _newMaxHealth / 100;
+            _healthDamageSlider.maxValue = _newMaxHealth / 100;
+            _healthDamageSliderRpc.maxValue = _newMaxHealth / 100;
 
             ClientServerChangeHp(_newMaxHealth);//?
             LocalShowHP(_newMaxHealth);//?Исправлю. Но скорее всего так и оставлю не меняй!!!           
             if (!_playerBuffController.BuffIsExist(nameof(DefaultItemHPUI)))
             {
                 var _item = Instantiate(item, ItemsGrind);
-                _item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
+                //_item.GetComponent<DefaultItemHPUI>().RegisterOwner(this);
             }
         }
     }
 
     #endregion
-
 
     #region CommonGuard
 
@@ -209,22 +208,19 @@ public class PlayerData : HealthController, ICharacter
     /// <param name="item"></param>
     public void ChangeGuard(int BuffGuard, GameObject item)
     {
-
-        guardPlayer += BuffGuard;
+        guardPlayer += guardPlayer >= 40 ? 0 : BuffGuard;
         _textGuard.text = $"Щит: {guardPlayer}";
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemGuardUI)))
         {
             var _item = Instantiate(item, ItemsGrind);
-            _item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
+            //_item.GetComponent<DefaultItemGuardUI>().RegisterOwner(this);
         }
         else
         {
             var _findedItem = ItemsGrind.FindChildObjectByType<DefaultItemGuardUI>();
             if (_findedItem) _findedItem.GetComponent<DefaultItemGuardUI>().UpdateBuff();
         }
-
-
     }
 
     public void StopBuffGuard()
@@ -250,7 +246,7 @@ public class PlayerData : HealthController, ICharacter
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemMoveSpeedUI)))
         {
             var _item = Instantiate(item, ItemsGrind);
-            _item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
+            //_item.GetComponent<DefaultItemMoveSpeedUI>().RegisterOwner(this);
         }
         else
         {
@@ -261,9 +257,7 @@ public class PlayerData : HealthController, ICharacter
 
     }
 
-
-    [Command]
-    public void CmdStopBuffMoveSpeed()
+    public void StopBuffMoveSpeed()
     {
         SpeedPlayer = _speedStart;
     }
@@ -276,12 +270,12 @@ public class PlayerData : HealthController, ICharacter
     {
         //Debug.LogWarning("Damage Есть права " + hasAuthority);
 
-        DamagePlayer += DamagePlayer == 45 ? 5 : DamagePlayer == 50 ? 0 : BuffDamage;
+        DamagePlayer += DamagePlayer >= 45 ? 5 : DamagePlayer >= 50 ? 0 : BuffDamage;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemDamageUI)))
         {
             var _item = Instantiate(item, ItemsGrind);
-            _item.GetComponent<DefaultItemDamageUI>().RegisterOwner(this);
+            //_item.GetComponent<DefaultItemDamageUI>().RegisterOwner(this);
         }
         else
         {
@@ -299,13 +293,13 @@ public class PlayerData : HealthController, ICharacter
     #region CommonAmmo
     public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
-        AmmoReload -= AmmoReload == 0 ? 0 : BuffAmmoReload;
-        BuletRate -= BuletRate == 0 ? 0 : BuffAmmoRate;
+        AmmoReload -= AmmoReload <= 1 ? 0 : BuffAmmoReload;
+        BuletRate -= BuletRate <= 0.05f ? 0 : BuffAmmoRate;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
         {
             var _item = Instantiate(item, ItemsGrind);
-            _item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
+            //_item.GetComponent<DefaultItemAmmoUI>().RegisterOwner(this);
         }
         else
         {
@@ -330,6 +324,14 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeBullet(float BuffBullet, GameObject item)
     {
+        SizeBullet += SizeBullet == 0.5f ? 0 : BuffBullet;
+
+        if (!_playerBuffController.BuffIsExist(nameof(RareItemBulletUI)))
+        {
+            var _item = Instantiate(item, ItemsGrind);
+            //_item.GetComponent<RareItemBulletUI>().RegisterOwner(this);
+        }
+
         //Debug.LogWarning("Нету прав");
         //if (hasAuthority)
         //{
@@ -337,9 +339,6 @@ public class PlayerData : HealthController, ICharacter
         //    SizeBullet += BuffBullet;
         //}
         //TargetChangeBullet(BuffBullet);
-        var _item = Instantiate(item, ItemsGrind);
-        _item.GetComponent<RareItemBulletUI>().RegisterOwner(this);
-        SizeBullet += BuffBullet;
     }
 
 
@@ -385,7 +384,6 @@ public class PlayerData : HealthController, ICharacter
     /// </summary>
     /// <param name="setDead"></param>
     public void SetPlayerDead(bool setDead) { Debug.LogWarning("Ставим переменную bool о том что персонаж умер"); }
-
 
     public bool GetPlayerDead() => _player;
 

@@ -411,7 +411,8 @@ public class EnemyBehaviour : HealthController
         }
         else if (typeEnemy == TypeEnemy.RangerBot)
         {
-            e_anim.anim_WalkSolider(agent.velocity);
+            Debug.LogWarning("WalkSolider anim agentVelocity = " + agent.desiredVelocity);
+            e_anim.anim_WalkSolider(agent.desiredVelocity);
         }
 
     }

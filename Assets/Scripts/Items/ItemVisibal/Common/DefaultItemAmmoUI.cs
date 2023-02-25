@@ -10,7 +10,7 @@ public class DefaultItemAmmoUI : MonoBehaviour
 
     private float timeBuff = 60;
 
-    private PlayerData owner;
+    //private PlayerData owner;
 
     private bool isDestroy = false;
 
@@ -34,13 +34,14 @@ public class DefaultItemAmmoUI : MonoBehaviour
             {
                 textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(0.5f, 0, 1, 0.4f), 2, false, true);
+                var owner = GetComponentInParent<PlayerData>();
                 owner.StopBuffAmmo();
                 isDestroy = true;
             }
         }
     }
 
-    public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
+    //public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
 
     public void UpdateBuff()
     {
@@ -51,6 +52,5 @@ public class DefaultItemAmmoUI : MonoBehaviour
         //Снова включаем таймер
         textTime.gameObject.SetActive(true);
         GetComponent<Image>().CrossFadeColor(new Color(0.5f, 0, 1, 1f), 2, false, true);
-
     }
 }

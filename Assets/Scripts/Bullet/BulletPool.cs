@@ -46,7 +46,9 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == _owner) return;
+        //if (collision.gameObject == _owner) return;
+
+        Debug.LogWarning("Owner = " + _owner.name);
 
         switch (collision.gameObject.tag)
         {
@@ -102,7 +104,11 @@ public class BulletPool : NetworkBehaviour
     public void OnSpawnBullet(int force, float size)
     {
         ForceShoot = force;
+        Debug.LogWarning("Start Size = " + transform.localScale);
+
         transform.localScale = new Vector3(size, size, size);
+
+        Debug.LogWarning("End Size = " + transform.localScale);
     }
 
    

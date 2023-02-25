@@ -8,7 +8,7 @@ public class DefaultItemGuardUI : MonoBehaviour
 
     private float timeBuff = 60;
 
-    private PlayerData owner;
+    //private PlayerData owner;
 
     private bool isDestroy = false;
 
@@ -32,13 +32,14 @@ public class DefaultItemGuardUI : MonoBehaviour
             {
                 textTime.gameObject.SetActive(false);
                 GetComponent<Image>().CrossFadeColor(new Color(0, 0, 1, 0.4f), 2, false, true);
+                var owner = GetComponentInParent<PlayerData>();
                 owner.StopBuffGuard();
                 isDestroy = true;
             }
         }
     }
 
-    public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
+    //public void RegisterOwner(PlayerData ownerItem) => owner = ownerItem;
 
     public void UpdateBuff()
     {
