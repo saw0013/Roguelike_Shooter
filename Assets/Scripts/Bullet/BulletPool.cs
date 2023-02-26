@@ -12,6 +12,8 @@ public class BulletPool : NetworkBehaviour
     public Damage DamageToPlayer;
     public Damage DamageToEnemy;
 
+    [SyncVar] public float Size;
+
     public int ForceShoot = 1000;
 
     private Rigidbody _rigidbody;
@@ -33,6 +35,10 @@ public class BulletPool : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        RpcChangeSize();
+    }
 
     private void Update()
     {
@@ -61,8 +67,26 @@ public class BulletPool : NetworkBehaviour
                 _damageToPlayer.sender = transform;
                 _damageToPlayer.receiver = collision.transform;
 
-                if (!_owner) _damageToPlayer.damageValue -= collision.gameObject.GetComponent<PlayerData>().guardPlayer;
-                else _damageToPlayer.damageValue = 5;
+                //if (!_owner)
+                //{
+                //    var guard = collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100;
+                //    Debug.LogWarning("Guard = " + guard);
+                //    var damage = _damageToPlayer.damageValue * (1 - guard);
+                //    Debug.LogWarning("Damage = " + guard);
+                //    _damageToPlayer.damageValue = damage;
+                //}
+                //else _damageToPlayer.damageValue = 5;
+
+                var player = _owner.gameObject?.GetComponent<PlayerData>();
+
+                if(player != null)
+                {
+                    var guard = collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100;
+                    Debug.LogWarning("Guard = " + guard);
+                    int damage = _damageToPlayer.damageValue * (1 - guard);
+                    Debug.LogWarning("Damage = " + damage);
+                    _damageToPlayer.damageValue = damage;
+                }
 
                 if (_owner) ClaimScore(_owner, -5);
                 collision.gameObject.ApplyDamage(_damageToPlayer);
@@ -97,16 +121,20 @@ public class BulletPool : NetworkBehaviour
 
         Destroy(gameObject);
     }
-    
+
 
     public void OnSpawnBullet(int force, float size)
     {
         ForceShoot = force;
-
-        transform.localScale = new Vector3(size, size, size);
-
+        Size = size;
     }
 
+    [ClientRpc]
+    private void RpcChangeSize()
+    {
+        Debug.LogWarning("Size bullet = " + Size);
+        transform.localScale = new Vector3(Size, Size, Size);
+    }
    
     void RpcParticles(GameObject prefabParticle)
     {

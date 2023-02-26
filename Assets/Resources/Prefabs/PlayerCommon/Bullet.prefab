@@ -304,6 +304,7 @@ MonoBehaviour:
     reaction_id: 0
     damageType: projectile
     force: {x: 0, y: 0, z: 0}
+  Size: 0.05
   ForceShoot: 1
   _lifeBullet: 4
   _owner: {fileID: 0}

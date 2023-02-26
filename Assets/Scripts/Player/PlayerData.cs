@@ -38,15 +38,15 @@ public class PlayerData : HealthController, ICharacter
     private bool EscapeMenuActive;
     public Transform ItemsGrind;
 
-    public int SpeedPlayer;
-    public int DamagePlayer;
-    public float BuletRate;
-    public int MaxCartridges;
+    [SyncVar] public int SpeedPlayer;
+    [SyncVar] public int DamagePlayer;
+    [SyncVar] public int MaxCartridges;
 
-    public float AmmoReload;
-    public float SizeBullet;
+    [SyncVar] public float BuletRate;
+    [SyncVar] public float AmmoReload;
+    [SyncVar] public float SizeBullet;
 
-    public int guardPlayer;
+    [SyncVar] public int guardPlayer;
 
     [SerializeField] private float _startAmmoReload;
     [SerializeField] private float _startRateBulet;
@@ -294,7 +294,7 @@ public class PlayerData : HealthController, ICharacter
     public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
         AmmoReload -= AmmoReload <= 1 ? 0 : BuffAmmoReload;
-        BuletRate -= BuletRate <= 0.05f ? 0 : BuffAmmoRate;
+        BuletRate -= BuletRate <= 0.1f ? 0 : BuffAmmoRate;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
         {
