@@ -12,7 +12,7 @@ public class BulletPool : NetworkBehaviour
     public Damage DamageToPlayer;
     public Damage DamageToEnemy;
 
-    [SyncVar] public float Size;
+    public float Size;
 
     public int ForceShoot = 1000;
 
@@ -37,7 +37,7 @@ public class BulletPool : NetworkBehaviour
 
     private void Start()
     {
-        RpcChangeSize();
+        //ChangeSize();
     }
 
     private void Update()
@@ -64,28 +64,20 @@ public class BulletPool : NetworkBehaviour
                 }
 
                 var _damageToPlayer = new Damage(DamageToPlayer);
-                _damageToPlayer.sender = transform;
                 _damageToPlayer.receiver = collision.transform;
 
-                //if (!_owner)
-                //{
-                //    var guard = collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100;
-                //    Debug.LogWarning("Guard = " + guard);
-                //    var damage = _damageToPlayer.damageValue * (1 - guard);
-                //    Debug.LogWarning("Damage = " + guard);
-                //    _damageToPlayer.damageValue = damage;
-                //}
-                //else _damageToPlayer.damageValue = 5;
+                
+               if(_damageToPlayer.sender.CompareTag("Enemy"))
+               {
+                    var guard = (float)collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100f;
 
-                var player = _owner.gameObject?.GetComponent<PlayerData>();
-
-                if(player != null)
-                {
-                    var guard = collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100;
                     Debug.LogWarning("Guard = " + guard);
-                    int damage = _damageToPlayer.damageValue * (1 - guard);
+
+                    float damage = _damageToPlayer.damageValue * (1 - guard);
+
                     Debug.LogWarning("Damage = " + damage);
-                    _damageToPlayer.damageValue = damage;
+
+                    _damageToPlayer.damageValue = (int)damage;
                 }
 
                 if (_owner) ClaimScore(_owner, -5);
@@ -127,10 +119,10 @@ public class BulletPool : NetworkBehaviour
     {
         ForceShoot = force;
         Size = size;
+        ChangeSize();
     }
 
-    [ClientRpc]
-    private void RpcChangeSize()
+    private void ChangeSize()
     {
         Debug.LogWarning("Size bullet = " + Size);
         transform.localScale = new Vector3(Size, Size, Size);

@@ -430,6 +430,7 @@ public class EnemyBehaviour : HealthController
         //bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
         //bullet.GetComponent<BulletPool>().Init(gameObject);
         //NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
+        if(NetworkClient.active) return;
         RpcSpawnBullet();
     }
 
@@ -438,6 +439,8 @@ public class EnemyBehaviour : HealthController
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation); //Создаем локальный объект пули
         bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = damage.damageValue;
+        bullet.GetComponent<BulletPool>().DamageToPlayer.sender = this.transform;
+
         //bullet.GetComponent<NetworkMatch>().matchId = this.GetComponent<NetworkMatch>().matchId;
         //bullet.GetComponent<BulletPool>().Init(gameObject);
     }

@@ -24,6 +24,7 @@ namespace MirrorBasics {
         [SerializeField] GameObject UIPlayerPrefab;
         [SerializeField] Text matchIDText;
         [SerializeField] GameObject beginGameButton;
+        public TMP_Text TextStatusGame; //Статус комнаты
 
         GameObject localPlayerLobbyUI;
 
@@ -38,13 +39,13 @@ namespace MirrorBasics {
 
         public void HostPublic () {
             lobbySelectables.ForEach (x => x.interactable = false);
-
+            TextStatusGame.text = "Вы публичный хост";
             PlayerMovementAndLookNetwork.localPlayer.HostGame (true);
         }
 
         public void HostPrivate () {
             lobbySelectables.ForEach (x => x.interactable = false);
-
+            TextStatusGame.text = "Вы приватный хост";
             PlayerMovementAndLookNetwork.localPlayer.HostGame (false);
         }
 
@@ -55,6 +56,8 @@ namespace MirrorBasics {
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
                 localPlayerLobbyUI = SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork.localPlayer);
                 matchIDText.text = matchID;
+
+                TextStatusGame.text = "Хост подтверждён";
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
             }
@@ -73,6 +76,7 @@ namespace MirrorBasics {
                 if (localPlayerLobbyUI != null) Destroy (localPlayerLobbyUI);
                 localPlayerLobbyUI = SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork.localPlayer);
                 matchIDText.text = matchID;
+                TextStatusGame.text = "Ожидайте лидера лобби...";
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
             }

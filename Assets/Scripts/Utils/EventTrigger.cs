@@ -92,8 +92,8 @@ public class EventTrigger : NetworkBehaviour
     #region Trigger Methods
 
     //TODO : переделать на TargetRpc как телепорт и двери будут открываться как нужно
-    [ClientRpc]
-    void RpcTrigger()
+    [TargetRpc]
+    void TargetTrigger(NetworkConnection conn)
     {
         StartCoroutine(OnTrigEnter());
     }
@@ -104,12 +104,6 @@ public class EventTrigger : NetworkBehaviour
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();
 
         musicManager.ChangeMusic(Music);
-    }
-
-    [ClientRpc]
-    public void RpcTeleport(Transform _transform, Vector3 newPosition)
-    {
-        _transform.position = newPosition;
     }
 
    
@@ -132,10 +126,13 @@ public class EventTrigger : NetworkBehaviour
         if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
             if (_once && hasAthorityTrigger) hasAthorityTrigger = false;
-            //MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).TestCmd();
-            //StartCoroutine(OnTrigEnter());
-            RpcTrigger();
+
+            MatchMaker.instance.matches.FirstOrDefault(m => m.players.Any(pm => pm.connectionToClient == other.GetComponent<NetworkMatch>().connectionToClient)).players.ForEach(_player =>
+            {
+                TargetTrigger(_player.GetComponent<NetworkIdentity>().connectionToClient);
+            });
             isTriggered = true;
+
             if (spawningWho != SpawningNPC.None)
             {
                 RpcChangeMusic("BattleTheme");

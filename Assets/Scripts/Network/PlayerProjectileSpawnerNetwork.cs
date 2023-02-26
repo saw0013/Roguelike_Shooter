@@ -4,6 +4,7 @@ using Mirror;
 using FMODUnity;
 using DG.Tweening;
 using MirrorBasics;
+using System.Drawing;
 
 public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     [SerializeField] private Slider _sliderCatridges;
     [SerializeField] private Image _imageSliderCartridges;
 
-    private Color deffualtColorSlider;
+    private UnityEngine.Color deffualtColorSlider;
 
     [Header("Input")]
     public KeyCode spawnKey = KeyCode.Mouse0;
@@ -96,7 +97,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
                 {
                     timerReload += Time.deltaTime;
 
-                    var _tweenReload = _imageSliderCartridges.DOColor(Color.black, 0.1f);
+                    var _tweenReload = _imageSliderCartridges.DOColor(UnityEngine.Color.black, 0.1f);
                     _tweenReload.OnComplete(() => _imageSliderCartridges.DOColor(deffualtColorSlider, 0.1f));
 
                     SliderAction(0);
@@ -136,7 +137,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
             case 1:
 
-                var _tweenOn = _imageSliderCartridges.DOColor(Color.red, 0.1f);
+                var _tweenOn = _imageSliderCartridges.DOColor(UnityEngine.Color.red, 0.1f);
                 _tweenOn.OnComplete(() => _imageSliderCartridges.DOColor(deffualtColorSlider, 0.1f));
 
                 break;
@@ -195,19 +196,23 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
         bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = damage;
 
+        bullet.GetComponent<BulletPool>().DamageToPlayer.sender = transform;
+
         bullet.GetComponent<BulletPool>().OnSpawnBullet(2, size);
         bullet.GetComponent<BulletPool>().Init(gameObject);
         playerData.AmmoWasted++;
         //NetworkServer.Spawn(bullet); //отправляем информацию о сетевом объекте всем игрокам.
 
-        RpcSpawnBullet();
+        RpcSpawnBullet(size);
     }
 
     [ClientRpc] //позволяет серверу удаленно вызывать эту функцию для всех клиентских копий объекта
-    public void RpcSpawnBullet()
+    public void RpcSpawnBullet(float size)
     {
         var bullet = Instantiate(_bullet.gameObject, _spawnPoint.position, _spawnPoint.rotation);
-        //bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 0;
+        bullet.GetComponent<BulletPool>().OnSpawnBullet(2, size);
+        bullet.GetComponent<BulletPool>().DamageToPlayer.damageValue = 0;
+        bullet.GetComponent<BulletPool>().DamageToPlayer.sender = transform;
         //bullet.GetComponent<BulletPool>().DamageToEnemy.damageValue = playerData.DamagePlayer;
         //bullet.GetComponent<NetworkMatch>().matchId = /*playerNetwork.networkMatch.matchId*/playerNetwork.matchID.ToGuid();
         //bullet.GetComponent<BulletPool>().OnSpawnBullet(2, playerData.SizeBullet);

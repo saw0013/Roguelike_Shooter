@@ -294,7 +294,7 @@ public class PlayerData : HealthController, ICharacter
     public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
         AmmoReload -= AmmoReload <= 1 ? 0 : BuffAmmoReload;
-        BuletRate -= BuletRate <= 0.1f ? 0 : BuffAmmoRate;
+        BuletRate -= BuletRate <= 0.01f ? 0 : BuffAmmoRate;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
         {
@@ -324,7 +324,7 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeBullet(float BuffBullet, GameObject item)
     {
-        SizeBullet += SizeBullet == 0.5f ? 0 : BuffBullet;
+        SizeBullet += SizeBullet == 0.01f ? 0 : BuffBullet;
 
         if (!_playerBuffController.BuffIsExist(nameof(RareItemBulletUI)))
         {

@@ -104,6 +104,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     [SyncVar] public string inScene = "";
 
+    [SyncVar] public string StatusGame = "";
+
     internal NetworkMatch networkMatch;
 
     public string MymatchID;
@@ -362,11 +364,11 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [Command]
     void CmdBeginGame()
     {
-        //FADE OUT через матчмейкер
-        //MatchMaker.ManagerLogic(networkMatch.matchId).players.ForEach(p => { RpcBeginFade(p); });
         MatchMaker.instance.BeginGame(matchID);
 
-        Debug.Log($"<color=red>Game Beginning</color>");
+       
+
+     Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
 
@@ -469,19 +471,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     }
 
 
-    public void BeginFade()
-    {
-        MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
-        {
-            var MainMenuManager = p.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager;
-            MainMenuManager.Fade();
-        });
-
-        //_mainMenuManager = FindObjectOfType<MainMenuManager>();
-        //Debug.LogWarning(_mainMenuManager.name);
-        //_mainMenuManager.Fade();
-    }
-
     [Command]
     void CmdUpdateStat(string[] arr)
     {
@@ -496,7 +485,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void TargetBeginGame()
     {
         var arr = PlayerPrefs.GetString("TypePilotStat").Split(new[] { "," }, StringSplitOptions.None);
-        Debug.LogWarning($"Урон == {int.Parse(arr[1])}");
+        //Debug.LogWarning($"Урон == {int.Parse(arr[1])}");
         CmdUpdateStat(arr);
 
         var musicManager = GameObject.Find("MusicManager").GetComponent<ChangeTheme>();

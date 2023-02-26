@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ammoReload: 1
-  _ammoRate: 0.05
+  _ammoRate: 0.001
   _imageItem: {fileID: 1024832678030775063, guid: d1beab7c09ba7284eb5eaf734eff35aa, type: 3}
 --- !u!1 &8298133919400648681
 GameObject:

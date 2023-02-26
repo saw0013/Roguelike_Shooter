@@ -185,10 +185,7 @@ namespace MirrorBasics
                     matches[i].inMatch = true;
                     foreach (var player in matches[i].players)
                     {
-                        player.BeginFade(); //Вызывается только на сервере. Так как MainMenuManager не сетевой, вызов происходит только там
                         player.StartGame();
-
-                       // ManagerLogic(_matchID.ToGuid()).players.ForEach(p => { p.BeginFade(); }); //Не испробована
                     }
                     break;
                 }

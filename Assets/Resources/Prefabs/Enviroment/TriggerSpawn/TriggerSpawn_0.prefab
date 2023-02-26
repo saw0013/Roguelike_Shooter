@@ -124,7 +124,7 @@ MonoBehaviour:
   isTriggered: 0
   hasAthorityTrigger: 1
   _maxDistanceToPlayer: 5
-  spawningWho: 3
+  spawningWho: 4
   _managerWave: {fileID: 4096355483860449015}
   OnEnterTrigger:
     m_PersistentCalls:
@@ -148,7 +148,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _allWawe: 4
-  EnemyToWave: 01000000020000000100000002000000
+  EnemyToWave: 02000000030000000400000006000000
   TimeDelayToWave: 5
   _firstIndexDoorClose: 1
   currentWave: 0
