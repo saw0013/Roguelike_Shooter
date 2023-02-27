@@ -54,7 +54,7 @@ public class GameManagerLogic
         players.Add(player);
     }
 
-    public void ActiveNextManagerWave()
+    public bool ActiveNextManagerWave()
     {
         compliteWave++;
 
@@ -62,17 +62,19 @@ public class GameManagerLogic
 
         if(Waves.Count <= compliteWave)
         {
-            players.ForEach(p =>
-            {
-                var player = p.GetComponent<PlayerData>();
+            return false;
+            //players.ForEach(p =>
+            //{
+            //    var player = p.GetComponent<PlayerData>();
 
-                player.ShowStat();
+            //    player.ShowStat();
 
-            });
+            //});
         }
         else
         {
             Waves[compliteWave].isActive = true;
+            return true;
         }
     }
 

@@ -324,7 +324,7 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeBullet(float BuffBullet, GameObject item)
     {
-        SizeBullet += SizeBullet == 0.01f ? 0 : BuffBullet;
+        SizeBullet += SizeBullet >= 0.01f ? 0 : BuffBullet;
 
         if (!_playerBuffController.BuffIsExist(nameof(RareItemBulletUI)))
         {

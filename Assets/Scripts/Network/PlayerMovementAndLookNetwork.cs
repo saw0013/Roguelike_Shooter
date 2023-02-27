@@ -506,6 +506,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
+        Debug.Log("PLAYER GUID" + matchID.ToGuid());
     }
 
     #endregion

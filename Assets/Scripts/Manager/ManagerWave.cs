@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using Mirror;
 using MirrorBasics;
@@ -85,7 +86,15 @@ public class ManagerWave : NetworkBehaviour
 
                 ActiveAhtorityDoors();
                 isActive = false;
-                MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave();
+                if (!MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveNextManagerWave())
+                {
+                    Debug.LogWarning("MATCHID" + GetComponent<NetworkMatch>().matchId);
+                    MatchMaker.instance.matches.FirstOrDefault(m => m.matchID.ToGuid() == GetComponent<NetworkMatch>().matchId).players.ForEach(_player =>
+                    {
+                        TargetPlayerShowStat(_player.GetComponent<NetworkIdentity>().connectionToClient, _player.GetComponent<PlayerData>());
+                    });
+                }
+
                 MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).players.ForEach(p =>
                 {
                     var player = p.GetComponent<PlayerData>();
@@ -93,6 +102,12 @@ public class ManagerWave : NetworkBehaviour
                 });
             }
         }
+    }
+
+    [TargetRpc]
+    void TargetPlayerShowStat(NetworkConnection conn, PlayerData pdata)
+    {
+        pdata.ShowStat();
     }
 
     private void NextSpawnEnemy()
