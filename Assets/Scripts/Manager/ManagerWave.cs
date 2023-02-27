@@ -16,8 +16,6 @@ public class ManagerWave : NetworkBehaviour
 
     [SerializeField] private int[] EnemyToWave;
 
-    [SerializeField] private float TimeDelayToWave;
-
     [SerializeField] private int _firstIndexDoorClose;
 
     public int currentWave;
@@ -31,8 +29,6 @@ public class ManagerWave : NetworkBehaviour
     bool isStartedAddEnemy = false; //Заглушка
 
     private Dictionary<int, int> EnemyToCurrentWave = new Dictionary<int, int>();
-
-    private int localSetWave;
 
     private void Start()
     {

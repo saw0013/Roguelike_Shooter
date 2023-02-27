@@ -14,6 +14,6 @@ public class DestroyOnTriggerNetwork : NetworkBehaviour
     {
         await System.Threading.Tasks.Task.Delay(500);
         //gameObject.SetActive(false);
-        Destroy(gameObject);
+        if(gameObject) Destroy(gameObject);
     }
 }

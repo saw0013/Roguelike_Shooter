@@ -124,6 +124,13 @@ public class EventTrigger : NetworkBehaviour
 
         if (other.CompareTag("Player") && !isTriggered && hasAthorityTrigger)
         {
+            if(_managerWave?.isActive == false)
+            {
+                Vector3 newPosition = new Vector3(other.transform.position.x, other.transform.position.y - 5, other.transform.position.z);
+                TargetTeleport(other.GetComponent<NetworkIdentity>().connectionToClient, other.transform, newPosition);
+                return;
+            }
+
             if (_once && hasAthorityTrigger) hasAthorityTrigger = false;
 
             MatchMaker.instance.matches.FirstOrDefault(m => m.players.Any(pm => pm.connectionToClient == other.GetComponent<NetworkMatch>().connectionToClient)).players.ForEach(_player =>
@@ -237,9 +244,10 @@ public class EventTrigger : NetworkBehaviour
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.AddInListEnemy(npc);
 
         rp.Remove(StartPointNpc); //”далим эту точку, чтобы следующий паук не заспавнилс€ там же
-        yield return new WaitForSeconds(1.0f); //∆дЄм чтобы начать новый спавн
+        yield return new WaitForSeconds(0.5f); //∆дЄм чтобы начать новый спавн
+        ServerSpawn(matchID);
+        yield return new WaitForSeconds(1.5f);
         Destroy(PreSpawn); //”далим партиклы спавна
-        ServerSpawn(matchID); 
     }
 
     [ServerCallback]

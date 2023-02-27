@@ -4641,7 +4641,7 @@ MonoBehaviour:
   isImmortal: 0
   removeComponentsAfterDie: 0
   fillHealthOnStart: 1
-  maxHealth: 350
+  maxHealth: 500
   _SyncHealth: 1
   _healthRecovery: 0
   healthRecoveryDelay: 0
@@ -4795,7 +4795,7 @@ MonoBehaviour:
   purpose: {fileID: 0}
   isShowGizmos: 1
   damage:
-    damageValue: 15
+    damageValue: 45
     ignoreDefense: 0
     activeRagdoll: 0
     senselessTime: 0
@@ -4810,6 +4810,9 @@ MonoBehaviour:
   damageTrigger: {fileID: 2754921565222824068}
   _timeAttack: 2.37
   netAnim: {fileID: 0}
+  hotSpot: {x: 0, y: 0}
+  AttaTexture2D: {fileID: 0}
+  NormalTexture2D: {fileID: 0}
 --- !u!114 &5830418239253413349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4825,7 +4828,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  playerAnimator: {fileID: 3635997727726020678}
 --- !u!114 &-885822764471734934
 MonoBehaviour:
   m_ObjectHideFlags: 0

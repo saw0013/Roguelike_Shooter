@@ -146,7 +146,7 @@ MonoBehaviour:
   isImmortal: 0
   removeComponentsAfterDie: 0
   fillHealthOnStart: 1
-  maxHealth: 200
+  maxHealth: 450
   _SyncHealth: 0
   _healthRecovery: 0
   healthRecoveryDelay: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
     damageType: projectile
     force: {x: 0, y: 0, z: 0}
   damageTrigger: {fileID: 0}
-  _timeAttack: 1
+  _timeAttack: 0.5
   netAnim: {fileID: 0}
   hotSpot: {x: 0, y: 0}
   AttaTexture2D: {fileID: 2800000, guid: aa530a078c6690d46a8a531edd0dd73a, type: 3}

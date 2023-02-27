@@ -19,6 +19,7 @@ public class ManagerGiveBuff : NetworkBehaviour
     [SerializeField] private int EpicChance;
     [SerializeField] private int LegenderyChance;
     //TODO : Сделать рандом на выпадение 20%
+
     public void SpawnBuff()
     {
         CmdSpawnBuff();
@@ -27,6 +28,10 @@ public class ManagerGiveBuff : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void CmdSpawnBuff(NetworkConnectionToClient sender = null)
     {
+        var chanceSpawnBuff = UnityEngine.Random.Range(0f, 1f);
+
+        if (chanceSpawnBuff > 0.2f) return;
+
         var Chance = UnityEngine.Random.Range(1, 101);
 
         //Debug.LogWarning(Chance);
