@@ -91,7 +91,6 @@ public class EventTrigger : NetworkBehaviour
 
     #region Trigger Methods
 
-    //TODO : переделать на TargetRpc как телепорт и двери будут открыватьс€ как нужно
     [TargetRpc]
     void TargetTrigger(NetworkConnection conn)
     {
@@ -238,7 +237,7 @@ public class EventTrigger : NetworkBehaviour
         MatchMaker.ManagerLogic(GetComponent<NetworkMatch>().matchId).ActiveWave.AddInListEnemy(npc);
 
         rp.Remove(StartPointNpc); //”далим эту точку, чтобы следующий паук не заспавнилс€ там же
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f); //∆дЄм чтобы начать новый спавн
         Destroy(PreSpawn); //”далим партиклы спавна
         ServerSpawn(matchID); 
     }
@@ -250,9 +249,6 @@ public class EventTrigger : NetworkBehaviour
         {
             if (_managerWave == null) return;
 
-            //if(_managerWave.matchId == null) _managerWave.matchId = matchID;
-
-            //if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             if (_managerWave.GetEnemySpawned() < _managerWave.GetEnemySpawn())
             {
                 SpawningNPC NPCSpawn = new SpawningNPC();

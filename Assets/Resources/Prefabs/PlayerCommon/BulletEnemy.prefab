@@ -326,7 +326,7 @@ MonoBehaviour:
   target: {fileID: 3607918559644205627}
   clientAuthority: 0
   syncPosition: 1
-  syncRotation: 1
+  syncRotation: 0
   syncScale: 0
   showGizmos: 0
   showOverlay: 0
