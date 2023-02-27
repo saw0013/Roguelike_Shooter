@@ -28,7 +28,8 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     public float SpawnRate;
     // public float ReloadTime;
 
-    private float timer;
+    private float timerShoot;
+    private float timerReloadDelay;
 
     /// <summary>
     /// Âðåìÿ ïåðåçàðÿäêè
@@ -70,18 +71,20 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
     {
         if (isOwned)
         {
-            timer += Time.deltaTime;
-
             if (playerData.GetInputActive())
             {
-                if (Input.GetKey(reloadKey) && !reloading && ñartridges != playerData.MaxCartridges)
+                timerShoot += Time.deltaTime;
+                timerReloadDelay += Time.deltaTime;
+
+                if (Input.GetKey(reloadKey) && !reloading && ñartridges != playerData.MaxCartridges && timerReloadDelay >= 5)
                 {
+                    timerReload = 0;
                     reloading = true;
 
                     if (_reloadAudio) _reloadAudio.Play();
                 }
 
-                if (Input.GetKey(spawnKey) && timer >= playerData.BuletRate && !reloading)
+                if (Input.GetKey(spawnKey) && timerShoot >= playerData.BuletRate && !reloading)
                 {
                     if (ñartridges > 0)
                     {
@@ -173,7 +176,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
     void SpawnProjectile()
     {
-        timer = 0f;
+        timerShoot = 0f;
         ñartridges--;
         _sliderCatridges.value -= 0.01f;
         SliderAction(1);
