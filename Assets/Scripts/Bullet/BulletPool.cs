@@ -52,8 +52,6 @@ public class BulletPool : NetworkBehaviour
     //[ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.gameObject == _owner) return
-
         switch (collision.gameObject.tag)
         {
             case "Player":
@@ -71,11 +69,7 @@ public class BulletPool : NetworkBehaviour
                {
                     var guard = (float)collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100f;
 
-                    Debug.LogWarning("Guard = " + guard);
-
                     float damage = _damageToPlayer.damageValue * (1 - guard);
-
-                    Debug.LogWarning("Damage = " + damage);
 
                     _damageToPlayer.damageValue = (int)damage;
                 }
