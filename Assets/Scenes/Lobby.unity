@@ -5812,7 +5812,7 @@ MonoBehaviour:
   syncInterval: 0
   resycles: []
   GameManagersLogic: []
-  maxMatchPlayers: 4
+  maxMatchPlayers: 8
 --- !u!114 &1458826499
 MonoBehaviour:
   m_ObjectHideFlags: 0

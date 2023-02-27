@@ -205,6 +205,9 @@ public class EventTrigger : NetworkBehaviour
     /// <returns></returns>
     public IEnumerator SpawnNpcRandomPoints(Guid matchID, string who)
     {
+        if(GetComponentInChildren<GetPointPatrool>().RandomPoints.Count <= 1)
+            GetComponentInChildren<GetPointPatrool>().AddRandomPointState1();
+
         var rp = GetComponentInChildren<GetPointPatrool>().RandomPoints;
 
         #region старый впавн ???

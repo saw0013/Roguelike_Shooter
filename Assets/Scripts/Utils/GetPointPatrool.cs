@@ -25,9 +25,9 @@ public class GetPointPatrool : MonoBehaviour
         AddRandomPointState1();
     }
 
-    void AddRandomPointState1()
+    public void AddRandomPointState1()
     {
-        for (int i = 0; i < 50;)
+        for (int i = 0; i < 20;)
         {
             var p = GetRandomPoint();
             if (p != Vector3.zero)

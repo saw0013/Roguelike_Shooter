@@ -78,7 +78,7 @@ public class PlayerProjectileSpawnerNetwork : NetworkBehaviour
 
                 if (Input.GetKey(reloadKey) && !reloading && ñartridges != playerData.MaxCartridges && timerReloadDelay >= 5)
                 {
-                    timerReload = 0;
+                    timerReloadDelay = 0;
                     reloading = true;
 
                     if (_reloadAudio) _reloadAudio.Play();
