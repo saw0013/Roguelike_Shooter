@@ -13,11 +13,15 @@ public class NetworkDamageTrigger : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player") && AttackNum != 0)
         {
-            var _damage = new Damage(damage);
-            _damage.sender = transform;
-            _damage.receiver = collider.transform;
-            _damage.damageValue -= collider.GetComponent<PlayerData>().guardPlayer;
-            collider.gameObject.ApplyDamage(_damage);
+            var Damage = new Damage(damage);
+            Damage.sender = transform;
+            Damage.receiver = collider.transform;
+
+            var guard = (float)collider.gameObject.GetComponent<PlayerData>().guardPlayer / 100f;
+            float _damage = Damage.damageValue * (1 - guard);
+            Damage.damageValue = (int)_damage;
+
+            collider.gameObject.ApplyDamage(Damage);
             AttackNum--;
         }
     }
