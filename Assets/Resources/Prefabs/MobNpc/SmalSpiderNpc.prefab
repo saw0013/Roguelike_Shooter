@@ -2219,7 +2219,7 @@ MonoBehaviour:
   purpose: {fileID: 0}
   isShowGizmos: 1
   damage:
-    damageValue: 20
+    damageValue: 10
     ignoreDefense: 0
     activeRagdoll: 0
     senselessTime: 0

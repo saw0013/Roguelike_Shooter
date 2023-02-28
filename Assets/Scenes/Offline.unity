@@ -648,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2038813130493656009, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2038813130493656009, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
       propertyPath: m_LocalPosition.x
@@ -716,17 +716,6 @@ PrefabInstance:
       objectReference: {fileID: 1571493536796922642, guid: 0f287e661a435ba418c2a52eb51798a3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
---- !u!114 &519019671 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
-  m_PrefabInstance: {fileID: 519019670}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19c79da059622b4dbf53dd38ddba35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &542100546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,7 +990,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1919084801}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MirrorBasics.AutoHostClient, Assembly-CSharp
         m_MethodName: StartHost
         m_Mode: 1
@@ -1181,7 +1170,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2161981805064226634, guid: 613cd2695e4ec254e95e017a55e942dc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2161981805064226634, guid: 613cd2695e4ec254e95e017a55e942dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1342,7 +1331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1669,7 +1658,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1919084801}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MirrorBasics.AutoHostClient, Assembly-CSharp
         m_MethodName: StartClient
         m_Mode: 1
@@ -1836,7 +1825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224296548220470038, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224296548220470038, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2860,60 +2849,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!1 &1919084800
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1919084802}
-  - component: {fileID: 1919084801}
-  m_Layer: 0
-  m_Name: AutoConnect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1919084801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919084800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6db18fb9875ee7469d27c57eac61b64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkManager: {fileID: 519019671}
-  _serverSelectDropDown: {fileID: 1637722216}
-  btnClient: {fileID: 959385816}
-  btnServer: {fileID: 643184635}
-  no_ping: {fileID: 21300000, guid: 57653f82505f4844886f477ceee76472, type: 3}
-  bad_ping: {fileID: 21300000, guid: c15a553133765424d83d0b9b4b10df2f, type: 3}
-  normal_ping: {fileID: 21300000, guid: 9b47378cd1dbd2444b3aa78d9639dcfb, type: 3}
-  good_ping: {fileID: 21300000, guid: 712158799ab1ac847a63adbc276abc07, type: 3}
-  bindServer: {fileID: 21300000, guid: 67b6b727e32a35540a9d0315460f6f5c, type: 3}
-  contentImagePing: {fileID: 212884848}
---- !u!4 &1919084802
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1919084800}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.84879, y: 4.799227, z: -2.2829294}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919194636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,7 +2915,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1936460877
 GameObject:
@@ -3340,7 +3275,7 @@ RectTransform:
   - {fileID: 959385815}
   - {fileID: 643184634}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

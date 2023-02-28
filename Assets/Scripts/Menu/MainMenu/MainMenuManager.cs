@@ -185,6 +185,7 @@ public class MainMenuManager : MonoBehaviour
 
         switch (typePlayer)
         {
+            //Универсальный
             case TypePlayer.Pilot1:
                 StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
                 PilotNameText.text = "Пилот 1";
@@ -192,16 +193,18 @@ public class MainMenuManager : MonoBehaviour
                 
                 break;
 
+            //Танк
             case TypePlayer.Pilot2:
-                StatText.text = $" Здоровье 100 \n Урон: 5 \n Патроны: 56 \n Скорость: 3 \n Перезарядка: 4с";
+                StatText.text = $" Здоровье 200 \n Урон: 5 \n Патроны: 70 \n Скорость: 3 \n Перезарядка: 5с";
                 PilotNameText.text = "Пилот 2";
-                playerData.UpdateStat(100, 5, 56, 3, 4);
+                playerData.UpdateStat(200, 5, 70, 3, 5);
                 break;
 
+            //Снайпер
             case TypePlayer.Pilot3:
-                StatText.text = $" Здоровье 125 \n Урон: 30 \n Патроны: 26 \n Скорость: 4 \n Перезарядка: 5с";
+                StatText.text = $" Здоровье 100 \n Урон: 30 \n Патроны: 26 \n Скорость: 4 \n Перезарядка: 4с";
                 PilotNameText.text = "Пилот 3";
-                playerData.UpdateStat(125, 30, 26, 4, 5);
+                playerData.UpdateStat(100, 30, 26, 4, 4);
                 break;
         }
 

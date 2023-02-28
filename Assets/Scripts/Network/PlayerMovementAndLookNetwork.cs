@@ -746,19 +746,6 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         angles.y = vCamAngele;
 
         vCamera.transform.DORotate(angles, 3);
-
-        #region Работает не правильно но плавно
-        //while (angles.y >= vCamAngele)
-        //{
-        //    if (positive) angles.y += Time.deltaTime * 100;
-        //    else angles.y -= Time.deltaTime * 100;
-
-        //    vCamera.transform.rotation = Quaternion.Euler(angles);
-        //    yield return new WaitForSeconds(0.01f);
-        //}
-
-        // vCamera.transform.rotation = Quaternion.Lerp(vCamera.transform.rotation, Quaternion.Euler(angles), 10);
-        #endregion
     }
 
     #endregion
