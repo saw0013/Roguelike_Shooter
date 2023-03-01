@@ -190,7 +190,6 @@ public class MainMenuManager : MonoBehaviour
                 StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
                 PilotNameText.text = "Пилот 1";
                 playerData.UpdateStat(150, 15, 36, 3, 3);
-                
                 break;
 
             //Танк

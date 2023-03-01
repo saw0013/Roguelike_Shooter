@@ -51,11 +51,19 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SyncVar(hook = nameof(OnChangeMaterial))]
     private int materialChange;
 
+    [SyncVar(hook = nameof(OnChangeMaterialSkin))]
+    private int skinMaterialChange;
+
     [SerializeField] private PlayerData playerData;
 
     [SerializeField] private Renderer gunRenderer;
 
+    [SerializeField] private SkinnedMeshRenderer skinRenderer;
+
     [SerializeField] private Material[] _gunMaterials;
+
+    [SerializeField] private Material[] _skinMaterials;
+
 
     [Header("Animation")]
     public Animator playerAnimator;
@@ -567,6 +575,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         gunRenderer.material = _gunMaterials[_New - 1];
     }
 
+    private void OnChangeMaterialSkin(int _Old, int _New)
+    {
+        skinRenderer.material = _skinMaterials[_New - 1];
+    }
+
+    private int indexTextures = 1;
     private void Update()
     {
         if (Input.GetButtonDown("Cancel") && _panelInfoItem.activeSelf != true && playerData.GetMenuInputActive())
@@ -588,6 +602,18 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.I))
         {
             CmdSetupPlayer();
+            if (indexTextures <= _skinMaterials.Length)
+            {
+                Debug.LogWarning(indexTextures);
+                CmdSetupSkinPlayer(indexTextures);
+                indexTextures++;
+            }
+            else
+            {
+                Debug.LogWarning(indexTextures);
+                indexTextures = 1;
+                CmdSetupSkinPlayer(indexTextures);
+            }
         }
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.E))
@@ -624,6 +650,12 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     public void CmdSetupPlayer()
     {
         materialChange = 1;
+    }
+
+    [Command]
+    public void CmdSetupSkinPlayer(int index)
+    {
+        skinMaterialChange = index;
     }
 
     private void FixedUpdate()

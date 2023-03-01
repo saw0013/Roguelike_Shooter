@@ -2852,8 +2852,16 @@ MonoBehaviour:
   playerRigidbody: {fileID: 3827590655909793030}
   playerData: {fileID: 3827590655909793146}
   gunRenderer: {fileID: 3827590655911728029}
+  skinRenderer: {fileID: 3827590655921291357}
   _gunMaterials:
   - {fileID: 2100000, guid: 8f11719fea7c610439eedff6ee41856d, type: 2}
+  _skinMaterials:
+  - {fileID: 2100000, guid: 833fd187075ac484b8bb78f126c72631, type: 2}
+  - {fileID: 2100000, guid: eaf68765502d97345aa1dd103d9e4595, type: 2}
+  - {fileID: 2100000, guid: 543aabd3b2de21946b758051e0effae3, type: 2}
+  - {fileID: 2100000, guid: 29634114a6998e444b5e4deacac3dd1f, type: 2}
+  - {fileID: 2100000, guid: de41605c8c6485f4c8c43ecbc4fad30b, type: 2}
+  - {fileID: 2100000, guid: f6daf5cf7ce8c4adc98c5771bdfcfb54, type: 2}
   playerAnimator: {fileID: 3827590655917096605}
   playerEventEmitter: {fileID: 1081686685803181698}
   _healthBarRpcLookAt: {fileID: 8093937258193159399}
@@ -2867,6 +2875,7 @@ MonoBehaviour:
   UserName: 
   connId: 0
   inScene: 
+  StatusGame: 
   MymatchID: 
   currentMatch:
     matchID: 
@@ -3082,8 +3091,8 @@ MonoBehaviour:
   ItemsGrind: {fileID: 2565443205666880929}
   SpeedPlayer: 0
   DamagePlayer: 0
-  BuletRate: 0
   MaxCartridges: 0
+  BuletRate: 0
   AmmoReload: 0
   SizeBullet: 0.05
   guardPlayer: 0
@@ -3482,7 +3491,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 0
+  - IsVisible: 1
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5

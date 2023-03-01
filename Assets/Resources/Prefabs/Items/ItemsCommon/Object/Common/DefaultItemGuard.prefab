@@ -108,6 +108,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  MoveParticleToObject: {fileID: 8002042310753508458, guid: b8f101dbfdb751e4b8351aebf85cffac, type: 3}
 --- !u!114 &1719256911525344910
 MonoBehaviour:
   m_ObjectHideFlags: 0

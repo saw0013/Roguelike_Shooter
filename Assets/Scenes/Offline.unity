@@ -635,6 +635,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286055542}
   m_CullTransparentMesh: 1
+--- !u!114 &404728293 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7053969124967997395, guid: 8ecaddf7162e39b4e8f915708bcf70df, type: 3}
+  m_PrefabInstance: {fileID: 519019670}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19c79da059622b4dbf53dd38ddba35e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &519019670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -990,7 +1001,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 842404818}
         m_TargetAssemblyTypeName: MirrorBasics.AutoHostClient, Assembly-CSharp
         m_MethodName: StartHost
         m_Mode: 1
@@ -1218,6 +1229,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 613cd2695e4ec254e95e017a55e942dc, type: 3}
+--- !u!1 &842404817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842404819}
+  - component: {fileID: 842404818}
+  m_Layer: 0
+  m_Name: Connection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &842404818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842404817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6db18fb9875ee7469d27c57eac61b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkManager: {fileID: 404728293}
+  _serverSelectDropDown: {fileID: 1637722216}
+  btnClient: {fileID: 959385816}
+  btnServer: {fileID: 643184635}
+  no_ping: {fileID: 21300000, guid: 57653f82505f4844886f477ceee76472, type: 3}
+  bad_ping: {fileID: 21300000, guid: c15a553133765424d83d0b9b4b10df2f, type: 3}
+  normal_ping: {fileID: 21300000, guid: 9b47378cd1dbd2444b3aa78d9639dcfb, type: 3}
+  good_ping: {fileID: 21300000, guid: 712158799ab1ac847a63adbc276abc07, type: 3}
+  bindServer: {fileID: 21300000, guid: 67b6b727e32a35540a9d0315460f6f5c, type: 3}
+  contentImagePing: {fileID: 212884848}
+--- !u!4 &842404819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842404817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1059.9994, y: 487.02005, z: 35.63489}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &876168588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,7 +1723,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 842404818}
         m_TargetAssemblyTypeName: MirrorBasics.AutoHostClient, Assembly-CSharp
         m_MethodName: StartClient
         m_Mode: 1
