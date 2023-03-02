@@ -185,25 +185,26 @@ public class MainMenuManager : MonoBehaviour
 
         switch (typePlayer)
         {
+            //TODO : Добавить атрибут защиты
             //Универсальный
             case TypePlayer.Pilot1:
-                StatText.text = $" Здоровье 150 \n Урон: 15 \n Патроны: 36 \n Скорость: 3 \n Перезарядка: 3с";
-                PilotNameText.text = "Пилот 1";
-                playerData.UpdateStat(150, 15, 36, 3, 3);
+                StatText.text = $" Здоровье 200 \n Урон: 20 \n Патроны: 40 \n Скорость: 3 \n Перезарядка: 2с"; //Добавить защиты 10
+                PilotNameText.text = "Штурмовик";
+                playerData.UpdateStat(200, 20, 40, 3, 2);
                 break;
 
             //Танк
             case TypePlayer.Pilot2:
-                StatText.text = $" Здоровье 200 \n Урон: 5 \n Патроны: 70 \n Скорость: 3 \n Перезарядка: 5с";
-                PilotNameText.text = "Пилот 2";
-                playerData.UpdateStat(200, 5, 70, 3, 5);
+                StatText.text = $" Здоровье 500 \n Урон: 10 \n Патроны: 90 \n Скорость: 3 \n Перезарядка: 5с"; //Добавить защиты 20
+                PilotNameText.text = "Танк";
+                playerData.UpdateStat(500, 10, 90, 3, 5);
                 break;
 
             //Снайпер
             case TypePlayer.Pilot3:
-                StatText.text = $" Здоровье 100 \n Урон: 30 \n Патроны: 26 \n Скорость: 4 \n Перезарядка: 4с";
-                PilotNameText.text = "Пилот 3";
-                playerData.UpdateStat(100, 30, 26, 4, 4);
+                StatText.text = $" Здоровье 100 \n Урон: 50 \n Патроны: 25 \n Скорость: 5 \n Перезарядка: 4с"; //Добавить защиты 0
+                PilotNameText.text = "Снайпер";
+                playerData.UpdateStat(100, 50, 25, 5, 4);
                 break;
         }
 

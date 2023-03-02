@@ -67,7 +67,7 @@ public class BulletPool : NetworkBehaviour
                 
                if(_damageToPlayer.sender.CompareTag("Enemy"))
                {
-                    var guard = (float)collision.gameObject.GetComponent<PlayerData>().guardPlayer / 100f;
+                    var guard = (float)collision.gameObject.GetComponent<PlayerData>().guardPlayer / 75f;
 
                     float damage = _damageToPlayer.damageValue * (1 - guard);
 

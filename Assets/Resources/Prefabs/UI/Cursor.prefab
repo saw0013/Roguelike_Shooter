@@ -50,3 +50,4 @@ MonoBehaviour:
   cursorInputText: {fileID: 2800000, guid: 89b0579bea0211041975b4cd1031549a, type: 3}
   cursorAttack: {fileID: 2800000, guid: aa530a078c6690d46a8a531edd0dd73a, type: 3}
   cursorNo: {fileID: 2800000, guid: aff774a6793aad54297492b417ad7e30, type: 3}
+  SizeCursor: 35

@@ -69,6 +69,8 @@ public class PlayerData : HealthController, ICharacter
 
     private PlayerMovementAndLookNetwork _player;
 
+    private MouseCursorMan cursorManager;
+
     /// <summary>
     /// Локальное свойство жив игрок или нет
     /// </summary>
@@ -116,6 +118,8 @@ public class PlayerData : HealthController, ICharacter
     {
         _player = GetComponent<PlayerMovementAndLookNetwork>();
         base.Start();
+
+        cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
     }
 
     public override void OnStartServer()
@@ -132,18 +136,27 @@ public class PlayerData : HealthController, ICharacter
 
     void Update()
     {
-        //if (hasAuthority)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.E))
-        //    {
-        //        StartCoroutine(ChangeCameraToLiveParty());
-        //    }
-        //}
         //TODO : только для тестов. В релизе убрать
         if (Input.GetKeyDown(KeyCode.F4))
         {
             InputIsActive(true);
             Debug.LogWarning(GetInputActive());
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (cursorManager == null) cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+                cursorManager.cursor = cursorManager.cursorAttack;
+            
+            else if(hit.collider.gameObject.CompareTag("Player"))
+                cursorManager.cursor = cursorManager.cursorNo;
+            
+            else cursorManager.cursor = cursorManager.cursorNormal;
+            
         }
     }
 
@@ -294,7 +307,7 @@ public class PlayerData : HealthController, ICharacter
     public void ChangeAmmo(float BuffAmmoReload, float BuffAmmoRate, GameObject item)
     {
         AmmoReload -= AmmoReload <= 1 ? 0 : BuffAmmoReload;
-        BuletRate -= BuletRate <= 0.01f ? 0 : BuffAmmoRate;
+        BuletRate -= BuletRate <= 0.025f ? 0 : BuffAmmoRate;
 
         if (!_playerBuffController.BuffIsExist(nameof(DefaultItemAmmoUI)))
         {
@@ -324,7 +337,7 @@ public class PlayerData : HealthController, ICharacter
 
     public void ChangeBullet(float BuffBullet, GameObject item)
     {
-        SizeBullet += SizeBullet >= 0.01f ? 0 : BuffBullet;
+        SizeBullet += SizeBullet >= 0.08f ? 0 : BuffBullet;
 
         if (!_playerBuffController.BuffIsExist(nameof(RareItemBulletUI)))
         {
