@@ -18,8 +18,7 @@ public class LoginUser : MonoBehaviour
     private string valueLang;
     private string loginUrl = "https://blueboxproduction.ru/ucp/net/launcher_login.php";
     private float TimeToHideError = 5f;
-    [SerializeField] private TMP_Text UsersOnline;
-    public ShooterNetworkManager manager;
+   
 
     public List<RootData> RootData { get; set; } = new List<RootData>();
     [SerializeField] private AutoHostClient ahclient;
@@ -42,11 +41,6 @@ public class LoginUser : MonoBehaviour
     }
     void Start()
     {
-        manager = ShooterNetworkManager.singleton;
-        if (manager != null)
-            UsersOnline.text = "Number of players: " + manager.numPlayers;
-        else ErrorText.text = "ShooterNetworkManager NULL";
-
         Lang();
         ButtonLogin.onClick.AddListener(Login);
     }

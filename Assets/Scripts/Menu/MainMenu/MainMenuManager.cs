@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cosmoground;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -87,6 +88,9 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] PlayerMovementAndLookNetwork player;
 
+    [SerializeField] private TMP_Text UsersOnline;
+    public ShooterNetworkManager manager;
+
     #endregion
 
     void Start()
@@ -103,6 +107,23 @@ public class MainMenuManager : MonoBehaviour
         SetStartVolumeMusic();
         SetStartVolumeSound();
         PrepareResolutions();
+
+        manager = FindObjectOfType<ShooterNetworkManager>();
+        if (manager != null)
+            UsersOnline.text = "Number of playerszz: " + manager.numPlayers;
+        else Debug.LogWarning("ShooterNetworkManager NULL");
+
+        StartCoroutine(online());
+    }
+
+    IEnumerator online()
+    {
+        while (true)
+        {
+            UsersOnline.text = "Number of players: " + manager.numPlayers;
+            yield return new WaitForSeconds(1);
+            yield return null;
+        }
     }
 
     private void Update()
