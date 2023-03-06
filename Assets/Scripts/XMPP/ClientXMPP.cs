@@ -6,6 +6,6 @@ public class ClientXMPP : MonoBehaviour
 {
     public void CreateAcc()
     {
-        CoreXMPP.CreateAccount("test03", "test03");
+        CoreXMPP.CreateAccount("test04", "test04");
     }
 }
