@@ -11,7 +11,11 @@
 /[Uu]ser[Ss]ettings/
 
 #Visual Studio Project in game attach
-!ServersASPNET/ChatAPI
+!wordpress/
+!ServersASPNET/
+!ServersASPNET/*/
+!ServersASPNET/*/ChatAPI/
+!ServersASPNET/*/ChatAPI/*/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
