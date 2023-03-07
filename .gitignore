@@ -11,10 +11,7 @@
 /[Uu]ser[Ss]ettings/
 
 #Visual Studio Project in game attach
-!/[Ss]erversASPNET/
-!/[Ss]erversASPNET/
-!/[Ss]erversASPNET/ChatAPI/
-!/[Ss]erversASPNET/ChatAPI/*/
+!/[Ss]erversASPNET/**
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
