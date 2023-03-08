@@ -3032,25 +3032,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Users\\asdk-gen\\.nuget\\packages\\": {},
     "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\PortableGit\\Roguelike_Shooter\\ServerChatASPNET\\ChatAPI\\ChatAPI.csproj",
+      "projectUniqueName": "C:\\Users\\asdk-gen\\Documents\\GitHub\\Roguelike_Shooter\\ServersASPNET\\ChatAPI\\ChatAPI.csproj",
       "projectName": "ChatAPI",
-      "projectPath": "E:\\PortableGit\\Roguelike_Shooter\\ServerChatASPNET\\ChatAPI\\ChatAPI.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "E:\\PortableGit\\Roguelike_Shooter\\ServerChatASPNET\\ChatAPI\\obj\\",
+      "projectPath": "C:\\Users\\asdk-gen\\Documents\\GitHub\\Roguelike_Shooter\\ServersASPNET\\ChatAPI\\ChatAPI.csproj",
+      "packagesPath": "C:\\Users\\asdk-gen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\asdk-gen\\Documents\\GitHub\\Roguelike_Shooter\\ServersASPNET\\ChatAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\asdk-gen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -3124,7 +3124,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

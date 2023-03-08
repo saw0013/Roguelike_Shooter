@@ -1891,7 +1891,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 842404817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f99effde11fe5f8459dd1afcbab680eb, type: 3}
+  m_Script: {fileID: 11500000, guid: b0fd23e50bac0b744904fb0d09a14821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &843007316
@@ -9240,8 +9240,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 842404821}
-        m_TargetAssemblyTypeName: ClientXMPP, Assembly-CSharp
-        m_MethodName: CreateAcc
+        m_TargetAssemblyTypeName: ChatManager, Assembly-CSharp
+        m_MethodName: START_TEST
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
