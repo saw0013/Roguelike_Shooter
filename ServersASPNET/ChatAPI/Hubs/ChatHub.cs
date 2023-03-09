@@ -4,7 +4,7 @@ namespace ChatServer.Hubs
 {
     public class ChatHub : Hub
     {
-        public List<string> _groups { get; set; } = new List<string>();
+        public static List<string> _groups { get; set; } = new List<string>();
 
         /// <summary>
         /// Метод сохранения комнаты
@@ -25,10 +25,12 @@ namespace ChatServer.Hubs
             else
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
-                await Clients.Group(roomId).SendAsync("UserNotify", $"{username} присоединился к группе с ID {roomId}");
+                await Clients.Group(roomId).SendAsync("UserNotify", $"<color=\"red\">{username}</color> присоединился к группе с ID <color=\"green\">{roomId}</color>");
                 Console.WriteLine($"Пользователь {username} создал комнату {roomId} и успешно к ней подключился");
             }
         }
+
+        
 
         public async Task RemoveGroup(string roomId)
         {
@@ -50,7 +52,7 @@ namespace ChatServer.Hubs
         {
             if (roomId == null) return;
 
-            await Clients.Group(roomId).SendAsync("Receive", message, username);
+            await Clients.Group(roomId).SendAsync("Receive", $"<color=\"blue\">{username}</color>", message);
         }
 
         /// <summary>

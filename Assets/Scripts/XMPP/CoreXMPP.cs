@@ -1,17 +1,10 @@
 using agsXMPP.protocol.client;
 using agsXMPP.protocol.iq.register;
 using agsXMPP;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.ShaderData;
 using agsXMPP.protocol.iq.roster;
 using System;
 using agsXMPP.protocol.x.muc;
-using agsXMPP.Xml.Dom;
-using UnityEditor.XR;
-using System.Net.Mail;
-using agsXMPP.protocol.x.muc.iq.admin;
 
 public class CoreXMPP
 {
@@ -42,10 +35,10 @@ public class CoreXMPP
     /// <param name="email">Не обязательный параметр</param>
     public static void CreateAccount(string username, string password, string email = "user@blueboxproduction.ru")
     {
-        Jid jid = new Jid("admin@develop.blueboxproduction.ru");
+        Jid jid = new Jid("manager@develop.blueboxproduction.ru");
         XmppClientConnection client = new XmppClientConnection(jid.Server);
         client.Username = jid.User;
-        client.Password = "Nadeev!2116";
+        client.Password = "pass";
         client.Open();
 
         // Создаем новую комнату
@@ -54,28 +47,18 @@ public class CoreXMPP
         mucManager.JoinRoom(roomJid, "BUAFA");
         mucManager.CreateReservedRoom(roomJid);
 
-     
-        // Отключаемся от сервера XMPP
-        Debug.LogWarning("КОМНАТУШКА");
-        //client.Close();
 
-        //Jid jid = new Jid("test01@develop.blueboxproduction.ru");
-        //XmppClientConnection xmpp = new XmppClientConnection(jid.Server);
-        //xmpp.Username = jid.User;
-        //xmpp.Password = "Pa$$w0rD";
-        //xmpp.Open();
-        //
-        //xmpp.OnRosterStart += new ObjectHandler(xmppCon_OnRosterStart);
-        //xmpp.OnRosterItem += new XmppClientConnection.RosterHandler(xmppCon_OnRosterItem);
-        //xmpp.OnRosterEnd += new ObjectHandler(xmppCon_OnRosterEnd);
-        // создание запроса на регистрацию
-        //RegisterIq reg = new RegisterIq(IqType.set);
-        //reg.Query.Username = username;
-        //reg.Query.Password = password;
-        //reg.Query.Email = email;
+        client.OnRosterStart += new ObjectHandler(xmppCon_OnRosterStart);
+        client.OnRosterItem += new XmppClientConnection.RosterHandler(xmppCon_OnRosterItem);
+        client.OnRosterEnd += new ObjectHandler(xmppCon_OnRosterEnd);
+        //создание запроса на регистрацию
+        RegisterIq reg = new RegisterIq(IqType.set);
+        reg.Query.Username = username;
+        reg.Query.Password = password;
+        reg.Query.Email = email;
 
-        //// отправка запроса на сервер
-        //xmpp.Send(reg);
+        // отправка запроса на сервер
+        client.Send(reg);
 
     }
 

@@ -349,6 +349,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [TargetRpc]
     void TargetPlayerCountUpdated(int playerCount)
     {
+        //if (playerCount > 1)
         if (playerCount > 0)
         {
             UILobby.instance.SetStartButtonActive(true);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cosmoground;
@@ -18,7 +19,7 @@ public class LoginUser : MonoBehaviour
     private string valueLang;
     private string loginUrl = "https://blueboxproduction.ru/ucp/net/launcher_login.php";
     private float TimeToHideError = 5f;
-   
+
 
     public List<RootData> RootData { get; set; } = new List<RootData>();
     [SerializeField] private AutoHostClient ahclient;
@@ -41,7 +42,6 @@ public class LoginUser : MonoBehaviour
     }
     void Start()
     {
-        Lang();
         ButtonLogin.onClick.AddListener(Login);
     }
 
@@ -96,13 +96,19 @@ public class LoginUser : MonoBehaviour
                     RootData = JsonSerializeHelper.Deserialize<List<RootData>>(responseText);
                     foreach (var acc in RootData)
                     {
-                        Debug.LogWarning($"Ваш ID - {acc.pubAccount.id}" +
-                                        $"\r\nВаш логин - {acc.pubAccount.login}" +
-                                        $"\r\nВаш пароль - {acc.pubAccount.passwd}" +
-                                        $"\r\nВаш EMAIL - {acc.pubAccount.email}" +
-                                        $"\r\nВаш телефон - {acc.pubAccount.mobile_number}" +
-                                        $"\r\nВремя последнего входа {acc.pubAccount.last_login}" +
-                                        $"\r\nБаланс {acc.myGame[0].coins}");
+                        if (acc == null)
+                        {
+                            ErrorText.text = "Неизвестная ошибка : аккаунт NULL";
+                            break;
+                        }
+
+                        Debug.Log($"Ваш ID - {acc.pubAccount?.id}");
+                        Debug.Log($"Ваш логин - {acc.pubAccount?.login}");
+                        Debug.Log($"Ваш хеш - {acc.pubAccount?.passwd}");
+                        Debug.Log($"Ваш EMAIL - {acc.pubAccount?.email}");
+                        Debug.Log($"Ваш телефон - {acc.pubAccount?.mobile_number}");
+                        Debug.Log($"Время последнего входа {acc.pubAccount?.last_login}");
+                        Debug.Log($"Баланс {(acc.myGame == null ? "0" : acc.myGame[0]?.coins)}");
 
                         if (PlayerPrefs.HasKey("PlayerName"))
                             PlayerPrefs.DeleteKey("PlayerName");
@@ -112,6 +118,8 @@ public class LoginUser : MonoBehaviour
 
                     break;
             }
+
+            www.Dispose();
         }
     }
 }

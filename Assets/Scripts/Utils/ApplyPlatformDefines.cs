@@ -7,10 +7,12 @@ using UnityEngine;
 
 public static class ApplyPlatformDefines
 {
+#if UNITY_EDITOR
     public static string[] Paths = {"Assets/Plugins/Packages/SignalR"};
     public const string Extension = "t:Object";
     public const string NetStandard = "NET_STANDARD";
     public const string NotNetStandard = "!NET_STANDARD";
+
 
     [MenuItem(itemName: "Tools/Cosmoground/Apply SignalR Constraints")]
     public static void ApplyDefines()
@@ -66,4 +68,5 @@ public static class ApplyPlatformDefines
             pluginImporter.SaveAndReimport();
         }
     }
+#endif
 }
