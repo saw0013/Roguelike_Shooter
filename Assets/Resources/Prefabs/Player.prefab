@@ -2760,6 +2760,8 @@ GameObject:
   - component: {fileID: -8891746178340497927}
   - component: {fileID: 559659328833504706}
   - component: {fileID: 5409852363918071561}
+  - component: {fileID: 8492252124714922274}
+  - component: {fileID: 3040112219592118406}
   - component: {fileID: 3827590655909793030}
   - component: {fileID: 3225267570092020803}
   - component: {fileID: 3827590655909793024}
@@ -2934,6 +2936,7 @@ MonoBehaviour:
   _healthSliderRpc: {fileID: 2175263270486950549}
   _healthDamageSliderRpc: {fileID: 1159271601692368025}
   _textHealth: {fileID: 667439118614316443}
+  _healthCriticalUIMaterial: {fileID: 2100000, guid: 30b3bb14e21c91e4495b8f112c122ed2, type: 2}
   _currentHealth: 0
   isImmortal: 0
   removeComponentsAfterDie: 1
@@ -3106,6 +3109,7 @@ MonoBehaviour:
   _nameDisplay: 
   deathBy: 2
   debugActionListener: 0
+  _playerReplay: {fileID: 3040112219592118406}
   _onActiveRagdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -3163,6 +3167,31 @@ MonoBehaviour:
   scrollbar: {fileID: 4274690256806019856}
   chatMessage: {fileID: 4274690256002940118}
   sendButton: {fileID: 4274690256041275587}
+--- !u!114 &8492252124714922274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40de61b8fc9abc148a3c2d8a59ee271a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3040112219592118406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827590655909793025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a73a2dda67e7d34abc1145ba47871c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovementInfoList: []
 --- !u!54 &3827590655909793030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11442,7 +11471,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1

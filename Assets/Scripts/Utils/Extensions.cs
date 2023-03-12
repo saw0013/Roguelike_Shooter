@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Mirror;
 using Mono.CSharp;
 using UnityEditor;
@@ -193,6 +194,27 @@ public static class Extensions
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 #endif
+
+    #endregion
+
+    #region Utils
+
+    /// <summary>
+    /// Сохраняет по-умолчанию в папку Replayes
+    /// <para>Для указании нужной директории нужно указать необязательный параметр</para>
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static string GetFilePath(string fileName, string folderName = "Replays")
+    {
+        string path = Application.dataPath;
+        path = Path.Combine(Path.GetDirectoryName(path), folderName);
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        return Path.Combine(path, fileName);
+    }
 
     #endregion
 }

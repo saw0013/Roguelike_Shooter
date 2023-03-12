@@ -71,6 +71,8 @@ public class PlayerData : HealthController, ICharacter
 
     private MouseCursorMan cursorManager;
 
+    [SerializeField] private PlayerReplay _playerReplay;
+
     /// <summary>
     /// Локальное свойство жив игрок или нет
     /// </summary>
@@ -142,6 +144,12 @@ public class PlayerData : HealthController, ICharacter
             InputIsActive(true);
             Debug.LogWarning(GetInputActive());
         }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            ClientServerChangeHp(_SyncHealth -= 10);
+        }
+
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;

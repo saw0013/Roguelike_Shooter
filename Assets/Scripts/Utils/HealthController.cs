@@ -25,6 +25,9 @@ public class HealthController : NetworkBehaviour, IHealthController
 
     [SerializeField] protected TMP_Text _textHealth;
 
+    [Tooltip("Материал который делает эффект дамага поверх всех UI.\r\nРаботает наложением Before Randerer Transparent в URP конфиге")]
+    [SerializeField] protected Material _healthCriticalUIMaterial;
+
     [Space(5), Header("===HealthController===")]
     private bool _isDead;
     [SerializeField] protected float _currentHealth;
@@ -198,6 +201,38 @@ public class HealthController : NetworkBehaviour, IHealthController
         var _tweenOn = _healthSliderRpc.DOValue(newValue / 100, Time.deltaTime * 20);
         _tweenOn.onComplete = () => _healthDamageSliderRpc.DOValue(_healthSliderRpc.value, Time.deltaTime * 25);
 
+        
+        if (typeController == TypeController.Player)
+        {
+            if (currentHealth > (maxHealth / 2)) return;
+
+           
+
+            //В зависимости от здоровья будем поверх всего накладывать эффект.
+            if (currentHealth <= (maxHealth / 4))
+            {
+                float newFloat = Mathf.Lerp(_healthCriticalUIMaterial.GetFloat("_Power"), 5f, Time.deltaTime * 1f);
+                _healthCriticalUIMaterial.SetFloat("_Power", newFloat); //В случае если ХП осталось меньше чем 25% выкрутим эффект на максимум
+            }
+            
+            else if (currentHealth <= (maxHealth / 3))
+            {
+                float newFloat = Mathf.Lerp(_healthCriticalUIMaterial.GetFloat("_Power"), 7f, Time.deltaTime * 1f);
+                _healthCriticalUIMaterial.SetFloat("_Power", newFloat);
+            }
+            else if (currentHealth <= (maxHealth / 2))
+            {
+                float newFloat = Mathf.Lerp(_healthCriticalUIMaterial.GetFloat("_Power"), 9f, Time.deltaTime * 1f);
+                _healthCriticalUIMaterial.SetFloat("_Power", newFloat);
+            }
+            else
+            {
+                float newFloat = Mathf.Lerp(_healthCriticalUIMaterial.GetFloat("_Power"), 25f, Time.deltaTime * 3f);
+                _healthCriticalUIMaterial.SetFloat("_Power", newFloat);
+            }
+
+        }
+
         //ХП синхронизируем в хуке только для врагов
         if (typeController == TypeController.Enemy) _textHealth.text = $"{newValue}/{MaxHealth}";
 
@@ -276,6 +311,9 @@ public class HealthController : NetworkBehaviour, IHealthController
         _healthDamageSliderRpc.value = MaxHealth / 100;
 
         _textHealth.text = $"{MaxHealth}/{MaxHealth}";
+
+        if (_healthCriticalUIMaterial.GetFloat("_Power") < 20f) //Установим наш HUD в нормальное  значение
+            _healthCriticalUIMaterial.SetFloat("_Power", 25f);
     }
 
     protected virtual void Start()
