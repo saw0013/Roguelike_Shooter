@@ -88,8 +88,11 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] PlayerMovementAndLookNetwork player;
 
-    [SerializeField] private TMP_Text UsersOnline;
+  
     public ShooterNetworkManager manager;
+
+    [SerializeField] private TMP_Text _onlineUsersText;
+    [HideInInspector] public int OnlineUsers = 0;
 
     #endregion
 
@@ -108,23 +111,9 @@ public class MainMenuManager : MonoBehaviour
         SetStartVolumeSound();
         PrepareResolutions();
 
-        manager = FindObjectOfType<ShooterNetworkManager>();
-        if (manager != null)
-            UsersOnline.text = "Number of playerszz: " + manager.numPlayers;
-        else Debug.LogWarning("ShooterNetworkManager NULL");
-
-        StartCoroutine(online());
     }
 
-    IEnumerator online()
-    {
-        while (true)
-        {
-            UsersOnline.text = "Number of players: " + manager.numPlayers;
-            yield return new WaitForSeconds(1);
-            yield return null;
-        }
-    }
+    
 
     private void Update()
     {
@@ -133,6 +122,9 @@ public class MainMenuManager : MonoBehaviour
             if(!string.IsNullOrWhiteSpace(_nameField.text)) _buttonDone.interactable = true;
             else _buttonDone.interactable = false;
         }
+
+        _onlineUsersText.text = $"В сети: {OnlineUsers}";
+
     }
 
     private void WelcomePlayer()

@@ -73,6 +73,8 @@ public class PlayerData : HealthController, ICharacter
 
     [SerializeField] private PlayerReplay _playerReplay;
 
+    [HideInInspector] public Camera CameraToRay;
+
     /// <summary>
     /// Локальное свойство жив игрок или нет
     /// </summary>
@@ -150,8 +152,9 @@ public class PlayerData : HealthController, ICharacter
             ClientServerChangeHp(_SyncHealth -= 10);
         }
 
+        if (CameraToRay == null) return;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = CameraToRay.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {

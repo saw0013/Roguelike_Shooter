@@ -16,6 +16,20 @@ public class MouseCursorMan : MonoBehaviour
         Cursor.visible = false;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F2)) //Для дебага в релизе убрать
+        {
+            Cursor.visible = !Cursor.visible;
+           if(Cursor.visible) Cursor.lockState = CursorLockMode.None;
+           else Cursor.lockState = CursorLockMode.Confined;
+        }
+
+
+
+
+    }
+
     void OnGUI()
     {
         GUI.depth = 1;

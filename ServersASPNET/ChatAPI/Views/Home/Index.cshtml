@@ -3,14 +3,16 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+
 <div class="text-center">
     <h1 class="display-4">CHAT API для игры Cosmoground</h1>
     <h3>Групп создано @ChatHub._groups.Count</h3>
     <table class="table-condensed">
-    <tr>
-        <td>ID комнаты</td>
-        <td>Игроки</td>
-    </tr>
+        <tr>
+            <td>ID комнаты</td>
+            <td>Игроки</td>
+        </tr>
         @foreach (var group in ChatHub._groups)
         {
             <tr>
@@ -20,3 +22,20 @@
         }
     </table>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><a asp-route-sortOrder="@ViewData["NameSortParm"]">Сообщения @ChatHub._groups.Count</a></th>
+
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in ChatHub.AllMessages)
+        {
+            <tr>
+                <td>@item</td>
+            </tr>
+        }
+    </tbody>
+</table>

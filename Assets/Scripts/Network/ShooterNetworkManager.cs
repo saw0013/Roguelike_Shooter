@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Telepathy;
 using Utils;
+using TMPro;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -35,6 +36,8 @@ namespace Cosmoground
 
         public static new ShooterNetworkManager singleton { get; private set; }
 
+
+        [SerializeField] private TMP_Text UsersOnline;
 
         #region Unity Callbacks
 
@@ -186,12 +189,16 @@ namespace Cosmoground
         /// <param name="conn">Connection from client.</param>
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            //conn.identity.GetComponent<PlayerMovementAndLookNetwork>()._mainMenuManager.OnlineUsers = numPlayers;
             //StartCoroutine(OnServerAddPlayerDelayed(conn));
             base.OnServerAddPlayer(conn);
             //GameObject player = Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
             //player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
             //player.GetComponent<PlayerMovementAndLookNetwork>().connId = conn.connectionId;
             //NetworkServer.AddPlayerForConnection(conn, player);
+            var test = playerPrefab.GetComponent<PlayerMovementAndLookNetwork>();
+            Debug.LogWarning("Мы нашли " + test.transform.name + " u " + test.StatusGame );
+
         }
 
         /// <summary>

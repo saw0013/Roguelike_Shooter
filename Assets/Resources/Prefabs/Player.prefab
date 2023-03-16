@@ -2759,7 +2759,6 @@ GameObject:
   - component: {fileID: 3827590655909793146}
   - component: {fileID: -8891746178340497927}
   - component: {fileID: 559659328833504706}
-  - component: {fileID: 5409852363918071561}
   - component: {fileID: 8492252124714922274}
   - component: {fileID: 3040112219592118406}
   - component: {fileID: 3827590655909793030}
@@ -3148,25 +3147,6 @@ MonoBehaviour:
   ClockReady:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5409852363918071561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3827590655909793025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29fbc4be274843f4d8b7d5b60cc6a45f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  chatHistory: {fileID: 4274690256136058740}
-  scrollbar: {fileID: 4274690256806019856}
-  chatMessage: {fileID: 4274690256002940118}
-  sendButton: {fileID: 4274690256041275587}
 --- !u!114 &8492252124714922274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3179,6 +3159,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40de61b8fc9abc148a3c2d8a59ee271a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  chatHistory: {fileID: 4274690256136058740}
+  scrollbar: {fileID: 4274690256806019856}
+  chatMessage: {fileID: 4274690256002940118}
+  sendButton: {fileID: 4274690256041275587}
 --- !u!114 &3040112219592118406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5754,8 +5741,8 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5409852363918071561}
-        m_TargetAssemblyTypeName: Cosmoground.GameChatUI, Assembly-CSharp
+      - m_Target: {fileID: 8492252124714922274}
+        m_TargetAssemblyTypeName: Cosmoground.GameChatUISignalR, Assembly-CSharp
         m_MethodName: OnEndEdit
         m_Mode: 0
         m_Arguments:
@@ -5772,8 +5759,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5409852363918071561}
-        m_TargetAssemblyTypeName: Cosmoground.GameChatUI, Assembly-CSharp
+      - m_Target: {fileID: 8492252124714922274}
+        m_TargetAssemblyTypeName: Cosmoground.GameChatUISignalR, Assembly-CSharp
         m_MethodName: ToggleButton
         m_Mode: 0
         m_Arguments:
@@ -5914,8 +5901,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5409852363918071561}
-        m_TargetAssemblyTypeName: Cosmoground.GameChatUI, Assembly-CSharp
+      - m_Target: {fileID: 8492252124714922274}
+        m_TargetAssemblyTypeName: Cosmoground.GameChatUISignalR, Assembly-CSharp
         m_MethodName: SendMessage
         m_Mode: 1
         m_Arguments:

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cosmoground
-{
+
     public class GameChatUI : NetworkBehaviour
     {
         [Header("UI Elements")]
@@ -99,4 +98,4 @@ namespace Cosmoground
             }
         }
     }
-}
+

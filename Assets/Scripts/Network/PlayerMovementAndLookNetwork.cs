@@ -29,7 +29,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject[] _panelsCanvas;
     [SerializeField] private GameObject _gameObjectChatUI;
 
-    private MainMenuManager _mainMenuManager;
+    [HideInInspector]public  MainMenuManager _mainMenuManager;
 
     //[Header("Camera")]
     //public Camera mainCamera;
@@ -516,7 +516,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
-        Debug.Log("PLAYER GUID" + matchID.ToGuid());
+        //GetComponent<GameChatUISignalR>().BeginGame();
     }
 
     #endregion
@@ -537,6 +537,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         vCamera = vCam.GetComponent<CinemachineVirtualCamera>();
         vCamera.Follow = transform;
+
+        //Укажем что CameraToRay теперь может луч чтобы определить кто за мышью
+        GetComponent<PlayerData>().CameraToRay = mainCamera;
 
         //TODO : Включить слушатель только на том клиенте на котором играем
         //if (isLocalPlayer) mainCamera.GetComponent<AudioListener>().enabled = true;
@@ -625,12 +628,13 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            if (isClient) Debug.LogWarning("Мы клиент");
-            if (isOwned) Debug.LogWarning("Мы isOwned");
-
-            if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
-            else _gameObjectChatUI.SetActive(false);
-
+            //if (isClient) Debug.LogWarning("Мы клиент");
+            //if (isOwned) Debug.LogWarning("Мы isOwned");
+            if (isLocalPlayer)
+            {
+                if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
+                else _gameObjectChatUI.SetActive(false);
+            }
         }
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.F10))

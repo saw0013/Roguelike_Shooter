@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cosmoground;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,16 +31,17 @@ namespace MirrorBasics {
 
         GameObject localPlayerLobbyUI;
 
-        private BroadcastService bs = null;
+        private BroadcastService bs = new BroadcastService();
+
+        private string GroupStartGame = string.Empty;
 
 
         void Start () {
             instance = this;
 
-            bs = new BroadcastService();
             bs.Initialize();
+            bs.OnMessageGroupLobbyRecived += Bs_OnMessageGroupLobbyRecived;
             bs.OnMessageRecived += Bs_OnMessageRecived;
-            bs.OnMessageGroupRecived += Bs_OnMessageGroupRecived;
         }
 
         public void SetStartButtonActive (bool active) {
@@ -69,6 +71,7 @@ namespace MirrorBasics {
 
                 TextStatusGame.text = "Хост подтверждён";
                 InitializeChatRoom(matchID, PlayerMovementAndLookNetwork.localPlayer.UserName);
+                GroupStartGame = matchID;
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
             }
@@ -89,7 +92,7 @@ namespace MirrorBasics {
                 matchIDText.text = matchID;
                 TextStatusGame.text = "Ожидайте лидера лобби...";
 
-                JoinChatRoom(matchID, PlayerMovementAndLookNetwork.localPlayer.UserName, "Подключился к группе!");
+                InitializeChatRoom(matchID, PlayerMovementAndLookNetwork.localPlayer.UserName);
 
             } else {
                 lobbySelectables.ForEach (x => x.interactable = true);
@@ -102,6 +105,11 @@ namespace MirrorBasics {
 
             lobbyCanvas.enabled = false;
             lobbySelectables.ForEach (x => x.interactable = true);
+
+            bs.SendMessageGroupLobbyAsync(PlayerMovementAndLookNetwork.localPlayer.matchID,
+                PlayerMovementAndLookNetwork.localPlayer.UserName, "Покидает нас");
+
+            LogLobbyConnection.text = "";
         }
 
         public GameObject SpawnPlayerUIPrefab (PlayerMovementAndLookNetwork player) {
@@ -113,9 +121,15 @@ namespace MirrorBasics {
             return newUIPlayer;
         }
 
-        public void BeginGame () {
+        public async void BeginGame () {
             PlayerMovementAndLookNetwork.localPlayer.BeginGame ();
             GetComponent<MainMenuManager>().Fade(); //Вызывается только у локального игрока лидера группы
+            bs.SendMessageGroupLobbyAsync(PlayerMovementAndLookNetwork.localPlayer.matchID, "Лидер группы",
+                "<color=#005500>Матч начался</color>");
+
+            //Отпишемся от событий чтобы не висели в памяти. Они нам в матече уже не нужны
+            bs.OnMessageRecived -= Bs_OnMessageRecived;
+
         }
 
         public void SearchGame () {
@@ -157,25 +171,19 @@ namespace MirrorBasics {
         private async void InitializeChatRoom(string roomId, string username)
         {
             //bs.SendTest("AABB1", "anomal3"); //Помечен устаревшим
-            await bs.InitializeGroupAsync(roomId, username);
+            await bs.InitializeLobbyAsync(roomId, username);
         }
 
-     
-
-        private async void JoinChatRoom(string roomId, string username, string message)
+        private void Bs_OnMessageGroupLobbyRecived(string arg1, string arg2)
         {
-            await bs.SendMessageGroupAsync(roomId, username, message);
+            LogLobbyConnection.text += arg1 + ": " + arg2 + "\r\n";
         }
 
         private void Bs_OnMessageRecived(string obj)
         {
-            LogLobbyConnection.text += obj + "\r\n";
-            Debug.LogWarning("<color=Blue>SignalR</color>: Вызван асинхронный Action в потоке " + System.Threading.Thread.CurrentThread.ManagedThreadId);
+            LogLobbyConnection.text += obj + "\n";
+            Debug.LogWarning("Вызван асинхронный Action в метода UILobby в потоке " + System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
 
-        private void Bs_OnMessageGroupRecived(string arg1, string arg2)
-        {
-            LogLobbyConnection.text += arg1 + ": " + arg2  + "\r\n";
-        }
     }
 }
