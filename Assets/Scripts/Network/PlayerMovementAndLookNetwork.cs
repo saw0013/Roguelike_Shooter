@@ -29,7 +29,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     [SerializeField] private GameObject[] _panelsCanvas;
     [SerializeField] private GameObject _gameObjectChatUI;
 
-    [HideInInspector]public  MainMenuManager _mainMenuManager;
+    [HideInInspector] public MainMenuManager _mainMenuManager;
 
     //[Header("Camera")]
     //public Camera mainCamera;
@@ -101,6 +101,8 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
     #region Network Variables
     public static PlayerMovementAndLookNetwork localPlayer;
+
+    public static bool SingleGame = false;
 
     [Space(20)]
     [SyncVar] public string matchID;
@@ -206,6 +208,10 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         matchID = _matchID;
         Debug.Log($"MatchID: {matchID} == {_matchID}");
         UILobby.instance.HostSuccess(success, _matchID);
+
+        //Если одиночная игра, выведем кнопку старта игры
+        if (SingleGame) UILobby.instance.SetStartButtonActive(SingleGame);
+        else UILobby.instance.SetStartButtonActive(SingleGame);
     }
 
     #endregion
@@ -350,7 +356,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     void TargetPlayerCountUpdated(int playerCount)
     {
         //if (playerCount > 1)
-        if (playerCount > 0)
+        if (playerCount > 1)
         {
             UILobby.instance.SetStartButtonActive(true);
         }
@@ -358,6 +364,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         {
             UILobby.instance.SetStartButtonActive(false);
         }
+
     }
 
     #endregion
@@ -375,9 +382,9 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
     {
         MatchMaker.instance.BeginGame(matchID);
 
-       
 
-     Debug.Log($"<color=red>Game Beginning</color>");
+
+        Debug.Log($"<color=red>Game Beginning</color>");
         MymatchID = networkMatch.matchId.ToString(); //TODO : Удалить из переменных
 
 
@@ -420,7 +427,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
  .FirstOrDefault(x => x.name == "Level"));
 
         Level.GetComponent<NetworkMatch>().matchId = matchID.ToGuid();
-        
+
         NetworkServer.Spawn(Level);
 
         #region TEST BUFF
@@ -501,7 +508,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
 
         musicManager.ChangeMusic("Ambience");
 
-       
+
         //TODO : Будущее обновление. Если сервер будет загружать сцены
         //var sceneGame = SceneManager.GetSceneAt(1);
         //SceneManager.MoveGameObjectToScene(connectionToClient.identity.gameObject, sceneGame);
@@ -516,7 +523,7 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         //Additively load game scene
         SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
-        //GetComponent<GameChatUISignalR>().BeginGame();
+        GetComponent<GameChatUISignalR>().BeginGame();
     }
 
     #endregion
@@ -626,15 +633,17 @@ public class PlayerMovementAndLookNetwork : NetworkBehaviour
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.Q))
             _changeCameraAngle(90);
 
-        if (Input.GetKeyDown(KeyCode.F5))
+
+        if (isLocalPlayer & Input.GetKeyDown(KeyCode.F5))
         {
-            //if (isClient) Debug.LogWarning("Мы клиент");
-            //if (isOwned) Debug.LogWarning("Мы isOwned");
-            if (isLocalPlayer)
-            {
-                if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
-                else _gameObjectChatUI.SetActive(false);
-            }
+            if (isOwned) Debug.LogWarning("Мы isOwned");
+            else Debug.LogWarning("NOOOO isOwned");
+
+
+            if (!_gameObjectChatUI.activeSelf) _gameObjectChatUI.SetActive(true);
+            else _gameObjectChatUI.SetActive(false);
+
+
         }
 
         if (isLocalPlayer & Input.GetKeyDown(KeyCode.F10))

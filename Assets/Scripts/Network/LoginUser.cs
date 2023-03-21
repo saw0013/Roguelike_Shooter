@@ -122,4 +122,8 @@ public class LoginUser : MonoBehaviour
             www.Dispose();
         }
     }
+
+    public void StartSingleGame()=>
+    PlayerMovementAndLookNetwork.SingleGame = true;
+    
 }

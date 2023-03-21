@@ -26,16 +26,16 @@
 <table class="table">
     <thead>
         <tr>
-            <th><a asp-route-sortOrder="@ViewData["NameSortParm"]">Сообщения @ChatHub._groups.Count</a></th>
+            <th><a asp-route-sortOrder="@ViewData["NameSortParm"]">Сообщения @ChatHub.AllMessages.Count</a></th>
 
         </tr>
     </thead>
-    <tbody>
+    
     @foreach (var item in ChatHub.AllMessages)
         {
             <tr>
                 <td>@item</td>
             </tr>
         }
-    </tbody>
+   
 </table>

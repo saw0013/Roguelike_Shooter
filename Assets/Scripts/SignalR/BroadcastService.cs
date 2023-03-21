@@ -30,8 +30,6 @@ public static string ServerAddress = "http://localhost:7778";
 
     public async void Initialize()
     {
-        Debug.LogWarning(isInit + " KTO");
-      
         if (isInit) return;
 
         _connection = new HubConnectionBuilder()

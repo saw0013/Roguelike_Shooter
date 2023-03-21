@@ -26,7 +26,6 @@ namespace Cosmoground
         private void Start()
         {
             chatHistory.text = "";
-            BeginGame(); //TODO : перенести метод в PayerMovementNetwork
         }
 
         /// <summary>
@@ -45,29 +44,20 @@ namespace Cosmoground
             string prettyMessage = arg1 == localPlayerName ?
                 $"<color=\"red\">{arg1}:</color> {arg2.Trim()}" :
                 $"<color=\"blue\">{arg1}:</color> {arg2.Trim()}";
-            AppendMessage(prettyMessage);
+
+            StartCoroutine(AppendAndScroll(prettyMessage));
         }
 
-
-        void AppendMessage(string message)
+        IEnumerator AppendAndScroll(string message)
         {
-            Debug.LogWarning("ПОРА заходить в корутину");
-            StartCoroutine(AppendAndScroll(message));
-        }
-
-        System.Collections.IEnumerator AppendAndScroll(string message)
-        {
-            Debug.LogWarning("Мы в корутине\n" + message);
             chatHistory.text += message + "\n";
 
             // it takes 2 frames for the UI to update ?!?!
             yield return null;
             yield return null;
-            yield return new WaitForEndOfFrame();
 
-                // slam the scrollbar down
+            // slam the scrollbar down
             scrollbar.value = 0;
-            Debug.LogWarning("Вышли из корутины");
         }
 
         public void ToggleButton(string input)

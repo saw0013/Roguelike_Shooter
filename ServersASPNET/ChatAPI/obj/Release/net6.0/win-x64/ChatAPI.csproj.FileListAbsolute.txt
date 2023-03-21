@@ -80,3 +80,10 @@ C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\obj\R
 C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\obj\Release\net6.0\win-x64\ChatAPI.pdb
 C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\obj\Release\net6.0\win-x64\ChatAPI.genruntimeconfig.cache
 C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\obj\Release\net6.0\win-x64\ref\ChatAPI.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Microsoft.Owin.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Microsoft.Owin.Security.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Newtonsoft.Json.dll
+C:\Users\asdk-gen\Documents\GitHub\Roguelike_Shooter\ServersASPNET\ChatAPI\bin\Release\net6.0\win-x64\Owin.dll

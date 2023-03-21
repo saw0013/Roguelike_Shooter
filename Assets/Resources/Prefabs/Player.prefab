@@ -2850,6 +2850,7 @@ MonoBehaviour:
   - {fileID: 667439118803868658}
   - {fileID: 7266520760870401687}
   _gameObjectChatUI: {fileID: 4274690256548642960}
+  _mainMenuManager: {fileID: 0}
   playerRigidbody: {fileID: 3827590655909793030}
   playerData: {fileID: 3827590655909793146}
   gunRenderer: {fileID: 3827590655911728029}
@@ -3109,6 +3110,7 @@ MonoBehaviour:
   deathBy: 2
   debugActionListener: 0
   _playerReplay: {fileID: 3040112219592118406}
+  CameraToRay: {fileID: 0}
   _onActiveRagdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -3159,9 +3161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40de61b8fc9abc148a3c2d8a59ee271a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
   chatHistory: {fileID: 4274690256136058740}
   scrollbar: {fileID: 4274690256806019856}
   chatMessage: {fileID: 4274690256002940118}
@@ -6486,8 +6485,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 16.249023, y: -30.001953}
-  m_SizeDelta: {x: 1211, y: 40}
+  m_AnchoredPosition: {x: 0.0015869, y: -30.001953}
+  m_SizeDelta: {x: 745.51, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4274690256608382167
 CanvasRenderer:
@@ -6761,6 +6760,7 @@ GameObject:
   - component: {fileID: 4274690256978156690}
   - component: {fileID: 4274690256978156691}
   - component: {fileID: 4274690256978156688}
+  - component: {fileID: 4868916508629505469}
   m_Layer: 5
   m_Name: ChatPanel
   m_TagString: ChatWindow
@@ -6846,6 +6846,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
+--- !u!114 &4868916508629505469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4274690256978156694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1216be8368a850c40a1a6d208a177339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 3827590655909793146}
 --- !u!1 &4274690257009208471
 GameObject:
   m_ObjectHideFlags: 0

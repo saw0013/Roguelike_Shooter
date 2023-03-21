@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "UwnOVtOQrZEy6qCRXEUifaB23xKw6kvzRr5QZjlr6K//SYyobg+NzHZ5FKUicwZxJNhZ3EQDT4KTVrLYvenQMw==",
+  "dgSpecHash": "GDP4wvM9PAy0j9ysAkxhSZHEpp5O/5HTZJ+ko8oIJNOT6S5xCfnNtZIgyOLeC3xU/ADPbgiWh3OahuYOPQTefQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\asdk-gen\\Documents\\GitHub\\Roguelike_Shooter\\ServersASPNET\\ChatAPI\\ChatAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\asdk-gen\\.nuget\\packages\\bootstrap\\5.2.3\\bootstrap.5.2.3.nupkg.sha512",
+    "C:\\Users\\asdk-gen\\.nuget\\packages\\bootstrap.sass\\5.2.3\\bootstrap.sass.5.2.3.nupkg.sha512",
     "C:\\Users\\asdk-gen\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\asdk-gen\\.nuget\\packages\\jquery\\1.6.4\\jquery.1.6.4.nupkg.sha512",
     "C:\\Users\\asdk-gen\\.nuget\\packages\\microsoft.aspnet.signalr\\2.4.3\\microsoft.aspnet.signalr.2.4.3.nupkg.sha512",

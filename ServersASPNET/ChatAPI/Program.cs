@@ -68,6 +68,8 @@ namespace ChatAPI
             app.MapHub<ChatHub>("/chat");   // ChatHub будет обрабатывать запросы по пути /chat
 
             app.Run();
+
+            
         }
     }
 }

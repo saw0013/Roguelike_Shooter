@@ -144,7 +144,6 @@ public class PlayerData : HealthController, ICharacter
         if (Input.GetKeyDown(KeyCode.F4))
         {
             InputIsActive(true);
-            Debug.LogWarning(GetInputActive());
         }
 
         if (Input.GetKeyDown(KeyCode.F6))
@@ -152,22 +151,23 @@ public class PlayerData : HealthController, ICharacter
             ClientServerChangeHp(_SyncHealth -= 10);
         }
 
-        if (CameraToRay == null) return;
-
-        Ray ray = CameraToRay.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (CameraToRay != null) //ѕроверим камеру котора€ будет отбрасывать луч, чтобы понимать что находитс€ за мышью
         {
-            if (cursorManager == null) cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
+            Ray ray = CameraToRay.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (cursorManager == null) cursorManager = GameObject.Find("Cursor").GetComponent<MouseCursorMan>();
 
-            if (hit.collider.gameObject.CompareTag("Enemy"))
-                cursorManager.cursor = cursorManager.cursorAttack;
-            
-            else if(hit.collider.gameObject.CompareTag("Player"))
-                cursorManager.cursor = cursorManager.cursorNo;
-            
-            else cursorManager.cursor = cursorManager.cursorNormal;
-            
+                if (hit.collider.gameObject.CompareTag("Enemy"))
+                    cursorManager.cursor = cursorManager.cursorAttack;
+
+                else if (hit.collider.gameObject.CompareTag("Player"))
+                    cursorManager.cursor = cursorManager.cursorNo;
+
+                else cursorManager.cursor = cursorManager.cursorNormal;
+
+            }
         }
     }
 

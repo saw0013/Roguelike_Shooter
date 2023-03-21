@@ -125,7 +125,7 @@ namespace MirrorBasics {
             PlayerMovementAndLookNetwork.localPlayer.BeginGame ();
             GetComponent<MainMenuManager>().Fade(); //Вызывается только у локального игрока лидера группы
             bs.SendMessageGroupLobbyAsync(PlayerMovementAndLookNetwork.localPlayer.matchID, "Лидер группы",
-                "<color=#005500>Матч начался</color>");
+                "<color=#005500>Приготовьтесь, матч начинается...</color>");
 
             //Отпишемся от событий чтобы не висели в памяти. Они нам в матече уже не нужны
             bs.OnMessageRecived -= Bs_OnMessageRecived;
